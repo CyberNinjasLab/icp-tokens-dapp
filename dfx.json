@@ -1,21 +1,6 @@
 {
   "canisters": {
-    "hello": {
-      "main": "backend/service/Hello.mo",
-      "type": "motoko",
-      "declarations": {
-        "node_compatibility": true
-      }
-    },
-    "image": {
-      "main": "backend/service/Image.mo",
-      "type": "motoko",
-      "declarations": {
-        "node_compatibility": true
-      }
-    },
-    "hello_assets": {
-      "dependencies": ["hello"],
+    "spa": {
       "frontend": {
         "entrypoint": "out/index.html"
       },

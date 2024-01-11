@@ -15,6 +15,9 @@ canister_ids.json
 node_modules/
 out/
 
+# Candid declarations
+src/declarations/*
+
 # Next.js
 .next/
 
