@@ -4,7 +4,8 @@ const Home = () => {
   return (
     <Layout>
       <div>
-        <TableDemo />
+        Table<br />
+        Chart
       </div>
     </Layout>
   );
