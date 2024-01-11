@@ -1,7 +1,6 @@
 const Header = () => {
   const navLinks = [
     { href: '/useful-links', label: 'Useful Links' },
-    { href: '/contact-us', label: 'Contact Us' },
     // Add more links as needed
   ];
 
@@ -9,12 +8,12 @@ const Header = () => {
     <header className="py-4 px-4">
       <div className="flex items-center space-x-12">
         <div className="flex items-center space-x-4">
-          <a href="/">
+          <a href="/" className="flex items-center space-x-4">
             <img src="/logo.png" alt="ICP Tokens logo" className="w-[28px]" />
+            <span className="font-semibold uppercase tracking-wide">
+              ICP<span className="text-[#019a9a]">Tokens</span>
+            </span>
           </a>
-          <span className="font-semibold uppercase tracking-wide">
-            ICP<span className="text-[#019a9a]">Tokens</span>
-          </span>
         </div>
         <nav>
           <ul className="flex space-x-4">

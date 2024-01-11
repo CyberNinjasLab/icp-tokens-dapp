@@ -5,7 +5,7 @@ const Home = () => {
     <Layout>
       <div>
         Table<br />
-        Chart
+        <a href="/token/ICP">Internet Computer (ICP)</a>
       </div>
     </Layout>
   );
