@@ -1,11 +1,12 @@
 import Layout from '../ui/components/_base/Layout';
+import Link from 'next/link';
 
 const Home = () => {
   return (
     <Layout>
       <div>
         Table<br />
-        <a href="/token/ICP">Internet Computer (ICP)</a>
+        <Link href="/token/ICP">Internet Computer (ICP)</Link>
       </div>
     </Layout>
   );
