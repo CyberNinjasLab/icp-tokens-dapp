@@ -1,27 +1,24 @@
 import Link from 'next/link';
+import Logo from './Logo';
 
 const Header = () => {
   const navLinks = [
+    { href: '/markets', label: 'Markets' },
     { href: '/useful-links', label: 'Useful Links' },
-    // Add more links as neededsdasdsadasdasdasd
+    // Add more links as need
   ];
 
   return (
-    <header className="py-4 px-4">
+    <header className="mx-auto container px-4 md:px-8 py-4">
       <div className="flex items-center space-x-12">
         <div className="flex items-center space-x-4">
           {/* Use Link without <a> */}
           <Link href="/">
-            <span className="flex items-center space-x-4 cursor-pointer">
-              <img src="/logo.png" alt="ICP Tokens logo" className="w-[28px]" />
-              <span className="font-semibold uppercase tracking-wide">
-                ICP<span className="text-[#019a9a]">Tokens</span>
-              </span>
-            </span>
+            <Logo />
           </Link>
         </div>
         <nav>
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-12">
             {navLinks.map(link => (
               <li key={link.href}>
                 {/* Use Link without <a> */}

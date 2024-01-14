@@ -7,6 +7,19 @@ const Home = () => {
       <div>
         Table<br />
         <Link href="/token/ICP">Internet Computer (ICP)</Link>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     </Layout>
   );
