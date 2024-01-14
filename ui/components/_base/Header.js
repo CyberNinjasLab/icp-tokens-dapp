@@ -36,11 +36,9 @@ const Header = () => {
                             : svg.hamburgerMenuSvg
                         }
                     </div>
-
                     {/* If hamburger-menu is clicked */}
-
                     <div >
-                        <ul className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} absolute  z-[100] transition-visible ease-in-out delay-150 duration-300 top-20 left-0  bg-white w-full h-full shadow-xl`}>
+                        <ul className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} absolute  z-[100] transition-visible ease-in-out delay-150 duration-300 top-14 left-0  bg-white w-full h-full shadow-xl`}>
                             <li onClick={hamburgerMenuHandler}>
                                 <Link href="/">Cryptocurrencies</Link>
                             </li>
