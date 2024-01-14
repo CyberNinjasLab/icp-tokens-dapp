@@ -37,18 +37,18 @@ const Header = () => {
                         }
                     </div>
                     {/* If hamburger-menu is clicked */}
-                    <div >
-                        <ul className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} absolute  z-[100] transition-visible ease-in-out delay-150 duration-300 top-14 left-0  bg-white w-full h-full shadow-xl`}>
-                            <li onClick={hamburgerMenuHandler}>
+                    <div>
+                        <ul className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} absolute  z-[100] transition-visible ease-in-out delay-150 duration-300 top-14 left-0 bg-white w-full h-full shadow-xl px-4 py-8`}>
+                            <li onClick={hamburgerMenuHandler} className="mb-3">
                                 <Link href="/">Cryptocurrencies</Link>
                             </li>
-                            <li onClick={hamburgerMenuHandler}>
+                            <li onClick={hamburgerMenuHandler} className="mb-3">
                                 <Link href="/">Feed</Link>
                             </li>
-                            <li onClick={hamburgerMenuHandler}>
+                            <li onClick={hamburgerMenuHandler} className="mb-3">
                                 <Link href="/">Library</Link>
                             </li>
-                            <li onClick={hamburgerMenuHandler}>
+                            <li onClick={hamburgerMenuHandler} className="mb-3">
                                 <Link href="/">Markets</Link>
                             </li>
                         </ul>
