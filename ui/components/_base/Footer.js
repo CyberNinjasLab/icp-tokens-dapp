@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from './Logo';
+const { version } = require('/package.json');
 
 const Footer = () => {
 	return (
@@ -47,7 +48,7 @@ const Footer = () => {
 				{/* Footer Bottom Text */}
 				<div className="md:text-center">
 					<p className='text-sm'>
-							&copy; {new Date().getFullYear()} ICPTokens<br />
+							&copy; {new Date().getFullYear()} ICPTokens v{version}<br />
 							Powered by the <a href="https://internetcomputer.org/" className='underline'>Internet Computer</a> &amp; <a href="https://www.tradingview.com/" className='underline'>Trading View</a>
 					</p>
 				</div>
