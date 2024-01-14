@@ -7,8 +7,8 @@ const Header = () => {
   ];
 
   return (
-    <header className="py-4 px-4">
-      <div className="flex items-center space-x-12">
+    <header className="border-b border-solid lg:border-none py-4 px-4">
+      <div className="flex justify-between items-center lg:flex-start lg:space-x-12">
         <div className="flex items-center space-x-4">
           {/* Use Link without <a> */}
           <Link href="/">
@@ -21,7 +21,8 @@ const Header = () => {
           </Link>
         </div>
         <nav>
-          <ul className="flex space-x-4">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 lg:hidden" fill="#686583" width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          <ul className="hidden lg:flex lg:space-x-4">
             {navLinks.map(link => (
               <li key={link.href}>
                 {/* Use Link without <a> */}
