@@ -7,6 +7,10 @@ module.exports = {
     ],
     theme: {
         extend: {
+            colors: {
+                'token-title-green': '#019a9a',
+                'active-link-green': '#019A9AFF',
+            },
 
             keyframes: {
                 fadeInLeft: {
