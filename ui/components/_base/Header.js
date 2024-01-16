@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { svg } from '../../../public/svgs/svgs';
 import { useRouter } from 'next/router'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import * as React from 'react';
 
@@ -14,9 +15,14 @@ const Header = () => {
 
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
+    const [marketsIsOpen, setmarketsIsOpen] = useState(false);
 
     const hamburgerMenuHandler = () => {
         setHamburgerIsOpen(!hamburgerIsOpen);
+    };
+
+    const marketButtonHandler = () => {
+        setmarketsIsOpen(!marketsIsOpen);
     };
 
     return (
@@ -69,9 +75,25 @@ const Header = () => {
                                     <Link href="/markets" onClick={hamburgerMenuHandler} className={`${path === '/markets' && "text-active-link-green"}`}>Markets</Link>
                                 </div>
 
-                            <KeyboardArrowUpIcon fontSize="large" />
+                                <div onClick={marketButtonHandler}>
+                                    {marketsIsOpen
+                                        ? <KeyboardArrowDownIcon fontSize="large" />
+                                        : <KeyboardArrowUpIcon fontSize="large" />
+                                    }
+                                </div>
                             </div>
                         </li>
+                        {marketsIsOpen &&
+                            <div className="mx-4">
+                                <li className="mb-4 py-2">
+                                    <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+
+                                </li>
+                                <li className="mb-4 py-2">
+                                    <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                </li>
+                            </div>
+                        }
                     </ul>
 
 
