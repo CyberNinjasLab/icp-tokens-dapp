@@ -2,8 +2,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { svg } from '../../../public/svgs/svgs';
 import { useRouter } from 'next/router'
+
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 import * as React from 'react';
 
@@ -95,9 +99,11 @@ const Header = () => {
                             </div>
                         }
                     </ul>
-
-
-
+                    <div className="flex">
+                        <TwitterIcon/>
+                        <FacebookRoundedIcon/>
+                        <InstagramIcon/>
+                    </div>
 
                     {/* Desktop */}
                     <ul className="hidden lg:flex lg:space-x-4">
