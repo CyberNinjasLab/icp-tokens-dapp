@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Header = () => {
   const navLinks = [
-    { href: '/useful-links', label: 'Useful Links' },
+    { href: '/useful-links', label: 'Useful Links' }
     // Add more links as needed
   ];
 
@@ -15,7 +15,8 @@ const Header = () => {
             <span className="flex items-center space-x-4 cursor-pointer">
               <img src="/logo.png" alt="ICP Tokens logo" className="w-[28px]" />
               <span className="font-semibold uppercase tracking-wide">
-                ICP<span className="text-[#019a9a]">Tokens</span>
+                ICP
+                <span className="text-[#019a9a]">Tokens</span>
               </span>
             </span>
           </Link>
