@@ -39,6 +39,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
     "ag-charts-react": "^9.0.1",
     "ag-grid-community": "^31.0.1",
