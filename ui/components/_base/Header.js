@@ -8,9 +8,14 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import RedditIcon from '@mui/icons-material/Reddit';
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import FeedIcon from '@mui/icons-material/Feed';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 import * as React from 'react';
-import { Button } from '@mui/material';
+
 
 const Header = () => {
     const navLinks = [
@@ -58,32 +63,32 @@ const Header = () => {
                             {/* Before Element For Active Link */}
                             <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <img src="/logo.png" alt="ICP Tokens logo" className="w-[24px] h-[24px]" />
+                                    <CurrencyBitcoinIcon fontSize="large" />
                                     <Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' && "text-active-link-green"}`}>Cryptocurrencies</Link>
                                 </div>
                             </li>
                             <li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <img src="/logo.png" alt="ICP Tokens logo" className="w-[24px] h-[24px]" />
+                                    <FeedIcon fontSize="large" />
                                     <Link href="/feed" onClick={hamburgerMenuHandler} className={`${path === '/feed' && "text-active-link-green"}`}>Feed</Link>
                                 </div>
                             </li>
                             <li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <img src="/logo.png" alt="ICP Tokens logo" className="w-[24px] h-[24px]" />
+                                    <MenuBookIcon fontSize="large" />
                                     <Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' && "text-active-link-green"}`}>Library</Link>
                                 </div>
                             </li>
                             <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="flex justify-between">
                                     <div className="relative flex gap-[0.8rem] items-center">
-                                        <img src="/logo.png" alt="ICP Tokens logo" className="w-[24px] h-[24px]" />
+                                        <SwapHorizIcon fontSize="large" />
                                         <button>Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
                                         {marketsIsOpen
-                                            ? <KeyboardArrowUpIcon fontSize="large" />
-                                            : <KeyboardArrowDownIcon fontSize="large" />
+                                            ? <KeyboardArrowUpIcon sx={{ fontSize: 35 }} />
+                                            : <KeyboardArrowDownIcon sx={{ fontSize: 35 }} />
                                         }
                                     </div>
                                 </div>
@@ -105,6 +110,7 @@ const Header = () => {
                             <TwitterIcon sx={{ fontSize: 38 }} />
                             <FacebookRoundedIcon sx={{ fontSize: 38 }} />
                             <InstagramIcon sx={{ fontSize: 38 }} />
+                            <RedditIcon sx={{ fontSize: 38 }} />
                         </div>
                     </div>
 
@@ -115,7 +121,6 @@ const Header = () => {
                                 {/* Use Link without <a> */}
                                 <Link href={link.href}>
                                     <span className="cursor-pointer">{link.label}</span>
-
                                 </Link>
                             </li>
                         ))}
