@@ -30,7 +30,7 @@ const TokenPage = () => {
         <ButtonGroup
           variant="outlined"
           aria-label="outlined primary button group"
-          fullWidth="true"
+          fullWidth={true}
           className="my-3"
         >
           {buttons}
