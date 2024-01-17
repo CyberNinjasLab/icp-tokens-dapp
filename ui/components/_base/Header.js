@@ -9,14 +9,15 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-
 import * as React from 'react';
+import { Button } from '@mui/material';
 
 const Header = () => {
     const navLinks = [
         { href: '/useful-links', label: 'Useful Links' },
         // Add more links as needed
     ];
+
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const [marketsIsOpen, setmarketsIsOpen] = useState(false);
@@ -77,7 +78,7 @@ const Header = () => {
                                 <div className="flex justify-between">
                                     <div className="relative flex gap-[0.8rem] items-center">
                                         <img src="/logo.png" alt="ICP Tokens logo" className="w-[24px] h-[24px]" />
-                                        <Link href="/markets" onClick={hamburgerMenuHandler} className={`${path === '/markets' && "text-active-link-green"}`}>Markets</Link>
+                                        <button onClick={hamburgerMenuHandler} className={`${path === '/markets' && "text-active-link-green"}`}>Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
                                         {marketsIsOpen
@@ -104,6 +105,7 @@ const Header = () => {
                             <TwitterIcon sx={{ fontSize: 38 }} />
                             <FacebookRoundedIcon sx={{ fontSize: 38 }} />
                             <InstagramIcon sx={{ fontSize: 38 }} />
+                            <Button variant="outlined">Outlined</Button>
                         </div>
                     </div>
 
@@ -114,6 +116,7 @@ const Header = () => {
                                 {/* Use Link without <a> */}
                                 <Link href={link.href}>
                                     <span className="cursor-pointer">{link.label}</span>
+
                                 </Link>
                             </li>
                         ))}
