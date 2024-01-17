@@ -63,32 +63,32 @@ const Header = () => {
                             {/* Before Element For Active Link */}
                             <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <CurrencyBitcoinIcon fontSize="large" />
-                                    <Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' && "text-active-link-green"}`}>Cryptocurrencies</Link>
+                                    <CurrencyBitcoinIcon className="text-mobile-menu-grey" fontSize="large" />
+                                    <Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
                                 </div>
                             </li>
                             <li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <FeedIcon fontSize="large" />
-                                    <Link href="/feed" onClick={hamburgerMenuHandler} className={`${path === '/feed' && "text-active-link-green"}`}>Feed</Link>
+                                    <FeedIcon className="text-mobile-menu-grey" fontSize="large" />
+                                    <Link href="/feed" onClick={hamburgerMenuHandler} className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
                                 </div>
                             </li>
                             <li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <MenuBookIcon fontSize="large" />
-                                    <Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' && "text-active-link-green"}`}>Library</Link>
+                                    <MenuBookIcon className="text-mobile-menu-grey" fontSize="large" />
+                                    <Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
                                 </div>
                             </li>
                             <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="flex justify-between">
                                     <div className="relative flex gap-[0.8rem] items-center">
-                                        <SwapHorizIcon fontSize="large" />
-                                        <button>Markets</button>
+                                        <SwapHorizIcon className="text-mobile-menu-grey" fontSize="large" />
+                                        <button className="text-mobile-menu-grey">Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
                                         {marketsIsOpen
-                                            ? <KeyboardArrowUpIcon sx={{ fontSize: 35 }} />
-                                            : <KeyboardArrowDownIcon sx={{ fontSize: 35 }} />
+                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+                                            : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                         }
                                     </div>
                                 </div>
@@ -107,10 +107,10 @@ const Header = () => {
                         </ul>
                         {/* If hamburger-menu is clicked social media will be showed */}
                         <div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex justify-center gap-4 transition-visible ease-in-out delay-150 duration-300`}>
-                            <TwitterIcon sx={{ fontSize: 38 }} />
-                            <FacebookRoundedIcon sx={{ fontSize: 38 }} />
-                            <InstagramIcon sx={{ fontSize: 38 }} />
-                            <RedditIcon sx={{ fontSize: 38 }} />
+                            <TwitterIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
+                            <FacebookRoundedIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
+                            <InstagramIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
+                            <RedditIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
                         </div>
                     </div>
 
