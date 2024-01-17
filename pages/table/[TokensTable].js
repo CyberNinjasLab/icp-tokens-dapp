@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { GeneralContext } from '../../contexts/General.Context';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import 'ag-grid-community/styles/ag-grid.css'; // Core CSS
 import 'ag-grid-community/styles/ag-theme-quartz.css'; // Theme
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSortUp } from '@fortawesome/free-solid-svg-icons';
-import { faSortDown } from '@fortawesome/free-solid-svg-icons';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { testData } from './seedData';
-import { LinearProgress } from '@mui/material';
+import { Box, LinearProgress, Paper, Typography } from '@mui/material';
+import CustomTooltip from '../../ui/components/CustomTooltip';
 import { isMobile } from 'react-device-detect';
 
 const CurrencyPriceChart = ({ value }) => {
@@ -27,16 +27,15 @@ const CurrencyPriceChart = ({ value }) => {
   );
 };
 const PriceMovementIndicatorRenderer = ({ value }) => (
-  <span className="inline-flex justify-center h-full items-center">
-    <FontAwesomeIcon
-      className={`w-4 h-4 ${value.movement === 'up' ? 'text-green-500' : 'text-red-500'}`}
-      icon={value.movement === 'up' ? faSortUp : faSortDown}
-    />
-    <p className="ml-2">{value.percent}%</p>
-  </span>
+  <Typography component='span' className="inline-flex justify-center h-full items-center">
+     {value.movement === 'up' 
+     ? <ArrowDropUpIcon className='text-green-500' fontSize='large'/> 
+     : <ArrowDropDownIcon className='text-red-500' fontSize='large'/>}
+    <Typography className="ml-2">{value.percent}%</Typography>
+  </Typography>
 );
 const TokensLogoRenderer = ({ value, data }) => (
-  <span className="inline-flex h-full w-full items-center">
+  <Typography component='span' className="inline-flex h-full w-full items-center">
     {value && (
       <img
         alt={`${value} Logo`}
@@ -45,14 +44,32 @@ const TokensLogoRenderer = ({ value, data }) => (
         style={{ width: '30px', height: '30px' }}
       />
     )}
-    {isMobile && <p>{data.symbol}</p>}
+    {isMobile && <Typography>{data.symbol}</Typography>}
     {!isMobile && (
-      <p>
+      <Typography className='text-30'>
         {value} {data.symbol}
-      </p>
+      </Typography>
     )}
-  </span>
+  </Typography>
 );
+const CirculatingSupplyRenderer = ({value}) => (
+  <Box className="items-center leading-normal">
+    <Typography className="overflow-hidden whitespace-nowrap overflow-ellipsis">
+      {value.circulatingSupply}
+    </Typography>
+    {value.percent < 100 && (
+      <LinearProgress
+        value={value.percent}
+        variant="determinate"
+        sx={{
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: '#019a9a'
+          }
+        }}
+      />
+    )}
+  </Box>
+)
 function TokensTable() {
   const {identity, setIdentity} = useContext(GeneralContext);
   // console.log(identity)
@@ -102,10 +119,10 @@ function TokensTable() {
       autoHeight: true,
       sortable: false,
       cellRenderer: params => (
-        <div className="leading-normal items-center">
-          <p>{params.value.dollars}</p>
-          <p>{params.value.currency}</p>
-        </div>
+        <Box className="leading-normal items-center">
+          <Typography>{params.value.dollars}</Typography>
+          <Typography>{params.value.currency}</Typography>
+        </Box>
       )
     },
     {
@@ -114,43 +131,35 @@ function TokensTable() {
       autoWidth: true,
       autoHeight: true,
       sortable: false,
-      cellRenderer: param => (
-        <div className="items-center leading-normal">
-          <p className="overflow-hidden whitespace-nowrap overflow-ellipsis">
-            {param.value.circulatingSupply}
-          </p>
-          {param.value.percent < 100 && (
-            <LinearProgress
-              value={param.value.percent}
-              variant="determinate"
-              sx={{
-                '& .MuiLinearProgress-bar': {
-                  backgroundColor: '#019a9a'
-                }
-              }}
-            />
-          )}
-        </div>
-      )
+      tooltipField: 'circulatingSupply',
+      tooltipComponentParams: { color: 'white' },
+      cellRenderer: CirculatingSupplyRenderer
     },
     {
       field: 'chartData',
       headerName: 'Last 7 Days',
-      width: 200,
+      width: 220,
       sortable: false,
       cellRenderer: CurrencyPriceChart
     }
   ];
+  const defaultColDef = useMemo(() => {
+    return {
+      tooltipComponent: CustomTooltip,
+    };
+  }, []);
   return (
-    <div className="max-w-1500 mx-auto">
-      <div className="ag-theme-quartz w-full h-full">
+    <Paper className="max-w-1500 mx-auto">
+      <Paper className="ag-theme-quartz w-full h-full">
         <AgGridReact
           rowData={testData}
           columnDefs={colDefs}
           domLayout="autoHeight"
+          defaultColDef={defaultColDef}
+          tooltipShowDelay={0}
         />
-      </div>
-    </div>
+      </Paper>
+    </Paper>
   );
 }
 export default TokensTable;
