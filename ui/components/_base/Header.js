@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import { svg } from '../../../public/svgs/svgs';
 import { useRouter } from 'next/router'
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -9,13 +8,14 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import RedditIcon from '@mui/icons-material/Reddit';
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FeedIcon from '@mui/icons-material/Feed';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 import * as React from 'react';
-
 
 const Header = () => {
     const navLinks = [
@@ -26,7 +26,6 @@ const Header = () => {
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const [marketsIsOpen, setmarketsIsOpen] = useState(false);
-
     const hamburgerMenuHandler = () => {
         setHamburgerIsOpen(!hamburgerIsOpen);
     };
@@ -35,6 +34,7 @@ const Header = () => {
         setmarketsIsOpen(!marketsIsOpen);
     };
 
+
     return (
         <header className="border-b border-solid lg:border-none py-4 px-4 overflow-hidden">
             <div className="flex justify-between items-center lg:flex-start lg:space-x-12">
@@ -42,7 +42,7 @@ const Header = () => {
                     {/* Use Link without <a> */}
                     <Link href="/">
                         <span className="flex items-center space-x-4 cursor-pointer">
-                            <img src="/logo.png" alt="ICP Tokens logo" className="w-[28px]" />
+                            <img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
                             <span className="font-semibold uppercase tracking-wide">
                                 ICP<span className="text-token-title-green">Tokens</span>
                             </span>
@@ -53,8 +53,8 @@ const Header = () => {
                     {/* Mobile */}
                     <div onClick={hamburgerMenuHandler} className="lg:hidden">
                         {hamburgerIsOpen
-                            ? svg.closeSvg
-                            : svg.hamburgerMenuSvg
+                            ? <CloseIcon className="text-mobile-menu-grey" fontSize="large" />
+                            : <MenuIcon className="text-mobile-menu-grey" fontSize="large" />
                         }
                     </div>
                     {/* If hamburger-menu is clicked */}
@@ -63,7 +63,7 @@ const Header = () => {
                             {/* Before Element For Active Link */}
                             <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <CurrencyBitcoinIcon className="text-mobile-menu-grey" fontSize="large" />
+                                    <AllInclusiveIcon className="text-mobile-menu-grey" fontSize="large" />
                                     <Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
                                 </div>
                             </li>
@@ -86,18 +86,17 @@ const Header = () => {
                                         <button className="text-mobile-menu-grey">Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
-                                        {marketsIsOpen
-                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+                                        {marketsIsOpen 
+                                            ? <KeyboardArrowUpIcon  className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                             : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                         }
                                     </div>
                                 </div>
                             </li>
-                            {marketsIsOpen &&
+                            {(marketsIsOpen) &&
                                 <div className="mx-4">
                                     <li className="mb-4 py-2">
                                         <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
-
                                     </li>
                                     <li className="mb-4 py-2">
                                         <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
