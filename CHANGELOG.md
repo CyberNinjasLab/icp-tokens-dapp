@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- add: simple mui theme setup
 - add: prettier formatting
 - add: mui icons
 - add: tokens page (wip)
