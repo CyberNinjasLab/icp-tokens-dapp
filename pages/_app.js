@@ -1,5 +1,6 @@
 import '../styles/global.css';
 import Head from 'next/head';
+import GeneralContextProvider from '../contexts/General.Provider';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -27,7 +28,9 @@ export default function App({ Component, pageProps }) {
         <link rel="manifest" href="/site.webmanifest" />
         {/* Other head elements */}
       </Head>
-      <Component {...pageProps} />
+      <GeneralContextProvider>
+        <Component {...pageProps} />
+      </GeneralContextProvider>
     </>
   );
 }
