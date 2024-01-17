@@ -18,6 +18,8 @@ export const theme = createTheme({
     h6: {color: 'black'},
     subtitle1: {color: 'black'},
     subtitle2: {color: 'black'},
+    fontSize: '20px',
+    fontFamily: 'inherit'
   },
   components: {
         MuiButton: {
@@ -53,6 +55,21 @@ export const theme = createTheme({
             }),
           },
         },
+        MuiSvgIcon: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              '&.MuiSvgIcon-fontSizeLarge': {
+                fontSize: '30px'
+              },
+              '&.MuiSvgIcon-fontSizeMedium': {
+                fontSize: '20px'
+              },
+              '&.MuiSvgIcon-fontSizeSmall': {
+                fontSize: '15px'
+              }
+            })
+          }
+        },
         MuiPaper: {
           styleOverrides: {
             root: {
@@ -71,5 +88,14 @@ export const theme = createTheme({
             },
           },
         },
+        MuiTooltip: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              backgroundColor: 'white',
+              boxShadow: theme.shadows[1],
+              color: 'black'
+            })
+          }
+        }
       }
 });
