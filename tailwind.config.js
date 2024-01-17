@@ -10,6 +10,7 @@ module.exports = {
             colors: {
                 'token-title-green': '#019a9a',
                 'active-link-green': '#019A9AFF',
+                'mobile-menu-grey': '#565D6DFF'
             },
 
             keyframes: {
