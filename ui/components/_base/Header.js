@@ -74,16 +74,16 @@ const Header = () => {
                                     <Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' && "text-active-link-green"}`}>Library</Link>
                                 </div>
                             </li>
-                            <li className={`${path === '/markets' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
+                            <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
                                 <div className="flex justify-between">
                                     <div className="relative flex gap-[0.8rem] items-center">
                                         <img src="/logo.png" alt="ICP Tokens logo" className="w-[24px] h-[24px]" />
-                                        <button onClick={hamburgerMenuHandler} className={`${path === '/markets' && "text-active-link-green"}`}>Markets</button>
+                                        <button>Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
                                         {marketsIsOpen
-                                            ? <KeyboardArrowDownIcon fontSize="large" />
-                                            : <KeyboardArrowUpIcon fontSize="large" />
+                                            ? <KeyboardArrowUpIcon fontSize="large" />
+                                            : <KeyboardArrowDownIcon fontSize="large" />
                                         }
                                     </div>
                                 </div>
@@ -105,7 +105,6 @@ const Header = () => {
                             <TwitterIcon sx={{ fontSize: 38 }} />
                             <FacebookRoundedIcon sx={{ fontSize: 38 }} />
                             <InstagramIcon sx={{ fontSize: 38 }} />
-                            <Button variant="outlined">Outlined</Button>
                         </div>
                     </div>
 
