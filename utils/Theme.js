@@ -10,16 +10,16 @@ export const theme = createTheme({
     body1: {color: 'black'},
     body2: {color: 'black'},
     caption: {color: 'black'},
-    h1: {color: 'black'},
-    h2: {color: 'black'},
-    h3: {color: 'black'},
-    h4: {color: 'black'},
-    h5: {color: 'black'},
-    h6: {color: 'black'},
-    subtitle1: {color: 'black'},
-    subtitle2: {color: 'black'},
-    fontSize: '20px',
-    fontFamily: 'inherit'
+    h1: {color: 'black', fontSize: '4rem'},
+    h2: {color: 'black', fontSize: '3.5rem'},
+    h3: {color: 'black', fontSize: '3rem'},
+    h4: {color: 'black', fontSize: '2.5rem'},
+    h5: {color: 'black', fontSize: '2rem'},
+    h6: {color: 'black', fontSize: '1.5rem'},
+    subtitle1: {color: 'black', fontSize: '1rem'},
+    subtitle2: {color: 'black', fontSize: '0.5rem'},
+    fontFamily: 'inherit',
+    fontSize: '20px'
   },
   components: {
         MuiButton: {
