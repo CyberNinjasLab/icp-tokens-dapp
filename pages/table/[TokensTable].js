@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { useContext } from 'react';
+import { GeneralContext } from '../../contexts/General.Context';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import 'ag-grid-community/styles/ag-grid.css'; // Core CSS
 import 'ag-grid-community/styles/ag-theme-quartz.css'; // Theme
@@ -53,6 +54,8 @@ const TokensLogoRenderer = ({ value, data }) => (
   </span>
 );
 function TokensTable() {
+  const {identity, setIdentity} = useContext(GeneralContext);
+  // console.log(identity)
   const colDefs = [
     {
       field: 'id',
@@ -97,6 +100,7 @@ function TokensTable() {
       headerName: 'Volume(24h)',
       autoWidth: true,
       autoHeight: true,
+      sortable: false,
       cellRenderer: params => (
         <div className="leading-normal items-center">
           <p>{params.value.dollars}</p>
@@ -109,6 +113,7 @@ function TokensTable() {
       headerName: 'Circulating Supply',
       autoWidth: true,
       autoHeight: true,
+      sortable: false,
       cellRenderer: param => (
         <div className="items-center leading-normal">
           <p className="overflow-hidden whitespace-nowrap overflow-ellipsis">
@@ -132,6 +137,7 @@ function TokensTable() {
       field: 'chartData',
       headerName: 'Last 7 Days',
       width: 200,
+      sortable: false,
       cellRenderer: CurrencyPriceChart
     }
   ];
