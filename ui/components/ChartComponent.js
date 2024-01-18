@@ -1660,6 +1660,13 @@ const volumeSeriesData = [
   { time: '2019-05-24', value: 8755506.0 },
   { time: '2019-05-28', value: 3097125.0 }
 ];
+const periodDataMap = {
+  '1D': candleSeriesDayData,
+  '1W': candleSeriesWeekData,
+  '1M': candleSeriesMonthData,
+  '1Y': candleSeriesData
+};
+const periods = ['1D', '1W', '1M', '1Y'];
 
 const ChartComponent = ({ colors }) => {
   const {
@@ -1673,49 +1680,23 @@ const ChartComponent = ({ colors }) => {
   const chartContainerRef = useRef();
   const chartRef = useRef();
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
-
-  const buttons = [
+  const buttons = periods.map(period => (
     <Button
-      key="1d"
-      value="1D"
+      key={period.toLowerCase()}
+      value={period}
       style={{
-        backgroundColor: selectedPeriod === '1D' ? primaryColor : '#ffffff',
-        color: selectedPeriod === '1D' ? '#ffffff' : primaryColor
+        backgroundColor: selectedPeriod === period ? primaryColor : '#ffffff',
+        color: selectedPeriod === period ? '#ffffff' : primaryColor
       }}
     >
-      1D
-    </Button>,
-    <Button
-      key="1w"
-      value="1W"
-      style={{
-        backgroundColor: selectedPeriod === '1W' ? primaryColor : '#ffffff',
-        color: selectedPeriod === '1W' ? '#ffffff' : primaryColor
-      }}
-    >
-      1W
-    </Button>,
-    <Button
-      key="1m"
-      value="1M"
-      style={{
-        backgroundColor: selectedPeriod === '1M' ? primaryColor : '#ffffff',
-        color: selectedPeriod === '1M' ? '#ffffff' : primaryColor
-      }}
-    >
-      1M
-    </Button>,
-    <Button
-      key="1y"
-      value="1Y"
-      style={{
-        backgroundColor: selectedPeriod === '1Y' ? primaryColor : '#ffffff',
-        color: selectedPeriod === '1Y' ? '#ffffff' : primaryColor
-      }}
-    >
-      1Y
+      {period}
     </Button>
-  ];
+  ));
+
+  /**
+   * Function which creates a chart with chart options.
+   * @param data - Chart data.
+   */
   const setupChart = data => {
     const chartOptions = {
       layout: {
@@ -1763,6 +1744,9 @@ const ChartComponent = ({ colors }) => {
     chartRef.current.timeScale().fitContent();
   };
 
+  /**
+   * Resize the chart on window change.
+   */
   useEffect(() => {
     setupChart(candleSeriesData);
     const handleResize = () => {
@@ -1783,15 +1767,7 @@ const ChartComponent = ({ colors }) => {
    */
   useEffect(() => {
     chartRef.current.remove();
-    if (selectedPeriod === '1D') {
-      setupChart(candleSeriesDayData);
-    } else if (selectedPeriod === '1W') {
-      setupChart(candleSeriesWeekData);
-    } else if (selectedPeriod === '1M') {
-      setupChart(candleSeriesMonthData);
-    } else {
-      setupChart(candleSeriesData);
-    }
+    setupChart(periodDataMap[selectedPeriod]);
   }, [selectedPeriod]);
 
   return (
