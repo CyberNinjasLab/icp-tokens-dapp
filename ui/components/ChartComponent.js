@@ -1666,28 +1666,56 @@ const ChartComponent = ({ colors }) => {
     backgroundColor = 'white',
     textColor = 'black',
     upCandleColor = '#26a69a',
-    downCandleColor = '#ef5350'
+    downCandleColor = '#ef5350',
+    primaryColor = '#019A9AFF'
   } = colors || {};
-
-  const buttons = [
-    <Button key="1d" value="1D">
-      1D
-    </Button>,
-    <Button key="1w" value="1W">
-      1W
-    </Button>,
-    <Button key="1m" value="1M">
-      1M
-    </Button>,
-    <Button key="1y" value="1Y">
-      1Y
-    </Button>
-  ];
 
   const chartContainerRef = useRef();
   const chartRef = useRef();
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
 
+  const buttons = [
+    <Button
+      key="1d"
+      value="1D"
+      style={{
+        backgroundColor: selectedPeriod === '1D' ? primaryColor : '#ffffff',
+        color: selectedPeriod === '1D' ? '#ffffff' : primaryColor
+      }}
+    >
+      1D
+    </Button>,
+    <Button
+      key="1w"
+      value="1W"
+      style={{
+        backgroundColor: selectedPeriod === '1W' ? primaryColor : '#ffffff',
+        color: selectedPeriod === '1W' ? '#ffffff' : primaryColor
+      }}
+    >
+      1W
+    </Button>,
+    <Button
+      key="1m"
+      value="1M"
+      style={{
+        backgroundColor: selectedPeriod === '1M' ? primaryColor : '#ffffff',
+        color: selectedPeriod === '1M' ? '#ffffff' : primaryColor
+      }}
+    >
+      1M
+    </Button>,
+    <Button
+      key="1y"
+      value="1Y"
+      style={{
+        backgroundColor: selectedPeriod === '1Y' ? primaryColor : '#ffffff',
+        color: selectedPeriod === '1Y' ? '#ffffff' : primaryColor
+      }}
+    >
+      1Y
+    </Button>
+  ];
   const setupChart = data => {
     const chartOptions = {
       layout: {
