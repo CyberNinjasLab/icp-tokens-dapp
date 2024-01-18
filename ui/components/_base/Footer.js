@@ -17,7 +17,7 @@ const Footer = () => {
 						</div>
 
 						{/* Right Column: Footer Links */}
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-8 text-left md:justify-end">
+						<div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-8 text-left md:justify-end">
 								<div>
 										<h5 className="font-bold text-xl mb-4">About</h5>
 										<ul className="flex flex-col gap-2">
