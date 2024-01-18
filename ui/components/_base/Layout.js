@@ -1,11 +1,14 @@
 import Header from './Header';
 import Footer from './Footer';
+import ThemeRegistry from '../../../utils/ThemeRegistry';
 
 const Layout = ({ children }) => {
   return (
     <div>
       <Header />
-      <main className='mx-auto container px-4 md:px-8 mt-8'>{children}</main>
+      <ThemeRegistry options={{ key: 'mui-theme' }}>
+        <main className="mx-auto max-w-screen-2xl p-4">{children}</main>
+      </ThemeRegistry>
       <Footer />
     </div>
   );

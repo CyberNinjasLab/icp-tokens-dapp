@@ -115,3 +115,11 @@ Notice both files are identical if we want the Next.js dapp to interact with the
 Note **NEXT_PUBLIC** is the prefix used by Next.js to make env vars available to client side code through [build time inlining](https://nextjs.org/docs/basic-features/environment-variables).
 
 **.env.icprod** is included for deployment to Internet Computer ic network which would be covered below.
+
+## Developer Notes
+
+### Code Formatting
+
+- For easier formatting set your code editor to format the code automatically on save using prettier or do it manually by running the following command:
+
+``npm run format:fix``
