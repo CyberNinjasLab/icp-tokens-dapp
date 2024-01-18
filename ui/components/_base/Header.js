@@ -37,7 +37,7 @@ const Header = () => {
 
     return (
         <header className="border-b border-solid lg:border-none py-4 px-4 overflow-hidden">
-            <div className="flex justify-between items-center lg:flex-start lg:space-x-12">
+            <div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12">
                 <div className="flex items-center space-x-4">
                     {/* Use Link without <a> */}
                     <Link href="/">
@@ -50,6 +50,49 @@ const Header = () => {
                     </Link>
                 </div>
                 <nav>
+                    {/* Desktop */}
+                    {/* Use Link without <a> */}
+                        <ul className="hidden lg:flex lg:items-center lg:space-x-4">
+                            <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                                <div className="relative flex gap-[0.8rem] items-center">
+                                    <Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
+                                </div>
+                            </li>
+                            <li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                                <div className="relative flex gap-[0.8rem] items-center">
+                                    <Link href="/feed" className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
+                                </div>
+                            </li>
+                            <li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                                <div className="relative flex gap-[0.8rem] items-center">
+                                    <Link href="/library" className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
+                                </div>
+                            </li>
+                            <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                                <div className="flex justify-between">
+                                    <div className="relative flex gap-[0.8rem] items-center">
+                                        <button className="text-mobile-menu-grey">Markets</button>
+                                    </div>
+                                    <div onClick={marketButtonHandler}>
+                                        {marketsIsOpen
+                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+                                            : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                            {marketsIsOpen &&
+                                <div className="lg:absolute lg:top-9 lg:mx-4">
+                                    <li className="mb-4 py-2">
+                                        <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                    </li>
+                                    <li className="mb-4 py-2">
+                                        <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                    </li>
+                                </div>
+                            }
+                        </ul>
+
                     {/* Mobile */}
                     <div onClick={hamburgerMenuHandler} className="lg:hidden">
                         {hamburgerIsOpen
@@ -86,8 +129,8 @@ const Header = () => {
                                         <button className="text-mobile-menu-grey">Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
-                                        {marketsIsOpen 
-                                            ? <KeyboardArrowUpIcon  className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+                                        {marketsIsOpen
+                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                             : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                         }
                                     </div>
@@ -112,18 +155,6 @@ const Header = () => {
                             <RedditIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
                         </div>
                     </div>
-
-                    {/* Desktop */}
-                    <ul className="hidden lg:flex lg:space-x-4">
-                        {navLinks.map(link => (
-                            <li key={link.href}>
-                                {/* Use Link without <a> */}
-                                <Link href={link.href}>
-                                    <span className="cursor-pointer">{link.label}</span>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
                 </nav>
             </div>
         </header>
