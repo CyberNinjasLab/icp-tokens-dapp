@@ -1660,15 +1660,16 @@ const volumeSeriesData = [
   { time: '2019-05-24', value: 8755506.0 },
   { time: '2019-05-28', value: 3097125.0 }
 ];
-const periodDataMap = {
-  '1D': candleSeriesDayData,
-  '1W': candleSeriesWeekData,
-  '1M': candleSeriesMonthData,
-  '1Y': candleSeriesData
-};
+// const periodDataMap = {
+//   '1D': candleSeriesDayData,
+//   '1W': candleSeriesWeekData,
+//   '1M': candleSeriesMonthData,
+//   '1Y': candleSeriesData
+// };
 const periods = ['1D', '1W', '1M', '1Y'];
 
-const ChartComponent = ({ colors }) => {
+const ChartComponent = ({ data, colors }) => {
+  console.log('Data from parent', data);
   const {
     backgroundColor = 'white',
     textColor = 'black',
@@ -1680,6 +1681,7 @@ const ChartComponent = ({ colors }) => {
   const chartContainerRef = useRef();
   const chartRef = useRef();
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
+  const toolTipRef = useRef(null);
   const buttons = periods.map(period => (
     <Button
       key={period.toLowerCase()}
@@ -1694,17 +1696,35 @@ const ChartComponent = ({ colors }) => {
   ));
 
   /**
-   * Function which creates a chart with chart options.
-   * @param data - Chart data.
+   * useEffect for the dynamic change of the chart periods.
    */
-  const setupChart = data => {
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.remove();
+    }
+    const chartData = data?.chart_prices.map(el => ({
+      time: el.date,
+      open: parseFloat(el.open),
+      high: parseFloat(el.high),
+      low: parseFloat(el.low),
+      close: parseFloat(el.close)
+    }));
+
+    setupChart(chartData);
+  }, [selectedPeriod]);
+
+  /**
+   * Function which creates a chart with chart options.
+   * @param chartData - Chart data.
+   */
+  const setupChart = chartData => {
     const chartOptions = {
       layout: {
         textColor,
         background: { type: 'solid', color: backgroundColor }
       },
-      width: chartContainerRef.current.clientWidth,
-      height: 300
+      height: 400,
+      autoSize: true
     };
 
     chartRef.current = createChart(chartContainerRef.current, chartOptions);
@@ -1718,60 +1738,114 @@ const ChartComponent = ({ colors }) => {
       wickUpColor: upCandleColor
     });
 
-    candleSeries.setData(data);
-
-    const volumeSeries = chartRef.current.addHistogramSeries({
-      color: 'rgb(211,208,208)',
-      priceFormat: {
-        type: 'volume'
-      },
-      priceScaleId: '',
-      scaleMargins: {
-        top: 0.7,
-        bottom: 0
-      }
-    });
-
-    volumeSeries.priceScale().applyOptions({
-      scaleMargins: {
-        top: 0.7,
-        bottom: 0
-      }
-    });
-
-    volumeSeries.setData(volumeSeriesData);
+    console.log(chartData);
+    candleSeries.setData(chartData);
+    // const volumeSeries = chartRef.current.addHistogramSeries({
+    //   color: 'rgb(211,208,208)',
+    //   priceFormat: {
+    //     type: 'volume'
+    //   },
+    //   priceScaleId: '',
+    //   scaleMargins: {
+    //     top: 0.7,
+    //     bottom: 0
+    //   }
+    // });
+    //
+    // volumeSeries.priceScale().applyOptions({
+    //   scaleMargins: {
+    //     top: 0.7,
+    //     bottom: 0
+    //   }
+    // });
+    //
+    // volumeSeries.setData(volumeSeriesData);
 
     chartRef.current.timeScale().fitContent();
-  };
 
-  /**
-   * Resize the chart on window change.
-   */
-  useEffect(() => {
-    setupChart(candleSeriesData);
-    const handleResize = () => {
-      chartRef.current.applyOptions({
-        width: chartContainerRef.current.clientWidth
-      });
+    const container = chartContainerRef.current;
+    const toolTip = document.createElement('div');
+    const toolTipWidth = 80;
+    const toolTipHeight = 80;
+    const toolTipMargin = 15;
+
+    toolTip.style.cssText = `
+      width: 96px;
+      height: 100px;
+      position: absolute;
+      display: none;
+      padding: 8px;
+      box-sizing: border-box;
+      font-size: 12px;
+      text-align: left;
+      z-index: 1000;
+      top: 12px;
+      left: 12px;
+      pointer-events: none;
+      border: 1px solid;
+      border-radius: 2px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: white;
+      color: black;
+      border-color: #019A9AFF;
+    `;
+
+    container.appendChild(toolTip);
+    toolTipRef.current = toolTip;
+
+    const updateToolTip = (param, tokenName) => {
+      if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.x > container.clientWidth ||
+        param.point.y < 0 ||
+        param.point.y > container.clientHeight
+      ) {
+        toolTip.style.display = 'none';
+      } else {
+        console.log('updating');
+        const dateStr = param.time;
+        toolTip.style.display = 'block';
+        const data = param.seriesData.get(candleSeries);
+        const price = data.value !== undefined ? data.value : data.close;
+        toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div><div style="font-size: 24px; margin: 4px 0px; color: black">
+          ${Math.round(100 * price) / 100}
+          </div><div style="color: black">
+          ${dateStr}
+          </div>`;
+
+        const y = param.point.y;
+        let left = param.point.x + toolTipMargin;
+        if (left > container.clientWidth - toolTipWidth) {
+          left = param.point.x - toolTipMargin - toolTipWidth;
+        }
+
+        let top = y + toolTipMargin;
+        if (top > container.clientHeight - toolTipHeight) {
+          top = y - toolTipHeight - toolTipMargin;
+        }
+        toolTip.style.left = left + 'px';
+        toolTip.style.top = top + 'px';
+      }
     };
 
-    window.addEventListener('resize', handleResize);
+    const crosshairMoveHandler = param => {
+      console.log(param);
+      updateToolTip(param, data?.symbol);
+    };
+
+    chartRef.current.subscribeCrosshairMove(crosshairMoveHandler);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      chartRef.current.unsubscribeCrosshairMove(crosshairMoveHandler);
     };
-  }, []);
-
-  /**
-   * useEffect for the dynamic change of the chart periods.
-   */
-  useEffect(() => {
-    chartRef.current.remove();
-    setupChart(periodDataMap[selectedPeriod]);
-  }, [selectedPeriod]);
+  };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center gap-4 w-full">
       <div ref={chartContainerRef} />
       <ButtonGroup
         onClick={value => {
@@ -1780,7 +1854,7 @@ const ChartComponent = ({ colors }) => {
         variant="outlined"
         aria-label="outlined primary button group"
         fullWidth={true}
-        className="my-3"
+        className="w-full max-w-xl m-auto"
       >
         {buttons}
       </ButtonGroup>
