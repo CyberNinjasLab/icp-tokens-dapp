@@ -16,13 +16,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
 import * as React from 'react';
+import NavTabs from './NavTabs';
+import MenuListComposition from './dropdownMarkets';
 
 const Header = () => {
-    const navLinks = [
-        { href: '/useful-links', label: 'Useful Links' },
-        // Add more links as needed
-    ];
-
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const [marketsIsOpen, setmarketsIsOpen] = useState(false);
@@ -34,6 +31,53 @@ const Header = () => {
         setmarketsIsOpen(!marketsIsOpen);
     };
 
+    const dropdownMarkets = () => {
+        // <div>
+        //     <Button
+        //         ref={anchorRef}
+        //         id="composition-button"
+        //         aria-controls={open ? 'composition-menu' : undefined}
+        //         aria-expanded={open ? 'true' : undefined}
+        //         aria-haspopup="true"
+        //         onClick={handleToggle}
+        //     >
+        //         Dashboard
+        //     </Button>
+        //     <Popper
+        //         open={open}
+        //         anchorEl={anchorRef.current}
+        //         role={undefined}
+        //         placement="bottom-start"
+        //         transition
+        //         disablePortal
+        //     >
+        //         {({ TransitionProps, placement }) => (
+        //             <Grow
+        //                 {...TransitionProps}
+        //                 style={{
+        //                     transformOrigin:
+        //                         placement === 'bottom-start' ? 'left top' : 'left bottom',
+        //                 }}
+        //             >
+        //                 <Paper>
+        //                     <ClickAwayListener onClickAway={handleClose}>
+        //                         <MenuList
+        //                             autoFocusItem={open}
+        //                             id="composition-menu"
+        //                             aria-labelledby="composition-button"
+        //                             onKeyDown={handleListKeyDown}
+        //                         >
+        //                             <MenuItem onClick={handleClose}>Profile</MenuItem>
+        //                             <MenuItem onClick={handleClose}>My account</MenuItem>
+        //                             <MenuItem onClick={handleClose}>Logout</MenuItem>
+        //                         </MenuList>
+        //                     </ClickAwayListener>
+        //                 </Paper>
+        //             </Grow>
+        //         )}
+        //     </Popper>
+        // </div>
+    }
 
     return (
         <header className="border-b border-solid lg:border-none py-4 px-4 overflow-hidden">
@@ -50,25 +94,29 @@ const Header = () => {
                     </Link>
                 </div>
                 <nav>
+                    <div className="hidden lg:block lg:flex lg:items-center">
+                        {/* <NavTabs></NavTabs> */}
+
+                    </div>
                     {/* Desktop */}
                     {/* Use Link without <a> */}
                         <ul className="hidden lg:flex lg:items-center lg:space-x-4">
-                            <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                            <li className={`lg:after:w-0 hover:after:w-full ${path === '/currencies' && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500 after:transition-all"}`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
                                     <Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
                                 </div>
                             </li>
-                            <li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                            <li className={`${path === '/feed' && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500"}`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
                                     <Link href="/feed" className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
                                 </div>
                             </li>
-                            <li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                            <li className={`${path === '/library' && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500"}`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
                                     <Link href="/library" className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
                                 </div>
                             </li>
-                            <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"}`}>
+                            <li className={`${(path === '/dex' || path==='/nft') && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500"}`}>
                                 <div className="flex justify-between">
                                     <div className="relative flex gap-[0.8rem] items-center">
                                         <button className="text-mobile-menu-grey">Markets</button>
@@ -80,17 +128,17 @@ const Header = () => {
                                         }
                                     </div>
                                 </div>
+                                {marketsIsOpen &&
+                                    <div className="lg:absolute lg:top-9 ">
+                                        <li className="mb-4 py-2">
+                                            <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                        </li>
+                                        <li className="mb-4 py-2">
+                                            <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                        </li>
+                                    </div>
+                                }
                             </li>
-                            {marketsIsOpen &&
-                                <div className="lg:absolute lg:top-9 lg:mx-4">
-                                    <li className="mb-4 py-2">
-                                        <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
-                                    </li>
-                                    <li className="mb-4 py-2">
-                                        <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
-                                    </li>
-                                </div>
-                            }
                         </ul>
 
                     {/* Mobile */}
