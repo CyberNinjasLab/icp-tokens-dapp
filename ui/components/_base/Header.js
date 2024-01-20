@@ -14,9 +14,11 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import * as React from 'react';
-import { Box, MenuItem, MenuList, Paper } from '@mui/material';
+import { MenuList, Paper } from '@mui/material';
 
 const Header = () => {
     const path = useRouter().route;
@@ -30,59 +32,11 @@ const Header = () => {
         setmarketsIsOpen(!marketsIsOpen);
     };
 
-    const dropdownMarkets = () => {
-        // <div>
-        //     <Button
-        //         ref={anchorRef}
-        //         id="composition-button"
-        //         aria-controls={open ? 'composition-menu' : undefined}
-        //         aria-expanded={open ? 'true' : undefined}
-        //         aria-haspopup="true"
-        //         onClick={handleToggle}
-        //     >
-        //         Dashboard
-        //     </Button>
-        //     <Popper
-        //         open={open}
-        //         anchorEl={anchorRef.current}
-        //         role={undefined}
-        //         placement="bottom-start"
-        //         transition
-        //         disablePortal
-        //     >
-        //         {({ TransitionProps, placement }) => (
-        //             <Grow
-        //                 {...TransitionProps}
-        //                 style={{
-        //                     transformOrigin:
-        //                         placement === 'bottom-start' ? 'left top' : 'left bottom',
-        //                 }}
-        //             >
-        //                 <Paper>
-        //                     <ClickAwayListener onClickAway={handleClose}>
-        //                         <MenuList
-        //                             autoFocusItem={open}
-        //                             id="composition-menu"
-        //                             aria-labelledby="composition-button"
-        //                             onKeyDown={handleListKeyDown}
-        //                         >
-        //                             <MenuItem onClick={handleClose}>Profile</MenuItem>
-        //                             <MenuItem onClick={handleClose}>My account</MenuItem>
-        //                             <MenuItem onClick={handleClose}>Logout</MenuItem>
-        //                         </MenuList>
-        //                     </ClickAwayListener>
-        //                 </Paper>
-        //             </Grow>
-        //         )}
-        //     </Popper>
-        // </div>
-    }
 
     return (
-        <header className="border-b border-solid lg:border-none py-4 px-4 overflow-visible">
+        <header className="border-b border-solid py-4 px-4 overflow-visible lg:px-8">
             <div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12">
                 <div className="flex items-center space-x-4">
-                    {/* Use Link without <a> */}
                     <Link href="/">
                         <span className="flex items-center space-x-4 cursor-pointer">
                             <img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
@@ -93,11 +47,7 @@ const Header = () => {
                     </Link>
                 </div>
                 <nav>
-                    <div className="hidden lg:block lg:flex lg:items-center">
-                        {/* <NavTabs></NavTabs> */}
-
-                    </div>
-                    {/* Desktop */}
+                    {/* Desktop - links */}
                     {/* Use Link without <a> */}
                     <ul className="hidden lg:flex lg:items-center lg:space-x-4">
                         <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
@@ -207,6 +157,12 @@ const Header = () => {
                         </div>
                     </div>
                 </nav>
+
+                {/* Desktop  - notification and account */}
+                <div className="hidden lg:flex lg:items-center lg:!ml-auto lg:gap-4">
+                    <NotificationsNoneIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+                    <AccountCircleIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+                </div>
             </div>
         </header >
     );
