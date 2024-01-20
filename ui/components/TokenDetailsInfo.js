@@ -63,13 +63,13 @@ export default function TokenDetailsInfo({ data }) {
           </div>
         </ListItem>
         <Divider variant="middle" component="li" className="hidden md:block" />
-        <Divider variant="middle" component="li" className="hidden md:block" />
         <ListItem>
           <div className="hidden md:block">
             <Typography variant="subtitle1">Description</Typography>
             <Typography>{data.introduction}</Typography>
           </div>
         </ListItem>
+        <Divider variant="middle" component="li" className="hidden md:block" />
         <ListItem>
           <div className="hidden md:block">
             <Typography variant="subtitle1" className="mb-4">
