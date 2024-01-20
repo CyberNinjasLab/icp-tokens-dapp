@@ -3,6 +3,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import LanguageIcon from '@mui/icons-material/Language';
+import { Typography } from '@mui/material';
 
 const style = {
   py: 0,
@@ -11,11 +13,10 @@ const style = {
   border: '1px solid',
   borderColor: 'divider',
   backgroundColor: 'background.paper',
-  maxWidth: '400px'
+  maxWidth: '550px'
 };
 
 const questionMarkStyle = {
-  fontSize: 'medium',
   ml: '3px',
   opacity: '0.3'
 };
@@ -26,60 +27,74 @@ export default function TokenDetailsInfo({ data }) {
       <List sx={style}>
         <ListItem>
           <div className="flex justify-between items-center w-full">
-            <span>
+            <Typography variant="textSemiBold">
               Market Cap
-              <HelpOutlineIcon sx={questionMarkStyle} />
-            </span>
-            <span>{data.price} ICP</span>
+              <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />
+            </Typography>
+            <Typography>{data.price} ICP</Typography>
           </div>
         </ListItem>
-        <Divider variant="middle" component="li" />
         <ListItem>
           <div className="flex justify-between items-center w-full">
-            <span>
+            <Typography variant="textSemiBold">
               Volume (24h)
-              <HelpOutlineIcon sx={questionMarkStyle} />
-            </span>
-            <span>{data.volume} ICP</span>
+              <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '}
+            </Typography>
+            <Typography>{data.volume} ICP</Typography>
           </div>
         </ListItem>
-        <Divider variant="middle" component="li" />
+        {/*<Divider variant="middle" component="li" />*/}
         <ListItem>
           <div className="flex justify-between items-center w-full">
-            <span>
+            <Typography variant="textSemiBold">
               Circulating Supply
-              <HelpOutlineIcon sx={questionMarkStyle} />
-            </span>
-            <span>No API Data</span>
+              <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '}
+            </Typography>
+            <Typography>No API Data</Typography>
+          </div>
+        </ListItem>
+        {/*<Divider variant="middle" component="li" />*/}
+        <ListItem>
+          <div className="flex justify-between items-center w-full">
+            <Typography variant="textSemiBold">
+              Max Supply
+              <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '}
+            </Typography>
+            <Typography>{data.total_supply}</Typography>
           </div>
         </ListItem>
         <Divider variant="middle" component="li" />
         <ListItem>
-          <div className="flex justify-between items-center w-full">
-            <span>
-              Max Supply
-              <HelpOutlineIcon sx={questionMarkStyle} />
-            </span>
-            <span>{data.total_supply}</span>
+          <div className="hidden md:block">
+            <Typography variant="subtitle1" className="mb-4">
+              Links
+            </Typography>
+            <div className="flex flex-wrap gap-2">
+              {data.token_links.map(link => (
+                <a
+                  href={link.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col justify-center items-center"
+                >
+                  <LanguageIcon
+                    fontSize="large"
+                    className="opacity-50"
+                  ></LanguageIcon>
+                  {link.mediaType}
+                </a>
+              ))}
+            </div>
+          </div>
+        </ListItem>
+        <Divider variant="middle" component="li" />
+        <ListItem>
+          <div className="hidden md:block">
+            <Typography variant="subtitle1">Description</Typography>
+            <Typography>{data.introduction}</Typography>
           </div>
         </ListItem>
       </List>
-      <div className="hidden md:block">
-        <h2>Links</h2>
-
-        <ul>
-          {data.token_links.map(link => (
-            <li key={link.id}>
-              <a href={link.link} target="_blank" rel="noopener noreferrer">
-                {link.mediaType}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <h2>Description</h2>
-        <span>{data.introduction}</span>
-      </div>
     </div>
   );
 }

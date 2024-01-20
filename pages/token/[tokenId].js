@@ -25,7 +25,7 @@ const TokenPage = () => {
 
   return tokenData ? (
     <Layout>
-      <div className="xl:flex">
+      <div className="xl:flex gap-2">
         <div className="w-full">
           <div className="flex items-center gap-1">
             {/*<img src={testData[2].icon} alt="icp-icon" className="w-10" />*/}
