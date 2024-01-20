@@ -16,6 +16,8 @@ export const theme = createTheme({
     h4: { color: 'black', fontSize: '2.5rem' },
     h5: { color: 'black', fontSize: '2rem' },
     h6: { color: 'black', fontSize: '1.5rem' },
+    h7: { color: 'black', fontSize: '1.2rem', fontWeight: 600 },
+    h8: { color: 'black', fontSize: '1rem', fontWeight: 600 },
     subtitle1: {
       color: 'black',
       fontSize: '1rem',

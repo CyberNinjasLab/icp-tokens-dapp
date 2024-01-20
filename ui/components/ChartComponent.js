@@ -1669,7 +1669,6 @@ const volumeSeriesData = [
 const periods = ['1D', '1W', '1M', '1Y'];
 
 const ChartComponent = ({ data, colors }) => {
-  console.log('Data from parent', data);
   const {
     backgroundColor = 'white',
     textColor = 'black',
@@ -1739,7 +1738,6 @@ const ChartComponent = ({ data, colors }) => {
     });
 
     console.log(chartData);
-    candleSeries.setData(chartData);
     // const volumeSeries = chartRef.current.addHistogramSeries({
     //   color: 'rgb(211,208,208)',
     //   priceFormat: {
@@ -1770,7 +1768,6 @@ const ChartComponent = ({ data, colors }) => {
     const toolTipMargin = 15;
 
     toolTip.style.cssText = `
-      width: 96px;
       height: 100px;
       position: absolute;
       display: none;
@@ -1806,13 +1803,12 @@ const ChartComponent = ({ data, colors }) => {
       ) {
         toolTip.style.display = 'none';
       } else {
-        console.log('updating');
         const dateStr = param.time;
         toolTip.style.display = 'block';
         const data = param.seriesData.get(candleSeries);
-        const price = data.value !== undefined ? data.value : data.close;
-        toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div><div style="font-size: 24px; margin: 4px 0px; color: black">
-          ${Math.round(100 * price) / 100}
+        const price = data?.value !== undefined ? data?.value : data?.close;
+        toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div><div style="font-size: 18px; margin: 4px 0px; color: black">
+          ${parseFloat(price).toFixed(8)}
           </div><div style="color: black">
           ${dateStr}
           </div>`;
@@ -1845,7 +1841,7 @@ const ChartComponent = ({ data, colors }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 w-full">
+    <div className="flex flex-col justify-center gap-4 max-w-6xl">
       <div ref={chartContainerRef} />
       <ButtonGroup
         onClick={value => {
@@ -1854,7 +1850,7 @@ const ChartComponent = ({ data, colors }) => {
         variant="outlined"
         aria-label="outlined primary button group"
         fullWidth={true}
-        className="w-full max-w-xl m-auto"
+        className="max-w-lg m-auto"
       >
         {buttons}
       </ButtonGroup>
