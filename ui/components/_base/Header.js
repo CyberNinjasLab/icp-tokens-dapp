@@ -16,8 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
 import * as React from 'react';
-import NavTabs from './NavTabs';
-import MenuListComposition from './dropdownMarkets';
+import { Box } from '@mui/material';
 
 const Header = () => {
     const path = useRouter().route;
@@ -80,7 +79,7 @@ const Header = () => {
     }
 
     return (
-        <header className="border-b border-solid lg:border-none py-4 px-4 overflow-hidden">
+        <header className="border-b border-solid lg:border-none py-4 px-4 overflow-visible">
             <div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12">
                 <div className="flex items-center space-x-4">
                     {/* Use Link without <a> */}
@@ -100,46 +99,56 @@ const Header = () => {
                     </div>
                     {/* Desktop */}
                     {/* Use Link without <a> */}
-                        <ul className="hidden lg:flex lg:items-center lg:space-x-4">
-                            <li className={`lg:after:w-0 hover:after:w-full ${path === '/currencies' && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500 after:transition-all"}`}>
+                    <ul className="hidden lg:flex lg:items-center lg:space-x-4">
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                            <div className="relative flex gap-[0.8rem] items-center">
+                                <Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
+                            </div>
+                        </li>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/feed' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                            <div className="relative flex gap-[0.8rem] items-center">
+                                <Link href="/feed" className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
+                            </div>
+                        </li>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/library' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                            <div className="relative flex gap-[0.8rem] items-center">
+                                <Link href="/library" className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
+                            </div>
+                        </li>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                            <div className="flex justify-between">
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
+                                    <button className="text-mobile-menu-grey">Markets</button>
                                 </div>
-                            </li>
-                            <li className={`${path === '/feed' && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500"}`}>
-                                <div className="relative flex gap-[0.8rem] items-center">
-                                    <Link href="/feed" className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
+                                <div onClick={marketButtonHandler}>
+                                    {marketsIsOpen
+                                        ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 24, position: 'absolute' }} />
+                                        : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 24, position: 'absolute' }} />
+                                    }
                                 </div>
-                            </li>
-                            <li className={`${path === '/library' && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500"}`}>
-                                <div className="relative flex gap-[0.8rem] items-center">
-                                    <Link href="/library" className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
-                                </div>
-                            </li>
-                            <li className={`${(path === '/dex' || path==='/nft') && "lg:relative after:content-[''] after:absolute after:w-full after:border-b-4 after:border-solid after:border-green-500"}`}>
-                                <div className="flex justify-between">
-                                    <div className="relative flex gap-[0.8rem] items-center">
-                                        <button className="text-mobile-menu-grey">Markets</button>
-                                    </div>
-                                    <div onClick={marketButtonHandler}>
-                                        {marketsIsOpen
-                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
-                                            : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
-                                        }
-                                    </div>
-                                </div>
-                                {marketsIsOpen &&
-                                    <div className="lg:absolute lg:top-9 ">
-                                        <li className="mb-4 py-2">
-                                            <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                            </div>
+                            {marketsIsOpen &&
+                                <div className="lg:absolute lg:top-9 ">
+                                    <Box sx={{
+                                        width: 78,
+                                        height: 80,
+                                        borderRadius: 1,
+                                        bgcolor: 'primary.main',
+                                        '&:hover': {
+                                            bgcolor: 'primary.dark',
+                                        },
+                                    }}>
+                                        <li className="py-2">
+                                            <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
                                         </li>
-                                        <li className="mb-4 py-2">
-                                            <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                        <li className="py-2">
+                                            <Link href="/nft" className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
                                         </li>
-                                    </div>
-                                }
-                            </li>
-                        </ul>
+                                    </Box>
+                                </div>
+                            }
+                        </li>
+                    </ul>
 
                     {/* Mobile */}
                     <div onClick={hamburgerMenuHandler} className="lg:hidden">
@@ -152,29 +161,29 @@ const Header = () => {
                     <div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-8 absolute  z-[100] top-14 left-0 bg-white w-full h-[93%] shadow-xl`} >
                         <ul >
                             {/* Before Element For Active Link */}
-                            <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
+                            <li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <AllInclusiveIcon className="text-mobile-menu-grey" fontSize="large" />
-                                    <Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
+                                    <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
+                                    <Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Cryptocurrencies</Link>
                                 </div>
                             </li>
-                            <li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
+                            <li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <FeedIcon className="text-mobile-menu-grey" fontSize="large" />
-                                    <Link href="/feed" onClick={hamburgerMenuHandler} className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
+                                    <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
+                                    <Link href="/feed" onClick={hamburgerMenuHandler} className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Feed</Link>
                                 </div>
                             </li>
-                            <li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
+                            <li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
                                 <div className="relative flex gap-[0.8rem] items-center">
-                                    <MenuBookIcon className="text-mobile-menu-grey" fontSize="large" />
-                                    <Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
+                                    <MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
+                                    <Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Library</Link>
                                 </div>
                             </li>
-                            <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-green-500"} relative mb-4 py-2`}>
+                            <li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
                                 <div className="flex justify-between">
                                     <div className="relative flex gap-[0.8rem] items-center">
-                                        <SwapHorizIcon className="text-mobile-menu-grey" fontSize="large" />
-                                        <button className="text-mobile-menu-grey">Markets</button>
+                                        <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
+                                        <button className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
                                     </div>
                                     <div onClick={marketButtonHandler}>
                                         {marketsIsOpen
