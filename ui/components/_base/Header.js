@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
 import * as React from 'react';
-import { Box } from '@mui/material';
+import { Box, MenuItem, MenuList, Paper } from '@mui/material';
 
 const Header = () => {
     const path = useRouter().route;
@@ -128,23 +128,17 @@ const Header = () => {
                                 </div>
                             </div>
                             {marketsIsOpen &&
-                                <div className="lg:absolute lg:top-9 ">
-                                    <Box sx={{
-                                        width: 78,
-                                        height: 80,
-                                        borderRadius: 1,
-                                        bgcolor: 'primary.main',
-                                        '&:hover': {
-                                            bgcolor: 'primary.dark',
-                                        },
-                                    }}>
-                                        <li className="py-2">
-                                            <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
-                                        </li>
-                                        <li className="py-2">
-                                            <Link href="/nft" className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
-                                        </li>
-                                    </Box>
+                                <div className="lg:absolute lg:top-9 lg:w-[60px] lg:text-center">
+                                    <Paper>
+                                        <MenuList>
+                                            <li className="py-2">
+                                                <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                            </li>
+                                            <li className="py-2">
+                                                <Link href="/nft" className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                            </li>
+                                        </MenuList>
+                                    </Paper>
                                 </div>
                             }
                         </li>
@@ -214,7 +208,7 @@ const Header = () => {
                     </div>
                 </nav>
             </div>
-        </header>
+        </header >
     );
 };
 
