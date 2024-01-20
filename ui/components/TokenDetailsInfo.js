@@ -78,6 +78,7 @@ export default function TokenDetailsInfo({ data }) {
             <div className="flex flex-wrap gap-2">
               {data.token_links.map(link => (
                 <a
+                  key={link.id}
                   href={link.link}
                   target="_blank"
                   rel="noopener noreferrer"

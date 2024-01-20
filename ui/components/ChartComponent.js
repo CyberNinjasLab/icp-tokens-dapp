@@ -1738,6 +1738,8 @@ const ChartComponent = ({ data, colors }) => {
     });
 
     console.log(chartData);
+    candleSeries.setData(chartData);
+
     // const volumeSeries = chartRef.current.addHistogramSeries({
     //   color: 'rgb(211,208,208)',
     //   priceFormat: {
