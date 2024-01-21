@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/router'
+import {useRef} from "react"
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -21,10 +22,13 @@ import * as React from 'react';
 import { MenuList, Paper } from '@mui/material';
 
 const Header = () => {
+    const wrapperRef = useRef("menu");
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const [marketsIsOpen, setmarketsIsOpen] = useState(false);
     const [accountIsOpen, setAccountIsOpen] = useState(false);
+
+
 
     const hamburgerMenuHandler = () => {
         setHamburgerIsOpen(!hamburgerIsOpen);
@@ -37,6 +41,10 @@ const Header = () => {
     const accountButtonHandler = () => {
         setAccountIsOpen(!accountIsOpen);
     };
+
+    
+
+    
 
 
     return (
