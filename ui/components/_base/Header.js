@@ -24,6 +24,8 @@ const Header = () => {
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const [marketsIsOpen, setmarketsIsOpen] = useState(false);
+    const [accountIsOpen, setAccountIsOpen] = useState(false);
+
     const hamburgerMenuHandler = () => {
         setHamburgerIsOpen(!hamburgerIsOpen);
     };
@@ -32,11 +34,16 @@ const Header = () => {
         setmarketsIsOpen(!marketsIsOpen);
     };
 
+    const accountButtonHandler = () => {
+        setAccountIsOpen(!accountIsOpen);
+    };
+
 
     return (
         <header className="border-b border-solid py-4 px-4 overflow-visible lg:px-8">
             <div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12">
                 <div className="flex items-center space-x-4">
+                    {/* Use Link without <a> */}
                     <Link href="/">
                         <span className="flex items-center space-x-4 cursor-pointer">
                             <img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
@@ -48,7 +55,6 @@ const Header = () => {
                 </div>
                 <nav>
                     {/* Desktop - links */}
-                    {/* Use Link without <a> */}
                     <ul className="hidden lg:flex lg:items-center lg:space-x-4">
                         <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
                             <div className="relative flex gap-[0.8rem] items-center">
@@ -72,8 +78,8 @@ const Header = () => {
                                 </div>
                                 <div onClick={marketButtonHandler}>
                                     {marketsIsOpen
-                                        ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 24, position: 'absolute' }} />
-                                        : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 24, position: 'absolute' }} />
+                                        ? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
+                                        : <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
                                     }
                                 </div>
                             </div>
@@ -131,7 +137,7 @@ const Header = () => {
                                     </div>
                                     <div onClick={marketButtonHandler}>
                                         {marketsIsOpen
-                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} /> 
                                             : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                         }
                                     </div>
@@ -160,8 +166,33 @@ const Header = () => {
 
                 {/* Desktop  - notification and account */}
                 <div className="hidden lg:flex lg:items-center lg:!ml-auto lg:gap-4">
+                    <button>
                     <NotificationsNoneIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
-                    <AccountCircleIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+                    </button>
+                    <div className="relative">
+                        <button>
+                        <AccountCircleIcon onClick={accountButtonHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+                        </button>
+                        {accountIsOpen &&
+                            <Paper sx={{
+                                position:'absolute',
+                                width:60,
+                                textAlign:'center',
+                                top:36,
+                                right:-15,
+                                
+                            }}>
+                                <MenuList>
+                                    <li className="py-2">
+                                        <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                    </li>
+                                    <li className="py-2">
+                                        <Link href="/nft" className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                    </li>
+                                </MenuList>
+                            </Paper>
+                        }
+                    </div>
                 </div>
             </div>
         </header >
