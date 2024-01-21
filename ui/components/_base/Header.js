@@ -1,7 +1,8 @@
+import * as React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/router'
-import {useRef} from "react"
+import { useRef } from "react"
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -18,8 +19,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import * as React from 'react';
 import { MenuList, Paper } from '@mui/material';
+
 import useOnClickOutside from '../../hooks/clickOutsideHook';
 
 const Header = () => {
@@ -148,7 +149,7 @@ const Header = () => {
                                     </div>
                                     <div onClick={marketButtonHandlerMobile}>
                                         {marketsIsOpenMobile
-                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} /> 
+                                            ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                             : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                         }
                                     </div>
@@ -178,20 +179,19 @@ const Header = () => {
                 {/* Desktop  - notification and account */}
                 <div className="hidden lg:flex lg:items-center lg:!ml-auto lg:gap-4">
                     <button>
-                    <NotificationsNoneIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+                        <NotificationsNoneIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
                     </button>
                     <div className="relative">
                         <button>
-                        <AccountCircleIcon onClick={accountButtonHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+                            <AccountCircleIcon onClick={accountButtonHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
                         </button>
                         {accountIsOpen &&
                             <Paper ref={accountMenuWrapperRef} sx={{
-                                position:'absolute',
-                                width:80,
-                                textAlign:'center',
-                                top:36,
-                                right:-25,
-                                
+                                position: 'absolute',
+                                width: 80,
+                                textAlign: 'center',
+                                top: 36,
+                                right: -25,
                             }}>
                                 <MenuList>
                                     <li className="py-2">
