@@ -68,22 +68,22 @@ const Header = () => {
                 <nav>
                     {/* Desktop - links */}
                     <ul className="hidden lg:flex lg:items-center lg:space-x-4">
-                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
                             <div className="relative flex gap-[0.8rem] items-center">
                                 <Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
                             </div>
                         </li>
-                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/feed' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/feed' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
                             <div className="relative flex gap-[0.8rem] items-center">
                                 <Link href="/feed" className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
                             </div>
                         </li>
-                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${path === '/library' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/library' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
                             <div className="relative flex gap-[0.8rem] items-center">
                                 <Link href="/library" className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
                             </div>
                         </li>
-                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
                             <div className="flex justify-between">
                                 <div className="relative flex gap-[0.8rem] items-center">
                                     <button className="text-mobile-menu-grey">Markets</button>
