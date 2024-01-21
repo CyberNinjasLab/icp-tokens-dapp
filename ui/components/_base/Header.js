@@ -99,10 +99,10 @@ const Header = () => {
                                     <Paper ref={marketsMenuWrapperRef}>
                                         <MenuList>
                                             <li className="py-2">
-                                                <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                                <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
                                             </li>
                                             <li className="py-2">
-                                                <Link href="/nft" className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                                <Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
                                             </li>
                                         </MenuList>
                                     </Paper>
@@ -157,10 +157,10 @@ const Header = () => {
                             {marketsIsOpenMobile &&
                                 <div className="mx-4">
                                     <li className="mb-4 py-2">
-                                        <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                        <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
                                     </li>
                                     <li className="mb-4 py-2">
-                                        <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                        <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
                                     </li>
                                 </div>
                             }
@@ -187,18 +187,21 @@ const Header = () => {
                         {accountIsOpen &&
                             <Paper ref={accountMenuWrapperRef} sx={{
                                 position:'absolute',
-                                width:60,
+                                width:80,
                                 textAlign:'center',
                                 top:36,
-                                right:-15,
+                                right:-25,
                                 
                             }}>
                                 <MenuList>
                                     <li className="py-2">
-                                        <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
+                                        <Link href="/profile" className={`${path === '/profile' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Profile</Link>
                                     </li>
                                     <li className="py-2">
-                                        <Link href="/nft" className={`${path === '/nft' && "text-active-link-green"}`}>NFT</Link>
+                                        <Link href="/account-settings" className={`${path === '/accout-settings' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Settings</Link>
+                                    </li>
+                                    <li className="py-2">
+                                        <Link href="/logout" className="text-mobile-menu-grey">Logout</Link>
                                     </li>
                                 </MenuList>
                             </Paper>
