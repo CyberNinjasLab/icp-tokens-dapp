@@ -20,15 +20,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import * as React from 'react';
 import { MenuList, Paper } from '@mui/material';
+import useOnClickOutside from '../../hooks/clickOutsideHook';
 
 const Header = () => {
-    const wrapperRef = useRef("menu");
+    const marketsMenuWrapperRef = useRef(null);
+    const accountMenuWrapperRef = useRef(null);
+
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
     const [marketsIsOpen, setmarketsIsOpen] = useState(false);
     const [accountIsOpen, setAccountIsOpen] = useState(false);
-
-
+    useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpen(false));
+    useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
     const hamburgerMenuHandler = () => {
         setHamburgerIsOpen(!hamburgerIsOpen);
@@ -41,11 +44,6 @@ const Header = () => {
     const accountButtonHandler = () => {
         setAccountIsOpen(!accountIsOpen);
     };
-
-    
-
-    
-
 
     return (
         <header className="border-b border-solid py-4 px-4 overflow-visible lg:px-8">
@@ -93,7 +91,7 @@ const Header = () => {
                             </div>
                             {marketsIsOpen &&
                                 <div className="lg:absolute lg:top-9 lg:w-[60px] lg:text-center">
-                                    <Paper>
+                                    <Paper ref={marketsMenuWrapperRef}>
                                         <MenuList>
                                             <li className="py-2">
                                                 <Link href="/dex" className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
@@ -182,7 +180,7 @@ const Header = () => {
                         <AccountCircleIcon onClick={accountButtonHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
                         </button>
                         {accountIsOpen &&
-                            <Paper sx={{
+                            <Paper ref={accountMenuWrapperRef} sx={{
                                 position:'absolute',
                                 width:60,
                                 textAlign:'center',
