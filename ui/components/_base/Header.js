@@ -28,17 +28,22 @@ const Header = () => {
 
     const path = useRouter().route;
     const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
-    const [marketsIsOpen, setmarketsIsOpen] = useState(false);
+    const [marketsIsOpenMobile, setmarketsIsOpenMobile] = useState(false);
+    const [marketsIsOpenDesktop, setmarketsIsOpenDesktop] = useState(false);
     const [accountIsOpen, setAccountIsOpen] = useState(false);
-    useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpen(false));
+    useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
     useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
     const hamburgerMenuHandler = () => {
         setHamburgerIsOpen(!hamburgerIsOpen);
     };
 
-    const marketButtonHandler = () => {
-        setmarketsIsOpen(!marketsIsOpen);
+    const marketButtonHandlerMobile = () => {
+        setmarketsIsOpenMobile(!marketsIsOpenMobile);
+    };
+
+    const marketButtonHandlerDesktop = () => {
+        setmarketsIsOpenDesktop(!marketsIsOpenDesktop);
     };
 
     const accountButtonHandler = () => {
@@ -82,14 +87,14 @@ const Header = () => {
                                 <div className="relative flex gap-[0.8rem] items-center">
                                     <button className="text-mobile-menu-grey">Markets</button>
                                 </div>
-                                <div onClick={marketButtonHandler}>
-                                    {marketsIsOpen
+                                <div onClick={marketButtonHandlerDesktop}>
+                                    {marketsIsOpenDesktop
                                         ? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
                                         : <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
                                     }
                                 </div>
                             </div>
-                            {marketsIsOpen &&
+                            {marketsIsOpenDesktop &&
                                 <div className="lg:absolute lg:top-9 lg:w-[60px] lg:text-center">
                                     <Paper ref={marketsMenuWrapperRef}>
                                         <MenuList>
@@ -141,15 +146,15 @@ const Header = () => {
                                         <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
                                         <button className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
                                     </div>
-                                    <div onClick={marketButtonHandler}>
-                                        {marketsIsOpen
+                                    <div onClick={marketButtonHandlerMobile}>
+                                        {marketsIsOpenMobile
                                             ? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} /> 
                                             : <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
                                         }
                                     </div>
                                 </div>
                             </li>
-                            {(marketsIsOpen) &&
+                            {marketsIsOpenMobile &&
                                 <div className="mx-4">
                                     <li className="mb-4 py-2">
                                         <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' && "text-active-link-green"}`}>DEX</Link>
