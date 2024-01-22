@@ -52,9 +52,9 @@ const Header = () => {
 	};
 
 	const navLinks = [
-		{ href: '/currencies', label: 'Cryptocurrencies' },
-		{ href: '/feed', label: 'Feed' },
-		{ href: '/library', label: 'Library' },
+		{ href: '/currencies', label: 'Cryptocurrencies',icon:<AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />},
+		{ href: '/feed', label: 'Feed', icon:<FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
+		{ href: '/library', label: 'Library',icon:<MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
 		// Add more links as needed
 	];
 
@@ -126,24 +126,14 @@ const Header = () => {
 					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-8 absolute  z-[100] top-14 left-0 bg-white w-full top-16 fixed h-[calc(100%-68px)] shadow-xl`} >
 						<ul className="overflow-y-scroll pb-15">
 							{/* Before Element For Active Link */}
-							<li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+							{navLinks.map(link =>
+							<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
 								<div className="relative flex gap-[0.8rem] items-center">
-									<AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
-									<Link href="/currencies" onClick={hamburgerMenuHandler} className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Cryptocurrencies</Link>
+									{link.icon}
+									<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
 								</div>
 							</li>
-							<li className={`${path === '/feed' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
-								<div className="relative flex gap-[0.8rem] items-center">
-									<FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
-									<Link href="/feed" onClick={hamburgerMenuHandler} className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Feed</Link>
-								</div>
-							</li>
-							<li className={`${path === '/library' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
-								<div className="relative flex gap-[0.8rem] items-center">
-									<MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
-									<Link href="/library" onClick={hamburgerMenuHandler} className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Library</Link>
-								</div>
-							</li>
+							)}
 							<li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
 								<div className="flex justify-between">
 									<div className="relative flex gap-[0.8rem] items-center">
