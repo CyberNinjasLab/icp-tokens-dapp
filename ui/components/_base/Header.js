@@ -64,43 +64,32 @@ const Header = () => {
 				<div className="flex items-center space-x-4">
 					{/* Use Link without <a> */}
 					<Link href="/">
-						<span className="flex items-center space-x-4 cursor-pointer">
+						<span className="relative bottom-px flex items-center space-x-4 cursor-pointer">
 							<img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
 							<span className="font-semibold uppercase tracking-wide">
 								ICP<span className="text-token-title-green">Tokens</span>
-							</span>
+							</span> 
 						</span>
 					</Link>
 				</div>
 				<nav>
-					{/* {navLinks.map(link => 
-                                <li key={link.href} className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
-                                    <div className="relative flex gap-[0.8rem] items-center">
-                                        <Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}  {path}   {link.href}</Link>
-                                    </div>
-                                </li>                          
-                        )} */}
-					{/* Desktop - links */}
 					<ul className="hidden lg:flex lg:items-center lg:space-x-4 lg:gap-4">
-						<li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
-							<div className="relative flex gap-[0.8rem] items-center">
-								<Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
-							</div>
-						</li>
-						<li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/feed' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
-							<div className="relative flex gap-[0.8rem] items-center">
-								<Link href="/feed" className={`${path === '/feed' && "text-active-link-green"} text-mobile-menu-grey`}>Feed</Link>
-							</div>
-						</li>
-						<li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/library' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
-							<div className="relative flex gap-[0.8rem] items-center">
-								<Link href="/library" className={`${path === '/library' && "text-active-link-green"} text-mobile-menu-grey`}>Library</Link>
-							</div>
-						</li>
-						<li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+						{/* Desktop - links */}
+						{navLinks.map(link =>
+							<li key={link.href} className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
+							 after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent
+							  after:transition-all after:duration-300 ${path === link.href && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+								<div className="relative flex gap-[0.8rem] items-center">
+									<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+								</div>
+							</li>
+						)}
+						<li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
+						after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300
+						  ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
 							<div className="flex justify-between">
 								<div className="relative flex gap-[0.8rem] items-center">
-									<button className="text-mobile-menu-grey">Markets</button>
+									<button className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
 								</div>
 								<div onClick={marketButtonHandlerDesktop}>
 									{marketsIsOpenDesktop
