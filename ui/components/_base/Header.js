@@ -51,6 +51,13 @@ const Header = () => {
         setAccountIsOpen(!accountIsOpen);
     };
 
+    const navLinks = [
+        { href: '/currencies', label: 'Cryptocurrencies' },
+        { href: '/feed', label: 'Feed' },
+        { href: '/library', label: 'Library' },
+        // Add more links as needed
+    ];
+
     return (
         <header className="border-b border-solid py-4 px-4 overflow-visible lg:px-8">
             <div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12">
@@ -66,9 +73,16 @@ const Header = () => {
                     </Link>
                 </div>
                 <nav>
+                    {/* {navLinks.map(link => 
+                                <li key={link.href} className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                                    <div className="relative flex gap-[0.8rem] items-center">
+                                        <Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}  {path}   {link.href}</Link>
+                                    </div>
+                                </li>                          
+                        )} */}
                     {/* Desktop - links */}
                     <ul className="hidden lg:flex lg:items-center lg:space-x-4">
-                        <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+                    <li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300 ${path === '/currencies' && "lg:after:w-full lg:after:bg-active-link-green"}`}>
                             <div className="relative flex gap-[0.8rem] items-center">
                                 <Link href="/currencies" className={`${path === '/currencies' && "text-active-link-green"} text-mobile-menu-grey`}>Cryptocurrencies</Link>
                             </div>
