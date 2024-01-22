@@ -134,8 +134,8 @@ const Header = () => {
 						}
 					</div>
 					{/* If hamburger-menu is clicked */}
-					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-8 absolute  z-[100] top-14 left-0 bg-white w-full h-[93%] shadow-xl`} >
-						<ul >
+					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-8 absolute  z-[100] top-14 left-0 bg-white w-full top-16 fixed h-[calc(100%-68px)] shadow-xl`} >
+						<ul className="overflow-y-scroll pb-15">
 							{/* Before Element For Active Link */}
 							<li className={`${path === '/currencies' && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
 								<div className="relative flex gap-[0.8rem] items-center">
@@ -181,7 +181,7 @@ const Header = () => {
 							}
 						</ul>
 						{/* If hamburger-menu is clicked social media will be showed */}
-						<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex justify-center gap-4 transition-visible ease-in-out delay-150 duration-300`}>
+						<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft absolute w-full bottom-0 left-0 py-4 bg-white' : 'invisible animate-fadeInRight'} flex justify-center gap-4 transition-visible ease-in-out delay-150 duration-300`}>
 							<TwitterIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
 							<FacebookRoundedIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
 							<InstagramIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
