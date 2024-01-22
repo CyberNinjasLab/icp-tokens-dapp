@@ -6,7 +6,28 @@ module.exports = {
     // Or if using `src` directory:
   ],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        'token-title-green': '#019a9a',
+        'active-link-green': '#019A9AFF',
+        'mobile-menu-grey': '#565D6DFF'
+      },
+
+      keyframes: {
+        fadeInLeft: {
+          '0%': { opacity: 0, transform: 'translateX(-200px)' },
+          '100%': { opacity: 1, transform: 'translateX(0px)' },
+        },
+        fadeInRight: {
+          '0%': { opacity: 1, transform: 'translateX(0)' },
+          '100%': { opacity: 0, transform: 'translateX(-200px)' },
+        }
+      },
+      animation: {
+        fadeInLeft: 'fadeInLeft 0.5s ease-in-out',
+        fadeInRight: 'fadeInRight 0.5s ease-in-out',
+      }
+    },
   },
   plugins: []
 };
