@@ -60,7 +60,7 @@ const Header = () => {
 
 	return (
 		<header className={`${hamburgerIsOpen && "fixed w-full bg-white"}`}>
-			<div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12    border-b border-solid py-4 px-4 overflow-visible lg:px-8">
+			<div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12 border-b border-solid px-4 py-4 lg:py-0 overflow-visible lg:px-8">
 				<div className="flex items-center space-x-4">
 					{/* Use Link without <a> */}
 					<Link href="/">
@@ -76,7 +76,7 @@ const Header = () => {
 					<ul className="hidden lg:flex lg:items-center lg:space-x-4 lg:gap-4">
 						{/* Desktop - links */}
 						{navLinks.map(link =>
-							<li key={link.href} className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
+							<li key={link.href} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
 							 after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent
 							  after:transition-all after:duration-300 ${path === link.href && "lg:after:w-full lg:after:bg-active-link-green"}`}>
 								<div className="relative flex gap-[0.8rem] items-center">
@@ -84,14 +84,14 @@ const Header = () => {
 								</div>
 							</li>
 						)}
-						<li className={`lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
+						<li onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)}  className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
 						after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300
 						  ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
 							<div className="flex justify-between">
 								<div className="relative flex gap-[0.8rem] items-center">
 									<button className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
 								</div>
-								<div onClick={marketButtonHandlerDesktop}>
+								<div>
 									{marketsIsOpenDesktop
 										? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
 										: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
@@ -99,7 +99,7 @@ const Header = () => {
 								</div>
 							</div>
 							{marketsIsOpenDesktop &&
-								<div className="lg:absolute lg:top-9 lg:w-[60px] lg:text-center">
+								<div className="lg:absolute lg:top-[50px] lg:w-[60px] lg:text-center">
 									<Paper ref={marketsMenuWrapperRef}>
 										<MenuList>
 											<li className="py-2">
