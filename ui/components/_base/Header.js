@@ -123,8 +123,8 @@ const Header = () => {
 						}
 					</div>
 					{/* If hamburger-menu is clicked */}
-					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-8 absolute  z-[100] top-14 left-0 bg-white w-full top-16 fixed h-[calc(100%-68px)] shadow-xl`} >
-						<ul className="overflow-y-scroll pb-15">
+					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-6  z-[100] left-0 bg-white w-full top-[70px] fixed h-[calc(100%-70px)] shadow-xl`} >
+						<ul className="overflow-y-scroll pb-16">
 							{/* Before Element For Active Link */}
 							{navLinks.map(link =>
 							<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
