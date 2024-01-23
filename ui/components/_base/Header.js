@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import { MenuList, Paper } from '@mui/material';
+import { MenuItem, MenuList, Paper } from '@mui/material';
 
 import useOnClickOutside from '../../hooks/clickOutsideHook';
 
@@ -98,10 +98,10 @@ const Header = () => {
 								<div className="lg:absolute lg:top-[50px] lg:w-[60px] lg:text-center">
 									<Paper ref={marketsMenuWrapperRef}>
 										<MenuList>
-											<li className="py-2">
+											<li className="py-2 hover:bg-background-hover-menu">
 												<Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
 											</li>
-											<li className="py-2">
+											<li className="py-2 hover:bg-background-hover-menu">
 												<Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
 											</li>
 										</MenuList>
@@ -183,13 +183,13 @@ const Header = () => {
 								right: -25,
 							}}>
 								<MenuList>
-									<li className="py-2">
+									<li className="py-2 hover:bg-background-hover-menu">
 										<Link href="/profile" className={`${path === '/profile' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Profile</Link>
 									</li>
-									<li className="py-2">
+									<li className="py-2 hover:bg-background-hover-menu">
 										<Link href="/account-settings" className={`${path === '/accout-settings' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Settings</Link>
 									</li>
-									<li className="py-2">
+									<li className="py-2 hover:bg-background-hover-menu">
 										<Link href="/logout" className="text-mobile-menu-grey">Logout</Link>
 									</li>
 								</MenuList>
