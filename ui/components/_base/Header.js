@@ -43,10 +43,6 @@ const Header = () => {
 		setmarketsIsOpenMobile(!marketsIsOpenMobile);
 	};
 
-	const marketButtonHandlerDesktop = () => {
-		setmarketsIsOpenDesktop(!marketsIsOpenDesktop);
-	};
-
 	const accountButtonHandler = () => {
 		setAccountIsOpen(!accountIsOpen);
 	};
