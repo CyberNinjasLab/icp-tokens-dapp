@@ -52,15 +52,15 @@ const Header = () => {
 	};
 
 	const navLinks = [
-		{ href: '/currencies', label: 'Cryptocurrencies',icon:<AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />},
-		{ href: '/feed', label: 'Feed', icon:<FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
-		{ href: '/library', label: 'Library',icon:<MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
+		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
+		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
+		{ href: '/library', label: 'Library', icon: <MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
 		// Add more links as needed
 	];
 
 	return (
-		<header className="border-b border-solid py-4 px-4 overflow-visible lg:px-8">
-			<div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12">
+		<header className={`${hamburgerIsOpen && "fixed w-full bg-white"}`}>
+			<div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12    border-b border-solid py-4 px-4 overflow-visible lg:px-8">
 				<div className="flex items-center space-x-4">
 					{/* Use Link without <a> */}
 					<Link href="/">
@@ -68,7 +68,7 @@ const Header = () => {
 							<img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
 							<span className="font-semibold uppercase tracking-wide">
 								ICP<span className="text-token-title-green">Tokens</span>
-							</span> 
+							</span>
 						</span>
 					</Link>
 				</div>
@@ -123,16 +123,16 @@ const Header = () => {
 						}
 					</div>
 					{/* If hamburger-menu is clicked */}
-					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-6  z-[100] left-0 bg-white w-full top-[70px] fixed h-[calc(100%-70px)] shadow-xl`} >
+					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-6  z-[100] left-0 bg-white w-full top-[68px] fixed h-[calc(100%-68px)] shadow-xl`} >
 						<ul className="overflow-y-scroll pb-16">
 							{/* Before Element For Active Link */}
 							{navLinks.map(link =>
-							<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
-								<div className="relative flex gap-[0.8rem] items-center">
-									{link.icon}
-									<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
-								</div>
-							</li>
+								<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+									<div className="relative flex gap-[0.8rem] items-center">
+										{link.icon}
+										<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+									</div>
+								</li>
 							)}
 							<li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
 								<div className="flex justify-between">
@@ -202,7 +202,7 @@ const Header = () => {
 					</div>
 				</div>
 			</div>
-		</header >
+		</header>
 	);
 };
 
