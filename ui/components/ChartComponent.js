@@ -1770,7 +1770,7 @@ const ChartComponent = ({ data, colors }) => {
     const toolTipMargin = 15;
 
     toolTip.style.cssText = `
-      height: 100px;
+      height: 120px;
       position: absolute;
       display: none;
       padding: 8px;
@@ -1808,12 +1808,19 @@ const ChartComponent = ({ data, colors }) => {
         const dateStr = param.time;
         toolTip.style.display = 'block';
         const data = param.seriesData.get(candleSeries);
+        console.log(data);
         const price = data?.value !== undefined ? data?.value : data?.close;
-        toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div><div style="font-size: 18px; margin: 4px 0px; color: black">
-          ${parseFloat(price).toFixed(8)}
-          </div><div style="color: black">
+        const high = data?.high !== undefined ? data?.high : 'No data.';
+        const low = data?.low !== undefined ? data?.low : 'No data.';
+        toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div>
+        <div style="font-size: 16px; margin: 4px 0px; color: black">
+          <p>${parseFloat(price).toFixed(8)}</p>
+          <p style="font-size: 11px">High: ${parseFloat(high).toFixed(8)}</p>
+          <p style="font-size: 11px">Low: ${parseFloat(low).toFixed(8)}</p>
+        </div>
+        <div style="color: black">
           ${dateStr}
-          </div>`;
+        </div>`;
 
         const y = param.point.y;
         let left = param.point.x + toolTipMargin;
