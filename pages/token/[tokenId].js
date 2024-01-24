@@ -29,8 +29,8 @@ const TokenPage = () => {
     <Layout>
       <div className="flex flex-col xl:flex-row gap-2">
         <div className="w-full">
-          <div className="flex items-center gap-1">
-            {/*<img src={testData[2].icon} alt="icp-icon" className="w-10" />*/}
+          <div className="flex items-center gap-2 mb-2">
+            <img src={`http://icptokens.net/storage/${tokenData.avatar}`} alt="icp-icon" className="w-10" />
             <Typography variant="h7">
               {tokenData?.name} ({tokenData?.symbol})
             </Typography>
