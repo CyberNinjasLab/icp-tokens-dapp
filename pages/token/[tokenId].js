@@ -30,12 +30,16 @@ const TokenPage = () => {
       <div className="flex flex-col xl:flex-row gap-2">
         <div className="w-full">
           <div className="flex items-center gap-2 mb-2">
-            <img src={`http://icptokens.net/storage/${tokenData.avatar}`} alt="icp-icon" className="w-10" />
+            <img
+              src={`http://icptokens.net/storage/${tokenData.avatar}`}
+              alt="icp-icon"
+              className="w-10"
+            />
             <Typography variant="h7">
               {tokenData?.name} ({tokenData?.symbol})
             </Typography>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center mb-2">
             <Typography variant="h8">
               {parseFloat(tokenData?.price).toFixed(8)} ICP
             </Typography>

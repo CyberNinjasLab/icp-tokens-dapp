@@ -1,6 +1,8 @@
 import { createChart } from 'lightweight-charts';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, ButtonGroup, IconButton, Tooltip } from '@mui/material';
+import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 
 const candleSeriesData = [
   {
@@ -1849,8 +1851,185 @@ const ChartComponent = ({ data, colors }) => {
     };
   };
 
+  const setupAreaChart = chartData => {
+    if (chartRef.current) {
+      chartRef.current.remove();
+    }
+
+    const chartOptions = {
+      layout: {
+        textColor,
+        background: { type: 'solid', color: backgroundColor }
+      },
+      height: 400,
+      autoSize: true
+    };
+
+    chartRef.current = createChart(chartContainerRef.current, chartOptions);
+
+    const areaSeries = chartRef.current.addAreaSeries({
+      lineColor: '#2962FF',
+      topColor: '#2962FF',
+      bottomColor: 'rgba(41, 98, 255, 0.28)'
+    });
+
+    console.log(chartData);
+    areaSeries.setData(chartData);
+
+    // const volumeSeries = chartRef.current.addHistogramSeries({
+    //   color: 'rgb(211,208,208)',
+    //   priceFormat: {
+    //     type: 'volume'
+    //   },
+    //   priceScaleId: '',
+    //   scaleMargins: {
+    //     top: 0.7,
+    //     bottom: 0
+    //   }
+    // });
+    //
+    // volumeSeries.priceScale().applyOptions({
+    //   scaleMargins: {
+    //     top: 0.7,
+    //     bottom: 0
+    //   }
+    // });
+    //
+    // volumeSeries.setData(volumeSeriesData);
+
+    chartRef.current.timeScale().fitContent();
+
+    const container = chartContainerRef.current;
+    const toolTip = document.createElement('div');
+    const toolTipWidth = 80;
+    const toolTipHeight = 80;
+    const toolTipMargin = 15;
+
+    toolTip.style.cssText = `
+      height: 120px;
+      position: absolute;
+      display: none;
+      padding: 8px;
+      box-sizing: border-box;
+      font-size: 12px;
+      text-align: left;
+      z-index: 1000;
+      top: 12px;
+      left: 12px;
+      pointer-events: none;
+      border: 1px solid;
+      border-radius: 2px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: white;
+      color: black;
+      border-color: #019A9AFF;
+    `;
+
+    container.appendChild(toolTip);
+    toolTipRef.current = toolTip;
+
+    const updateToolTip = (param, tokenName) => {
+      if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.x > container.clientWidth ||
+        param.point.y < 0 ||
+        param.point.y > container.clientHeight
+      ) {
+        toolTip.style.display = 'none';
+      } else {
+        const dateStr = param.time;
+        toolTip.style.display = 'block';
+        const data = param.seriesData.get(areaSeries);
+        console.log(data);
+        const price = data?.value !== undefined ? data?.value : data?.close;
+        const high = data?.high !== undefined ? data?.high : 'No data.';
+        const low = data?.low !== undefined ? data?.low : 'No data.';
+        toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div>
+        <div style="font-size: 16px; margin: 4px 0px; color: black">
+          <p>${parseFloat(price).toFixed(8)}</p>
+          <p style="font-size: 11px">High: ${parseFloat(high).toFixed(8)}</p>
+          <p style="font-size: 11px">Low: ${parseFloat(low).toFixed(8)}</p>
+        </div>
+        <div style="color: black">
+          ${dateStr}
+        </div>`;
+
+        const y = param.point.y;
+        let left = param.point.x + toolTipMargin;
+        if (left > container.clientWidth - toolTipWidth) {
+          left = param.point.x - toolTipMargin - toolTipWidth;
+        }
+
+        let top = y + toolTipMargin;
+        if (top > container.clientHeight - toolTipHeight) {
+          top = y - toolTipHeight - toolTipMargin;
+        }
+        toolTip.style.left = left + 'px';
+        toolTip.style.top = top + 'px';
+      }
+    };
+
+    const crosshairMoveHandler = param => {
+      console.log(param);
+      updateToolTip(param, data?.symbol);
+    };
+
+    chartRef.current.subscribeCrosshairMove(crosshairMoveHandler);
+
+    return () => {
+      chartRef.current.unsubscribeCrosshairMove(crosshairMoveHandler);
+    };
+  };
+
   return (
     <div className="flex flex-col justify-center gap-4 max-w-6xl">
+      <div className="flex gap-1">
+        <Tooltip title="Area Chart">
+          <IconButton
+            color="primary"
+            onClick={() => {
+              const areaData = data.chart_prices.map(el => {
+                return {
+                  time: Date.parse(el.date),
+                  value: parseFloat(el.close),
+                  high: parseFloat(el.high),
+                  low: parseFloat(el.low)
+                };
+              });
+              setupAreaChart(areaData);
+            }}
+            className="cursor-pointer"
+          >
+            <ShowChartIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Candle Chart">
+          <IconButton
+            color="primary"
+            onClick={() => {
+              if (chartRef.current) {
+                chartRef.current.remove();
+              }
+              const chartData = data?.chart_prices.map(el => ({
+                time: el.date,
+                open: parseFloat(el.open),
+                high: parseFloat(el.high),
+                low: parseFloat(el.low),
+                close: parseFloat(el.close)
+              }));
+
+              setupChart(chartData);
+            }}
+            className="cursor-pointer"
+          >
+            <CandlestickChartIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
       <div ref={chartContainerRef} />
       <ButtonGroup
         onClick={value => {
