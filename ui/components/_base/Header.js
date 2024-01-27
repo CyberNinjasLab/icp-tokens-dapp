@@ -18,8 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
-import { MenuItem, MenuList, Paper } from '@mui/material';
+import { MenuList, Paper } from '@mui/material';
 
 import useOnClickOutside from '../../hooks/clickOutsideHook';
 
@@ -48,15 +47,33 @@ const Header = () => {
 	};
 
 	const navLinks = [
-		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
-		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
-		{ href: '/library', label: 'Library', icon: <MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" /> },
+		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
+		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
+		{ href: '/library', label: 'Library', icon: <MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
+		{
+			href: '/markets', label: 'Markets', icon: <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
+			children: [
+				{
+					href: '/dex', label: 'DEX', item: <li className="py-2 hover:bg-background-hover-menu">
+						<Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					</li>
+					, mobileItem: <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+				},
+				{
+					href: '/nft', label: 'NFT', item: <li className="py-2 hover:bg-background-hover-menu">
+						<Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					</li>,
+					mobileItem: <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+				}
+			],
+			isMenuButton: true
+		}
 		// Add more links as needed
 	];
 
 	return (
-		<header className={`${hamburgerIsOpen && "fixed w-full bg-white"}`}>
-			<div className="flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12 border-b border-solid px-4 py-4 lg:py-0 overflow-visible lg:px-8">
+		<header className="z-[100] fixed w-full bg-white">
+			<div className="w-full bg-white fixed top-0 flex justify-between lg:justify-start items-center lg:flex-start lg:space-x-12 border-b border-solid px-4 py-4 lg:py-0 overflow-visible lg:px-8">
 				<div className="flex items-center space-x-4">
 					{/* Use Link without <a> */}
 					<Link href="/">
@@ -72,43 +89,39 @@ const Header = () => {
 					<ul className="hidden lg:flex lg:items-center lg:space-x-4 lg:gap-4">
 						{/* Desktop - links */}
 						{navLinks.map(link =>
-							<li key={link.href} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
+							link.isMenuButton != true
+								?
+								<li key={link.href} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
 							 after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent
 							  after:transition-all after:duration-300 ${path === link.href && "lg:after:w-full lg:after:bg-active-link-green"}`}>
-								<div className="relative flex gap-[0.8rem] items-center">
-									<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
-								</div>
-							</li>
-						)}
-						<li onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)}  className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
+									<div className="relative flex gap-[0.8rem] items-center">
+										<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+									</div>
+								</li>
+								:
+								<li key={link.href} onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
 						after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300
-						  ${(path === '/dex' || path === '/nft') && "lg:after:w-full lg:after:bg-active-link-green"}`}>
-							<div className="flex justify-between">
-								<div className="relative flex gap-[0.8rem] items-center">
-									<button className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
-								</div>
-								<div>
-									{marketsIsOpenDesktop
-										? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
-										: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 24, position: 'absolute' }} />
+						  ${(path === link.children[0].href || path === link.children[1].href) && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+									<div className="flex justify-between">
+										<div className="relative flex gap-[0.8rem] items-center">
+											<button className={`${(path === link.children[0].href || path === link.children[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
+										</div>
+										<div>
+										</div>
+									</div>
+									{marketsIsOpenDesktop &&
+										<div className="lg:absolute lg:top-[50px] lg:w-[60px] lg:text-center lg:z-50">
+											<Paper ref={marketsMenuWrapperRef}>
+												<MenuList>
+													{link.children.map(sublink => (
+														sublink.item
+													))}
+												</MenuList>
+											</Paper>
+										</div>
 									}
-								</div>
-							</div>
-							{marketsIsOpenDesktop &&
-								<div className="lg:absolute lg:top-[50px] lg:w-[60px] lg:text-center">
-									<Paper ref={marketsMenuWrapperRef}>
-										<MenuList>
-											<li className="py-2 hover:bg-background-hover-menu">
-												<Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
-											</li>
-											<li className="py-2 hover:bg-background-hover-menu">
-												<Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-											</li>
-										</MenuList>
-									</Paper>
-								</div>
-							}
-						</li>
+								</li>
+						)}
 					</ul>
 
 					{/* Mobile */}
@@ -119,41 +132,45 @@ const Header = () => {
 						}
 					</div>
 					{/* If hamburger-menu is clicked */}
-					<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-6  z-[100] left-0 bg-white w-full top-[68px] fixed h-[calc(100%-68px)] shadow-xl`} >
-						<ul className="overflow-y-scroll pb-16">
+					<div className={`z-[100] ${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-6   left-0 bg-white w-full top-[68px] fixed h-[calc(100%-68px)] shadow-xl`} >
+						<ul className="pb-16">
 							{/* Before Element For Active Link */}
 							{navLinks.map(link =>
-								<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
-									<div className="relative flex gap-[0.8rem] items-center">
-										{link.icon}
-										<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
-									</div>
-								</li>
-							)}
-							<li className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
-								<div className="flex justify-between">
-									<div className="relative flex gap-[0.8rem] items-center">
-										<SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />
-										<button className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
-									</div>
-									<div onClick={marketButtonHandlerMobile}>
-										{marketsIsOpenMobile
-											? <KeyboardArrowUpIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
-											: <KeyboardArrowDownIcon className="text-mobile-menu-grey" sx={{ fontSize: 35 }} />
+								link.isMenuButton != true
+									?
+									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+										<div className="relative flex gap-[0.8rem] items-center">
+											{link.icon}
+											<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+										</div>
+									</li>
+									:
+									<li key={link.href} className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+										<div className="flex justify-between mb-4">
+											<div className="relative flex gap-[0.8rem] items-center">
+												{link.icon}
+												<button className={`${(path === link.children[0].href || path === link.children[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
+											</div>
+											<div onClick={marketButtonHandlerMobile}>
+												{marketsIsOpenMobile
+													? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
+													: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
+												}
+											</div>
+										</div>
+
+										{marketsIsOpenMobile &&
+											<div className="mx-4">
+												{link.children.map(sublink => (
+													<li key={sublink.href} className="mb-2 py-2">
+														{sublink.mobileItem}
+													</li>
+												))}
+											</div>
 										}
-									</div>
-								</div>
-							</li>
-							{marketsIsOpenMobile &&
-								<div className="mx-4">
-									<li className="mb-4 py-2">
-										<Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
 									</li>
-									<li className="mb-4 py-2">
-										<Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-									</li>
-								</div>
-							}
+							)}
+
 						</ul>
 						{/* If hamburger-menu is clicked social media will be showed */}
 						<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft absolute w-full bottom-0 left-0 py-4 bg-white' : 'invisible animate-fadeInRight'} flex justify-center gap-4 transition-visible ease-in-out delay-150 duration-300`}>
@@ -199,6 +216,7 @@ const Header = () => {
 				</div>
 			</div>
 		</header>
+
 	);
 };
 
