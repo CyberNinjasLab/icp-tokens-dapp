@@ -30,12 +30,20 @@ const Header = () => {
 	const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
 	const [marketsIsOpenMobile, setmarketsIsOpenMobile] = useState(false);
 	const [marketsIsOpenDesktop, setmarketsIsOpenDesktop] = useState(false);
+	const [ffIsOpen, setFFIsOpen] = useState(false);
+	const [ffIsOpenMobile, setFFIsOpenMobile] = useState(false);
+
+
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
 	useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
 	useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
 	const hamburgerMenuHandler = () => {
 		setHamburgerIsOpen(!hamburgerIsOpen);
+	};
+
+	const ffButtonHandler = () => {
+		setFFIsOpenMobile(!ffIsOpenMobile);
 	};
 
 	const marketButtonHandlerMobile = () => {
@@ -46,30 +54,70 @@ const Header = () => {
 		setAccountIsOpen(!accountIsOpen);
 	};
 
+	//if you add dropdown li you should implement additionally events,isOpen,isMenuButton and children(in children item for mobile too) which are showed in the dropdown to elemens in navLinks
 	const navLinks = [
 		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
 		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
 		{ href: '/library', label: 'Library', icon: <MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
 		{
 			href: '/markets', label: 'Markets', icon: <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
+			//in children should add Link for mobile and for desktop
 			children: [
 				{
-					href: '/dex', label: 'DEX', item: <li className="py-2 hover:bg-background-hover-menu">
-						<Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
-					</li>
-					, mobileItem: <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					href: '/dex', label: 'DEX'
+					,item: <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					,mobileItem: <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
 				},
 				{
-					href: '/nft', label: 'NFT', item: <li className="py-2 hover:bg-background-hover-menu">
-						<Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-					</li>,
-					mobileItem: <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					href: '/nft', label: 'NFT'
+					,item:<Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					,mobileItem: <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
 				}
 			],
-			isMenuButton: true
+			isMenuButton: true,
+			events: {
+				mouseEnter: () => setmarketsIsOpenDesktop(true),
+				mouseLeave: () => setmarketsIsOpenDesktop(false),
+		
+			},
+			//for Mobile
+			mobile:{
+				buttonHandler: marketButtonHandlerMobile,
+				isMenuOpenMobile: marketsIsOpenMobile
+			},
+		
+			isOpen: marketsIsOpenDesktop
+		},
+		{
+			href: '/ff', label: 'FF', icon: <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
+			children: [
+				{
+					href: '/qwe', label: 'QWE35', item:<Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+					,mobileItem: <Link href="/qwe" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+				},
+				{
+					href: '/123', label: 'NFT3', item:<Link href="/nft" className={`${path === '/123' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					,mobileItem: <Link href="/123" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+				},
+				{
+					href: '/788', label: 'NFT3', item:<Link href="/nft" className={`${path === '/788' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
+					mobileItem: <Link href="/788" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
+				}
+			],
+			isMenuButton: true,
+			events: {
+				mouseEnter: () => setFFIsOpen(true),
+				mouseLeave: () => setFFIsOpen(false),
+			},
+			isOpen: ffIsOpen,
+			mobile:{
+				buttonHandler: ffButtonHandler,
+				isMenuOpenMobile: ffIsOpenMobile
+			}
 		}
 		// Add more links as needed
 	];
+	// let e = onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)};
 
 	return (
 		<header className="z-[100] fixed w-full bg-white">
@@ -91,6 +139,7 @@ const Header = () => {
 						{navLinks.map(link =>
 							link.isMenuButton != true
 								?
+								// link li
 								<li key={link.href} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
 							 after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent
 							  after:transition-all after:duration-300 ${path === link.href && "lg:after:w-full lg:after:bg-active-link-green"}`}>
@@ -99,22 +148,25 @@ const Header = () => {
 									</div>
 								</li>
 								:
-								<li key={link.href} onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
+								// dropdown menu li
+								<li key={link.href} onMouseEnter={link.events.mouseEnter} onMouseLeave={link.events.mouseLeave} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
 						after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300
 						  ${(path === link.children[0].href || path === link.children[1].href) && "lg:after:w-full lg:after:bg-active-link-green"}`}>
 									<div className="flex justify-between">
 										<div className="relative flex gap-[0.8rem] items-center">
-											<button className={`${(path === link.children[0].href || path === link.children[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
+											<button className={`${(path === link.children[0].href || path === link.children[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 										</div>
 										<div>
 										</div>
 									</div>
-									{marketsIsOpenDesktop &&
+									{link.isOpen &&
 										<div className="lg:absolute lg:top-[50px] lg:w-[60px] lg:text-center lg:z-50">
 											<Paper ref={marketsMenuWrapperRef}>
 												<MenuList>
 													{link.children.map(sublink => (
-														sublink.item
+														<li key={sublink.href} className="py-2 hover:bg-background-hover-menu">
+															{sublink.item}
+														</li>
 													))}
 												</MenuList>
 											</Paper>
@@ -145,21 +197,21 @@ const Header = () => {
 										</div>
 									</li>
 									:
-									<li key={link.href} className={`${(path === '/dex' || path === '/nft') && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+									<li key={link.href} className={`${(path === link.children[0].href || path === link.children[1].href) && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
 										<div className="flex justify-between mb-4">
 											<div className="relative flex gap-[0.8rem] items-center">
 												{link.icon}
-												<button className={`${(path === link.children[0].href || path === link.children[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Markets</button>
+												<button className={`${(path === link.children[0].href || path === link.children[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 											</div>
-											<div onClick={marketButtonHandlerMobile}>
-												{marketsIsOpenMobile
+											<div onClick={link.mobile.buttonHandler}>
+												{link.mobile.isMenuOpenMobile
 													? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
 													: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
 												}
 											</div>
 										</div>
 
-										{marketsIsOpenMobile &&
+										{link.mobile.isMenuOpenMobile &&
 											<div className="mx-4">
 												{link.children.map(sublink => (
 													<li key={sublink.href} className="mb-2 py-2">
