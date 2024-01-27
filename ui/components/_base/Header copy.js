@@ -89,7 +89,6 @@ const Header = () => {
 				buttonHandler: marketButtonHandlerMobile,
 				isMenuOpenMobile: marketsIsOpenMobile
 			},
-		
 		},
 		{
 			href: '/ff', label: 'FF', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,

@@ -35,7 +35,6 @@ const Header = () => {
 	const [ff2IsOpen, setFF2IsOpen] = useState(false);
 	const [ff2IsOpenMobile, setFF2IsOpenMobile] = useState(false);
 
-
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
 	useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
 	useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
