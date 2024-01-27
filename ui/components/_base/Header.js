@@ -32,6 +32,8 @@ const Header = () => {
 	const [marketsIsOpenDesktop, setmarketsIsOpenDesktop] = useState(false);
 	const [ffIsOpen, setFFIsOpen] = useState(false);
 	const [ffIsOpenMobile, setFFIsOpenMobile] = useState(false);
+	const [ff2IsOpen, setFF2IsOpen] = useState(false);
+	const [ff2IsOpenMobile, setFF2IsOpenMobile] = useState(false);
 
 
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
@@ -44,6 +46,10 @@ const Header = () => {
 
 	const ffButtonHandler = () => {
 		setFFIsOpenMobile(!ffIsOpenMobile);
+	};
+
+	const ffButtonHandle2 = () => {
+		setFF2IsOpen(!ff2IsOpen);
 	};
 
 	const marketButtonHandlerMobile = () => {
@@ -66,90 +72,90 @@ const Header = () => {
 			dropdownMenuItems: [
 				{
 					href: '/dex', label: 'DEX'
-					,item: <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
-					,mobileItem: <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					, item: <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					, mobileItem: <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
 				},
 				{
 					href: '/nft', label: 'NFT'
-					,item:<Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-					,mobileItem: <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					, item: <Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					, mobileItem: <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
 				}
 			],
-			desktop:{
+			desktop: {
 				events: {
 					mouseEnter: () => setmarketsIsOpenDesktop(true),
 					mouseLeave: () => setmarketsIsOpenDesktop(false),
-			
+
 				},
-			isMenuOpenDesktop: marketsIsOpenDesktop
+				isMenuOpenDesktop: marketsIsOpenDesktop
 
 			},
 			//for Mobile
-			mobile:{
+			mobile: {
 				buttonHandler: marketButtonHandlerMobile,
 				isMenuOpenMobile: marketsIsOpenMobile
 			},
 		},
 		{
-			href: '/ff', label: 'FF', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
+			href: '/ff', label: 'FFFFFF', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
 			dropdownMenuItems: [
 				{
-					href: '/qwe', label: 'QWE35', item:<Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
-					,mobileItem: <Link href="/qwe" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+					href: '/qwe', label: 'QWE35', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+					, mobileItem: <Link href="/qwe" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
 				},
 				{
-					href: '/nf3', label: 'NFT3', item:<Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					,mobileItem: <Link href="/nf3" onClick={hamburgerMenuHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					, mobileItem: <Link href="/nf3" onClick={hamburgerMenuHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
 				},
 				{
-					href: '/test35', label: 'TEST35', item:<Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
+					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
 					mobileItem: <Link href="/test35" onClick={hamburgerMenuHandler} className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
 				}
 			],
 			isMenuButton: true,
-			desktop:{
+			desktop: {
 				events: {
 					mouseEnter: () => setFFIsOpen(true),
 					mouseLeave: () => setFFIsOpen(false),
 				},
 				isMenuOpenDesktop: ffIsOpen,
 			},
-			mobile:{
+			mobile: {
 				buttonHandler: ffButtonHandler,
 				isMenuOpenMobile: ffIsOpenMobile
 			}
 		},
 		{
-			href: '/ff', label: 'FF', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
+			href: '/f123321', label: 'FFFFF123', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
 			dropdownMenuItems: [
 				{
-					href: '/qwe', label: 'QWE35', item:<Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
-					,mobileItem: <Link href="/qwe" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+					href: '/f123321', label: 'QWE35123321', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
+					, mobileItem: <Link href="/f123321" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
 				},
 				{
-					href: '/nf3', label: 'NFT3', item:<Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					,mobileItem: <Link href="/nf3" onClick={hamburgerMenuHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					, mobileItem: <Link href="/nf3" onClick={hamburgerMenuHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
 				},
 				{
-					href: '/test35', label: 'TEST35', item:<Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
+					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
 					mobileItem: <Link href="/test35" onClick={hamburgerMenuHandler} className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
 				}
 			],
 			isMenuButton: true,
-			desktop:{
+			desktop: {
 				events: {
-					mouseEnter: () => setFFIsOpen(true),
-					mouseLeave: () => setFFIsOpen(false),
+					mouseEnter: () => setFF2IsOpen(true),
+					mouseLeave: () => setFF2IsOpen(false),
 				},
-				isMenuOpenDesktop: ffIsOpen,
+				isMenuOpenDesktop: ff2IsOpen,
 			},
-			mobile:{
-				buttonHandler: ffButtonHandler,
-				isMenuOpenMobile: ffIsOpenMobile
+			mobile: {
+				buttonHandler: ffButtonHandle2,
+				isMenuOpenMobile: ff2IsOpenMobile
 			}
 		}
-		
-		// Add more links as needed
+
+		// Add more links if needed
 	];
 	// let e = onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)};
 
@@ -184,22 +190,22 @@ const Header = () => {
 								:
 
 								// dropdown menu li
-								<li key={link.href} onMouseEnter={link.desktop.events.mouseEnter} onMouseLeave={link.desktop.events.mouseLeave} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
+								<li key={link.href} onMouseEnter={link.desktop.events.mouseEnter} onMouseLeave={link.desktop.events.mouseLeave} className={`lg:flex lg:flex-col lg:items-center lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
 						after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300
-						  ${(link.dropdownMenuItems.some(item => path===item.href)) && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+						  ${(link.dropdownMenuItems.some(item => path === item.href)) && "lg:after:w-full lg:after:bg-active-link-green"}`}>
 									<div className="flex justify-between">
 										<div className="relative flex gap-[0.8rem] items-center">
-											<button className={`${(link.dropdownMenuItems.some(item => path===item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
+											<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 										</div>
 										<div>
 										</div>
 									</div>
-									{link.desktop.isMenuOpenDesktop &&
-										<div className="lg:absolute lg:top-[50px] lg:w-[60px] lg:text-center lg:z-50">
+									{  link.desktop.isMenuOpenDesktop &&
+										<div className="lg:absolute lg:text-center lg:z-50 top-14">
 											<Paper ref={marketsMenuWrapperRef}>
 												<MenuList>
 													{link.dropdownMenuItems.map(sublink => (
-														<li key={sublink.href} className="py-2 hover:bg-background-hover-menu">
+														<li key={sublink.href} className="lg:px-4 py-3 hover:bg-background-hover-menu">
 															{sublink.item}
 														</li>
 													))}
@@ -219,24 +225,24 @@ const Header = () => {
 						}
 					</div>
 					{/* If hamburger-menu is clicked */}
-					<div className={`z-[100] ${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 px-4 py-6   left-0 bg-white w-full top-[68px] fixed h-[calc(100%-68px)] shadow-xl`} >
+					<div className={`z-[100] ${hamburgerIsOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 py-6 left-0 bg-white w-full top-[68px] fixed h-[calc(100%-68px)] shadow-xl`} >
 						<ul className="pb-16 overflow-y-scroll">
 							{/* Before Element For Active Link */}
 							{navLinks.map(link =>
 								link.isMenuButton != true
 									?
-									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 px-4 py-2`}>
 										<div className="relative flex gap-[0.8rem] items-center">
 											{link.icon}
 											<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
 										</div>
 									</li>
 									:
-									<li key={link.href} className="relative mb-4 py-2">
+									<li key={link.href}  className="relative mb-4 py-2">
 										<div className="flex justify-between">
-											<div className={`${(link.dropdownMenuItems.some(item => path===item.href)) && "before:content-[''] before:absolute before:-left-4 before:h-[51px] before:border-l-4 before:border-solid before:border-active-link-green"} relative flex gap-[0.8rem] items-center`}>
+											<div className={`px-4 ${(link.dropdownMenuItems.some(item => path === item.href)) && " before:content-[''] before:absolute before:left-0 before:h-[51px] before:border-l-4 before:border-solid before:border-active-link-green"} relative flex gap-[0.8rem] items-center`}>
 												{link.icon}
-												<button className={`${(link.dropdownMenuItems.some(item => path===item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
+												<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 											</div>
 											<div onClick={link.mobile.buttonHandler}>
 												{link.mobile.isMenuOpenMobile
@@ -247,7 +253,7 @@ const Header = () => {
 										</div>
 
 										{link.mobile.isMenuOpenMobile &&
-											<div className="m-4">
+											<div className="m-4 px-4">
 												{link.dropdownMenuItems.map(sublink => (
 													<li key={sublink.href} className="mb-2 py-2">
 														{sublink.mobileItem}
