@@ -202,11 +202,11 @@ const Header = () => {
 										</div>
 									</li>
 									:
-									<li key={link.href} className={`${(path === link.dropdownMenuItems[0].href || path === link.dropdownMenuItems[1].href) && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
-										<div className="flex justify-between mb-4">
+									<li key={link.href} className={`${(link.dropdownMenuItems.some(item => path===item.href)) && "before:content-[''] before:absolute before:-left-4 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 py-2`}>
+										<div className="flex justify-between">
 											<div className="relative flex gap-[0.8rem] items-center">
 												{link.icon}
-												<button className={`${(path === link.dropdownMenuItems[0].href || path === link.dropdownMenuItems[1].href) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
+												<button className={`${(link.dropdownMenuItems.some(item => path===item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 											</div>
 											<div onClick={link.mobile.buttonHandler}>
 												{link.mobile.isMenuOpenMobile
@@ -217,7 +217,7 @@ const Header = () => {
 										</div>
 
 										{link.mobile.isMenuOpenMobile &&
-											<div className="mx-4">
+											<div className="m-4">
 												{link.dropdownMenuItems.map(sublink => (
 													<li key={sublink.href} className="mb-2 py-2">
 														{sublink.mobileItem}
