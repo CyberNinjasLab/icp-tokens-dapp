@@ -9,11 +9,10 @@ import { Typography } from '@mui/material';
 const style = {
   py: 0,
   width: '100%',
-  borderRadius: 2,
-  border: '1px solid',
-  borderColor: 'divider',
-  backgroundColor: 'background.paper',
-  maxWidth: '550px'
+  border: 'none'
+  // borderRadius: 2,
+  // border: '1px solid',
+  // borderColor: 'divider'
 };
 
 const questionMarkStyle = {
@@ -23,7 +22,7 @@ const questionMarkStyle = {
 
 export default function TokenDetailsInfo({ data }) {
   return (
-    <div style={{ maxWidth: style.maxWidth }}>
+    <div className="w-full max-w-sm m-auto">
       <List sx={style}>
         <ListItem>
           <div className="flex justify-between items-center w-full">
@@ -63,7 +62,14 @@ export default function TokenDetailsInfo({ data }) {
             <Typography>{data.total_supply}</Typography>
           </div>
         </ListItem>
-        <Divider variant="middle" component="li" />
+        <Divider variant="middle" component="li" className="hidden md:block" />
+        <ListItem>
+          <div className="hidden md:block">
+            <Typography variant="subtitle1">Description</Typography>
+            <Typography>{data.introduction}</Typography>
+          </div>
+        </ListItem>
+        <Divider variant="middle" component="li" className="hidden md:block" />
         <ListItem>
           <div className="hidden md:block">
             <Typography variant="subtitle1" className="mb-4">
@@ -72,6 +78,7 @@ export default function TokenDetailsInfo({ data }) {
             <div className="flex flex-wrap gap-2">
               {data.token_links.map(link => (
                 <a
+                  key={link.id}
                   href={link.link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -85,13 +92,6 @@ export default function TokenDetailsInfo({ data }) {
                 </a>
               ))}
             </div>
-          </div>
-        </ListItem>
-        <Divider variant="middle" component="li" />
-        <ListItem>
-          <div className="hidden md:block">
-            <Typography variant="subtitle1">Description</Typography>
-            <Typography>{data.introduction}</Typography>
           </div>
         </ListItem>
       </List>

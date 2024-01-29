@@ -3,6 +3,8 @@ import ChartComponent from '../../ui/components/ChartComponent';
 import Layout from '../../ui/components/_base/Layout';
 import TokenDetailsInfo from '../../ui/components/TokenDetailsInfo';
 import { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const TokenPage = () => {
   const router = useRouter();
@@ -25,15 +27,26 @@ const TokenPage = () => {
 
   return tokenData ? (
     <Layout>
-      <div className="xl:flex gap-2">
+      <div className="flex flex-col xl:flex-row gap-2">
         <div className="w-full">
-          <div className="flex items-center gap-1">
-            {/*<img src={testData[2].icon} alt="icp-icon" className="w-10" />*/}
-            <p>
+          <div className="flex items-center gap-2 mb-2">
+            <img
+              src={`http://icptokens.net/storage/${tokenData.avatar}`}
+              alt="icp-icon"
+              className="w-10"
+            />
+            <Typography variant="h7">
               {tokenData?.name} ({tokenData?.symbol})
-            </p>
+            </Typography>
           </div>
-          <h1 className="text-lg font-semibold">{tokenData?.price} ICP</h1>
+          <div className="flex gap-2 items-center mb-2">
+            <Typography variant="h8">
+              {parseFloat(tokenData?.price).toFixed(8)} ICP
+            </Typography>
+            <Typography color="primary">
+              <ArrowUpwardIcon fontSize="small" /> 2,45% (1d)
+            </Typography>
+          </div>
           <ChartComponent data={tokenData} />
         </div>
         <TokenDetailsInfo data={tokenData} />
