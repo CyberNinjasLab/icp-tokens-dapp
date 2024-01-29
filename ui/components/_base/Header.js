@@ -25,7 +25,6 @@ import useOnClickOutside from '../../hooks/clickOutsideHook';
 const Header = () => {
 	const marketsMenuWrapperRef = useRef(null);
 	const accountMenuWrapperRef = useRef(null);
-
 	const path = useRouter().route;
 	const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
 	const [marketsIsOpenMobile, setmarketsIsOpenMobile] = useState(false);
@@ -34,32 +33,38 @@ const Header = () => {
 	const [ffIsOpenMobile, setFFIsOpenMobile] = useState(false);
 	const [ff2IsOpen, setFF2IsOpen] = useState(false);
 	const [ff2IsOpenMobile, setFF2IsOpenMobile] = useState(false);
-
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
 	useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
 	useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
-	const hamburgerMenuHandler = () => {
+	//mobile menu open close
+	const hamburgerMenuHandler = (e) => {
+		console.log(e.target);
+		console.log(e.currentTarget);
+
 		setHamburgerIsOpen(!hamburgerIsOpen);
 	};
 
-	const ffButtonHandler = () => {
-		setFFIsOpenMobile(!ffIsOpenMobile);
-	};
-
-	const ffButtonHandle2 = () => {
-		setFF2IsOpen(!ff2IsOpen);
-	};
-
-	const marketButtonHandlerMobile = () => {
-		setmarketsIsOpenMobile(!marketsIsOpenMobile);
-	};
-
-	const accountButtonHandler = () => {
+	//desktop account menu open close
+	const accountButtonHandler = (e) => {
+		console.log(e.target);
+		console.log(e.currentTarget);
 		setAccountIsOpen(!accountIsOpen);
 	};
+	
+// for mobile dropdown open close
+	const mobileDropdownButtonHandler = (e) => {
+		console.log(e.currentTarget);
+		if (e.currentTarget.id === "Markets") {
+			setmarketsIsOpenMobile(!marketsIsOpenMobile);
+		}else if(e.currentTarget.id === "FFFFFF") {
+			setFFIsOpenMobile(!ffIsOpenMobile);
+		}else if(e.currentTarget.id === "FFFFF123") {
+			setFF2IsOpenMobile(!ff2IsOpenMobile);
+		}
+	};
 
-	//if you add dropdown li you should implement additionally for mobile: , for desktop:isMenuButton,events,isOpen and dropdownMenuItems(in dropdownMenuItems item for mobile too) which are showed in the dropdown to elemens in navLinks
+	//if you add dropdown li you should create state for each dropdown and implement additionally isMenuButton,dropdownMenuItems(for desktop and mobile) und for mobile:buttonHandler(implementt logic in mobileDropdownButtonHandler),isMenuOpenMobile , for desktop:isMenuOpenDesktop,events
 	const navLinks = [
 		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
 		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
@@ -87,11 +92,10 @@ const Header = () => {
 
 				},
 				isMenuOpenDesktop: marketsIsOpenDesktop
-
 			},
 			//for Mobile
 			mobile: {
-				buttonHandler: marketButtonHandlerMobile,
+				buttonHandler: mobileDropdownButtonHandler,
 				isMenuOpenMobile: marketsIsOpenMobile
 			},
 		},
@@ -120,7 +124,7 @@ const Header = () => {
 				isMenuOpenDesktop: ffIsOpen,
 			},
 			mobile: {
-				buttonHandler: ffButtonHandler,
+				buttonHandler: mobileDropdownButtonHandler,
 				isMenuOpenMobile: ffIsOpenMobile
 			}
 		},
@@ -149,14 +153,14 @@ const Header = () => {
 				isMenuOpenDesktop: ff2IsOpen,
 			},
 			mobile: {
-				buttonHandler: ffButtonHandle2,
+				buttonHandler: mobileDropdownButtonHandler,
 				isMenuOpenMobile: ff2IsOpenMobile
 			}
 		}
 
 		// Add more links if needed
 	];
-	// let e = onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)};
+
 
 	return (
 		<header className="z-[100] fixed w-full bg-white">
@@ -243,14 +247,13 @@ const Header = () => {
 												{link.icon}
 												<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 											</div>
-											<div onClick={link.mobile.buttonHandler}>
+											<div id={link.label} onClick={link.mobile.buttonHandler}>
 												{link.mobile.isMenuOpenMobile
 													? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
 													: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
 												}
 											</div>
 										</div>
-
 										{link.mobile.isMenuOpenMobile &&
 											<div className="m-4 px-4">
 												{link.dropdownMenuItems.map(sublink => (
@@ -308,7 +311,6 @@ const Header = () => {
 				</div>
 			</div>
 		</header>
-
 	);
 };
 
