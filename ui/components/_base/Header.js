@@ -37,21 +37,6 @@ const Header = () => {
 	useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
 	useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
-	//mobile menu open close
-	// const hamburgerMenuHandler = (e) => {
-	// 	console.log(e.target);
-	// 	console.log(e.currentTarget);
-
-	// 	setHamburgerIsOpen(!hamburgerIsOpen);
-	// };
-
-	//desktop account menu open close
-	// const accountButtonHandler = (e) => {
-	// 	console.log(e.target);
-	// 	console.log(e.currentTarget);
-	// 	setAccountIsOpen(!accountIsOpen);
-	// };
-	
 // for mobile dropdown open close
 	const toggleHandler = (e) => {
 		console.log(e.currentTarget);
@@ -83,12 +68,12 @@ const Header = () => {
 				{
 					href: '/dex', label: 'DEX'
 					, item: <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
-					, mobileItem: <Link href="/dex" onClick={toggleHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					, mobileItem: <Link href="/dex"  className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
 				},
 				{
 					href: '/nft', label: 'NFT'
 					, item: <Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-					, mobileItem: <Link href="/nft" onClick={toggleHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					, mobileItem: <Link href="/nft"  className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
 				}
 			],
 			desktop: {
@@ -110,15 +95,15 @@ const Header = () => {
 			dropdownMenuItems: [
 				{
 					href: '/qwe', label: 'QWE35', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
-					, mobileItem: <Link href="/qwe" onClick={toggleHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+					, mobileItem: <Link href="/qwe"  className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
 				},
 				{
 					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					, mobileItem: <Link href="/nf3" onClick={toggleHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					, mobileItem: <Link href="/nf3"  className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
 				},
 				{
 					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
-					mobileItem: <Link href="/test35" onClick={toggleHandler} className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
+					mobileItem: <Link href="/test35"  className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
 				}
 			],
 			isMenuButton: true,
@@ -139,15 +124,15 @@ const Header = () => {
 			dropdownMenuItems: [
 				{
 					href: '/f123321', label: 'QWE35123321', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
-					, mobileItem: <Link href="/f123321" onClick={toggleHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
+					, mobileItem: <Link href="/f123321"  className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
 				},
 				{
 					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					, mobileItem: <Link href="/nf3" onClick={toggleHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					, mobileItem: <Link href="/nf3"  className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
 				},
 				{
 					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
-					mobileItem: <Link href="/test35" onClick={toggleHandler} className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
+					mobileItem: <Link href="/test35"  className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
 				}
 			],
 			isMenuButton: true,
@@ -243,7 +228,7 @@ const Header = () => {
 									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 px-4 py-2`}>
 										<div className="relative flex gap-[0.8rem] items-center">
 											{link.icon}
-											<Link href={link.href} onClick={toggleHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+											<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
 										</div>
 									</li>
 									:
