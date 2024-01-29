@@ -55,7 +55,7 @@ const TokensLogoRenderer = ({ value, data }) => (
     {value && (
       <img
         alt={`${value} Logo`}
-        src={`/storage/${data.avatar}`}
+        src={`http://icptokens.net/storage/${data.avatar}`}
         className="block w-30 h-30 mr-2 brightness-110"
         style={{ width: '30px', height: '30px' }}
       />
