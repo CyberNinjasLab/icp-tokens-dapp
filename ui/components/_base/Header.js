@@ -34,10 +34,12 @@ const Header = () => {
 	const [ff2IsOpen, setFF2IsOpen] = useState(false);
 	const [ff2IsOpenMobile, setFF2IsOpenMobile] = useState(false);
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
+
+	//close if click outside
 	useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
 	useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
-// for mobile dropdown open close
+// for mobile dropdown,toggles open close
 	const toggleHandler = (e) => {
 		console.log(e.currentTarget);
 		if (e.currentTarget.id === "account-button") {
