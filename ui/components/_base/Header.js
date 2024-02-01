@@ -25,7 +25,6 @@ import useOnClickOutside from '../../hooks/clickOutsideHook';
 const Header = () => {
 	const marketsMenuWrapperRef = useRef(null);
 	const accountMenuWrapperRef = useRef(null);
-
 	const path = useRouter().route;
 	const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
 	const [marketsIsOpenMobile, setmarketsIsOpenMobile] = useState(false);
@@ -34,32 +33,31 @@ const Header = () => {
 	const [ffIsOpenMobile, setFFIsOpenMobile] = useState(false);
 	const [ff2IsOpen, setFF2IsOpen] = useState(false);
 	const [ff2IsOpenMobile, setFF2IsOpenMobile] = useState(false);
-
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
+
+	//close if click outside
 	useOnClickOutside(marketsMenuWrapperRef, () => setmarketsIsOpenDesktop(false));
 	useOnClickOutside(accountMenuWrapperRef, () => setAccountIsOpen(false));
 
-	const hamburgerMenuHandler = () => {
-		setHamburgerIsOpen(!hamburgerIsOpen);
+// for mobile dropdown,toggles open close
+	const toggleHandler = (e) => {
+		console.log(e.currentTarget);
+		if (e.currentTarget.id === "account-button") {
+			setAccountIsOpen(!accountIsOpen);
+		}
+		else if (e.currentTarget.id === "mobile-menu") {
+			setHamburgerIsOpen(!hamburgerIsOpen);
+		}
+		else if (e.currentTarget.id === "Markets") {
+			setmarketsIsOpenMobile(!marketsIsOpenMobile);
+		}else if(e.currentTarget.id === "FFFFFF") {
+			setFFIsOpenMobile(!ffIsOpenMobile);
+		}else if(e.currentTarget.id === "FFFFF123") {
+			setFF2IsOpenMobile(!ff2IsOpenMobile);
+		}
 	};
 
-	const ffButtonHandler = () => {
-		setFFIsOpenMobile(!ffIsOpenMobile);
-	};
-
-	const ffButtonHandle2 = () => {
-		setFF2IsOpen(!ff2IsOpen);
-	};
-
-	const marketButtonHandlerMobile = () => {
-		setmarketsIsOpenMobile(!marketsIsOpenMobile);
-	};
-
-	const accountButtonHandler = () => {
-		setAccountIsOpen(!accountIsOpen);
-	};
-
-	//if you add dropdown li you should implement additionally for mobile: , for desktop:isMenuButton,events,isOpen and dropdownMenuItems(in dropdownMenuItems item for mobile too) which are showed in the dropdown to elemens in navLinks
+	//if you add dropdown li you should create state for each dropdown and implement additionally isMenuButton,dropdownMenuItems(for desktop and mobile) und for mobile:buttonHandler(implementt logic in mobileDropdownButtonHandler),isMenuOpenMobile , for desktop:isMenuOpenDesktop,events
 	const navLinks = [
 		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
 		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
@@ -72,12 +70,12 @@ const Header = () => {
 				{
 					href: '/dex', label: 'DEX'
 					, item: <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
-					, mobileItem: <Link href="/dex" onClick={hamburgerMenuHandler} className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					, mobileItem: <Link href="/dex"  className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
 				},
 				{
 					href: '/nft', label: 'NFT'
 					, item: <Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-					, mobileItem: <Link href="/nft" onClick={hamburgerMenuHandler} className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					, mobileItem: <Link href="/nft"  className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
 				}
 			],
 			desktop: {
@@ -87,11 +85,10 @@ const Header = () => {
 
 				},
 				isMenuOpenDesktop: marketsIsOpenDesktop
-
 			},
 			//for Mobile
 			mobile: {
-				buttonHandler: marketButtonHandlerMobile,
+				buttonHandler: toggleHandler,
 				isMenuOpenMobile: marketsIsOpenMobile
 			},
 		},
@@ -100,15 +97,15 @@ const Header = () => {
 			dropdownMenuItems: [
 				{
 					href: '/qwe', label: 'QWE35', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
-					, mobileItem: <Link href="/qwe" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
+					, mobileItem: <Link href="/qwe"  className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
 				},
 				{
 					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					, mobileItem: <Link href="/nf3" onClick={hamburgerMenuHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					, mobileItem: <Link href="/nf3"  className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
 				},
 				{
 					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
-					mobileItem: <Link href="/test35" onClick={hamburgerMenuHandler} className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
+					mobileItem: <Link href="/test35"  className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
 				}
 			],
 			isMenuButton: true,
@@ -120,7 +117,7 @@ const Header = () => {
 				isMenuOpenDesktop: ffIsOpen,
 			},
 			mobile: {
-				buttonHandler: ffButtonHandler,
+				buttonHandler: toggleHandler,
 				isMenuOpenMobile: ffIsOpenMobile
 			}
 		},
@@ -129,15 +126,15 @@ const Header = () => {
 			dropdownMenuItems: [
 				{
 					href: '/f123321', label: 'QWE35123321', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
-					, mobileItem: <Link href="/f123321" onClick={hamburgerMenuHandler} className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
+					, mobileItem: <Link href="/f123321"  className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
 				},
 				{
 					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					, mobileItem: <Link href="/nf3" onClick={hamburgerMenuHandler} className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
+					, mobileItem: <Link href="/nf3"  className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
 				},
 				{
 					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
-					mobileItem: <Link href="/test35" onClick={hamburgerMenuHandler} className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
+					mobileItem: <Link href="/test35"  className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
 				}
 			],
 			isMenuButton: true,
@@ -149,14 +146,14 @@ const Header = () => {
 				isMenuOpenDesktop: ff2IsOpen,
 			},
 			mobile: {
-				buttonHandler: ffButtonHandle2,
+				buttonHandler: toggleHandler,
 				isMenuOpenMobile: ff2IsOpenMobile
 			}
 		}
 
 		// Add more links if needed
 	];
-	// let e = onMouseEnter={() => setmarketsIsOpenDesktop(true)} onMouseLeave={() => setmarketsIsOpenDesktop(false)};
+
 
 	return (
 		<header className="z-[100] fixed w-full bg-white">
@@ -217,7 +214,7 @@ const Header = () => {
 					</ul>
 
 					{/* Mobile */}
-					<div onClick={hamburgerMenuHandler} className="lg:hidden ">
+					<div id="mobile-menu" onClick={toggleHandler} className="lg:hidden ">
 						{hamburgerIsOpen
 							? <CloseIcon className="text-mobile-menu-grey" fontSize="large" />
 							: <MenuIcon className="text-mobile-menu-grey" fontSize="large" />
@@ -233,7 +230,7 @@ const Header = () => {
 									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 px-4 py-2`}>
 										<div className="relative flex gap-[0.8rem] items-center">
 											{link.icon}
-											<Link href={link.href} onClick={hamburgerMenuHandler} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+											<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
 										</div>
 									</li>
 									:
@@ -243,14 +240,13 @@ const Header = () => {
 												{link.icon}
 												<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
 											</div>
-											<div onClick={link.mobile.buttonHandler}>
+											<div id={link.label} onClick={link.mobile.buttonHandler}>
 												{link.mobile.isMenuOpenMobile
 													? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
 													: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
 												}
 											</div>
 										</div>
-
 										{link.mobile.isMenuOpenMobile &&
 											<div className="m-4 px-4">
 												{link.dropdownMenuItems.map(sublink => (
@@ -281,7 +277,7 @@ const Header = () => {
 					</button>
 					<div className="relative">
 						<button>
-							<AccountCircleIcon onClick={accountButtonHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+							<AccountCircleIcon id="account-button" onClick={toggleHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
 						</button>
 						{accountIsOpen &&
 							<Paper ref={accountMenuWrapperRef} sx={{
@@ -308,7 +304,6 @@ const Header = () => {
 				</div>
 			</div>
 		</header>
-
 	);
 };
 
