@@ -1,15 +1,10 @@
 
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Link, Typography } from '@mui/material';
+import {Card, CardContent, CardMedia, Link, Typography } from '@mui/material';
 import React from 'react';
-
-
-// const darkTheme = createTheme({ palette: { mode: 'dark' } });
-// const lightTheme = createTheme({ palette: { mode: 'light' } });
 
 const NewsCard = () => {
   return (
     <div>
-
       <Card sx={{
         maxWidth: 800, display: 'grid', gridTemplateColumns: { md: '1fr 2fr' },
         gap: 2,
@@ -65,7 +60,7 @@ const NewsCard = () => {
         <div className='max-h-[200px] m-auto'>
           <CardContent sx={{ padding: 1, '&:last-child': { pb: 1 } }}>
             <Link className="!no-underline" href={"https://gong.bg/"} target="_blank">
-              <Typography gutterBottom variant="h5" component="div" textDe>
+              <Typography gutterBottom variant="h5" component="div">
                 Chicken
               </Typography>
             </Link>
