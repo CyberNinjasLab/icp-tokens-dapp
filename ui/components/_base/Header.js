@@ -29,8 +29,8 @@ const Header = () => {
 	const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
 	const [marketsIsOpenMobile, setmarketsIsOpenMobile] = useState(false);
 	const [marketsIsOpenDesktop, setmarketsIsOpenDesktop] = useState(false);
-	const [ffIsOpen, setFFIsOpen] = useState(false);
-	const [ffIsOpenMobile, setFFIsOpenMobile] = useState(false);
+	const [libraryIsOpen, setLibraryIsOpen] = useState(false);
+	const [libraryIsOpenMobile, setLibraryIsOpenMobile] = useState(false);
 	const [accountIsOpen, setAccountIsOpen] = useState(false);
 
 	//close if click outside
@@ -48,8 +48,8 @@ const Header = () => {
 		}
 		else if (e.currentTarget.id === "Markets") {
 			setmarketsIsOpenMobile(!marketsIsOpenMobile);
-		}else if(e.currentTarget.id === "FFFFFF") {
-			setFFIsOpenMobile(!ffIsOpenMobile);
+		}else if(e.currentTarget.id === "Library") {
+			setLibraryIsOpenMobile(!libraryIsOpenMobile);
 		}
 	};
 
@@ -106,14 +106,14 @@ const Header = () => {
 			isMenuButton: true,
 			desktop: {
 				events: {
-					mouseEnter: () => setFFIsOpen(true),
-					mouseLeave: () => setFFIsOpen(false),
+					mouseEnter: () => setLibraryIsOpen(true),
+					mouseLeave: () => setLibraryIsOpen(false),
 				},
-				isMenuOpenDesktop: ffIsOpen,
+				isMenuOpenDesktop: libraryIsOpen,
 			},
 			mobile: {
 				buttonHandler: toggleHandler,
-				isMenuOpenMobile: ffIsOpenMobile
+				isMenuOpenMobile: libraryIsOpenMobile
 			}
 		},
 
