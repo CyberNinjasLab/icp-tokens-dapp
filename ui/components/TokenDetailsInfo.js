@@ -3,16 +3,47 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import LanguageIcon from '@mui/icons-material/Language';
 import { Typography } from '@mui/material';
 
 const style = {
   py: 0,
   width: '100%',
   border: 'none'
-  // borderRadius: 2,
-  // border: '1px solid',
-  // borderColor: 'divider'
+};
+
+const iconsMapping = {
+  Instagram: (
+    <img
+      src="/icons/instagram.svg"
+      className="opacity-50 w-7"
+      color="primary"
+      alt="instagram-img"
+    ></img>
+  ),
+  Twitter: (
+    <img
+      src="/icons/twitter.svg"
+      className="opacity-50 w-7"
+      color="primary"
+      alt="instagram-img"
+    ></img>
+  ),
+  Discord: (
+    <img
+      src="/icons/discord.svg"
+      className="opacity-50 w-7"
+      color="primary"
+      alt="instagram-img"
+    ></img>
+  ),
+  Default: (
+    <img
+      src="/icons/instagram.svg"
+      className="opacity-50 w-7"
+      color="primary"
+      alt="instagram-img"
+    ></img>
+  )
 };
 
 const questionMarkStyle = {
@@ -22,7 +53,7 @@ const questionMarkStyle = {
 
 export default function TokenDetailsInfo({ data }) {
   return (
-    <div className="w-full max-w-sm m-auto">
+    <div className="w-full xl:max-w-sm m-auto">
       <List sx={style}>
         <ListItem>
           <div className="flex justify-between items-center w-full">
@@ -75,19 +106,18 @@ export default function TokenDetailsInfo({ data }) {
             <Typography variant="subtitle1" className="mb-4">
               Links
             </Typography>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {data.token_links.map(link => (
                 <a
                   key={link.id}
                   href={link.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col justify-center items-center"
+                  className="flex flex-col justify-center items-center gap-1"
                 >
-                  <LanguageIcon
-                    fontSize="large"
-                    className="opacity-50"
-                  ></LanguageIcon>
+                  {iconsMapping[link.mediaType]
+                    ? iconsMapping[link.mediaType]
+                    : iconsMapping['Default']}
                   {link.mediaType}
                 </a>
               ))}
