@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .ag-header-cell.text-right .ag-header-cell-label {
+    @apply justify-end;
+  }
+}

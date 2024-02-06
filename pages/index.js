@@ -6,22 +6,8 @@ const Home = () => {
   return (
     <Layout>
       <div>
+        <h1 className=' text-xl font-semibold'>Internet Computer Tokens by Market Cap</h1>
         <TokensTable />
-        <br />
-        <Link href="/token/ICP">Internet Computer (ICP)</Link>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     </Layout>
   );
