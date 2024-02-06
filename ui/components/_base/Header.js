@@ -163,7 +163,7 @@ const Header = () => {
 					<Link href="/">
 						<span className="relative bottom-px flex items-center space-x-4 cursor-pointer">
 							<img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
-							<span className="font-semibold uppercase tracking-wide">
+							<span className="font-semibold uppercase tracking-wide text-base">
 								ICP<span className="text-token-title-green">Tokens</span>
 							</span>
 						</span>

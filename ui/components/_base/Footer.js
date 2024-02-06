@@ -37,9 +37,15 @@ const Footer = () => {
 								<div>
 										<h5 className="font-bold text-xl mb-4">Links</h5>
 										<ul className="flex flex-col gap-2">
-												<li className="text-sm">X (Twitter)</li>
-												<li className="text-sm">Facebook</li>
-												<li className="text-sm">Instagram</li>
+												<li className="text-sm">
+													<a href="https://twitter.com/ICPTokens" className='hover:underline' target='_blank'>X (Twitter)</a>
+												</li>
+												<li className="text-sm">
+													<a href="https://oc.app/community/5bgep-3aaaa-aaaar-a3toq-cai/" className='hover:underline' target='_blank'>OpenChat</a>
+												</li>
+												<li className="text-sm">
+													<a href="https://www.reddit.com/r/icp_tokens/" className='hover:underline' target='_blank'>Reddit</a>
+												</li>
 										</ul>
 								</div>
 						</div>
