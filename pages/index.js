@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <Layout>
       <div>
-        <h1 className=' text-xl font-semibold'>Internet Computer Tokens by Market Cap</h1>
+        <h1 className='text-xl font-semibold'>Internet Computer Tokens by Market Cap</h1>
         <TokensTable />
       </div>
     </Layout>

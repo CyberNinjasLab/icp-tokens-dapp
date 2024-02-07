@@ -1,5 +1,7 @@
 import React from 'react';
 import Logo from './Logo';
+import Link from 'next/link';
+
 const { version } = require('/package.json');
 
 const Footer = () => {
@@ -21,19 +23,22 @@ const Footer = () => {
 								<div>
 										<h5 className="font-bold text-xl mb-4">About</h5>
 										<ul className="flex flex-col gap-2">
-												<li className="text-sm">About Us</li>
-												<li className="text-sm">Roadmap</li>
-												<li className="text-sm">How it works</li>
+												<li className="text-sm">
+													<Link href="/about-us" className='hover:underline'>About Us</Link>
+												</li>
+												<li className="text-sm">
+													<Link href="/how-it-works" className='hover:underline'>How it works</Link>
+												</li>
 										</ul>
 								</div>
-								<div>
+								{/* <div>
 										<h5 className="font-bold text-xl mb-4">FAQ</h5>
 										<ul className="flex flex-col gap-2">
 												<li className="text-sm">Why ICP?</li>
 												<li className="text-sm">What is a token?</li>
 												<li className="text-sm">How to buy a token?</li>
 										</ul>
-								</div>
+								</div> */}
 								<div>
 										<h5 className="font-bold text-xl mb-4">Links</h5>
 										<ul className="flex flex-col gap-2">

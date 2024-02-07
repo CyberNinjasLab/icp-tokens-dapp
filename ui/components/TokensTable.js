@@ -62,8 +62,8 @@ const TokensLogoRenderer = ({ value, data }) => (
     {value && (
       <img
         alt={`${value} Logo`}
-        src={`http://icptokens.net/storage/${data.avatar}`}
-        className="block w-30 h-30 mr-2 brightness-110"
+        src={`http://127.0.0.1:8000/storage/${data.logo}`}
+        className="block w-30 h-30 mr-2 brightness-110 rounded-full"
         style={{ width: '30px', height: '30px' }}
       />
     )}
@@ -192,18 +192,18 @@ function TokensTable() {
         return params.value.toLocaleString() + ' ICP';
       }
     },
-    // {
-    //   field: 'volume_7d',
-    //   headerName: '7d Volume',
-    //   autoWidth: true,
-    //   autoHeight: true,
-    //   width: 140,
-    //   cellStyle: { textAlign: 'right' },
-    //   headerClass: 'text-right',
-    //   valueFormatter: params => {
-    //     return params.value.toLocaleString() + ' ICP';
-    //   }
-    // },
+    {
+      field: 'volume_7d',
+      headerName: '7d Volume',
+      autoWidth: true,
+      autoHeight: true,
+      width: 130,
+      cellStyle: { textAlign: 'right' },
+      headerClass: 'text-right',
+      valueFormatter: params => {
+        return params.value.toLocaleString() + ' ICP';
+      }
+    },
     {
       field: 'fully_diluted_market_cap',
       headerName: 'Fully Diluted M Cap',
@@ -224,13 +224,13 @@ function TokensTable() {
     //   tooltipComponentParams: { color: 'white' },
     //   cellRenderer: CirculatingSupplyRenderer
     // },
-    {
-      field: 'avg_price_last_7_days',
-      headerName: 'Last 7 Days',
-      width: 185,
-      sortable: false,
-      cellRenderer: CurrencyPriceChart
-    }
+    // {
+    //   field: 'avg_price_last_7_days',
+    //   headerName: 'Last 7 Days',
+    //   width: 185,
+    //   sortable: false,
+    //   cellRenderer: CurrencyPriceChart
+    // }
   ];
   const defaultColDef = useMemo(() => {
     return {
@@ -240,7 +240,7 @@ function TokensTable() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://icptokens.net/api/tokens', {
+        const response = await fetch('http://127.0.0.1:8000/api/tokens', {
           method: 'GET'
         });
         const data = await response.json();
