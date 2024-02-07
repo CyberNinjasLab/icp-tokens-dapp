@@ -19,12 +19,12 @@ const Nft = () => {
 
 	const nfts = [
 		{name:"OneFall",date:"March 08",price:"0.01 ICP",network:"ICP",image:"sonic.png",id:"1"},
-		{name:"Perignon",date:"April 15",price:"12 ICP",network:"ICP",image:"icp.png",id:"2"},
+		{name:"Perignon",date:"April 15",price:"12 ICP",network:"Bitcoin",image:"icp.png",id:"2"},
 		{name:"ICP Substance",date:"September 18",price:"0.2 ICP",network:"ICP",image:"mod.png",id:"3"},
-		{name:"Honululu",date:"October 15",price:"30 ICP",network:"ICP",image:"sns1.png",id:"4"},
+		{name:"Honululu",date:"October 15",price:"30 ICP",network:"Ethereum",image:"sns1.png",id:"4"},
 		{name:"Berlin",date:"December 03",price:"1.5 ICP",network:"ICP",image:"sonic.png",id:"5"},
-		{name:"Paris",date:"January 30",price:"3.5 ICP",network:"ICP",image:"sns1.png",id:"6"},
-		{name:"Motoko",date:"June 08",price:"3.8 ICP",network:"ICP",image:"mod.png",id:"7"},
+		{name:"Paris",date:"January 30",price:"3.5 ICP",network:"BBCoin",image:"sns1.png",id:"6"},
+		{name:"Motoko",date:"June 08",price:"3.8 ICP",network:"ChkCoin",image:"mod.png",id:"7"},
 	]
 
 	console.log(age);
