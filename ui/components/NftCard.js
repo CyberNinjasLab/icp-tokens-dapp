@@ -8,11 +8,11 @@ import { Chip } from '@mui/material';
 const NftCard = ({nft}) => {
 
   return (
-      <Card className="flex flex-col justify-start" sx={{ minWidth: 280,maxWidth:300,
+      <Card className="flex flex-col justify-start" sx={{ minWidth: 270,maxWidth:300,
       boxShadow: "rgba(88, 102, 126, 0.12) 0px 1px 2px 0px, rgba(88, 102, 126, 0.08) 0px 4px 24px 0px",
       transition: "transform 0.5s ease 0s",
       borderRadius: 4,
-      marginTop: 8,
+      // marginTop: 8,
       position:'relative',
       ':hover': {
         cursor: "pointer",

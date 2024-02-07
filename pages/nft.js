@@ -33,16 +33,16 @@ const Nft = () => {
 
 	return (
 		<Layout>
-			<div>
-				<Typography variant="h4" gutterBottom>
+			<div className="py-2 sm:py-5">
+				<Typography className="!text-3xl sm:!text-4xl" variant="h4" gutterBottom>
 					Upcoming Sales of NFT Collections
 				</Typography>
 				<Typography variant="body" gutterBottom>
 					Below is a list of the upcoming sales of NFT collections. They are listed by time and day of release and information includes the blockchain that the collection is hosted on.
 				</Typography>
 			</div>
-			<div className="flex justify-end">
-				<Box sx={{ display: "flex", alignItems: "center" }}>
+			<div className="flex justify-center sm:justify-end">
+				<Box className="flex-col sm:flex-row" sx={{ display: "flex", alignItems: "center" }}>
 					<ToggleButtonGroup
 						color="primary"
 						value={alignment}
@@ -88,7 +88,7 @@ const Nft = () => {
 					</FormControl>
 				</Box>
 			</div>
-			<div className="flex flex-wrap justify-between">
+			<div className="flex flex-col items-center sm:flex-row flex-wrap justify-center pt-8 gap-8">
 			{
 				nfts.map(nft => <NftCard key={nft.id} nft={nft}></NftCard>)
 			}
