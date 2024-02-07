@@ -5,9 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Chip } from '@mui/material';
 
-const NftCard = () => {
+const NftCard = ({nft}) => {
+
   return (
-      <Card className="flex flex-col justify-start" sx={{ maxWidth: 280,
+      <Card className="flex flex-col justify-start" sx={{ minWidth: 280,maxWidth:300,
       boxShadow: "rgba(88, 102, 126, 0.12) 0px 1px 2px 0px, rgba(88, 102, 126, 0.08) 0px 4px 24px 0px",
       transition: "transform 0.5s ease 1s",
       borderRadius: 4,
@@ -19,21 +20,21 @@ const NftCard = () => {
     }, }}>
         <CardMedia
           sx={{ height: 200 }}
-          image="/tokens/sonic.png"
+          image={`/tokens/${nft.image}`}
           title="green iguana"
         />
         <CardContent  sx={{ height: 150 }}>
           <Typography gutterBottom variant="h6" sx={{ fontSize:16 }} component="div">
-            Nft Name
+            {nft.name}
           </Typography>
-          <Chip label="ICP" />
+          <Chip label={nft.network} />
           <div className="flex justify-between">
             <div>
               <Typography variant="overline" display="block" gutterBottom>
                 Starts
               </Typography>
               <Typography gutterBottom variant="h6" sx={{ fontSize:16 }} component="div">
-                March 08
+              {nft.date}
               </Typography>
             </div>
             <div>
@@ -41,7 +42,7 @@ const NftCard = () => {
                 Mint Price
               </Typography>
               <Typography gutterBottom variant="h6" sx={{ fontSize:16 }} component="div">
-                0.01 ICP
+              {nft.price}
               </Typography>
             </div>
           </div>
