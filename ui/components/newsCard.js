@@ -4,9 +4,9 @@ import React from 'react';
 
 const NewsCard = ({news}) => {
   return (
-    <div>
-      <Card sx={{
-        maxWidth: 1000, display: 'grid', gridTemplateColumns: { md: '1fr 2fr' },
+    <div className="sm:max-w-[95%] lg:max-w-[1000px]">
+      <Card className="grid grid-cols-1 min-[400px]:grid-cols-2" sx={{
+        //  display: 'grid', gridTemplateColumns: { sm: '1fr 2fr' },
         gap: 2,
         margin: "0 auto",
         variant: 'outlined',
