@@ -40,8 +40,49 @@ const ChartComponent = ({ data, colors }) => {
   ));
 
   useEffect(() => {
+    // Convert date string "YYYY-MM-DD HH:MM" to a Unix timestamp (in seconds)
+    const convertDateStringToTimestamp = (dateString) => {
+      // Create a Date object from the dateString
+      const date = new Date(dateString);
+      // Convert the date to a Unix timestamp in seconds
+      return Math.floor(date.getTime() / 1000);
+    };
+
+    const fetchOHLCVData = async () => {
+      const interval = '1d'; // Example interval, adjust as needed
+      const timeframe = 'All'; // Example timeframe, adjust as needed
+      const apiUrl = `http://icptokens.net/api/tokens/ohlcv/${data.canister_id}?interval=${interval}&timeframe=${timeframe}`;
+  
+      try {
+        const response = await fetch(apiUrl);
+        const ohlcvData = await response.json();
+
+        if (ohlcvData && ohlcvData.data.length > 0) {
+          // Assuming ohlcvData format matches expected by setupAreaChart/setupChart
+          if (chartType === 'area') {
+            setupAreaChart(ohlcvData.data.map(el => ({
+              time: convertDateStringToTimestamp(el.timestamp_date),
+              value: parseFloat(el.closing_price),
+              high: parseFloat(el.max_high),
+              low: parseFloat(el.min_low)
+            })));
+          } else if (chartType === 'candle') {
+            setupChart(ohlcvData.data.map(el => ({
+              time: convertDateStringToTimestamp(el.timestamp_date),
+              open: parseFloat(el.opening_price),
+              high: parseFloat(el.max_high),
+              low: parseFloat(el.min_low),
+              close: parseFloat(el.closing_price)
+            })));
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch OHLCV data:", error);
+      }
+    };
+  
+    // Ensure chartRef is initialized and only fetch data once after component mounts
     if (!chartRef.current) {
-      // Create a new chart when the component mounts
       chartRef.current = createChart(chartContainerRef.current, {
         layout: {
           textColor,
@@ -50,39 +91,18 @@ const ChartComponent = ({ data, colors }) => {
         height: 400,
         autoSize: true
       });
-
-      // Create series based on chart type
-      if (chartType === 'area') {
-        const areaData = data.chart_prices.map(el => {
-          return {
-            time: el.date,
-            value: parseFloat(el.close),
-            high: parseFloat(el.high),
-            low: parseFloat(el.low)
-          };
-        });
-        setupAreaChart(areaData);
-      } else if (chartType === 'candle') {
-        const chartData = data?.chart_prices.map(el => ({
-          time: el.date,
-          open: parseFloat(el.open),
-          high: parseFloat(el.high),
-          low: parseFloat(el.low),
-          close: parseFloat(el.close)
-        }));
-
-        setupChart(chartData);
-      }
+      fetchOHLCVData(); // Fetch data when the component mounts
     }
-
-    // Clean up when the component unmounts
+  
+    // Cleanup function
     return () => {
       if (chartRef.current) {
         chartRef.current.remove();
         chartRef.current = null;
       }
     };
-  }, [chartType]);
+  }, [chartType]); // Re-fetch data only if chartType changes
+  
 
   // /**
   //  * useEffect for the dynamic change of the chart periods.
@@ -133,7 +153,12 @@ const ChartComponent = ({ data, colors }) => {
     const areaSeries = chartRef.current.addAreaSeries({
       lineColor: '#019A9A',
       topColor: '#019A9A',
-      bottomColor: 'rgb(1,154,154, 0.28)'
+      bottomColor: 'rgb(1,154,154, 0.28)',
+      priceFormat: {
+        type: 'price',
+        precision: 6, // Adjust the precision as needed
+        minMove: 0.000001,
+      },
     });
 
     const volumeSeries = chartRef.current.addHistogramSeries({
@@ -146,7 +171,7 @@ const ChartComponent = ({ data, colors }) => {
 
     areaSeries.setData(chartData);
 
-    volumeSeries.setData(generateVolumeData().sort((a, b) => a.time - b.time));
+    // volumeSeries.setData(generateVolumeData().sort((a, b) => a.time - b.time));
 
     chartRef.current.priceScale('').applyOptions({
       scaleMargins: {
@@ -197,7 +222,7 @@ const ChartComponent = ({ data, colors }) => {
       ) {
         toolTip.style.display = 'none';
       } else {
-        const dateStr = param.time;
+        const dateStr = unixTimestampToReadable(param.time);
         toolTip.style.display = 'block';
         const data = param.seriesData.get(areaSeries);
         const price = data?.value !== undefined ? data?.value : data?.close;
@@ -237,6 +262,17 @@ const ChartComponent = ({ data, colors }) => {
     };
   };
 
+  // Function to convert Unix timestamp to human-readable date
+  const unixTimestampToReadable = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    };
+    return date.toLocaleDateString('en-US', options);
+  }
+
   /**
    * Function which creates a candle chart with chart options.
    * @param chartData - Chart data.
@@ -248,7 +284,12 @@ const ChartComponent = ({ data, colors }) => {
       borderDownColor: downCandleColor,
       borderUpColor: upCandleColor,
       wickDownColor: downCandleColor,
-      wickUpColor: upCandleColor
+      wickUpColor: upCandleColor,
+      priceFormat: {
+        type: 'price',
+        precision: 3, // Adjust the precision as needed
+        minMove: 0.001,
+      },
     });
 
     candleSeries.setData(chartData);
@@ -268,7 +309,7 @@ const ChartComponent = ({ data, colors }) => {
       }
     });
 
-    volumeSeries.setData(generateVolumeData().sort((a, b) => a.time - b.time));
+    // volumeSeries.setData(generateVolumeData().sort((a, b) => a.time - b.time));
 
     const container = chartContainerRef.current;
     const toolTip = document.createElement('div');
@@ -312,7 +353,7 @@ const ChartComponent = ({ data, colors }) => {
       ) {
         toolTip.style.display = 'none';
       } else {
-        const dateStr = param.time;
+        const dateStr = unixTimestampToReadable(param.time);
         toolTip.style.display = 'block';
         const data = param.seriesData.get(candleSeries);
         console.log(data);

@@ -5,6 +5,7 @@ import TokenDetailsInfo from '../../ui/components/TokenDetailsInfo';
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const TokenPage = () => {
   const router = useRouter();
@@ -29,23 +30,48 @@ const TokenPage = () => {
     <Layout>
       <div className="flex flex-col xl:flex-row gap-2">
         <div className="w-full">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-3">
             <img
-              src={`http://icptokens.net/storage/${tokenData.avatar}`}
+              src={`http://127.0.0.1:8000/storage/${tokenData.logo}`}
               alt="icp-icon"
-              className="w-10"
+              className="w-10 rounded-full"
             />
             <Typography variant="h7">
               {tokenData?.name} ({tokenData?.symbol})
             </Typography>
           </div>
-          <div className="flex gap-2 items-center mb-2">
+          <div className="flex gap-6 items-center mb-3">
             <Typography variant="h8">
+              {/* TODO: Use same round function as homepage */}
               {parseFloat(tokenData?.price).toFixed(8)} ICP
             </Typography>
-            <Typography color="primary">
-              <ArrowUpwardIcon fontSize="small" /> 2,45% (1d)
+            <Typography color={tokenData?.change_24h > 0 ? 'green' : 'red'}>
+              {tokenData?.change_24h > 0 ? (
+                <ArrowUpwardIcon fontSize="small" />
+              ) : (
+                <ArrowDownwardIcon fontSize="small" />
+              )}
+              {tokenData?.change_24h}% (24h)
             </Typography>
+            
+            <Typography color={tokenData?.change_7d > 0 ? 'green' : 'red'}>
+              {tokenData?.change_7d > 0 ? (
+                <ArrowUpwardIcon fontSize="small" />
+              ) : (
+                <ArrowDownwardIcon fontSize="small" />
+              )}
+              {tokenData?.change_7d}% (7d)
+            </Typography>   
+
+            <Typography color={tokenData?.change_30d > 0 ? 'green' : 'red'}>
+              {tokenData?.change_30d > 0 ? (
+                <ArrowUpwardIcon fontSize="small" />
+              ) : (
+                <ArrowDownwardIcon fontSize="small" />
+              )}
+              {tokenData?.change_30d}% (30d)
+            </Typography>
+
           </div>
           <ChartComponent data={tokenData} />
         </div>

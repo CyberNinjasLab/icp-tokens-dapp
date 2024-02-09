@@ -61,7 +61,7 @@ export default function TokenDetailsInfo({ data }) {
               Market Cap
               <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />
             </Typography>
-            <Typography>{data.price} ICP</Typography>
+            <Typography>{data.fully_diluted_market_cap.toLocaleString()} ICP</Typography>
           </div>
         </ListItem>
         <ListItem>
@@ -70,7 +70,7 @@ export default function TokenDetailsInfo({ data }) {
               Volume (24h)
               <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '}
             </Typography>
-            <Typography>{data.volume} ICP</Typography>
+            <Typography>{data.volume_24h.toLocaleString()} ICP</Typography>
           </div>
         </ListItem>
         {/*<Divider variant="middle" component="li" />*/}
@@ -90,33 +90,33 @@ export default function TokenDetailsInfo({ data }) {
               Max Supply
               <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '}
             </Typography>
-            <Typography>{data.total_supply}</Typography>
+            <Typography>{data.total_supply.toLocaleString()}</Typography>
           </div>
         </ListItem>
-        <Divider variant="middle" component="li" className="hidden md:block" />
+        <Divider variant="middle" component="li" className="hidden md:block pt-4" />
         <ListItem>
           <div className="hidden md:block">
             <Typography variant="subtitle1">Description</Typography>
-            <Typography>{data.introduction}</Typography>
+            <Typography>{data.details?.long_description}</Typography>
           </div>
         </ListItem>
-        <Divider variant="middle" component="li" className="hidden md:block" />
+        <Divider variant="middle" component="li" className="hidden md:block pt-4" />
         <ListItem>
           <div className="hidden md:block">
             <Typography variant="subtitle1" className="mb-4">
               Links
             </Typography>
             <div className="flex flex-wrap gap-3">
-              {data.token_links.map(link => (
+              {data.links.map(link => (
                 <a
                   key={link.id}
-                  href={link.link}
+                  href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex flex-col justify-center items-center gap-1"
                 >
-                  {iconsMapping[link.mediaType]
-                    ? iconsMapping[link.mediaType]
+                  {iconsMapping[link.link_type.type]
+                    ? iconsMapping[link.link_type.type]
                     : iconsMapping['Default']}
                   {link.mediaType}
                 </a>
