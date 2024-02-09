@@ -4,158 +4,6 @@ import { Button, ButtonGroup, IconButton, Tooltip } from '@mui/material';
 import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 
-const volumeSeriesData = [
-  { time: '2018-10-19', value: 19103293.0 },
-  { time: '2018-10-22', value: 21737523.0 },
-  { time: '2018-10-23', value: 29328713.0 },
-  { time: '2018-10-24', value: 37435638.0 },
-  { time: '2018-10-25', value: 25269995.0 },
-  { time: '2018-10-26', value: 24973311.0 },
-  { time: '2018-10-29', value: 22103692.0 },
-  { time: '2018-10-30', value: 25231199.0 },
-  { time: '2018-10-31', value: 24214427.0 },
-  { time: '2018-11-01', value: 22533201.0 },
-  { time: '2018-11-02', value: 14734412.0 },
-  { time: '2018-11-05', value: 12733842.0 },
-  { time: '2018-11-06', value: 12371207.0 },
-  { time: '2018-11-07', value: 14891287.0 },
-  { time: '2018-11-08', value: 12482392.0 },
-  { time: '2018-11-09', value: 17365762.0 },
-  { time: '2018-11-12', value: 13236769.0 },
-  { time: '2018-11-13', value: 13047907.0 },
-  { time: '2018-11-14', value: 18288710.0 },
-  { time: '2018-11-15', value: 17147123.0 },
-  { time: '2018-11-16', value: 19470986.0 },
-  { time: '2018-11-19', value: 18405731.0 },
-  { time: '2018-11-20', value: 22028957.0 },
-  { time: '2018-11-21', value: 18482233.0 },
-  { time: '2018-11-23', value: 7009050.0 },
-  { time: '2018-11-26', value: 12308876.0 },
-  { time: '2018-11-27', value: 14118867.0 },
-  { time: '2018-11-28', value: 18662989.0 },
-  { time: '2018-11-29', value: 14763658.0 },
-  { time: '2018-11-30', value: 31142818.0 },
-  { time: '2018-12-03', value: 27795428.0 },
-  { time: '2018-12-04', value: 21727411.0 },
-  { time: '2018-12-06', value: 26880429.0 },
-  { time: '2018-12-07', value: 16948126.0 },
-  { time: '2018-12-10', value: 16603356.0 },
-  { time: '2018-12-11', value: 14991438.0 },
-  { time: '2018-12-12', value: 18892182.0 },
-  { time: '2018-12-13', value: 15454706.0 },
-  { time: '2018-12-14', value: 13960870.0 },
-  { time: '2018-12-17', value: 18902523.0 },
-  { time: '2018-12-18', value: 18895777.0 },
-  { time: '2018-12-19', value: 20968473.0 },
-  { time: '2018-12-20', value: 26897008.0 },
-  { time: '2018-12-21', value: 55413082.0 },
-  { time: '2018-12-24', value: 15077207.0 },
-  { time: '2018-12-26', value: 17970539.0 },
-  { time: '2018-12-27', value: 17530977.0 },
-  { time: '2018-12-28', value: 14771641.0 },
-  { time: '2018-12-31', value: 15331758.0 },
-  { time: '2019-01-02', value: 13969691.0 },
-  { time: '2019-01-03', value: 19245411.0 },
-  { time: '2019-01-04', value: 17035848.0 },
-  { time: '2019-01-07', value: 16348982.0 },
-  { time: '2019-01-08', value: 21425008.0 },
-  { time: '2019-01-09', value: 18136000.0 },
-  { time: '2019-01-10', value: 14259910.0 },
-  { time: '2019-01-11', value: 15801548.0 },
-  { time: '2019-01-14', value: 11342293.0 },
-  { time: '2019-01-15', value: 10074386.0 },
-  { time: '2019-01-16', value: 13411691.0 },
-  { time: '2019-01-17', value: 15223854.0 },
-  { time: '2019-01-18', value: 16802516.0 },
-  { time: '2019-01-22', value: 18284771.0 },
-  { time: '2019-01-23', value: 15109007.0 },
-  { time: '2019-01-24', value: 12494109.0 },
-  { time: '2019-01-25', value: 17806822.0 },
-  { time: '2019-01-28', value: 25955718.0 },
-  { time: '2019-01-29', value: 33789235.0 },
-  { time: '2019-01-30', value: 27260036.0 },
-  { time: '2019-01-31', value: 28585447.0 },
-  { time: '2019-02-01', value: 13778392.0 },
-  { time: '2019-02-04', value: 15818901.0 },
-  { time: '2019-02-05', value: 14124794.0 },
-  { time: '2019-02-06', value: 11391442.0 },
-  { time: '2019-02-07', value: 12436168.0 },
-  { time: '2019-02-08', value: 12011657.0 },
-  { time: '2019-02-11', value: 9802798.0 },
-  { time: '2019-02-12', value: 11227550.0 },
-  { time: '2019-02-13', value: 11884803.0 },
-  { time: '2019-02-14', value: 11190094.0 },
-  { time: '2019-02-15', value: 15719416.0 },
-  { time: '2019-02-19', value: 12272877.0 },
-  { time: '2019-02-20', value: 11379006.0 },
-  { time: '2019-02-21', value: 14680547.0 },
-  { time: '2019-02-22', value: 12534431.0 },
-  { time: '2019-02-25', value: 15051182.0 },
-  { time: '2019-02-26', value: 12005571.0 },
-  { time: '2019-02-27', value: 8962776.0 },
-  { time: '2019-02-28', value: 15742971.0 },
-  { time: '2019-03-01', value: 10942737.0 },
-  { time: '2019-03-04', value: 13674737.0 },
-  { time: '2019-03-05', value: 15749545.0 },
-  { time: '2019-03-06', value: 13935530.0 },
-  { time: '2019-03-07', value: 12644171.0 },
-  { time: '2019-03-08', value: 10646710.0 },
-  { time: '2019-03-11', value: 13627431.0 },
-  { time: '2019-03-12', value: 12812980.0 },
-  { time: '2019-03-13', value: 14168350.0 },
-  { time: '2019-03-14', value: 12148349.0 },
-  { time: '2019-03-15', value: 23715337.0 },
-  { time: '2019-03-18', value: 12168133.0 },
-  { time: '2019-03-19', value: 13462686.0 },
-  { time: '2019-03-20', value: 11903104.0 },
-  { time: '2019-03-21', value: 10920129.0 },
-  { time: '2019-03-22', value: 25125385.0 },
-  { time: '2019-03-25', value: 15463411.0 },
-  { time: '2019-03-26', value: 12316901.0 },
-  { time: '2019-03-27', value: 13290298.0 },
-  { time: '2019-03-28', value: 20547060.0 },
-  { time: '2019-03-29', value: 17283871.0 },
-  { time: '2019-04-01', value: 16331140.0 },
-  { time: '2019-04-02', value: 11408146.0 },
-  { time: '2019-04-03', value: 15491724.0 },
-  { time: '2019-04-04', value: 8776028.0 },
-  { time: '2019-04-05', value: 11497780.0 },
-  { time: '2019-04-08', value: 11680538.0 },
-  { time: '2019-04-09', value: 10414416.0 },
-  { time: '2019-04-10', value: 8782061.0 },
-  { time: '2019-04-11', value: 9219930.0 },
-  { time: '2019-04-12', value: 10847504.0 },
-  { time: '2019-04-15', value: 7741472.0 },
-  { time: '2019-04-16', value: 10239261.0 },
-  { time: '2019-04-17', value: 15498037.0 },
-  { time: '2019-04-18', value: 13189013.0 },
-  { time: '2019-04-22', value: 11950365.0 },
-  { time: '2019-04-23', value: 23488682.0 },
-  { time: '2019-04-24', value: 13227084.0 },
-  { time: '2019-04-25', value: 17425466.0 },
-  { time: '2019-04-26', value: 16329727.0 },
-  { time: '2019-04-29', value: 13984965.0 },
-  { time: '2019-04-30', value: 15469002.0 },
-  { time: '2019-05-01', value: 11627436.0 },
-  { time: '2019-05-02', value: 14435436.0 },
-  { time: '2019-05-03', value: 9388228.0 },
-  { time: '2019-05-06', value: 10066145.0 },
-  { time: '2019-05-07', value: 12963827.0 },
-  { time: '2019-05-08', value: 12086743.0 },
-  { time: '2019-05-09', value: 14835326.0 },
-  { time: '2019-05-10', value: 10707335.0 },
-  { time: '2019-05-13', value: 13759350.0 },
-  { time: '2019-05-14', value: 12776175.0 },
-  { time: '2019-05-15', value: 10806379.0 },
-  { time: '2019-05-16', value: 11695064.0 },
-  { time: '2019-05-17', value: 14436662.0 },
-  { time: '2019-05-20', value: 20910590.0 },
-  { time: '2019-05-21', value: 14016315.0 },
-  { time: '2019-05-22', value: 11487448.0 },
-  { time: '2019-05-23', value: 11707083.0 },
-  { time: '2019-05-24', value: 8755506.0 },
-  { time: '2019-05-28', value: 3097125.0 }
-];
 // const periodDataMap = {
 //   '1D': candleSeriesDayData,
 //   '1W': candleSeriesWeekData,
@@ -176,6 +24,7 @@ const ChartComponent = ({ data, colors }) => {
   const chartContainerRef = useRef();
   const chartRef = useRef();
   const [selectedPeriod, setSelectedPeriod] = useState('1Y');
+  const [chartType, setChartType] = useState('area');
   const toolTipRef = useRef(null);
   const buttons = periods.map(period => (
     <Button
@@ -190,23 +39,110 @@ const ChartComponent = ({ data, colors }) => {
     </Button>
   ));
 
-  /**
-   * useEffect for the dynamic change of the chart periods.
-   */
   useEffect(() => {
-    if (chartRef.current) {
-      chartRef.current.remove();
-    }
-    const chartData = data?.chart_prices.map(el => ({
-      time: el.date,
-      open: parseFloat(el.open),
-      high: parseFloat(el.high),
-      low: parseFloat(el.low),
-      close: parseFloat(el.close)
-    }));
+    // Convert date string "YYYY-MM-DD HH:MM" to a Unix timestamp (in seconds)
+    const convertDateStringToTimestamp = (dateString) => {
+      // Create a Date object from the dateString
+      const date = new Date(dateString);
+      // Convert the date to a Unix timestamp in seconds
+      return Math.floor(date.getTime() / 1000);
+    };
 
-    setupChart(chartData);
-  }, [selectedPeriod]);
+    const fetchOHLCVData = async () => {
+      const interval = '1d'; // Example interval, adjust as needed
+      const timeframe = 'All'; // Example timeframe, adjust as needed
+      const apiUrl = `http://icptokens.net/api/tokens/ohlcv/${data.canister_id}?interval=${interval}&timeframe=${timeframe}`;
+  
+      try {
+        const response = await fetch(apiUrl);
+        const ohlcvData = await response.json();
+
+        if (ohlcvData && ohlcvData.data.length > 0) {
+          // Assuming ohlcvData format matches expected by setupAreaChart/setupChart
+          if (chartType === 'area') {
+            setupAreaChart(ohlcvData.data.map(el => ({
+              time: convertDateStringToTimestamp(el.timestamp_date),
+              value: parseFloat(el.closing_price),
+              high: parseFloat(el.max_high),
+              low: parseFloat(el.min_low)
+            })));
+          } else if (chartType === 'candle') {
+            setupChart(ohlcvData.data.map(el => ({
+              time: convertDateStringToTimestamp(el.timestamp_date),
+              open: parseFloat(el.opening_price),
+              high: parseFloat(el.max_high),
+              low: parseFloat(el.min_low),
+              close: parseFloat(el.closing_price)
+            })));
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch OHLCV data:", error);
+      }
+    };
+  
+    // Ensure chartRef is initialized and only fetch data once after component mounts
+    if (!chartRef.current) {
+      chartRef.current = createChart(chartContainerRef.current, {
+        layout: {
+          textColor,
+          background: { type: 'solid', color: backgroundColor }
+        },
+        height: 400,
+        autoSize: true
+      });
+      fetchOHLCVData(); // Fetch data when the component mounts
+    }
+  
+    // Cleanup function
+    return () => {
+      if (chartRef.current) {
+        chartRef.current.remove();
+        chartRef.current = null;
+      }
+    };
+  }, [chartType]); // Re-fetch data only if chartType changes
+  
+
+  // /**
+  //  * useEffect for the dynamic change of the chart periods.
+  //  */
+  // useEffect(() => {
+  //   if (chartRef.current) {
+  //     chartRef.current.remove();
+  //   }
+  //
+  //   const chartData = data?.chart_prices.map(el => ({
+  //     time: el.date,
+  //     value: parseFloat(el.close)
+  //   }));
+  //
+  //   setupAreaChart(chartData);
+  // }, [selectedPeriod]);
+
+  /**
+   * This function is used only for testing purposes.
+   * @return {*[]}
+   */
+  const generateVolumeData = () => {
+    const startDate = new Date('2023-01-01');
+    const endDate = new Date('2023-12-31');
+    const volumeData = [];
+
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      const volume =
+        Math.floor(Math.random() * (2000000 - 500000 + 1)) + 500000; // Adjust range as needed
+      const originalDate = new Date(currentDate);
+      const formattedDate = `${originalDate.getFullYear().toString()}-${(originalDate.getMonth() + 1).toString().padStart(2, '0')}-${originalDate.getDate().toString().padStart(2, '0')}`;
+      volumeData.push({ time: formattedDate, value: volume });
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return volumeData;
+  };
 
   /**
    * Function which creates an area chart with chart options.
@@ -214,52 +150,35 @@ const ChartComponent = ({ data, colors }) => {
    * @return {(function(): void)|*}
    */
   const setupAreaChart = chartData => {
-    if (chartRef.current) {
-      chartRef.current.remove();
-    }
-
-    const chartOptions = {
-      layout: {
-        textColor,
-        background: { type: 'solid', color: backgroundColor }
-      },
-      height: 400,
-      autoSize: true
-    };
-
-    chartRef.current = createChart(chartContainerRef.current, chartOptions);
-
     const areaSeries = chartRef.current.addAreaSeries({
-      lineColor: '#2962FF',
-      topColor: '#2962FF',
-      bottomColor: 'rgba(41, 98, 255, 0.28)'
+      lineColor: '#019A9A',
+      topColor: '#019A9A',
+      bottomColor: 'rgb(1,154,154, 0.28)',
+      priceFormat: {
+        type: 'price',
+        precision: 6, // Adjust the precision as needed
+        minMove: 0.000001,
+      },
     });
 
-    console.log(chartData);
+    const volumeSeries = chartRef.current.addHistogramSeries({
+      color: 'rgb(211,208,208)',
+      priceFormat: {
+        type: 'volume'
+      },
+      priceScaleId: ''
+    });
+
     areaSeries.setData(chartData);
 
-    // const volumeSeries = chartRef.current.addHistogramSeries({
-    //   color: 'rgb(211,208,208)',
-    //   priceFormat: {
-    //     type: 'volume'
-    //   },
-    //   priceScaleId: '',
-    //   scaleMargins: {
-    //     top: 0.7,
-    //     bottom: 0
-    //   }
-    // });
-    //
-    // volumeSeries.priceScale().applyOptions({
-    //   scaleMargins: {
-    //     top: 0.7,
-    //     bottom: 0
-    //   }
-    // });
-    //
-    // volumeSeries.setData(volumeSeriesData);
+    // volumeSeries.setData(generateVolumeData().sort((a, b) => a.time - b.time));
 
-    chartRef.current.timeScale().fitContent();
+    chartRef.current.priceScale('').applyOptions({
+      scaleMargins: {
+        top: 0.9,
+        bottom: 0
+      }
+    });
 
     const container = chartContainerRef.current;
     const toolTip = document.createElement('div');
@@ -268,7 +187,7 @@ const ChartComponent = ({ data, colors }) => {
     const toolTipMargin = 15;
 
     toolTip.style.cssText = `
-      height: 120px;
+      height: 80px;
       position: absolute;
       display: none;
       padding: 8px;
@@ -303,18 +222,15 @@ const ChartComponent = ({ data, colors }) => {
       ) {
         toolTip.style.display = 'none';
       } else {
-        const dateStr = param.time;
+        const dateStr = unixTimestampToReadable(param.time);
         toolTip.style.display = 'block';
         const data = param.seriesData.get(areaSeries);
-        console.log(data);
         const price = data?.value !== undefined ? data?.value : data?.close;
         const high = data?.high !== undefined ? data?.high : 'No data.';
         const low = data?.low !== undefined ? data?.low : 'No data.';
         toolTip.innerHTML = `<div style="color: #019A9AFF">${tokenName}</div>
         <div style="font-size: 16px; margin: 4px 0px; color: black">
           <p>${parseFloat(price).toFixed(8)}</p>
-          <p style="font-size: 11px">High: ${parseFloat(high).toFixed(8)}</p>
-          <p style="font-size: 11px">Low: ${parseFloat(low).toFixed(8)}</p>
         </div>
         <div style="color: black">
           ${dateStr}
@@ -336,7 +252,6 @@ const ChartComponent = ({ data, colors }) => {
     };
 
     const crosshairMoveHandler = param => {
-      console.log(param);
       updateToolTip(param, data?.symbol);
     };
 
@@ -347,56 +262,54 @@ const ChartComponent = ({ data, colors }) => {
     };
   };
 
+  // Function to convert Unix timestamp to human-readable date
+  const unixTimestampToReadable = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    };
+    return date.toLocaleDateString('en-US', options);
+  }
+
   /**
    * Function which creates a candle chart with chart options.
    * @param chartData - Chart data.
    */
   const setupChart = chartData => {
-    const chartOptions = {
-      layout: {
-        textColor,
-        background: { type: 'solid', color: backgroundColor }
-      },
-      height: 400,
-      autoSize: true
-    };
-
-    chartRef.current = createChart(chartContainerRef.current, chartOptions);
-
     const candleSeries = chartRef.current.addCandlestickSeries({
       upColor: upCandleColor,
       downColor: downCandleColor,
       borderDownColor: downCandleColor,
       borderUpColor: upCandleColor,
       wickDownColor: downCandleColor,
-      wickUpColor: upCandleColor
+      wickUpColor: upCandleColor,
+      priceFormat: {
+        type: 'price',
+        precision: 3, // Adjust the precision as needed
+        minMove: 0.001,
+      },
     });
 
-    console.log(chartData);
     candleSeries.setData(chartData);
 
-    // const volumeSeries = chartRef.current.addHistogramSeries({
-    //   color: 'rgb(211,208,208)',
-    //   priceFormat: {
-    //     type: 'volume'
-    //   },
-    //   priceScaleId: '',
-    //   scaleMargins: {
-    //     top: 0.7,
-    //     bottom: 0
-    //   }
-    // });
-    //
-    // volumeSeries.priceScale().applyOptions({
-    //   scaleMargins: {
-    //     top: 0.7,
-    //     bottom: 0
-    //   }
-    // });
-    //
-    // volumeSeries.setData(volumeSeriesData);
+    const volumeSeries = chartRef.current.addHistogramSeries({
+      color: 'rgb(211,208,208)',
+      priceFormat: {
+        type: 'volume'
+      },
+      priceScaleId: ''
+    });
 
-    chartRef.current.timeScale().fitContent();
+    volumeSeries.priceScale().applyOptions({
+      scaleMargins: {
+        top: 0.9,
+        bottom: 0
+      }
+    });
+
+    // volumeSeries.setData(generateVolumeData().sort((a, b) => a.time - b.time));
 
     const container = chartContainerRef.current;
     const toolTip = document.createElement('div');
@@ -440,7 +353,7 @@ const ChartComponent = ({ data, colors }) => {
       ) {
         toolTip.style.display = 'none';
       } else {
-        const dateStr = param.time;
+        const dateStr = unixTimestampToReadable(param.time);
         toolTip.style.display = 'block';
         const data = param.seriesData.get(candleSeries);
         console.log(data);
@@ -473,7 +386,6 @@ const ChartComponent = ({ data, colors }) => {
     };
 
     const crosshairMoveHandler = param => {
-      console.log(param);
       updateToolTip(param, data?.symbol);
     };
 
@@ -487,47 +399,40 @@ const ChartComponent = ({ data, colors }) => {
   return (
     <div className="flex flex-col justify-center gap-4 max-w-6xl">
       <div className="flex gap-1">
-        <Tooltip title="Area Chart">
-          <IconButton
-            color="primary"
-            onClick={() => {
-              const areaData = data.chart_prices.map(el => {
-                return {
-                  time: Date.parse(el.date),
-                  value: parseFloat(el.close),
-                  high: parseFloat(el.high),
-                  low: parseFloat(el.low)
-                };
-              });
-              setupAreaChart(areaData);
-            }}
-            className="cursor-pointer"
-          >
-            <ShowChartIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Candle Chart">
-          <IconButton
-            color="primary"
-            onClick={() => {
-              if (chartRef.current) {
-                chartRef.current.remove();
-              }
-              const chartData = data?.chart_prices.map(el => ({
-                time: el.date,
-                open: parseFloat(el.open),
-                high: parseFloat(el.high),
-                low: parseFloat(el.low),
-                close: parseFloat(el.close)
-              }));
-
-              setupChart(chartData);
-            }}
-            className="cursor-pointer"
-          >
-            <CandlestickChartIcon />
-          </IconButton>
-        </Tooltip>
+        <ButtonGroup size="small" aria-label="text button group">
+          <Tooltip title="Area Chart">
+            <Button
+              color="primary"
+              onClick={() => {
+                setChartType('area');
+              }}
+              className="cursor-pointer"
+              style={{
+                backgroundColor:
+                  chartType === 'area' ? primaryColor : '#ffffff',
+                color: chartType === 'area' ? '#ffffff' : primaryColor
+              }}
+            >
+              <ShowChartIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Candle Chart">
+            <Button
+              color="primary"
+              onClick={() => {
+                setChartType('candle');
+              }}
+              className="cursor-pointer"
+              style={{
+                backgroundColor:
+                  chartType === 'candle' ? primaryColor : '#ffffff',
+                color: chartType === 'candle' ? '#ffffff' : primaryColor
+              }}
+            >
+              <CandlestickChartIcon />
+            </Button>
+          </Tooltip>
+        </ButtonGroup>
       </div>
       <div ref={chartContainerRef} />
       <ButtonGroup
