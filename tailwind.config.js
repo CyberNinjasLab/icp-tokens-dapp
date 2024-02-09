@@ -6,6 +6,15 @@ module.exports = {
     // Or if using `src` directory:
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem', // default padding for all breakpoints
+      screens: {
+        'lg': '1024px', // Default container width for 'lg' breakpoint
+        'xl': '1370px', // Increased container width for 'xl' (desktop) breakpoint
+        '2xl': '1536px', // Default container width for '2xl' breakpoint
+      },
+    },
     extend: {
       colors: {
         'token-title-green': '#019a9a',
@@ -30,5 +39,8 @@ module.exports = {
       }
     },
   },
+  safelist: [
+    'text-{left,center,right}', // Example of using pattern to safelist
+  ],
   plugins: []
 };

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router'
 import { useRef } from "react"
 
+import Logo from './Logo';
+
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -91,66 +93,7 @@ const Header = () => {
 				buttonHandler: toggleHandler,
 				isMenuOpenMobile: marketsIsOpenMobile
 			},
-		},
-		{
-			href: '/ff', label: 'FFFFFF', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
-			dropdownMenuItems: [
-				{
-					href: '/qwe', label: 'QWE35', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
-					, mobileItem: <Link href="/qwe"  className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE34</Link>
-				},
-				{
-					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					, mobileItem: <Link href="/nf3"  className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-				},
-				{
-					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
-					mobileItem: <Link href="/test35"  className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
-				}
-			],
-			isMenuButton: true,
-			desktop: {
-				events: {
-					mouseEnter: () => setFFIsOpen(true),
-					mouseLeave: () => setFFIsOpen(false),
-				},
-				isMenuOpenDesktop: ffIsOpen,
-			},
-			mobile: {
-				buttonHandler: toggleHandler,
-				isMenuOpenMobile: ffIsOpenMobile
-			}
-		},
-		{
-			href: '/f123321', label: 'FFFFF123', icon: <SwapHorizIcon className={`${(path === '/qwe' || path === '/nftt3' || path === '/test35') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
-			dropdownMenuItems: [
-				{
-					href: '/f123321', label: 'QWE35123321', item: <Link href="/qwe" className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
-					, mobileItem: <Link href="/f123321"  className={`${path === '/qwe' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>QWE35123321</Link>
-				},
-				{
-					href: '/nf3', label: 'NFT3', item: <Link href="/nft3" className={`${path === '/nf3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-					, mobileItem: <Link href="/nf3"  className={`${path === '/nft3' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT3</Link>
-				},
-				{
-					href: '/test35', label: 'TEST35', item: <Link href="/test35" className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>,
-					mobileItem: <Link href="/test35"  className={`${path === '/test35' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>TEST35</Link>
-				}
-			],
-			isMenuButton: true,
-			desktop: {
-				events: {
-					mouseEnter: () => setFF2IsOpen(true),
-					mouseLeave: () => setFF2IsOpen(false),
-				},
-				isMenuOpenDesktop: ff2IsOpen,
-			},
-			mobile: {
-				buttonHandler: toggleHandler,
-				isMenuOpenMobile: ff2IsOpenMobile
-			}
 		}
-
 		// Add more links if needed
 	];
 
@@ -161,12 +104,7 @@ const Header = () => {
 				<div className="flex items-center space-x-4">
 					{/* Use Link without <a> */}
 					<Link href="/">
-						<span className="relative bottom-px flex items-center space-x-4 cursor-pointer">
-							<img src="/logo.png" alt="ICP Tokens logo" className="w-[35px]" />
-							<span className="font-semibold uppercase tracking-wide">
-								ICP<span className="text-token-title-green">Tokens</span>
-							</span>
-						</span>
+						<Logo />
 					</Link>
 				</div>
 				<nav>
