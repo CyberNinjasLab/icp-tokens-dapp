@@ -1,6 +1,5 @@
 import Layout from '../ui/components/_base/Layout';
-import Link from 'next/link';
-import TokensTable from '../ui/components/TokensTable';
+import TokensTable from '../ui/components/tokens/table/TokensTable';
 
 const Home = () => {
   return (
