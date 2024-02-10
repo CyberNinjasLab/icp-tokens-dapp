@@ -23,7 +23,7 @@ const News = () => {
 
 	return (
 		<Layout>
-			<div className='flex flex-row justify-between items-center'>
+			<div className='flex flex-col gap-4 sm:flex-row justify-between sm:items-center'>
 				<div>
 					<Typography variant="h4" gutterBottom>
 						News
