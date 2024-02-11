@@ -33,7 +33,7 @@ const Nft = () => {
 
 	return (
 		<Layout>
-			<div className="py-2 sm:py-5">
+			<div className="py-5">
 				<Typography className="!text-3xl sm:!text-4xl" variant="h4" gutterBottom>
 					Upcoming Sales of NFT Collections
 				</Typography>
@@ -42,7 +42,7 @@ const Nft = () => {
 				</Typography>
 			</div>
 			<div className="flex justify-center sm:justify-end">
-				<Box className="flex-col sm:flex-row" sx={{ display: "flex", alignItems: "center" }}>
+				<Box className="flex-col sm:flex-row" sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
 					<ToggleButtonGroup
 						color="primary"
 						value={alignment}
@@ -54,7 +54,7 @@ const Nft = () => {
 						<ToggleButton value="android">Popular</ToggleButton>
 						<ToggleButton value="ios">Free</ToggleButton>
 					</ToggleButtonGroup>
-					<FormControl sx={{ m: 1, minWidth: 120 }}>
+					<FormControl sx={{ minWidth: 120 }}>
 						<Select
 							value={age}
 							onChange={handleChange2}
@@ -71,7 +71,7 @@ const Nft = () => {
 							<MenuItem value={50}>Utility</MenuItem>
 						</Select>
 					</FormControl>
-					<FormControl sx={{ m: 1, minWidth: 120 }}>
+					<FormControl sx={{ minWidth: 120 }}>
 						<Select
 							value={age}
 							onChange={handleChange2}
