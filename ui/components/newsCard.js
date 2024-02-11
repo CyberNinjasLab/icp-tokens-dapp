@@ -16,25 +16,26 @@ const NewsCard = ({ news }) => {
         <div className='rounded-lg'>
           <Link className="!no-underline" href={"https://google.com/"} target="_blank">
             <CardMedia
-              sx={{height:200, borderRadius: "8px", display: 'flex', flex: "1 1 0%" }}
-              image={`/tokens/${news.image}`}
+              component='img'
+              sx={{borderRadius: "8px", display: 'flex', flex: "1 1 0%" }}
+              image={`https://cryptocdn.fra1.cdn.digitaloceanspaces.com/sites/2/bitcoin-coin-with-etf-text-stone-background-concept-entering-digital-money-fund-etf-bitcoin-cryptocurrency-concept_Easy-Resize.com_.jpg`}
               title={news.image}
             />
           </Link>
         </div>
         {/* overflow: "hidden", textOverflow:"ellipsis",whiteSpace: "nowrap" */}
         <div className="h-[200px] flex flex-col justify-between items-start m-auto">
-          <CardContent sx={{ padding: 1, '&:last-child': { pb: 1 }, }}>
+          <CardContent sx={{ padding: 0, '&:last-child': { pb: 1 }, }}>
             <Link className="!no-underline" href={"https://google.com/"} target="_blank">
               <Typography className="line-clamp-2" gutterBottom variant="h6" component="div">
                 {news.title}
               </Typography>
             </Link>
-            <Typography className="line-clamp-2" variant="subtitle1" color="text.secondary" sx={{ padding: 0, }}>
+            <Typography className="line-clamp-4 sm:line-clamp-2" variant="subtitle1" color="text.secondary" sx={{ padding: 0, }}>
               {news.description}
             </Typography>
           </CardContent>
-          <Typography variant="overline" display="block" gutterBottom sx={{ fontSize: 14, padding: 1 }}>
+          <Typography variant="overline" display="block" gutterBottom sx={{ fontSize: 14}}>
             {news.source}
           </Typography>
         </div>
