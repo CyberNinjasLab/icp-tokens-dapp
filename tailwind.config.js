@@ -16,7 +16,11 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        'xl': '1370px' // Increased container width for 'xl' (desktop) breakpoint
+      },
       colors: {
+        'primary': '#019a9a',
         'token-title-green': '#019a9a',
         'active-link-green': '#019A9AFF',
         'mobile-menu-grey': '#565D6DFF',

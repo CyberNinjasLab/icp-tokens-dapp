@@ -7,3 +7,41 @@
     @apply justify-end;
   }
 }
+
+/* Base styles for .token-details headers */
+.token-details h1 {
+  @apply text-3xl font-bold mb-4; /* Example: apply text-3xl font-bold mb-4 for h1 */
+}
+
+.token-details h2 {
+  @apply text-2xl font-bold mb-4; /* Example: apply text-2xl font-bold mb-4 for h2 */
+}
+
+.token-details h3 {
+  @apply text-xl font-bold mb-4; /* Example: apply text-xl font-bold mb-4 for h3 */
+}
+
+.token-details h4 {
+  @apply text-lg font-bold mb-4; /* Example: apply text-lg font-bold mb-4 for h4 */
+}
+
+.token-details h5 {
+  @apply text-base font-bold mb-4; /* Example: apply text-base font-bold mb-4 for h5 */
+}
+
+.token-details h6 {
+  @apply text-sm font-bold mb-4; /* Example: apply text-sm font-bold mb-4 for h6 */
+}
+
+/* Base styles for .token-details paragraphs */
+.token-details p {
+  /* Use Tailwind's text styles for paragraphs */
+  @apply text-sm leading-normal mb-4; /* Example: apply text-base leading-normal mb-4 */
+}
+
+/* Base styles for .token-details lists */
+.token-details ul,
+.token-details ol {
+  /* Use Tailwind's list styles */
+  @apply list-disc pl-4 mb-4; /* Example: apply list-disc pl-4 mb-4 for unordered list */
+}

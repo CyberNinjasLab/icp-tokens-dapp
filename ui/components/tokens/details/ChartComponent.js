@@ -15,10 +15,10 @@ const intervals = ['1h', '1d', '1w'];
 const ChartComponent = ({ canister_id }) => {
   const chartContainerRef = useRef(null); // Ref for the div container of the chart
   const [selectedPeriod, setSelectedPeriod] = useState('90d'); // State for the selected period
-  const [selectedInterval, setSelectedInterval] = useState('1h'); // State for selected interval for candlestick charts
+  const [selectedInterval, setSelectedInterval] = useState('1d'); // State for selected interval for candlestick charts
   const [chartType, setChartType] = useState('area'); // State for the chart type (area or candle)
 
-  const { parseTimestampToUnix, calculatePrecisionAndMinMove } = useContext(GeneralContext)
+  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice } = useContext(GeneralContext)
     
   // Use the custom hook to fetch data
   const { data, loading, error } = useFetchOHLCVData(canister_id, selectedInterval, selectedPeriod);
@@ -40,13 +40,53 @@ const ChartComponent = ({ canister_id }) => {
       bottomColor: 'rgba(1, 154, 154, 0.04)', // Very light shade with low opacity for the bottom
       lineColor: 'rgba(1, 154, 154, 1)', // Solid color for the line
       lineWidth: 2,
+      crossHairMarkerVisible: false,
       priceFormat: {
         type: 'price',
         precision: precision, // Adjusted based on min value
         minMove: minMove,
       },
     });
+    series.priceScale().applyOptions({
+      scaleMargins: {
+        // positioning the price scale for the area series
+        top: 0.1,
+        bottom: 0.3,
+      },
+    });
     series.setData(data);
+
+    return series;
+  };  
+
+  const setupChartWithVolume = (chart, data) => {
+    // Add Volume Series
+    const volumeSeries = chart.addHistogramSeries({
+      color: '#26a69a',
+      priceFormat: {
+        type: 'volume',
+      },
+      priceScaleId: '', // set as an overlay by setting a blank priceScaleId
+      // set the positioning of the volume series
+      scaleMargins: {
+        top: 0.85, // highest point of the series will be 70% away from the top
+        bottom: 0,
+      },
+    });
+    volumeSeries.priceScale().applyOptions({
+      scaleMargins: {
+        top: 0.85, // highest point of the series will be 70% away from the top
+        bottom: 0,
+      },
+    });
+    // Map your data to the format expected by the volume series
+    const volumeData = data.map(d => ({
+      time: parseTimestampToUnix(d.timestamp),
+      value: parseFloat(d.volume),
+      color: parseFloat(d.close) < parseFloat(d.open) ? 'rgba(255, 82, 82, 0.8)' : 'rgba(0, 150, 136, 0.8)', // Red for down days, green for up days
+    }));
+  
+    volumeSeries.setData(volumeData);
   };  
   
   const setupCandleChart = (chart, data, min) => {
@@ -64,9 +104,70 @@ const ChartComponent = ({ canister_id }) => {
         precision: precision, // Adjusted based on min value
         minMove: minMove,
       },
+      crossHairMarkerVisible: false,
     });
     series.setData(data);
+
+    return series;
   };
+
+  const appendTolltipToChar = (chart, series, data) => {
+    const container = chartContainerRef.current
+    const toolTipWidth = 130;
+    const toolTipHeight = 80;
+    const toolTipMargin = 15;
+
+    // Create and style the tooltip html element
+    const toolTip = document.createElement('div');
+    toolTip.style = `width: ${toolTipWidth}px; height: auto; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+    toolTip.style.background = 'white';
+    toolTip.style.color = 'black';
+    toolTip.style.borderColor = 'rgba(38, 166, 154, 1)';
+    container.appendChild(toolTip);
+
+    // Subscribe to crosshair move events to update the tooltip
+    chart.subscribeCrosshairMove(param => {
+        if (
+            param.point === undefined ||
+            !param.time ||
+            param.point.x < 0 ||
+            param.point.x > container.clientWidth ||
+            param.point.y < 0 ||
+            param.point.y > container.clientHeight
+        ) {
+            toolTip.style.display = 'none';
+        } else {
+            const dateStr = formatDateBasedOnInterval(param.time, selectedInterval);
+            toolTip.style.display = 'block';
+            const seriesData = param.seriesData.get(series);
+            const fullData = data.find(obj => obj.time == param.time);
+            const price = seriesData.value !== undefined ? seriesData.value : seriesData.close;
+            toolTip.innerHTML = `
+                <div style="font-size: 16px; margin-bottom: 2px; color: black">
+                ${formatPrice(fullData.value)}
+                </div>
+                <div>
+                  VOL: ${Math.round(fullData.volume).toLocaleString()} ICP
+                </div>
+                <div style="color: black; margin-top: 6px">
+                  ${dateStr}
+                </div>`;
+
+            const y = param.point.y;
+            let left = param.point.x + toolTipMargin;
+            if (left > container.clientWidth - toolTipWidth) {
+              left = param.point.x - toolTipMargin - toolTipWidth;
+            }
+        
+            let top = y + toolTipMargin;
+            if (top > container.clientHeight - toolTipHeight) {
+              top = y - toolTipHeight - toolTipMargin;
+            }
+            toolTip.style.left = left + 'px';
+            toolTip.style.top = top + 'px';
+        }
+    });
+  }
 
   useEffect(() => {
     if (!chartContainerRef.current || loading || error) return;
@@ -99,21 +200,26 @@ const ChartComponent = ({ canister_id }) => {
     });
 
     let transformedData;
+    let series;
     if (chartType === 'area') {
       transformedData = data.data.map(d => ({
         time: parseTimestampToUnix(d.timestamp),
-        value: parseFloat(d.close) // Ensure value is a number
+        value: parseFloat(d.close), // Ensure value is a number
+        volume: parseFloat(d.volume)
       }));
-      setupAreaChart(chart, transformedData, data.min);
+      series = setupAreaChart(chart, transformedData, data.min);
+      setupChartWithVolume(chart, data.data)
     } else if (chartType === 'candle') {
       transformedData = data.data.map(d => ({
         time: parseTimestampToUnix(d.timestamp),
         open: parseFloat(d.open),
         high: parseFloat(d.high),
         low: parseFloat(d.low),
-        close: parseFloat(d.close) // Ensure all numeric fields are converted
+        close: parseFloat(d.close), // Ensure all numeric fields are converted
+        volume: parseFloat(d.volume),
+        value: parseFloat(d.close)
       }));
-      setupCandleChart(chart, transformedData, data.min);
+      series = setupCandleChart(chart, transformedData, data.min);
     }
 
     // Assuming `data.start_date` and `data.end_date` are in a format recognized by your `parseTimestampToUnix` function
@@ -122,6 +228,10 @@ const ChartComponent = ({ canister_id }) => {
       const startTime = parseTimestampToUnix(data.start_date);
       const endTime = parseTimestampToUnix(data.end_date);
       chart.timeScale().setVisibleRange({ from: startTime, to: endTime });
+    }
+
+    if(series) {
+      appendTolltipToChar(chart, series, transformedData)
     }
 
     return () => chart.remove();
@@ -164,30 +274,30 @@ const ChartComponent = ({ canister_id }) => {
           </Tooltip>
         </ButtonGroup>
 
-        {/* Right side: UI for selecting intervals (only if chart type is 'candle') */}
-        {chartType === 'candle' && (
-          <ButtonGroup size="small" aria-label="chart interval buttons">
-            {intervals.map((interval) => (
-              <Tooltip key={interval} title={`${interval} Interval`}>
-                <Button
-                  variant={selectedInterval === interval ? "contained" : "outlined"}
-                  {...(selectedInterval === interval && { color: "primary" })}
-                  onClick={() => setSelectedInterval(interval)}
-                >
-                  {interval}
-                </Button>
-              </Tooltip>
-            ))}
-          </ButtonGroup>
-        )}
+        {/* Right side: UI for selecting intervals (only if chart type is 'candle') */}  
+        <ButtonGroup size="small" aria-label="chart interval buttons">
+          {intervals.map((interval) => (
+            <Tooltip key={interval} title={`${interval} Interval`}>
+              <Button
+                variant={selectedInterval === interval ? "contained" : "outlined"}
+                {...(selectedInterval === interval && { color: "primary" })}
+                onClick={() => setSelectedInterval(interval)}
+              >
+                {interval}
+              </Button>
+            </Tooltip>
+          ))}
+        </ButtonGroup>
       </div>
-      <div ref={chartContainerRef} className="w-full h-96" />
+      <div className='relative'>
+        <div ref={chartContainerRef} className="w-full h-96" />
+      </div>
       {/* Period Selection UI */}
       <ButtonGroup 
         variant="outlined"
         aria-label="outlined primary button group"
         fullWidth={true}
-        className="max-w-lg m-auto mt-6"
+        className="m-auto mt-2 xl:mt-4 max-w-[404px]"
       >
           {periods.map((period) => (
             <Tooltip key={period} title={`${period} Period`}>

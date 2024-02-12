@@ -76,13 +76,44 @@ const GeneralContextProvider = ({ children }) => {
   
     return { precision, minMove };
   }
+
+  const formatDateBasedOnInterval = (timestamp, interval) => {
+    const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
+  
+    // Function to pad numbers to two digits
+    const pad = (num) => num.toString().padStart(2, '0');
+  
+    let formattedDate;
+    
+    switch (interval) {
+      case '1h':
+        // Format: YYYY-MM-DD HH:mm (UTC)
+        formattedDate = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())} UTC`;
+        break;
+      case '1d':
+        // Format: YYYY-MM-DD (UTC)
+        formattedDate = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} UTC`;
+        break;
+      case '1w':
+        // Format: YYYY-MM-DD (UTC) - adding day of the week if needed could complicate it due to UTC conversion
+        formattedDate = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} UTC`;
+        break;
+      default:
+        // Default to full date and time in UTC
+        formattedDate = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())} ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())} UTC`;
+        break;
+    }
+  
+    return formattedDate;
+  };  
   
   const contextValues = {
       identity,
       setIdentity,
       formatPrice,
       parseTimestampToUnix,
-      calculatePrecisionAndMinMove
+      calculatePrecisionAndMinMove,
+      formatDateBasedOnInterval
   }
 
   return (
