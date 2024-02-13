@@ -21,9 +21,7 @@ module.exports = {
       },
       colors: {
         'primary': '#019a9a',
-        'token-title-green': '#019a9a',
-        'active-link-green': '#019A9AFF',
-        'mobile-menu-grey': '#565D6DFF',
+        'mobile-menu': '#565D6DFF',
         'background-hover-menu': '#F5F5F5'
       },
 

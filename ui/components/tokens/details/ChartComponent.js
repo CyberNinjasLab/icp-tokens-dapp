@@ -113,7 +113,7 @@ const ChartComponent = ({ canister_id }) => {
 
   const appendTolltipToChar = (chart, series, data) => {
     const container = chartContainerRef.current
-    const toolTipWidth = 130;
+    const toolTipWidth = 140;
     const toolTipHeight = 80;
     const toolTipMargin = 15;
 
@@ -141,17 +141,33 @@ const ChartComponent = ({ canister_id }) => {
             toolTip.style.display = 'block';
             const seriesData = param.seriesData.get(series);
             const fullData = data.find(obj => obj.time == param.time);
-            const price = seriesData.value !== undefined ? seriesData.value : seriesData.close;
-            toolTip.innerHTML = `
-                <div style="font-size: 16px; margin-bottom: 2px; color: black">
-                ${formatPrice(fullData.value)}
-                </div>
-                <div>
-                  VOL: ${Math.round(fullData.volume).toLocaleString()} ICP
-                </div>
-                <div style="color: black; margin-top: 6px">
-                  ${dateStr}
-                </div>`;
+
+            if(chartType == 'area') {
+              toolTip.innerHTML = `
+              <div style="font-size: 16px; margin-bottom: 2px; color: black">
+              ${formatPrice(fullData.value)}
+              </div>
+              <div>
+                VOL: ${Math.round(fullData.volume).toLocaleString()} ICP
+              </div>
+              <div style="color: black; margin-top: 6px">
+                ${dateStr}
+              </div>`;
+            } else if(chartType == 'candle') {
+              toolTip.innerHTML = `
+              <div style="margin-bottom: 2px; color: black">
+                <span style="font-weight: 500">OPEN</span>: ${formatPrice(fullData.open)}<br>
+                <span style="font-weight: 500">HIGH</span>: ${formatPrice(fullData.high)}<br>
+                <span style="font-weight: 500">LOW</span>: ${formatPrice(fullData.low)}<br>
+                <span style="font-weight: 500">CLOSE</span>: ${formatPrice(fullData.close)}
+              </div>
+              <div>
+                VOL: ${Math.round(fullData.volume).toLocaleString()} ICP
+              </div>
+              <div style="color: black; margin-top: 6px">
+                ${dateStr}
+              </div>`;
+            }
 
             const y = param.point.y;
             let left = param.point.x + toolTipMargin;

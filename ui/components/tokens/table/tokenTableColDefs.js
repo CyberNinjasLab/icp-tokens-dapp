@@ -14,7 +14,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   },
   {
     field: 'name',
-    headerName: 'Coin',
+    headerName: 'Name',
     cellRenderer: TokenLogoAndName,
     filter: true,
     width: `${isMobile ? 100 : 236}`,
