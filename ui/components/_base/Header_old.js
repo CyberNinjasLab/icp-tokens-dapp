@@ -61,23 +61,23 @@ const Header = () => {
 
 	//if you add dropdown li you should create state for each dropdown and implement additionally isMenuButton,dropdownMenuItems(for desktop and mobile) und for mobile:buttonHandler(implementt logic in mobileDropdownButtonHandler),isMenuOpenMobile , for desktop:isMenuOpenDesktop,events
 	const navLinks = [
-		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
-		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
-		{ href: '/library', label: 'Library', icon: <MenuBookIcon className={`${path === '/library' ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false },
+		{ href: '/currencies', label: 'Cryptocurrencies', icon: <AllInclusiveIcon className={`${path === '/currencies' ? "text-primary" : "text-mobile-menu"}`} fontSize="large" />, isMenuButton: false },
+		{ href: '/feed', label: 'Feed', icon: <FeedIcon className={`${path === '/feed' ? "text-primary" : "text-mobile-menu"}`} fontSize="large" />, isMenuButton: false },
+		{ href: '/library', label: 'Library', icon: <MenuBookIcon className={`${path === '/library' ? "text-primary" : "text-mobile-menu"}`} fontSize="large" />, isMenuButton: false },
 		{
-			href: '/markets', label: 'Markets', icon: <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-active-link-green" : "text-mobile-menu-grey"}`} fontSize="large" />, isMenuButton: false,
+			href: '/markets', label: 'Markets', icon: <SwapHorizIcon className={`${(path === '/dex' || path === '/nft') ? "text-primary" : "text-mobile-menu"}`} fontSize="large" />, isMenuButton: false,
 			//in dropdownMenuItems should add item/Link for mobile and for desktop
 			isMenuButton: true,
 			dropdownMenuItems: [
 				{
 					href: '/dex', label: 'DEX'
-					, item: <Link href="/dex" className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
-					, mobileItem: <Link href="/dex"  className={`${path === '/dex' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>DEX</Link>
+					, item: <Link href="/dex" className={`${path === '/dex' ? "text-primary" : "text-mobile-menu"}`}>DEX</Link>
+					, mobileItem: <Link href="/dex"  className={`${path === '/dex' ? "text-primary" : "text-mobile-menu"}`}>DEX</Link>
 				},
 				{
 					href: '/nft', label: 'NFT'
-					, item: <Link href="/nft" className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
-					, mobileItem: <Link href="/nft"  className={`${path === '/nft' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>NFT</Link>
+					, item: <Link href="/nft" className={`${path === '/nft' ? "text-primary" : "text-mobile-menu"}`}>NFT</Link>
+					, mobileItem: <Link href="/nft"  className={`${path === '/nft' ? "text-primary" : "text-mobile-menu"}`}>NFT</Link>
 				}
 			],
 			desktop: {
@@ -114,22 +114,22 @@ const Header = () => {
 							link.isMenuButton != true
 								?
 								// link li
-								<li key={link.href} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green
+								<li key={link.href} className={`lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-primary
 							 after:m-auto lg:relative after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent
-							  after:transition-all after:duration-300 ${path === link.href && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+							  after:transition-all after:duration-300 ${path === link.href && "lg:after:w-full lg:after:bg-primary"}`}>
 									<div className="relative flex gap-[0.8rem] items-center">
-										<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+										<Link href={link.href} className={`${path === link.href ? "text-primary" : "text-mobile-menu"}`}>{link.label}</Link>
 									</div>
 								</li>
 								:
 
 								// dropdown menu li
-								<li key={link.href} onMouseEnter={link.desktop.events.mouseEnter} onMouseLeave={link.desktop.events.mouseLeave} className={`lg:flex lg:flex-col lg:items-center lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-active-link-green after:m-auto lg:relative 
+								<li key={link.href} onMouseEnter={link.desktop.events.mouseEnter} onMouseLeave={link.desktop.events.mouseLeave} className={`lg:flex lg:flex-col lg:items-center lg:py-4 lg:after:w-0 hover:after:w-full lg:hover:after:bg-primary after:m-auto lg:relative 
 						after:content-[''] after:rounded-sm after:block after:h-1 after:bg-transparent after:transition-all after:duration-300
-						  ${(link.dropdownMenuItems.some(item => path === item.href)) && "lg:after:w-full lg:after:bg-active-link-green"}`}>
+						  ${(link.dropdownMenuItems.some(item => path === item.href)) && "lg:after:w-full lg:after:bg-primary"}`}>
 									<div className="flex justify-between">
 										<div className="relative flex gap-[0.8rem] items-center">
-											<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
+											<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-primary" : "text-mobile-menu"}`}>{link.label}</button>
 										</div>
 										<div>
 										</div>
@@ -154,8 +154,8 @@ const Header = () => {
 					{/* Mobile */}
 					<div id="mobile-menu" onClick={toggleHandler} className="lg:hidden ">
 						{hamburgerIsOpen
-							? <CloseIcon className="text-mobile-menu-grey" fontSize="large" />
-							: <MenuIcon className="text-mobile-menu-grey" fontSize="large" />
+							? <CloseIcon className="text-mobile-menu" fontSize="large" />
+							: <MenuIcon className="text-mobile-menu" fontSize="large" />
 						}
 					</div>
 					{/* If hamburger-menu is clicked */}
@@ -165,23 +165,23 @@ const Header = () => {
 							{navLinks.map(link =>
 								link.isMenuButton != true
 									?
-									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-active-link-green"} relative mb-4 px-4 py-2`}>
+									<li key={link.href} className={`${path === link.href && "before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-primary"} relative mb-4 px-4 py-2`}>
 										<div className="relative flex gap-[0.8rem] items-center">
 											{link.icon}
-											<Link href={link.href} className={`${path === link.href ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</Link>
+											<Link href={link.href} className={`${path === link.href ? "text-primary" : "text-mobile-menu"}`}>{link.label}</Link>
 										</div>
 									</li>
 									:
 									<li key={link.href}  className="relative mb-4 py-2">
 										<div className="flex justify-between">
-											<div className={`px-4 ${(link.dropdownMenuItems.some(item => path === item.href)) && " before:content-[''] before:absolute before:left-0 before:h-[51px] before:border-l-4 before:border-solid before:border-active-link-green"} relative flex gap-[0.8rem] items-center`}>
+											<div className={`px-4 ${(link.dropdownMenuItems.some(item => path === item.href)) && " before:content-[''] before:absolute before:left-0 before:h-[51px] before:border-l-4 before:border-solid before:border-primary"} relative flex gap-[0.8rem] items-center`}>
 												{link.icon}
-												<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-active-link-green" : "text-mobile-menu-grey"}`}>{link.label}</button>
+												<button className={`${(link.dropdownMenuItems.some(item => path === item.href)) ? "text-primary" : "text-mobile-menu"}`}>{link.label}</button>
 											</div>
 											<div id={link.label} onClick={link.mobile.buttonHandler}>
 												{link.mobile.isMenuOpenMobile
-													? <KeyboardArrowUpIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
-													: <KeyboardArrowDownIcon className="text-mobile-menu-grey cursor-pointer" sx={{ fontSize: 35 }} />
+													? <KeyboardArrowUpIcon className="text-mobile-menu cursor-pointer" sx={{ fontSize: 35 }} />
+													: <KeyboardArrowDownIcon className="text-mobile-menu cursor-pointer" sx={{ fontSize: 35 }} />
 												}
 											</div>
 										</div>
@@ -200,10 +200,10 @@ const Header = () => {
 						</ul>
 						{/* If hamburger-menu is clicked social media will be showed */}
 						<div className={`${hamburgerIsOpen ? 'visible animate-fadeInLeft absolute w-full bottom-0 left-0 py-4 bg-white' : 'invisible animate-fadeInRight'} flex justify-center gap-4 transition-visible ease-in-out delay-150 duration-300`}>
-							<TwitterIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
-							<FacebookRoundedIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
-							<InstagramIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
-							<RedditIcon className="text-mobile-menu-grey" sx={{ fontSize: 38 }} />
+							<TwitterIcon className="text-mobile-menu" sx={{ fontSize: 38 }} />
+							<FacebookRoundedIcon className="text-mobile-menu" sx={{ fontSize: 38 }} />
+							<InstagramIcon className="text-mobile-menu" sx={{ fontSize: 38 }} />
+							<RedditIcon className="text-mobile-menu" sx={{ fontSize: 38 }} />
 						</div>
 					</div>
 				</nav>
@@ -211,11 +211,11 @@ const Header = () => {
 				{/* Desktop  - notification and account */}
 				<div className="hidden lg:flex lg:items-center lg:!ml-auto lg:gap-4">
 					<button>
-						<NotificationsNoneIcon className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+						<NotificationsNoneIcon className="text-mobile-menu" sx={{ fontSize: 28 }} />
 					</button>
 					<div className="relative">
 						<button>
-							<AccountCircleIcon id="account-button" onClick={toggleHandler} className="text-mobile-menu-grey" sx={{ fontSize: 28 }} />
+							<AccountCircleIcon id="account-button" onClick={toggleHandler} className="text-mobile-menu" sx={{ fontSize: 28 }} />
 						</button>
 						{accountIsOpen &&
 							<Paper ref={accountMenuWrapperRef} sx={{
@@ -227,13 +227,13 @@ const Header = () => {
 							}}>
 								<MenuList>
 									<li className="py-2 hover:bg-background-hover-menu">
-										<Link href="/profile" className={`${path === '/profile' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Profile</Link>
+										<Link href="/profile" className={`${path === '/profile' ? "text-primary" : "text-mobile-menu"}`}>Profile</Link>
 									</li>
 									<li className="py-2 hover:bg-background-hover-menu">
-										<Link href="/account-settings" className={`${path === '/accout-settings' ? "text-active-link-green" : "text-mobile-menu-grey"}`}>Settings</Link>
+										<Link href="/account-settings" className={`${path === '/accout-settings' ? "text-primary" : "text-mobile-menu"}`}>Settings</Link>
 									</li>
 									<li className="py-2 hover:bg-background-hover-menu">
-										<Link href="/logout" className="text-mobile-menu-grey">Logout</Link>
+										<Link href="/logout" className="text-mobile-menu">Logout</Link>
 									</li>
 								</MenuList>
 							</Paper>

@@ -6,7 +6,7 @@ const { version } = require('/package.json');
 
 const Footer = () => {
 	return (
-		<footer className='mx-auto container mt-14 md:mt-24 mb-12 grid gap-y-12 px-4 md:px-8'>
+		<footer className='mx-auto container mt-14 md:mt-24 md:mb-12 mb-8 grid gap-y-12 px-4 md:px-8'>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
 						{/* Left Column: Logo and Description */}
 						<div>
@@ -19,7 +19,7 @@ const Footer = () => {
 						</div>
 
 						{/* Right Column: Footer Links */}
-						<div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-8 text-left md:justify-end">
+						<div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-8 text-left md:justify-end mt-4 md:mt-0">
 								<div>
 										<h5 className="font-bold text-xl mb-4">About</h5>
 										<ul className="flex flex-col gap-2">
@@ -57,7 +57,7 @@ const Footer = () => {
 				</div>
 
 				{/* Footer Bottom Text */}
-				<div className="md:text-center">
+				<div className="md:text-center mt-4 md:mt-0">
 					<p className='text-sm'>
 							&copy; {new Date().getFullYear()} ICPTokens v{version}<br />
 							Powered by the <a href="https://internetcomputer.org/" className='underline'>Internet Computer</a> &amp; <a href="https://www.tradingview.com/" className='underline'>Trading View</a>

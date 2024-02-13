@@ -1,12 +1,11 @@
 import Layout from '../ui/components/_base/Layout';
-import Link from 'next/link';
-import TokensTable from '../ui/components/TokensTable';
+import TokensTable from '../ui/components/tokens/table/TokensTable';
 
 const Home = () => {
   return (
     <Layout>
       <div>
-        <h1 className='text-xl font-semibold'>Internet Computer Tokens by Market Cap</h1>
+        <h1 className='lg:text-xl text-base font-semibold'>Internet Computer Tokens by Market Cap</h1>
         <TokensTable />
       </div>
     </Layout>
