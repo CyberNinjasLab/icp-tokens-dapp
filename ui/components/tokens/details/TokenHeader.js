@@ -50,7 +50,7 @@ const TokenHeader = ({ tokenData }) => {
           {tokenData?.change_30d}% (30d)
         </Typography>  
 
-        <Typography color={tokenData?.change_90d > 0 ? 'green' : 'error'}>
+        <Typography color={tokenData?.change_90d > 0 ? 'green' : 'error'} className='hidden md:block'>
           {tokenData?.change_90d > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (

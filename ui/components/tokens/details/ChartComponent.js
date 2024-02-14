@@ -13,15 +13,56 @@ const periods = ['7d', '30d', '90d', 'All'];
 const intervals = ['1h', '1d', '1w'];
 
 const ChartComponent = ({ canister_id }) => {
+  const chartWrapperRef = useRef(null);
   const chartContainerRef = useRef(null); // Ref for the div container of the chart
-  const [selectedPeriod, setSelectedPeriod] = useState('90d'); // State for the selected period
-  const [selectedInterval, setSelectedInterval] = useState('1d'); // State for selected interval for candlestick charts
+  const chartInstanceRef = useRef(null);
+  const [selectedPeriod, setSelectedPeriod] = useState('30d'); // State for the selected period
+  const [selectedInterval, setSelectedInterval] = useState('1h'); // State for selected interval for candlestick charts
   const [chartType, setChartType] = useState('area'); // State for the chart type (area or candle)
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [chartInitTrigger, setChartInitTrigger] = useState(0);
 
   const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice } = useContext(GeneralContext)
     
   // Use the custom hook to fetch data
   const { data, loading, error } = useFetchOHLCVData(canister_id, selectedInterval, selectedPeriod);
+
+  const toggleFullScreen = () => {
+    const chartWrapper = chartWrapperRef.current;
+    if (!document.fullscreenElement && chartWrapper) {
+      if (chartWrapper.requestFullscreen) {
+        chartWrapper.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  const calculateChartHeight = (isFullScreen) => {
+    return isFullScreen ? (window.innerHeight - 130) : 400;
+  };
+  
+  const updateChartSize = (isFullScreenNow) => {
+    const chartContainer = chartContainerRef.current;
+    const chart = chartInstanceRef.current;
+  
+    if (chart && chartContainer) {
+      const newHeight = calculateChartHeight(isFullScreenNow);
+      const newWidth = chartContainer.clientWidth; // Use the container's current width
+  
+      chart.applyOptions({
+        width: newWidth,
+        height: newHeight
+      });
+
+      // Hack to rewrite chart on fulscreen exit... :D
+      if (!isFullScreenNow) {
+        setChartInitTrigger(prev => prev + 1)
+      }
+    }
+  };  
 
   const setupAreaChart = (chart, data, min) => {
     const { precision, minMove } = calculatePrecisionAndMinMove(min);
@@ -51,7 +92,7 @@ const ChartComponent = ({ canister_id }) => {
       scaleMargins: {
         // positioning the price scale for the area series
         top: 0.1,
-        bottom: 0.3,
+        bottom: 0.2,
       },
     });
     series.setData(data);
@@ -117,13 +158,15 @@ const ChartComponent = ({ canister_id }) => {
     const toolTipHeight = 80;
     const toolTipMargin = 15;
 
-    // Create and style the tooltip html element
-    const toolTip = document.createElement('div');
-    toolTip.style = `width: ${toolTipWidth}px; height: auto; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
-    toolTip.style.background = 'white';
-    toolTip.style.color = 'black';
-    toolTip.style.borderColor = 'rgba(38, 166, 154, 1)';
-    container.appendChild(toolTip);
+    let toolTip = container.querySelector('.chart-tooltip'); // Try to find an existing tooltip
+
+    // If a tooltip doesn't exist, create and append it
+    if (!toolTip) {
+      toolTip = document.createElement('div');
+      toolTip.className = 'chart-tooltip'; // Add a class for easy identification
+      toolTip.style = `width: 140px; height: auto; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; pointer-events: none; border: 1px solid; border-radius: 2px; background: white; color: black; border-color: rgba(38, 166, 154, 1); font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+      container.appendChild(toolTip);
+    }
 
     // Subscribe to crosshair move events to update the tooltip
     chart.subscribeCrosshairMove(param => {
@@ -191,7 +234,7 @@ const ChartComponent = ({ canister_id }) => {
     // Initialize the chart with basic configuration
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
-      height: 400,
+      height: calculateChartHeight(isFullScreen),
       layout: {
         backgroundColor: '#ffffff',
         textColor: 'rgba(33, 56, 77, 1)',
@@ -214,6 +257,8 @@ const ChartComponent = ({ canister_id }) => {
         borderColor: 'rgba(197, 203, 206, 1)',
       },
     });
+
+    chartInstanceRef.current = chart;
 
     let transformedData;
     let series;
@@ -250,8 +295,27 @@ const ChartComponent = ({ canister_id }) => {
       appendTolltipToChar(chart, series, transformedData)
     }
 
-    return () => chart.remove();
-  }, [chartType, data, loading, error]); // Reinitialize the chart when these dependencies change
+    return () => {
+      chart.unsubscribeCrosshairMove();
+      chart.remove();
+      chartInstanceRef.current = null;
+    }
+  }, [chartType, data, loading, error, chartInitTrigger]); // Reinitialize the chart when these dependencies change
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      // Check if the document is currently in full screen mode
+      const isNowFullScreen = document.fullscreenElement === chartWrapperRef.current;
+      setIsFullScreen(isNowFullScreen);
+      updateChartSize(isNowFullScreen);
+    };
+  
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+  
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);  
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -266,10 +330,10 @@ const ChartComponent = ({ canister_id }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 max-w-6xl">
+    <div ref={chartWrapperRef} className="flex flex-col justify-center gap-4 max-w-6xl">
       <div className="flex gap-1 justify-between">
         {/* Left side: UI for toggling chart type */}
-        <ButtonGroup size="small" aria-label="chart type buttons">
+        <ButtonGroup size="small" aria-label="chart type buttons" sx={{ backgroundColor: 'white' }}>
           <Tooltip title="Area Chart">
             <Button 
               variant={chartType === 'area' ? "contained" : "outlined"}
@@ -290,8 +354,13 @@ const ChartComponent = ({ canister_id }) => {
           </Tooltip>
         </ButtonGroup>
 
+        <Button onClick={toggleFullScreen} className='opacity-0 lg:opacity-100'>
+          {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
+        </Button>
+
+
         {/* Right side: UI for selecting intervals (only if chart type is 'candle') */}  
-        <ButtonGroup size="small" aria-label="chart interval buttons">
+        <ButtonGroup size="small" aria-label="chart interval buttons" sx={{ backgroundColor: 'white' }}>
           {intervals.map((interval) => (
             <Tooltip key={interval} title={`${interval} Interval`}>
               <Button
@@ -306,7 +375,7 @@ const ChartComponent = ({ canister_id }) => {
         </ButtonGroup>
       </div>
       <div className='relative'>
-        <div ref={chartContainerRef} className="w-full h-96" />
+        <div ref={chartContainerRef} className="w-full" />
       </div>
       {/* Period Selection UI */}
       <ButtonGroup 
