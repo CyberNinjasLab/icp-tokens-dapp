@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
-import { createChart } from 'lightweight-charts';
+import { createChart, CrosshairMode } from 'lightweight-charts';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
@@ -248,7 +248,7 @@ const ChartComponent = ({ canister_id }) => {
         },
       },
       crosshair: {
-        mode: 1, // Corresponds to CrosshairMode.Normal if using the LightweightCharts namespace
+        mode: CrosshairMode.Normal,
       },
       priceScale: {
         borderColor: 'rgba(197, 203, 206, 1)',

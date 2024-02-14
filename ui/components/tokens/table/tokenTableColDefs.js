@@ -77,17 +77,17 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
       return params.value.toLocaleString() + ' ICP';
     }
   },
-  {
-    field: 'volume_30d',
-    headerName: '30d Volume',
-    autoHeight: true,
-    width: 150,
-    cellStyle: { textAlign: 'right' },
-    headerClass: 'text-right',
-    valueFormatter: params => {
-      return params.value.toLocaleString() + ' ICP';
-    }
-  },
+  // {
+  //   field: 'volume_30d',
+  //   headerName: '30d Volume',
+  //   autoHeight: true,
+  //   width: 150,
+  //   cellStyle: { textAlign: 'right' },
+  //   headerClass: 'text-right',
+  //   valueFormatter: params => {
+  //     return params.value.toLocaleString() + ' ICP';
+  //   }
+  // },
   {
     field: 'fully_diluted_market_cap',
     headerName: 'Fully Diluted M Cap',
