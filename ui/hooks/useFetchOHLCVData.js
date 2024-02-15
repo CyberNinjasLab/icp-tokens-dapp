@@ -8,7 +8,7 @@ const useFetchOHLCVData = (canisterId, interval, timeframe) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = `${process.env.NEXT_PUBLIC_WEB2_API_URL}/tokens/ohlcv/${canisterId}?interval=${interval}&timeframe=${timeframe}`;
+        const url = `${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens/ohlcv/${canisterId}?interval=${interval}&timeframe=${timeframe}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network response was not ok.');
         const jsonData = await response.json();

@@ -12,12 +12,14 @@ const TokenHeader = ({ tokenData }) => {
       <div className="flex items-center gap-2 mb-3">
       {tokenData.logo && (
       <img
-          src={`http://127.0.0.1:8000/storage/${tokenData.logo}`}
+          src={`${process.env.NEXT_PUBLIC_WEB2_API_URL}/storage/${tokenData.logo}`}
           alt={`${tokenData.symbol}-icon`}
           className="w-10 h-10 rounded-full"
         />
       )}
-        <Typography variant="h7">{tokenData?.name} ({tokenData?.symbol})</Typography>
+        <Typography variant="h7">
+          {tokenData.name !== tokenData.symbol ? `${tokenData?.name} (${tokenData?.symbol})` : tokenData?.symbol}
+        </Typography>
       </div>
       <div className="flex gap-6 sm:gap-8 items-center mb-3">
         <Typography variant="body1" fontSize="medium">
