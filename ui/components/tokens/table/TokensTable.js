@@ -18,7 +18,7 @@ import getTokenTableColDefs from './tokenTableColDefs';
 
 function TokensTable() {
   const {formatPrice} = useContext(GeneralContext);
-  const { data, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/tokens`);
+  const { data, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`);
   const router = useRouter();
   const colDefs = getTokenTableColDefs({formatPrice, isMobile})
   const defaultColDef = useMemo(() => {

@@ -10,7 +10,7 @@ const useTokenData = (tokenId) => {
       if (!tokenId) return;
       setIsLoading(true);
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/tokens/${tokenId}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens/${tokenId}`);
         if (!response.ok) throw new Error('Failed to fetch token data');
         const data = await response.json();
         setTokenData(data);

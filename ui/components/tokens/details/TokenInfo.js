@@ -55,13 +55,13 @@ export default function TokenInfo({ data }) {
               Circulating Supply
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>No API Data</Typography>
+            <Typography><i>No API Data</i></Typography>
           </div>
         </ListItem>
         <ListItem>
           <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">
-              Max Supply
+              Total Supply
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
             <Typography>{Math.round(data.total_supply).toLocaleString()} {data.symbol}</Typography>
