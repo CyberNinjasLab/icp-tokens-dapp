@@ -17,7 +17,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     headerName: 'Name',
     cellRenderer: TokenLogoAndName,
     filter: true,
-    width: `${isMobile ? 100 : 236}`,
+    width: `${isMobile ? 120 : 210}`,
     pinned: 'left'
   },
   {
@@ -34,7 +34,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   {
     field: 'change_24h',
     headerName: '24h %',
-    width: 140,
+    width: 150,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     cellRenderer: PriceMovementIndicator
@@ -42,7 +42,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   {
     field: 'change_7d',
     headerName: '7d %',
-    width: 140,
+    width: 110,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     cellRenderer: PriceMovementIndicator
@@ -50,7 +50,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   {
     field: 'change_30d',
     headerName: '30d %',
-    width: 130,
+    width: 110,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     cellRenderer: PriceMovementIndicator
@@ -59,7 +59,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     field: 'volume_24h',
     headerName: '24h Volume',
     autoHeight: true,
-    width: 130,
+    width: 150,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     valueFormatter: params => {
@@ -70,7 +70,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     field: 'volume_7d',
     headerName: '7d Volume',
     autoHeight: true,
-    width: 150,
+    width: 115,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     valueFormatter: params => {
@@ -91,7 +91,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   {
     field: 'fully_diluted_market_cap',
     headerName: 'Fully Diluted M Cap',
-    width: 170,
+    // width: ,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     valueFormatter: params => {

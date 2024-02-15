@@ -5,7 +5,8 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const TokenHeader = ({ tokenData }) => {
-  const {formatPrice} = useContext(GeneralContext);
+  const {formatPrice, getTokenName} = useContext(GeneralContext);
+  const tokenName = getTokenName(tokenData)
 
   return (
     <>
@@ -18,7 +19,7 @@ const TokenHeader = ({ tokenData }) => {
         />
       )}
         <Typography variant="h7">
-          {tokenData.name !== tokenData.symbol ? `${tokenData?.name} (${tokenData?.symbol})` : tokenData?.symbol}
+          {tokenName !== tokenData.symbol ? `${tokenName} (${tokenData?.symbol})` : tokenData?.symbol}
         </Typography>
       </div>
       <div className="flex gap-6 sm:gap-8 items-center mb-3">

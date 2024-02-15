@@ -15,6 +15,14 @@ module.exports = {
         '2xl': '1536px', // Default container width for '2xl' breakpoint
       },
     },
+    screens: {
+      'xs': '540px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px'
+    },
     extend: {
       screens: {
         'xl': '1370px' // Increased container width for 'xl' (desktop) breakpoint

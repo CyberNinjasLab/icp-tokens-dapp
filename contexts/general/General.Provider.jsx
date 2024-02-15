@@ -39,7 +39,7 @@ const GeneralContextProvider = ({ children }) => {
     return Math.floor(Date.parse(utcTimestampStr) / 1000);
   };
 
-  function calculatePrecisionAndMinMove(min) {
+  const calculatePrecisionAndMinMove = (min) => {
     // Case 1: min >= 1
     if (min >= 1) {
       return { precision: null, minMove: null };
@@ -105,7 +105,12 @@ const GeneralContextProvider = ({ children }) => {
     }
   
     return formattedDate;
-  };  
+  };
+
+  const getTokenName = (tokenData) => {
+    return tokenData.display_name !== null ? tokenData.display_name : tokenData.name;
+  }
+
   
   const contextValues = {
       identity,
@@ -113,7 +118,8 @@ const GeneralContextProvider = ({ children }) => {
       formatPrice,
       parseTimestampToUnix,
       calculatePrecisionAndMinMove,
-      formatDateBasedOnInterval
+      formatDateBasedOnInterval,
+      getTokenName
   }
 
   return (

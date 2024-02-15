@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import { isMobile } from 'react-device-detect';
+import { GeneralContext } from '../../../contexts/general/General.Context';
 
 const TokenLogoAndName = ({ data }) => {
+  const { getTokenName }  = useContext(GeneralContext)
+  const tokenName = getTokenName(data)
+  
   // Conditionally render name and symbol based on equality and device type
   const renderNameAndSymbol = () => {
-    if (data.name !== data.symbol) {
+    if (tokenName !== data.symbol) {
       return isMobile ? (
         <Typography>{data.symbol}</Typography>
       ) : (
         <>
           <Typography className="text-30" component="span" sx={{ mr: 1 }}>
-            {data.name}
+            {tokenName}
           </Typography>
           <Typography
             className="text-30"

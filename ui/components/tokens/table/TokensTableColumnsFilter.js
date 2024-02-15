@@ -54,15 +54,17 @@ const TokensTableColumnsFilter = ({
   };
 
   return (
-    <div>
-      <Button
-        variant="text"
-        startIcon={<ViewWeekOutlinedIcon />}
-        onClick={handleShowFilters}
-        sx={{ py: 1 }}
-      >
-        Columns
-      </Button>
+    <div className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
+      <div className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}>
+        <Button
+          variant="text"
+          startIcon={<ViewWeekOutlinedIcon />}
+          onClick={handleShowFilters}
+          sx={{ py: 1 }}
+        >
+          Columns
+        </Button>
+      </div>
       {showFilters && (
         <div>
           <ToggleButtonGroup

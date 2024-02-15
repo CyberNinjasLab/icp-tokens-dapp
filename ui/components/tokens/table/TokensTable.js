@@ -49,7 +49,7 @@ function TokensTable() {
       {error && <Alert severity="error">{error}</Alert>}
       {!loaded && !error && <Skeleton variant="rounded" className='max-w-1500 mt-4' height={800} />}
       {loaded && data && (
-        <Paper className="max-w-1500 mx-auto">
+        <Paper className="max-w-1500 mx-auto relative">
            {isGridReady && <TokensTableColumnsFilter gridApi={gridApi} gridColumnApi={gridColumnApi} showFilters={showFilters} setShowFilters={setShowFilters} /> }
           <Paper className="ag-theme-quartz w-full h-full">
             <AgGridReact
