@@ -1,4 +1,4 @@
-import React, { useContext, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../ui/components/_base/Layout';
 import useTokenData from '../../ui/hooks/useTokenData'; // Import the hook
