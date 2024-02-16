@@ -60,7 +60,7 @@ const Footer = () => {
 				<div className="md:text-center mt-4 md:mt-0">
 					<p className='text-sm'>
 							&copy; {new Date().getFullYear()} ICPTokens v{version}<br />
-							Powered by the <a href="https://internetcomputer.org/" className='underline'>Internet Computer</a> &amp; <a href="https://www.tradingview.com/" className='underline'>Trading View</a>
+							Powered by the <a href="https://internetcomputer.org/" target='_blank' className='underline'>Internet Computer</a> &amp; <a href="https://www.tradingview.com/" target='_blank' className='underline'>Trading View</a>
 					</p>
 				</div>
 		</footer>
