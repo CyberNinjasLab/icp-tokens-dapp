@@ -23,7 +23,7 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
       <div id="mobile-toggler" onClick={toggleMobileMenu} className="lg:hidden">
         {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
-      <div className={`z-[100] ${isMobileMenuOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-150 duration-300 py-6 left-0 bg-white w-full top-[61px] fixed h-[calc(100%-61px)] shadow-xl`}>
+      <div className={`z-[100] ${isMobileMenuOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-0 duration-300 py-6 left-0 bg-white w-full top-[61px] fixed h-[calc(100%-61px)] shadow-xl`}>
         <ul className="pb-16 overflow-y-scroll">
           {navLinks.map((link) =>
             link.isDropdown !== true ? (

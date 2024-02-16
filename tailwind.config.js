@@ -35,17 +35,17 @@ module.exports = {
 
       keyframes: {
         fadeInLeft: {
-          '0%': { opacity: 0, transform: 'translateX(-200px)' },
-          '100%': { opacity: 1, transform: 'translateX(0px)' },
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0px)' },
         },
         fadeInRight: {
-          '0%': { opacity: 1, transform: 'translateX(0)' },
-          '100%': { opacity: 0, transform: 'translateX(-200px)' },
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
         }
       },
       animation: {
-        fadeInLeft: 'fadeInLeft 0.5s ease-in-out',
-        fadeInRight: 'fadeInRight 0.5s ease-in-out',
+        fadeInLeft: 'fadeInLeft 0.3s ease-in-out',
+        fadeInRight: 'fadeInRight 0.3s ease-in-out',
       }
     },
   },
