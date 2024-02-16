@@ -32,7 +32,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     }
   },
   {
-    field: 'change_24h',
+    field: 'metrics.change_24h',
     headerName: '24h %',
     width: 150,
     cellStyle: { textAlign: 'right' },
@@ -40,7 +40,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     cellRenderer: PriceMovementIndicator
   },
   {
-    field: 'change_7d',
+    field: 'metrics.change_7d',
     headerName: '7d %',
     width: 110,
     cellStyle: { textAlign: 'right' },
@@ -48,7 +48,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     cellRenderer: PriceMovementIndicator
   },
   {
-    field: 'change_30d',
+    field: 'metrics.change_30d',
     headerName: '30d %',
     width: 110,
     cellStyle: { textAlign: 'right' },
@@ -56,7 +56,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     cellRenderer: PriceMovementIndicator
   },
   {
-    field: 'volume_24h',
+    field: 'metrics.volume_24h',
     headerName: '24h Volume',
     autoHeight: true,
     width: 150,
@@ -67,7 +67,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     }
   },
   {
-    field: 'volume_7d',
+    field: 'metrics.volume_7d',
     headerName: '7d Volume',
     autoHeight: true,
     width: 115,
@@ -78,7 +78,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     }
   },
   // {
-  //   field: 'volume_30d',
+  //   field: 'metrics.volume_30d',
   //   headerName: '30d Volume',
   //   autoHeight: true,
   //   width: 150,

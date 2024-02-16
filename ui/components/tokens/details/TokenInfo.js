@@ -37,7 +37,7 @@ export default function TokenInfo({ data }) {
               Volume (24h)
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>{data.volume_24h.toLocaleString()} ICP</Typography>
+            <Typography>{data.metrics.volume_24h.toLocaleString()} ICP</Typography>
           </div>
         </ListItem>
         <ListItem>
@@ -46,7 +46,7 @@ export default function TokenInfo({ data }) {
               Volume (7d)
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>{data.volume_7d.toLocaleString()} ICP</Typography>
+            <Typography>{data.metrics.volume_7d.toLocaleString()} ICP</Typography>
           </div>
         </ListItem>
         <ListItem>

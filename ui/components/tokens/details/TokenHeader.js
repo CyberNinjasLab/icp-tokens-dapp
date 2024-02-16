@@ -26,40 +26,40 @@ const TokenHeader = ({ tokenData }) => {
         <Typography variant="body1" fontSize="medium">
           {formatPrice(tokenData.price)}
         </Typography>
-        <Typography color={tokenData?.change_24h > 0 ? 'green' : 'error'}>
-          {tokenData?.change_24h > 0 ? (
+        <Typography color={tokenData?.metrics.change_24h > 0 ? 'green' : 'error'}>
+          {tokenData?.metrics.change_24h > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.change_24h}% (24h)
+          {tokenData?.metrics.change_24h}% (24h)
         </Typography>
         
-        <Typography color={tokenData?.change_7d > 0 ? 'green' : 'error'} className='hidden sm:block'>
-          {tokenData?.change_7d > 0 ? (
+        <Typography color={tokenData?.metrics.change_7d > 0 ? 'green' : 'error'} className='hidden sm:block'>
+          {tokenData?.metrics.change_7d > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.change_7d}% (7d)
+          {tokenData?.metrics.change_7d}% (7d)
         </Typography>   
 
-        <Typography color={tokenData?.change_30d > 0 ? 'green' : 'error'} className='hidden md:block'>
-          {tokenData?.change_30d > 0 ? (
+        <Typography color={tokenData?.metrics.change_30d > 0 ? 'green' : 'error'} className='hidden md:block'>
+          {tokenData?.metrics.change_30d > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.change_30d}% (30d)
+          {tokenData?.metrics.change_30d}% (30d)
         </Typography>  
 
-        <Typography color={tokenData?.change_90d > 0 ? 'green' : 'error'} className='hidden md:block'>
-          {tokenData?.change_90d > 0 ? (
+        <Typography color={tokenData?.metrics.change_90d > 0 ? 'green' : 'error'} className='hidden md:block'>
+          {tokenData?.metrics.change_90d > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.change_90d}% (90d)
+          {tokenData?.metrics.change_90d}% (90d)
         </Typography>
       </div>
     </>

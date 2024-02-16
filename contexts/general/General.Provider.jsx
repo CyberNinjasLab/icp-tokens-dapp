@@ -12,6 +12,10 @@ const GeneralContextProvider = ({ children }) => {
       return value + ' ICP'; // Assuming you want to keep the "ICP" suffix
     }
 
+    if (value === null) {
+      return '';
+    }
+
     if (value >= 1 && value < 10) {
       result = parseFloat(value).toFixed(4);
     } else if (value >= 10 && value <= 200) {
