@@ -95,7 +95,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     valueFormatter: params => {
-      return params.value.toLocaleString() + ' ICP';
+      return parseFloat(params.value).toLocaleString() + ' ICP';
     }
   }
 ];

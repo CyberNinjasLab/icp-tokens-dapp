@@ -20,7 +20,7 @@ const questionMarkStyle = {
 
 export default function TokenInfo({ data }) {
   return (
-    <div className='bg-gray-50/90 rounded-md'>
+    <div className='bg-gray-50/90 rounded-md max-w-[400px] mx-auto'>
       <List sx={style}>
         <ListItem>
           <div className="flex justify-between items-center w-full">
@@ -28,7 +28,7 @@ export default function TokenInfo({ data }) {
               Fully Diluted M Cap
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}
             </Typography>
-            <Typography>{data.fully_diluted_market_cap.toLocaleString()} ICP</Typography>
+            <Typography>{parseFloat(data.fully_diluted_market_cap)?.toLocaleString()} ICP</Typography>
           </div>
         </ListItem>
         <ListItem>

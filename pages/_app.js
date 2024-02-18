@@ -1,6 +1,7 @@
 import '../styles/global.css';
 import Head from 'next/head';
 import GeneralContextProvider from '../contexts/general/General.Provider';
+import AuthContextProvider from '../contexts/auth/Auth.Provider';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -30,7 +31,9 @@ export default function App({ Component, pageProps }) {
         {/* Other head elements */}
       </Head>
       <GeneralContextProvider>
-        <Component {...pageProps} />
+        <AuthContextProvider>
+          <Component {...pageProps} />
+        </AuthContextProvider>
       </GeneralContextProvider>
     </>
   );

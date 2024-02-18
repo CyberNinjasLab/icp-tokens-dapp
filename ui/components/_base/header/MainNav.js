@@ -1,5 +1,6 @@
 // MainNav.js
 import React, { useState } from 'react';
+import AccountNav from './AccountNav';
 import MobileNav from './MobileNav';
 import DesktopNav from './DesktopNav';
 import { useRouter } from 'next/router';
@@ -60,8 +61,9 @@ const MainNav = () => {
   ];  
 
   return (
-    <nav>
+    <nav className='flex items-center w-full justify-end lg:justify-between'>
       <DesktopNav navLinks={navConfig} path={path} />
+      <AccountNav />
       <MobileNav navLinks={navConfig} isMobileMenuOpen={isMobileMenuOpen} toggleMobileMenu={toggleMobileMenu} path={path} />
     </nav>
   );

@@ -20,7 +20,7 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
 
   return (
     <>
-      <div id="mobile-toggler" onClick={toggleMobileMenu} className="lg:hidden">
+      <div id="mobile-toggler" onClick={toggleMobileMenu} className="lg:hidden py-2 px-2">
         {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
       <div className={`z-[100] ${isMobileMenuOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-0 duration-300 py-6 left-0 bg-white w-full top-[61px] fixed h-[calc(100%-61px)] shadow-xl`}>
