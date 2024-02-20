@@ -9,12 +9,7 @@ import React, { useEffect } from 'react';
 import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 
-const TokensTableColumnsFilter = ({
-  gridApi,
-  gridColumnApi,
-  showFilters,
-  setShowFilters
-}) => {
+const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   const initialVisibility = gridApi
     .getAllGridColumns()
     .map(column => column.getColId());
@@ -22,12 +17,6 @@ const TokensTableColumnsFilter = ({
     'visibleColumns',
     initialVisibility
   );
-  // const [selectedColumns, setSelectedColumns] = useState(() => {
-  //   const all = gridApi.getAllGridColumns();
-  //   console.log(all);
-  //   const selected = all.map(column => column.getColId());
-  //   return selected;
-  // });
 
   const handleColumnChange = (event, colId) => {
     const updatedColumns = selectedColumns.includes(colId)
@@ -46,7 +35,7 @@ const TokensTableColumnsFilter = ({
     allColumns?.forEach(column => {
       const colId = column.getColId();
       const isVisible = selectedColumns.includes(colId);
-      gridColumnApi.setColumnVisible(colId, isVisible);
+      gridApi.setColumnVisible(colId, isVisible);
     });
   };
   const handleShowFilters = () => {
@@ -54,8 +43,12 @@ const TokensTableColumnsFilter = ({
   };
 
   return (
-    <div className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
-      <div className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}>
+    <div
+      className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}
+    >
+      <div
+        className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}
+      >
         <Button
           variant="text"
           startIcon={<ViewWeekOutlinedIcon />}
@@ -89,7 +82,9 @@ const TokensTableColumnsFilter = ({
               return (
                 <ToggleButton value={column.getColId()} key={column.getColId()}>
                   <Typography component="p" fontSize={12}>
-                    {column.getColDef().headerName || 'rank'}
+                    {column.getColDef().headerName !== ''
+                      ? column.getColDef().headerName
+                      : column.getColDef().field}
                   </Typography>
                   {isSelected && <CancelIcon sx={{ ml: 1 }} />}
                 </ToggleButton>

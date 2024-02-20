@@ -2,15 +2,25 @@
 
 import PriceMovementIndicator from '../PriceMovementIndicator';
 import TokenLogoAndName from '../TokenLogoAndName';
+import Favorites from '../Favorites';
 
 const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   {
+    field: 'favorites',
+    width: `${isMobile ? 40 : 60}`,
+    headerName: '',
+    pinned: 'left',
+    cellStyle: { textAlign: 'center' },
+    cellRenderer: Favorites,
+    cellClass: 'favorite-icon'
+  },
+  {
     field: 'rank',
-    width: 60,
+    width: `${isMobile ? 60 : 80}`,
     headerName: '',
     pinned: 'left',
     sort: 'asc',
-    cellStyle: { textAlign: 'center' },
+    cellStyle: { textAlign: 'center' }
   },
   {
     field: 'name',
@@ -23,12 +33,11 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => [
   {
     field: 'price',
     headerName: 'Price',
-    // autoWidth: `${!isMobile ? true : false}`,
     width: 150,
     cellStyle: { textAlign: 'right' },
     headerClass: 'text-right',
     valueFormatter: params => {
-      return formatPrice(params.value)
+      return formatPrice(params.value);
     }
   },
   {

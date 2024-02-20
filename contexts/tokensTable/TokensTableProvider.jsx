@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TokensTableContext } from './TokensTableContext';
+import useLocalStorage from '../../ui/hooks/useLocalStorage';
 
 const TokensTableContextProvider = ({ children }) => {
-  const [identity, setIdentity] = useState(233456);
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
   const contextValues = {
-    identity,
-    setIdentity
+    favorites,
+    setFavorites
   };
-
   return (
     <TokensTableContext.Provider value={contextValues}>
       {children}
