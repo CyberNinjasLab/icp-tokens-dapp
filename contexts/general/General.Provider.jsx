@@ -36,7 +36,10 @@ const GeneralContextProvider = ({ children }) => {
     return result;
   };
 
-  const parseTimestampToUnix = timestampStr => {
+  const formatTotalSupply = (data) => {
+    return  Math.round(data.total_supply / Math.pow(10, data.decimals)).toLocaleString();
+  }
+  const parseTimestampToUnix = (timestampStr) => {
     // Assuming the input format is "YYYY-MM-DD HH:MM:SS" and should be treated as UTC
     // Convert the timestamp string into a format recognized as UTC by JavaScript Date parsing
     const utcTimestampStr = timestampStr.replace(' ', 'T') + 'Z'; // Convert to ISO 8601 format in UTC
@@ -118,14 +121,15 @@ const GeneralContextProvider = ({ children }) => {
   };
 
   const contextValues = {
-    identity,
-    setIdentity,
-    formatPrice,
-    parseTimestampToUnix,
-    calculatePrecisionAndMinMove,
-    formatDateBasedOnInterval,
-    getTokenName
-  };
+      identity,
+      setIdentity,
+      formatPrice,
+      formatTotalSupply,
+      parseTimestampToUnix,
+      calculatePrecisionAndMinMove,
+      formatDateBasedOnInterval,
+      getTokenName
+  }
 
   return (
     <GeneralContext.Provider value={contextValues}>

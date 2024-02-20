@@ -11,11 +11,13 @@ import Avatar from '@mui/material/Avatar';
 import LoginIcon from '@mui/icons-material/Login';
 import Settings from '@mui/icons-material/Settings';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context'; // Adjust the import path as needed
+import { useRouter } from 'next/router';
 
 const AccountNav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const { isAuthenticated, login, logout } = useContext(AuthContext); // Use the authentication context
+  const router = useRouter();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +25,11 @@ const AccountNav = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleMyAccount = () => {
+    router.push('/account'); // Navigate to the /account page
+    handleClose(); // Close the menu after navigation
+  };
+  
 
   // Handle login action
   const handleLogin = () => {
@@ -93,24 +100,26 @@ const AccountNav = () => {
           </MenuItem>
         )}
         {isAuthenticated && (
-          <>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleMyAccount}>
               <Avatar /> My account
             </MenuItem>
+        )}
+        {isAuthenticated && (
             <Divider />
+        )}
             {/* <MenuItem onClick={handleClose}>
               <ListItemIcon>
                 <Settings fontSize="small" />
               </ListItemIcon>
               Settings
             </MenuItem> */}
+        {isAuthenticated && (
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
               Logout
             </MenuItem>
-          </>
         )}
       </Menu>
     </>

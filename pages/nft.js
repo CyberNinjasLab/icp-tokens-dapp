@@ -3,14 +3,10 @@ import Layout from '../ui/components/_base/Layout';
 const Nft = () => {
 	return (
 		<Layout>
-			<div className="p-4">
-				<h1 className="text-xl font-bold mb-4">Useful Links</h1>
-				<ul className="list-disc list-inside">
-					{/* Add your links here */}
-					<li><a href="https://www.example.com" className="text-blue-600 hover:text-blue-800">nft Link 1</a></li>
-					<li><a href="https://www.anotherexample.com" className="text-blue-600 hover:text-blue-800">nft Link 2</a></li>
-					{/* ... more links */}
-				</ul>
+			<div className='w-full text-center md:mt-6'>
+				<span className='text-center block text-3xl md:text-4xl uppercase font-semibold'>NFT</span>
+				<span className='text-center block text-lg md:text-xl uppercase font-semibold mb-10'>Under construction</span>
+				<img src="/illustrations/under-construct.svg" className='max-w-[440px] inline' />
 			</div>
 		</Layout>
 	);

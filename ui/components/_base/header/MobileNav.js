@@ -19,11 +19,7 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
 
   return (
     <>
-      <div
-        id="mobile-toggler"
-        onClick={toggleMobileMenu}
-        className="lg:hidden py-2 px-2"
-      >
+      <div id="mobile-toggler" onClick={toggleMobileMenu} className="lg:hidden py-2 pl-2">
         {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
       <div
