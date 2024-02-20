@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Typography } from '@mui/material';
 import TokenLinks from './TokenLinks';
+import { GeneralContext } from '../../../../contexts/general/General.Context';
 
 const style = {
   py: 1,
@@ -19,6 +20,8 @@ const questionMarkStyle = {
 };
 
 export default function TokenInfo({ data }) {
+  const { formatTotalSupply } = useContext(GeneralContext)
+
   return (
     <div className='bg-gray-50/90 rounded-md max-w-[400px] mx-auto'>
       <List sx={style}>
@@ -64,7 +67,7 @@ export default function TokenInfo({ data }) {
               Total Supply
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>{Math.round(data.total_supply).toLocaleString()} {data.symbol}</Typography>
+            <Typography>{formatTotalSupply(data)} {data.symbol}</Typography>
           </div>
         </ListItem>
         {data.details?.short_description && (

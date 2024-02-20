@@ -36,6 +36,10 @@ const GeneralContextProvider = ({ children }) => {
     return result;
   };
 
+  const formatTotalSupply = (data) => {
+    return  Math.round(data.total_supply / Math.pow(10, data.decimals)).toLocaleString();
+  }
+
   const parseTimestampToUnix = (timestampStr) => {
     // Assuming the input format is "YYYY-MM-DD HH:MM:SS" and should be treated as UTC
     // Convert the timestamp string into a format recognized as UTC by JavaScript Date parsing
@@ -120,6 +124,7 @@ const GeneralContextProvider = ({ children }) => {
       identity,
       setIdentity,
       formatPrice,
+      formatTotalSupply,
       parseTimestampToUnix,
       calculatePrecisionAndMinMove,
       formatDateBasedOnInterval,
