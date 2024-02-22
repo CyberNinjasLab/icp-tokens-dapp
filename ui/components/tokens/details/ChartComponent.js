@@ -10,14 +10,14 @@ import useFetchOHLCVData from '../../../hooks/useFetchOHLCVData'
 const periods = ['7d', '30d', '90d', 'All'];
 
 // Define available intervals for candlestick charts
-const intervals = ['1h', '1d', '1w'];
+const intervals = ['1d', '1w'];
 
 const ChartComponent = ({ canister_id }) => {
   const chartWrapperRef = useRef(null);
   const chartContainerRef = useRef(null); // Ref for the div container of the chart
   const chartInstanceRef = useRef(null);
   const [selectedPeriod, setSelectedPeriod] = useState('30d'); // State for the selected period
-  const [selectedInterval, setSelectedInterval] = useState('1h'); // State for selected interval for candlestick charts
+  const [selectedInterval, setSelectedInterval] = useState('1d'); // State for selected interval for candlestick charts
   const [chartType, setChartType] = useState('area'); // State for the chart type (area or candle)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartInitTrigger, setChartInitTrigger] = useState(0);
@@ -323,10 +323,6 @@ const ChartComponent = ({ canister_id }) => {
   // Function to handle chart type change
   const handleChartTypeChange = (newType) => {
     setChartType(newType);
-    // Automatically set interval to '1d' when switching to candle chart
-    if (newType === 'candle') {
-      setSelectedInterval('1d');
-    }
   };
 
   return (
