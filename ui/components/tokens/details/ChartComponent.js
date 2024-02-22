@@ -16,9 +16,9 @@ const ChartComponent = ({ canister_id }) => {
   const chartWrapperRef = useRef(null);
   const chartContainerRef = useRef(null); // Ref for the div container of the chart
   const chartInstanceRef = useRef(null);
-  const [selectedPeriod, setSelectedPeriod] = useState('30d'); // State for the selected period
+  const [selectedPeriod, setSelectedPeriod] = useState('90d'); // State for the selected period
   const [selectedInterval, setSelectedInterval] = useState('1d'); // State for selected interval for candlestick charts
-  const [chartType, setChartType] = useState('area'); // State for the chart type (area or candle)
+  const [chartType, setChartType] = useState('candle'); // State for the chart type (area or candle)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartInitTrigger, setChartInitTrigger] = useState(0);
 
