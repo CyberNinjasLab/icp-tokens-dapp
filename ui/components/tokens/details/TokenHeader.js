@@ -19,7 +19,7 @@ const TokenHeader = ({ tokenData }) => {
         />
       )}
         <Typography variant="h7">
-          {tokenName !== tokenData.symbol ? `${tokenName} (${tokenData?.symbol})` : tokenData?.symbol}
+          {tokenName != tokenData.symbol ? `${tokenName} (${tokenData?.symbol})` : tokenData?.symbol}
         </Typography>
       </div>
       <div className="flex gap-6 sm:gap-8 items-center mb-3">
