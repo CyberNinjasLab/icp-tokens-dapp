@@ -22,7 +22,7 @@ const ChartComponent = ({ canister_id }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartInitTrigger, setChartInitTrigger] = useState(0);
 
-  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice } = useContext(GeneralContext)
+  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice, prepareChartData } = useContext(GeneralContext)
     
   // Use the custom hook to fetch data
   const { data, loading, error } = useFetchOHLCVData(canister_id, selectedInterval, selectedPeriod);
@@ -95,7 +95,7 @@ const ChartComponent = ({ canister_id }) => {
         bottom: 0.2,
       },
     });
-    series.setData(data);
+    series.setData(prepareChartData(data));
 
     return series;
   };  
@@ -127,7 +127,7 @@ const ChartComponent = ({ canister_id }) => {
       color: parseFloat(d.close) < parseFloat(d.open) ? 'rgba(255, 82, 82, 0.8)' : 'rgba(0, 150, 136, 0.8)', // Red for down days, green for up days
     }));
   
-    volumeSeries.setData(volumeData);
+    volumeSeries.setData(prepareChartData(volumeData));
   };  
   
   const setupCandleChart = (chart, data, min) => {
@@ -147,7 +147,7 @@ const ChartComponent = ({ canister_id }) => {
       },
       crossHairMarkerVisible: false,
     });
-    series.setData(data);
+    series.setData(prepareChartData(data));
 
     return series;
   };
