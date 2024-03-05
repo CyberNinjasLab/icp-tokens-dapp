@@ -10,7 +10,7 @@ import useFetchOHLCVData from '../../../hooks/useFetchOHLCVData'
 const periods = ['7d', '30d', '90d', 'All'];
 
 // Define available intervals for candlestick charts
-const intervals = ['1d', '1w'];
+const intervals = ['1h', '1d', '1w'];
 
 const ChartComponent = ({ canister_id }) => {
   const chartWrapperRef = useRef(null);
