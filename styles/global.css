@@ -6,6 +6,15 @@
   .ag-header-cell.text-right .ag-header-cell-label {
     @apply justify-end;
   }
+  .ag-header-cell.no-header-name .ag-header-cell-label {
+    @apply justify-center;
+  }
+  .ag-header-cell.no-header-name  {
+    padding: 0 5px;
+  }
+  .ag-header-cell.no-header-name .ag-sort-indicator-icon {
+    padding-left: 1px !important;
+  }
 }
 
 /* Base styles for .token-details headers */

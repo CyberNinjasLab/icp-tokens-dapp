@@ -7,7 +7,7 @@ const Home = () => {
       <div>
         <h1 className='lg:text-xl text-base font-semibold'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
         <TokensTableContextProvider>
-        <TokensTable />
+          <TokensTable />
         </TokensTableContextProvider>
       </div>
     </Layout>

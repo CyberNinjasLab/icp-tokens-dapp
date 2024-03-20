@@ -31,9 +31,11 @@ function TokensTable() {
   );
   const router = useRouter();
   const colDefs = getTokenTableColDefs({ formatPrice, isMobile });
+  const rowHeight = 60;
   const defaultColDef = useMemo(() => {
     return {
-      tooltipComponent: SupplyDetailsTooltip
+      tooltipComponent: SupplyDetailsTooltip,
+      resizable: false,
     };
   }, []);
   const onRowClicked = params => {
@@ -87,6 +89,7 @@ function TokensTable() {
             <AgGridReact
               rowData={filteredData}
               columnDefs={colDefs}
+              rowHeight={rowHeight}
               domLayout="autoHeight"
               defaultColDef={defaultColDef}
               tooltipShowDelay={0}

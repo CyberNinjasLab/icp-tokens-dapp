@@ -19,7 +19,7 @@ const FavoriteToggle = ({ value, setValue }) => {
           flexGrow: 1,
           borderRadius: '40px !important',
           border: 'none !important',
-          marginTop: 2
+          marginTop: 0
         }
       }}
     >

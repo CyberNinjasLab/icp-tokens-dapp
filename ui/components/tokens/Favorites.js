@@ -25,15 +25,15 @@ const Favorites = props => {
     <div
       onClick={() => onClick()}
       style={{ cursor: 'pointer' }}
-      className="favorite-icon"
+      className="favorite-icon inline-flex justify-center h-[60px] items-center w-[10px]"
     >
       {isFavorite ? (
         <Tooltip title="Remove from Watchlist">
-          <StarIcon color="primary" className="favorite-icon" />
+          <StarIcon color="primary" className="favorite-icon" style={{ fontSize: '16px' }} />
         </Tooltip>
       ) : (
         <Tooltip title="Add to Watchlist">
-          <StarBorderIcon color="primary" className="favorite-icon" />
+          <StarBorderIcon color="primary" className="favorite-icon" style={{ fontSize: '16px' }} />
         </Tooltip>
       )}
     </div>

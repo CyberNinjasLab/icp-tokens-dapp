@@ -73,7 +73,8 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
                 fontWeight: 'normal',
                 flexGrow: 1,
                 borderRadius: '40px !important',
-                border: 'none !important'
+                border: 'none !important',
+                marginBottom: '16px'
               }
             }}
           >
