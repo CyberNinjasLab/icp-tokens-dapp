@@ -6,7 +6,7 @@ import { Tooltip } from '@mui/material';
 
 const Favorites = props => {
   const { favorites, setFavorites } = useContext(TokensTableContext);
-  const id = props.data.rank;
+  const id = props.data.id;
   const isFavorite = (favorites ?? []).includes(id);
   const onClick = () => {
     const index = favorites.indexOf(id);

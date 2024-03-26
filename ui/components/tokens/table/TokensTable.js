@@ -62,7 +62,7 @@ function TokensTable() {
     if (data) {
       if (showFavorites === 'favorites') {
         const favoriteIds = JSON.parse(localStorage.getItem('favorites')) || [];
-        return data.filter(row => favoriteIds.includes(row.rank));
+        return data.filter(row => favoriteIds.includes(row.id));
       }
       return data;
     }
@@ -91,6 +91,7 @@ function TokensTable() {
               columnDefs={colDefs}
               rowHeight={rowHeight}
               domLayout="autoHeight"
+              suppressMovableColumns={true}
               defaultColDef={defaultColDef}
               tooltipShowDelay={0}
               onRowClicked={onRowClicked}

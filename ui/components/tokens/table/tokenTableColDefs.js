@@ -55,14 +55,17 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       headerName: 'Name',
       cellRenderer: TokenLogoAndName,
       filter: true,
-      width: `${isMobile ? 120 : 210}`,
+      width: `${isMobile ? 101 : 210}`,
       pinned: isWindowUnder1370 ? 'left' : null,
+      cellStyle: {
+        'padding': isMobile ? '0px 5px 0 0' : '0px 15px'
+      },
     },
     {
       field: 'price',
       headerName: 'Price',
       flex: 1,
-      minWidth: isMobile ? 120 : 140,
+      minWidth: isMobile ? 122 : 140,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
@@ -75,10 +78,10 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
     {
       field: 'metrics.change_24h',
       headerName: '24h %',
-      width: 91,
+      width: 110,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
-      cellRenderer: PriceMovementIndicator
+      cellRenderer: PriceMovementIndicator,
     },
     {
       field: 'metrics.change_7d',
@@ -148,7 +151,8 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
           component: DefaultCell,
           params: {value: parseFloat(params.value).toLocaleString() + ' ICP'}
         };
-      }
+      },
+      comparator: (valueA, valueB, nodeA, nodeB, isDescending) => Number(valueA) - Number(valueB)
     }
   ];
 }

@@ -44,7 +44,7 @@ const TokenLogoAndName = ({ data }) => {
           alt={`${data.name} Logo`}
           src={`${process.env.NEXT_PUBLIC_WEB2_API_URL}/storage/${data.logo}`}
           className="block w-30 h-30 mr-2 brightness-110 rounded-full"
-          style={{ width: '30px', height: '30px' }}
+          style={{ width: isMobile ? '26px' : '30px', height: isMobile ? '26px' : '30px' }}
         />
       )}
       {renderNameAndSymbol()}
