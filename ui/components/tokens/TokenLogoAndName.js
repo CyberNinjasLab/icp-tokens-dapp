@@ -9,7 +9,7 @@ const TokenLogoAndName = ({ data }) => {
   
   // Conditionally render name and symbol based on equality and device type
   const renderNameAndSymbol = () => {
-    if (tokenName !== data.symbol) {
+    if (tokenName != data.symbol) {
       return isMobile ? (
         <Typography>{data.symbol}</Typography>
       ) : (
@@ -31,7 +31,7 @@ const TokenLogoAndName = ({ data }) => {
       // If name and symbol are equal, just render the symbol
       return (
         <Typography className="text-30" component="span">
-          {data.symbol}
+          {tokenName}
         </Typography>
       );
     }

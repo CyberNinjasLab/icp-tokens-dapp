@@ -16,13 +16,13 @@ const ChartComponent = ({ canister_id }) => {
   const chartWrapperRef = useRef(null);
   const chartContainerRef = useRef(null); // Ref for the div container of the chart
   const chartInstanceRef = useRef(null);
-  const [selectedPeriod, setSelectedPeriod] = useState('30d'); // State for the selected period
-  const [selectedInterval, setSelectedInterval] = useState('1h'); // State for selected interval for candlestick charts
-  const [chartType, setChartType] = useState('area'); // State for the chart type (area or candle)
+  const [selectedPeriod, setSelectedPeriod] = useState('90d'); // State for the selected period
+  const [selectedInterval, setSelectedInterval] = useState('1d'); // State for selected interval for candlestick charts
+  const [chartType, setChartType] = useState('candle'); // State for the chart type (area or candle)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartInitTrigger, setChartInitTrigger] = useState(0);
 
-  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice } = useContext(GeneralContext)
+  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice, prepareChartData } = useContext(GeneralContext)
     
   // Use the custom hook to fetch data
   const { data, loading, error } = useFetchOHLCVData(canister_id, selectedInterval, selectedPeriod);
@@ -95,7 +95,7 @@ const ChartComponent = ({ canister_id }) => {
         bottom: 0.2,
       },
     });
-    series.setData(data);
+    series.setData(prepareChartData(data));
 
     return series;
   };  
@@ -127,7 +127,7 @@ const ChartComponent = ({ canister_id }) => {
       color: parseFloat(d.close) < parseFloat(d.open) ? 'rgba(255, 82, 82, 0.8)' : 'rgba(0, 150, 136, 0.8)', // Red for down days, green for up days
     }));
   
-    volumeSeries.setData(volumeData);
+    volumeSeries.setData(prepareChartData(volumeData));
   };  
   
   const setupCandleChart = (chart, data, min) => {
@@ -147,7 +147,7 @@ const ChartComponent = ({ canister_id }) => {
       },
       crossHairMarkerVisible: false,
     });
-    series.setData(data);
+    series.setData(prepareChartData(data));
 
     return series;
   };
@@ -323,10 +323,6 @@ const ChartComponent = ({ canister_id }) => {
   // Function to handle chart type change
   const handleChartTypeChange = (newType) => {
     setChartType(newType);
-    // Automatically set interval to '1d' when switching to candle chart
-    if (newType === 'candle') {
-      setSelectedInterval('1d');
-    }
   };
 
   return (

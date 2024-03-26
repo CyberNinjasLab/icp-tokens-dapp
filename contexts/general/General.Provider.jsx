@@ -84,6 +84,18 @@ const GeneralContextProvider = ({ children }) => {
     return { precision, minMove };
   };
 
+  function prepareChartData(data) {
+    // Sort data by time in ascending order
+    const sortedData = data.sort((a, b) => a.time - b.time);
+  
+    // Remove duplicates based on time
+    const uniqueData = sortedData.filter((value, index, self) => 
+      index === 0 || value.time !== self[index - 1].time
+    );
+  
+    return uniqueData;
+  }
+
   const formatDateBasedOnInterval = (timestamp, interval) => {
     const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
 
@@ -128,7 +140,8 @@ const GeneralContextProvider = ({ children }) => {
       parseTimestampToUnix,
       calculatePrecisionAndMinMove,
       formatDateBasedOnInterval,
-      getTokenName
+      getTokenName,
+      prepareChartData
   }
 
   return (
