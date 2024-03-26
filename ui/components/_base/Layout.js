@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
       <Header />
       <ThemeRegistry options={{ key: 'mui-theme' }}>
         <main className="pt-[84px] mx-auto container px-4 md:px-8">
-          {showAccessRequest ? (
+          {showAccessRequest && false ? (
             <div className='w-full text-center md:mt-6'>
               <span className='text-center block text-3xl md:text-4xl uppercase font-semibold'>Preview Our App</span>
               <img src="/illustrations/early-access.svg" className='max-w-[380px] inline mt-8' alt="Early Access Illustration" />
