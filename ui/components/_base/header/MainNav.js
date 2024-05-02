@@ -8,6 +8,8 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import FeedIcon from '@mui/icons-material/Feed';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import PortfolioLink from '../PortfolioLink';
+import WatchlistLink from '../WatchlistLink';
 
 const MainNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -61,10 +63,17 @@ const MainNav = () => {
   ];  
 
   return (
-    <nav className='flex items-center w-full justify-end lg:justify-between'>
-      <DesktopNav navLinks={navConfig} path={path} />
-      <AccountNav />
-      <MobileNav navLinks={navConfig} isMobileMenuOpen={isMobileMenuOpen} toggleMobileMenu={toggleMobileMenu} path={path} />
+    <nav className='flex items-center w-full justify-end lg:justify-between my-[2px]'>
+      {/* <DesktopNav navLinks={navConfig} path={path} /> */}
+      <div></div>
+      <div>
+        <div className='hidden sm:inline-block'>
+          <WatchlistLink />
+          <PortfolioLink />
+        </div>
+        <AccountNav />
+      </div>
+      {/* <MobileNav navLinks={navConfig} isMobileMenuOpen={isMobileMenuOpen} toggleMobileMenu={toggleMobileMenu} path={path} /> */}
     </nav>
   );
 };

@@ -9,28 +9,29 @@ import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { isMobile } from 'react-device-detect';
 import SupplyDetailsTooltip from '../SupplyDetailsTooltip';
 import { useRouter } from 'next/router';
-import useFetchTokens from '../../../hooks/useFetchTokens'; // Adjust the path as needed
+import useFetchTokens from '../../../hooks/token/useFetchTokens'; // Adjust the path as needed
 import getTokenTableColDefs from './tokenTableColDefs';
 import TokensTableColumnsFilter from './TokensTableColumnsFilter';
-import useLocalStorage from '../../../hooks/useLocalStorage';
 import FavoriteToggle from './TokensTableFavoritesFilter';
 import { TokensTableContext } from '../../../../contexts/tokensTable/TokensTableContext';
 
-function TokensTable() {
-  const { formatPrice } = useContext(GeneralContext);
-  const { favorites } = useContext(TokensTableContext);
+function TokensTable(props) {
+  const {
+    showFavoritesOnly = false
+  } = props;
+  const { formatPrice, showPriceCurrency, currency } = useContext(GeneralContext);
+  const { favorites, loading } = useContext(TokensTableContext);
   const [gridApi, setGridApi] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [isGridReady, setIsGridReady] = useState(false);
   const { data, loaded, error } = useFetchTokens(
     `${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`
   );
-  const [showFavorites, setShowFavorites] = useLocalStorage(
-    'showFavorites',
-    'all'
-  );
+
+  const [showFavorites, setShowFavorites] = useState(showFavoritesOnly ? 'favorites' : 'all');
+  
   const router = useRouter();
-  const colDefs = getTokenTableColDefs({ formatPrice, isMobile });
+  const colDefs = getTokenTableColDefs({ formatPrice, isMobile, showPriceCurrency, currency });
   const rowHeight = 60;
   const defaultColDef = useMemo(() => {
     return {
@@ -61,8 +62,8 @@ function TokensTable() {
   const filteredData = useMemo(() => {
     if (data) {
       if (showFavorites === 'favorites') {
-        const favoriteIds = JSON.parse(localStorage.getItem('favorites')) || [];
-        return data.filter(row => favoriteIds.includes(row.id));
+        const favoriteIds = favorites || [];
+        return data.filter(row => favoriteIds.includes(row.canister_id));
       }
       return data;
     }
@@ -70,11 +71,13 @@ function TokensTable() {
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
-      {!loaded && !error && (
+      {!loaded && !error && loading && (
         <Skeleton variant="rounded" className="max-w-1500 mt-4" height={800} />
       )}
-      {loaded && data && (
-        <Paper className="max-w-1500 mx-auto relative">
+      {loaded && data && !loading && (
+        <Paper className="max-w-1500 mx-auto relative" style={{
+          margin: '1rem 0px'
+        }}>
           {isGridReady && (
             <TokensTableColumnsFilter
               gridApi={gridApi}
@@ -82,10 +85,12 @@ function TokensTable() {
               setShowFilters={setShowFilters}
             />
           )}
-          {isGridReady && (
+          {isGridReady && !showFavoritesOnly && (
             <FavoriteToggle value={showFavorites} setValue={setShowFavorites} />
           )}
-          <Paper className="ag-theme-quartz w-full h-full">
+          <Paper className="ag-theme-quartz w-full h-full" style={{
+            margin: '1rem 0px'
+          }}>
             <AgGridReact
               rowData={filteredData}
               columnDefs={colDefs}

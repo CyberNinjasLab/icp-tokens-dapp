@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GeneralContext } from './General.Context';
 
 const GeneralContextProvider = ({ children }) => {
+  // const [currency, setCurrency] = useLocalStorage('currency', 'icp'); // Default currency is USD
+  const [currency, setCurrency] = useState('usd'); // Default currency is USD
+
   const [identity, setIdentity] = useState(233456);
+
+  useEffect(() => {
+    localStorage.setItem('currency', currency);
+  }, [currency]);
 
   // Define the formatPrice function here
   const formatPrice = value => {
     let result = value;
 
     if (value === 0) {
-      return value + ' ICP'; // Assuming you want to keep the "ICP" suffix
+      return showPriceCurrency(value); // Assuming you want to keep the "ICP" suffix
     }
 
     if (value === null) {
@@ -31,10 +38,56 @@ const GeneralContextProvider = ({ children }) => {
       }
     }
 
-    result = result.toLocaleString() + ' ICP';
+    result = showPriceCurrency(result.toLocaleString());
 
     return result;
   };
+
+  const showPriceCurrency = (price, hardcodedCurrency = null) => {
+    if(!hardcodedCurrency) {
+      hardcodedCurrency = currency;
+    }
+
+    let priceAndCurrency = price;
+
+    switch(hardcodedCurrency.toLowerCase()) {
+      case 'icp':
+        priceAndCurrency = price + ' ICP';
+        break;
+      case 'usd':
+        priceAndCurrency = '$' + price;
+        break;
+    }
+
+    return priceAndCurrency;
+  }
+
+  function roundPrice(price) {
+      let roundedPrice;
+      
+      if (price > 1000) {
+          roundedPrice = price.toFixed(0);
+      } else if (price >= 10) {
+          roundedPrice = price.toFixed(1);
+      } else if (price >= 1) {
+          roundedPrice = price.toFixed(2);
+      } else if (price >= 0.1) {
+          roundedPrice = price.toFixed(3);
+      } else if (price >= 0.01) {
+          roundedPrice = price.toFixed(4);
+      } else if (price >= 0.001) {
+          roundedPrice = price.toFixed(5);
+      } else if (price >= 0.0001) {
+          roundedPrice = price.toFixed(6);
+      }  else if (price >= 0.00001) {
+          roundedPrice = price.toFixed(7);
+      }   else if (price >= 0.000001) {
+          roundedPrice = price.toFixed(8);
+      } else {
+          return price.toString(); // For very small numbers, output the full string
+      }
+      return parseFloat(roundedPrice).toString(); // Removes trailing zeros
+  }
 
   const formatTotalSupply = (data) => {
     return  Math.round(data.total_supply / Math.pow(10, data.decimals)).toLocaleString();
@@ -96,6 +149,26 @@ const GeneralContextProvider = ({ children }) => {
     return uniqueData;
   }
 
+  function formatUnixTimestampToDate(timestampBigInt) {
+    // Convert BigInt to a number, ensuring compatibility with date operations
+    const timestamp = Number(timestampBigInt);
+  
+    // Create a date object from the Unix timestamp (converted to milliseconds)
+    const date = new Date(timestamp * 1000);
+  
+    // Define formatting options for toLocaleString
+    const dateOptions = {
+      month: 'long', // Full name of the month
+      day: 'numeric', // Numeric day
+      year: 'numeric', // Numeric year
+      hour: 'numeric', // Numeric hour
+      minute: 'numeric', // Numeric minute
+      hour12: true // Use 12-hour time format
+    };
+  
+    return date.toLocaleString('en-US', dateOptions);
+  }
+
   const formatDateBasedOnInterval = (timestamp, interval) => {
     const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
 
@@ -132,15 +205,32 @@ const GeneralContextProvider = ({ children }) => {
       : tokenData.name;
   };
 
+  function parseTokensByCanisterId(tokenArray) {
+    const parsedTokens = {};
+  
+    tokenArray.forEach(token => {
+      const { canister_id } = token;  // Extract canister_id for use as key
+      parsedTokens[canister_id] = { ...token };  // Copy entire token object including canister_id
+    });
+  
+    return parsedTokens;
+  }
+
   const contextValues = {
       identity,
       setIdentity,
+      currency,
+      setCurrency,
+      showPriceCurrency,
       formatPrice,
       formatTotalSupply,
+      roundPrice,
       parseTimestampToUnix,
       calculatePrecisionAndMinMove,
       formatDateBasedOnInterval,
+      formatUnixTimestampToDate,
       getTokenName,
+      parseTokensByCanisterId,
       prepareChartData
   }
 

@@ -28,7 +28,7 @@ module.exports = {
         'xl': '1370px' // Increased container width for 'xl' (desktop) breakpoint
       },
       colors: {
-        'primary': '#019a9a',
+        'primary': '#28abe5',
         'mobile-menu': '#565D6DFF',
         'background-hover-menu': '#F5F5F5'
       },

@@ -20,10 +20,10 @@ const questionMarkStyle = {
 };
 
 export default function TokenInfo({ data }) {
-  const { formatTotalSupply } = useContext(GeneralContext)
+  const { formatTotalSupply, currency, showPriceCurrency } = useContext(GeneralContext)
 
   return (
-    <div className='bg-gray-50/90 rounded-md max-w-[400px] mx-auto'>
+    <div className='bg-[#28abe508] border border-[#D3D3D3] rounded-md max-w-[400px] mx-auto'>
       <List sx={style}>
         <ListItem>
           <div className="flex justify-between items-center w-full">
@@ -31,7 +31,7 @@ export default function TokenInfo({ data }) {
               Fully Diluted M Cap
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}
             </Typography>
-            <Typography>{parseFloat(data.fully_diluted_market_cap)?.toLocaleString()} ICP</Typography>
+            <Typography>{showPriceCurrency(parseFloat(data.metrics.fully_diluted_market_cap[currency])?.toLocaleString())}</Typography>
           </div>
         </ListItem>
         <ListItem>
@@ -40,7 +40,7 @@ export default function TokenInfo({ data }) {
               Volume (24h)
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>{data.metrics.volume_24h.toLocaleString()} ICP</Typography>
+            <Typography>{showPriceCurrency(data.metrics.volume[currency]['24h'].toLocaleString())}</Typography>
           </div>
         </ListItem>
         <ListItem>
@@ -49,7 +49,7 @@ export default function TokenInfo({ data }) {
               Volume (7d)
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>{data.metrics.volume_7d.toLocaleString()} ICP</Typography>
+            <Typography>{showPriceCurrency(data.metrics.volume[currency]['7d'].toLocaleString())}</Typography>
           </div>
         </ListItem>
         <ListItem>

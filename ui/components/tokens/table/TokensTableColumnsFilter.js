@@ -2,7 +2,8 @@ import {
   Button,
   ToggleButtonGroup,
   ToggleButton,
-  Typography
+  Typography,
+  Tooltip
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import React, { useEffect, useState } from 'react';
@@ -12,10 +13,7 @@ import { isMobile } from 'react-device-detect';
 
 const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   const allColumns = gridApi?.getAllGridColumns();
-  const [selectedColumns, setSelectedColumns] = useLocalStorage(
-    'visibleColumns',
-    allColumns.map(column => column.getColId())
-  );
+  const [selectedColumns, setSelectedColumns] = useState(allColumns.map(column => column.getColId()));
 
   const defaultVisibleColumns = ['favorites', 'rank', 'name', 'price'];
 
@@ -56,17 +54,20 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   return (
     <div className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
       <div className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}>
-        <Button
-          variant="text"
-          startIcon={<ViewWeekOutlinedIcon />}
-          onClick={handleShowFilters}
-          sx={{ py: 1 }}
-        >
-          Columns
-        </Button>
+        <Tooltip title="Customize columns">
+          <Button
+            variant="text"
+            startIcon={<ViewWeekOutlinedIcon />}
+            onClick={handleShowFilters}
+            sx={{ py: 1 }}
+            color="gray"
+          >
+            Columns
+          </Button>
+        </Tooltip>
       </div>
       {showFilters && (
-        <div>
+        <div className='mb-3'>
           <ToggleButtonGroup
             exclusive
             onChange={handleColumnChange}
@@ -81,7 +82,6 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
                 flexGrow: 1,
                 borderRadius: '40px !important',
                 border: 'none !important',
-                marginBottom: '16px'
               }
             }}
           >

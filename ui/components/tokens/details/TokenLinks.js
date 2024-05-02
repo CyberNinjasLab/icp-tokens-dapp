@@ -28,10 +28,10 @@ export default function TokenLinks({ links }) {
         iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><PaperIcon /></div>;
         break;
       case 'app':
-        iconComponent = <div className='w-[36px] h-[36px] bg-primary text-white rounded-full flex justify-center items-center'><AppIcon /></div>;
+        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><AppIcon /></div>;
         break;
       case 'site':
-        iconComponent = <div className='w-[36px] h-[36px] bg-primary text-white rounded-full flex justify-center items-center'><SiteIcon /></div>;
+        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><SiteIcon /></div>;
         break;
       case 'link':
         iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><LinkIcon /></div>;

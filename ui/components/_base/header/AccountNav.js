@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 const AccountNav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const { isAuthenticated, login, logout } = useContext(AuthContext); // Use the authentication context
+  const { isAuthenticated, openLoginModal, logout } = useContext(AuthContext); // Use the authentication context
   const router = useRouter();
 
   const handleClick = (event) => {
@@ -30,10 +30,9 @@ const AccountNav = () => {
     handleClose(); // Close the menu after navigation
   };
   
-
   // Handle login action
   const handleLogin = () => {
-    login();
+    openLoginModal();
   };
 
   // Handle logout action
@@ -47,13 +46,13 @@ const AccountNav = () => {
       <Tooltip title="Account settings">
         <IconButton
           onClick={handleClick}
-          size="small"
-          sx={{ ml: 2 }}
+          size="large"
+          sx={{ ml: 2, my: 0 }}
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <AccountCircleIcon className='text-[34px]' />
+          <AccountCircleIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
       <Menu
@@ -92,31 +91,45 @@ const AccountNav = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {!isAuthenticated && (
-          <MenuItem onClick={handleLogin} className='text-gray-700'>
+          <MenuItem onClick={handleLogin} className='text-gray-700' fontSize="medium" style={{
+            padding: '15px'
+          }} >
             <ListItemIcon>
-              <LoginIcon fontSize='small' />
+              <LoginIcon fontSize='medium' />
             </ListItemIcon>
             Login
           </MenuItem>
         )}
         {isAuthenticated && (
-            <MenuItem onClick={handleMyAccount}>
-              <Avatar /> My account
+            <MenuItem onClick={handleMyAccount} style={{
+              padding: '15px'
+            }}>
+              <div className='min-w-[36px]'>
+                <Avatar style={{
+                  width: 25,
+                  height: 25,
+                }} />
+              </div>
+               My account
             </MenuItem>
         )}
         {isAuthenticated && (
-            <Divider />
+            <Divider style={{
+              margin: '0'
+            }} />
         )}
             {/* <MenuItem onClick={handleClose}>
               <ListItemIcon>
-                <Settings fontSize="small" />
+                <Settings fontSize="medium" />
               </ListItemIcon>
               Settings
             </MenuItem> */}
         {isAuthenticated && (
-            <MenuItem onClick={handleLogout}>
+            <MenuItem onClick={handleLogout} style={{
+              padding: '15px'
+            }}>
               <ListItemIcon>
-                <Logout fontSize="small" />
+                <Logout fontSize="medium" />
               </ListItemIcon>
               Logout
             </MenuItem>

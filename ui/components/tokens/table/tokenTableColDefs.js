@@ -4,25 +4,10 @@ import PriceMovementIndicator from '../PriceMovementIndicator';
 import TokenLogoAndName from '../TokenLogoAndName';
 import Favorites from '../Favorites';
 import DefaultCell from './DefaultCell';
-import { useEffect, useState } from 'react';
+import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
 
-const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
-  const [isWindowUnder1370, setIsWindowUnder1370] = useState(true);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWindowUnder1370(window.innerWidth < 1370);
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup function to remove the event listener when component unmounts
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []); // Empty dependency array means this effect runs only once after the initial render
+const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, currency }) => {
+  const isWindowUnder1370 = useWindowWidthUnder(1370);
 
   return [
     {
@@ -62,10 +47,10 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       },
     },
     {
-      field: 'price',
+      field: `metrics.price.${currency}`,
       headerName: 'Price',
       flex: 1,
-      minWidth: isMobile ? 122 : 140,
+      minWidth: isMobile ? 124 : 140,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
@@ -73,10 +58,11 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
           component: DefaultCell,
           params: {value: formatPrice(params.value)}
         };
-      }
+      },
+      comparator: (valueA, valueB, nodeA, nodeB, isDescending) => Number(valueA) - Number(valueB)
     },
     {
-      field: 'metrics.change_24h',
+      field: `metrics.change.24h.${currency}`,
       headerName: '24h %',
       width: 110,
       cellStyle: { textAlign: 'right' },
@@ -84,7 +70,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       cellRenderer: PriceMovementIndicator,
     },
     {
-      field: 'metrics.change_7d',
+      field: `metrics.change.7d.${currency}`,
       headerName: '7d %',
       width: 110,
       cellStyle: { textAlign: 'right' },
@@ -92,7 +78,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       cellRenderer: PriceMovementIndicator
     },
     {
-      field: 'metrics.change_30d',
+      field: `metrics.change.30d.${currency}`,
       headerName: '30d %',
       width: 110,
       cellStyle: { textAlign: 'right' },
@@ -100,7 +86,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       cellRenderer: PriceMovementIndicator
     },
     {
-      field: 'metrics.volume_24h',
+      field: `metrics.volume.${currency}.24h`,
       headerName: '24h Volume',
       autoHeight: true,
       width: 160,
@@ -109,12 +95,12 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: params.value.toLocaleString() + ' ICP'}
+          params: {value: showPriceCurrency(params.value.toLocaleString())}
         };
       }
     },
     {
-      field: 'metrics.volume_7d',
+      field: `metrics.volume.${currency}.7d`,
       headerName: '7d Volume',
       autoHeight: true,
       width: 115,
@@ -123,12 +109,12 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: params.value.toLocaleString() + ' ICP'}
+          params: {value: showPriceCurrency(params.value.toLocaleString())}
         };
       }
     },
     // {
-    //   field: 'metrics.volume_30d',
+    //   field: `metrics.volume.${currency}.30d`,
     //   headerName: '30d Volume',
     //   autoHeight: true,
     //   width: 150,
@@ -137,19 +123,19 @@ const getTokenTableColDefs = ({ formatPrice, isMobile }) => {
         // cellRendererSelector: params => {
         //   return {
         //     component: DefaultCell,
-        //     params: {value: params.value.toLocaleString() + ' ICP'}
+        //     params: {value: showPriceCurrency(params.value.toLocaleString())}
         //   };
         // }
     // },
     {
-      field: 'fully_diluted_market_cap',
+      field: `metrics.fully_diluted_market_cap.${currency}`,
       headerName: 'Fully Diluted M Cap',
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: parseFloat(params.value).toLocaleString() + ' ICP'}
+          params: {value: showPriceCurrency(parseFloat(params.value).toLocaleString())}
         };
       },
       comparator: (valueA, valueB, nodeA, nodeB, isDescending) => Number(valueA) - Number(valueB)

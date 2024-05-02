@@ -3,8 +3,24 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#019A9AFF'
-    }
+      main: '#28abe5',
+    },
+    secondary: {
+      main: '#ffa93d'
+    },
+    black: {
+      main: "#000"
+    },
+    gray: {
+      main: '#616e85'
+    },
+    lightGray: {
+      main: 'rgba(24, 29, 31, 0.4)'
+    },
+    error: {
+      main: '#FF3A33',
+      contrastText: '#fff'
+    },
   },
   typography: {
     body1: { color: 'black' },
@@ -34,10 +50,36 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '5px',
-          fontWeight: '400'
-        }
-      }
+          // Default styles here
+        },
+        contained: {
+          color: '#fff'
+        },
+        containedGray: {
+          // Active button styles
+          backgroundColor: '#fff', // Dark gray for active buttons
+          color: '#000', // White text for contrast
+          boxShadow: 'none',
+          border: '1px solid #D3D3D3',
+          '&:hover': {
+            backgroundColor: '#fff', // Even darker for hover state
+            boxShadow: 'none',
+          },
+        },
+        outlinedGray: {
+          padding: '0px',
+          // Inactive button styles
+          borderColor: '#D3D3D3', // Light gray border for inactive buttons
+          color: '#616e85', // Light gray text for inactive buttons
+          backgroundColor: '#e0e4e8',
+          '&:hover': {
+            borderColor: '#D3D3D3', // Slightly darker border on hover
+            color: '#616e85', // Slightly darker text on hover
+            backgroundColor: '#e0e4e8',
+          },
+        },
+        // ... any other styles you want to override
+      },
     },
     MuiList: {
       styleOverrides: {
@@ -84,7 +126,6 @@ export const theme = createTheme({
         root: {
           boxShadow: 'none',
           padding: '0px',
-          margin: '1rem 0px'
         }
       }
     },
@@ -105,6 +146,15 @@ export const theme = createTheme({
           color: 'black'
         })
       }
-    }
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+          popper: {
+              borderWidth: 1,
+              borderStyle: 'solid',
+              borderRadius: 4,
+          },
+      },
+  },
   }
 });

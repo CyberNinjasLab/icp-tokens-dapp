@@ -13,9 +13,9 @@ const PriceMovementIndicator = ({ value }) => (
     {value >= 0 ? (
       <KeyboardArrowUpIcon className="text-green-500" fontSize="medium" />
     ) : (
-      <KeyboardArrowDownIcon className="text-red-500" fontSize="medium" />
+      <KeyboardArrowDownIcon className="text-[#FF3A33]" fontSize="medium" />
     )}
-    <span className={`${value >= 0 ? 'text-green-500' : 'text-red-500'} min-w-[53px] inline-block`}>{value.toFixed(2)}%</span>
+    <span className={`${value >= 0 ? 'text-green-500' : 'text-[#FF3A33]'} min-w-[53px] inline-block`}>{value.toFixed(2)}%</span>
   </Typography>
 );
 

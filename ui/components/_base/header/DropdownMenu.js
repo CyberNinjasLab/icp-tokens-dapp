@@ -24,7 +24,9 @@ const DropdownMenu = ({ link, path }) => {
       </div>
       {isOpen &&
         <div className="lg:absolute lg:text-center lg:z-50 top-[55px]" ref={menuWrapperRef}>
-          <Paper>
+          <Paper style={{
+            margin: '1rem 0px'
+          }}>
             <MenuList>
               {link.dropdownItems.map(sublink => (
                 <li key={sublink.id} className=" hover:bg-background-hover-menu">

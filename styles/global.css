@@ -20,7 +20,15 @@
   }
 }
 
+.ag-cell-focus {
+  border: none !important;
+  outline: none !important;
+}
+
 /* Base styles for .token-details headers */
+.h1 {
+  @apply lg:text-lg text-base font-semibold;
+}
 .token-details h1 {
   @apply text-3xl font-bold mb-4; /* Example: apply text-3xl font-bold mb-4 for h1 */
 }

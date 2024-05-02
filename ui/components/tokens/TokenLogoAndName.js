@@ -9,32 +9,25 @@ const TokenLogoAndName = ({ data }) => {
   
   // Conditionally render name and symbol based on equality and device type
   const renderNameAndSymbol = () => {
-    if (tokenName != data.symbol) {
-      return isMobile ? (
-        <Typography>{data.symbol}</Typography>
-      ) : (
-        <>
-          <Typography className="text-30" component="span" sx={{ mr: 1 }}>
-            {tokenName}
-          </Typography>
-          <Typography
-            className="text-30"
-            component="span"
-            color="darkgray"
-            fontSize={12}
-          >
-            {data.symbol}
-          </Typography>
-        </>
-      );
-    } else {
-      // If name and symbol are equal, just render the symbol
-      return (
-        <Typography className="text-30" component="span">
+    return isMobile ? (
+      <Typography>
+        {data.symbol.toLowerCase() == tokenName.toLowerCase() ? tokenName : data.symbol}
+      </Typography>
+    ) : (
+      <>
+        <Typography className="text-30" component="span" sx={{ mr: 1 }}>
           {tokenName}
         </Typography>
-      );
-    }
+        <Typography
+          className="text-30"
+          component="span"
+          color="darkgray"
+          fontSize={12}
+        >
+          {data.symbol}
+        </Typography>
+      </>
+    );
   };
 
   return (
