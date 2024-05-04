@@ -33,8 +33,9 @@ const Portfolio = () => {
         try {
             let portfoliosData = await backendCoreActor.getPortfolios(); // Adjust this call based on your backend API
 
+            console.log(portfoliosData);
             if (!portfoliosData.length) {
-                portfoliosData = await createPortfolio('Main');
+                portfoliosData = [await createPortfolio('Main')];
             }
 
             await processPortfolios(portfoliosData);

@@ -61,7 +61,6 @@ function TokensTable(props) {
   }, [showFavorites, setShowFavorites]);
   
   const filteredData = useMemo(() => {
-    console.log(favoriteTokenIds);
     if (data) {
       if (showFavorites === 'favorites') {
         const favoriteIds = favoriteTokenIds || [];
