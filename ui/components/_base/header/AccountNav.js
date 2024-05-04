@@ -12,6 +12,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import Settings from '@mui/icons-material/Settings';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context'; // Adjust the import path as needed
 import { useRouter } from 'next/router';
+import { PieChart, Visibility } from '@mui/icons-material';
 
 const AccountNav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,9 +26,9 @@ const AccountNav = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleMyAccount = () => {
-    router.push('/account'); // Navigate to the /account page
-    handleClose(); // Close the menu after navigation
+  const handleLink = (path) => {
+    router.push('/' + path);
+    handleClose();
   };
   
   // Handle login action
@@ -47,7 +48,7 @@ const AccountNav = () => {
         <IconButton
           onClick={handleClick}
           size="large"
-          sx={{ ml: 2, my: 0 }}
+          sx={{ ml: 0, my: 0 }}
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
@@ -100,19 +101,20 @@ const AccountNav = () => {
             Login
           </MenuItem>
         )}
-        {isAuthenticated && (
-            <MenuItem onClick={handleMyAccount} style={{
-              padding: '15px'
-            }}>
-              <div className='min-w-[36px]'>
-                <Avatar style={{
-                  width: 25,
-                  height: 25,
-                }} />
-              </div>
-               My account
+        {isAuthenticated && [
+            <MenuItem key="watchlist" onClick={() => handleLink('watchlist')} style={{ padding: '15px' }}>
+                <ListItemIcon>
+                    <Visibility fontSize="medium" />
+                </ListItemIcon>
+                Watchlist
+            </MenuItem>,
+            <MenuItem key="portfolio" onClick={() => handleLink('portfolio')} style={{ padding: '15px' }}>
+                <ListItemIcon>
+                    <PieChart fontSize="medium" />
+                </ListItemIcon>
+                Portfolio
             </MenuItem>
-        )}
+        ]}
         {isAuthenticated && (
             <Divider style={{
               margin: '0'

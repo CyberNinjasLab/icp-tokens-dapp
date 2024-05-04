@@ -8,6 +8,7 @@ import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
 
 const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, currency }) => {
   const isWindowUnder1370 = useWindowWidthUnder(1370);
+  const isWindowUnder800 = useWindowWidthUnder(800);
 
   return [
     {
@@ -40,10 +41,10 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       headerName: 'Name',
       cellRenderer: TokenLogoAndName,
       filter: true,
-      width: `${isMobile ? 101 : 210}`,
+      width: `${isWindowUnder800 ? 101 : 210}`,
       pinned: isWindowUnder1370 ? 'left' : null,
       cellStyle: {
-        'padding': isMobile ? '0px 5px 0 0' : '0px 15px'
+        'padding': isWindowUnder800 ? '0px 5px 0 0' : '0px 15px'
       },
     },
     {

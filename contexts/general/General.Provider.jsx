@@ -63,30 +63,32 @@ const GeneralContextProvider = ({ children }) => {
   }
 
   function roundPrice(price) {
+      const absolutePrice = Math.abs(price); // Use absolute value for comparison
       let roundedPrice;
-      
-      if (price > 1000) {
+
+      if (absolutePrice >= 1000) {
           roundedPrice = price.toFixed(0);
-      } else if (price >= 10) {
+      } else if (absolutePrice >= 10) {
           roundedPrice = price.toFixed(1);
-      } else if (price >= 1) {
+      } else if (absolutePrice >= 1) {
           roundedPrice = price.toFixed(2);
-      } else if (price >= 0.1) {
+      } else if (absolutePrice >= 0.1) {
+          roundedPrice = price.toFixed(2);
+      } else if (absolutePrice >= 0.01) {
           roundedPrice = price.toFixed(3);
-      } else if (price >= 0.01) {
+      } else if (absolutePrice >= 0.001) {
           roundedPrice = price.toFixed(4);
-      } else if (price >= 0.001) {
+      } else if (absolutePrice >= 0.0001) {
           roundedPrice = price.toFixed(5);
-      } else if (price >= 0.0001) {
+      } else if (absolutePrice >= 0.00001) {
           roundedPrice = price.toFixed(6);
-      }  else if (price >= 0.00001) {
+      } else if (absolutePrice >= 0.000001) {
           roundedPrice = price.toFixed(7);
-      }   else if (price >= 0.000001) {
-          roundedPrice = price.toFixed(8);
       } else {
-          return price.toString(); // For very small numbers, output the full string
+          return price.toString(); // For very small numbers, return the full string of the original price
       }
-      return parseFloat(roundedPrice).toString(); // Removes trailing zeros
+      
+      return parseFloat(roundedPrice).toString(); // Removes trailing zeros and retains the sign
   }
 
   const formatTotalSupply = (data) => {
@@ -149,24 +151,38 @@ const GeneralContextProvider = ({ children }) => {
     return uniqueData;
   }
 
-  function formatUnixTimestampToDate(timestampBigInt) {
-    // Convert BigInt to a number, ensuring compatibility with date operations
-    const timestamp = Number(timestampBigInt);
-  
-    // Create a date object from the Unix timestamp (converted to milliseconds)
-    const date = new Date(timestamp * 1000);
-  
-    // Define formatting options for toLocaleString
-    const dateOptions = {
-      month: 'long', // Full name of the month
-      day: 'numeric', // Numeric day
-      year: 'numeric', // Numeric year
-      hour: 'numeric', // Numeric hour
-      minute: 'numeric', // Numeric minute
-      hour12: true // Use 12-hour time format
-    };
-  
-    return date.toLocaleString('en-US', dateOptions);
+  function formatUnixTimestampToDate(timestampBigInt, short = false) {
+      // Convert BigInt to a number, ensuring compatibility with date operations
+      const timestamp = Number(timestampBigInt);
+    
+      // Create a date object from the Unix timestamp (converted to milliseconds)
+      const date = new Date(timestamp * 1000);
+    
+      if (short) {
+          // Define formatting options for the short date format
+          const shortDateOptions = {
+              month: 'short', // Abbreviated month name
+              day: 'numeric', // Numeric day
+              year: '2-digit', // 2-digit year
+              hour: 'numeric', // Numeric hour
+              minute: 'numeric', // Numeric minute
+              hour12: true // Use 12-hour time format
+          };
+
+          return date.toLocaleString('en-US', shortDateOptions);
+      } else {
+          // Define formatting options for the regular date format
+          const regularDateOptions = {
+              month: 'long', // Full name of the month
+              day: 'numeric', // Numeric day
+              year: 'numeric', // Numeric year
+              hour: 'numeric', // Numeric hour
+              minute: 'numeric', // Numeric minute
+              hour12: true // Use 12-hour time format
+          };
+
+          return date.toLocaleString('en-US', regularDateOptions);
+      }
   }
 
   const formatDateBasedOnInterval = (timestamp, interval) => {

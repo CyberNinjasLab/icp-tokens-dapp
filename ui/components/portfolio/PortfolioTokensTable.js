@@ -12,6 +12,7 @@ import HoldingsCell from './HoldingsCell';
 import ProfitLossCell from './ProfitLossCell';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 import { useRouter } from 'next/router';
+import TokenActionsCell from './TokenActionsCell';
 
 function PortfolioTokensTable({ tokens }) {
   const router = useRouter();
@@ -110,7 +111,7 @@ function PortfolioTokensTable({ tokens }) {
       flex: isWindowUnder800 ? 0 : 1,
       cellRendererSelector: params => {
         return {
-          component: DefaultCell,
+          component: TokenActionsCell,
           params: {value: '...'}
         };
       }

@@ -21,6 +21,7 @@ module {
 
     // Portfolio
     public type Transaction = {
+        id: Nat;
         canister_id: Text;
         quantity: Float;
         price_per_token: Float;

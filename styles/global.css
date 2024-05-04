@@ -25,6 +25,10 @@
   outline: none !important;
 }
 
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Base styles for .token-details headers */
 .h1 {
   @apply lg:text-lg text-base font-semibold;

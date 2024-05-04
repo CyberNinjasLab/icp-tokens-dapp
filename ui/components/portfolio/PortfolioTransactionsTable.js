@@ -12,19 +12,24 @@ import HoldingsCell from './HoldingsCell';
 import ProfitLossCell from './ProfitLossCell';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 import TransactionTypeCell from './TransactionTypeCell';
+import TransactionActionsCell from './TransactionActionsCell';
+import { useLoading } from '../../../contexts/general/Loading.Provider';
+import TransactionAmountCell from './TransactionAmountCell';
 
-function PortfolioTransactionsTable({ transactions }) {
+function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
   const { formatPrice, currency, roundPrice } = useContext(GeneralContext);
   const [gridApi, setGridApi] = useState(null);
   const [isGridReady, setIsGridReady] = useState(false);
   const isWindowUnder1370 = useWindowWidthUnder(1370);
   const isWindowUnder800 = useWindowWidthUnder(800);
+  const { setLoadingState } = useLoading();
 
   const colDefs = [
     {
       field: `type`,
       headerName: 'Type',
-      flex: 1,
+      width: isWindowUnder800 ? 150 : 170,
+      flex: isWindowUnder800 ? 0 : 1,
       cellRendererSelector: params => {
         return {
           component: TransactionTypeCell,
@@ -35,9 +40,11 @@ function PortfolioTransactionsTable({ transactions }) {
     {
       field: `price_per_token`,
       headerName: 'Price',
-      flex: 1,
+      width: 110,
+      flex: isWindowUnder800 ? 0 : 1,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
+      hide: isMobile,
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
@@ -46,28 +53,31 @@ function PortfolioTransactionsTable({ transactions }) {
       }
     },
     {
-      field: `quantity`,
+      field: ``,
       headerName: 'Amount',
-      flex: 1,
+      width: 110,
+      flex: isWindowUnder800 ? 0 : 1,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
-          component: DefaultCell,
-          params: {value: roundPrice(params.value)}
+          component: TransactionAmountCell,
+          params: {value: params.data}
         };
       }
     },
     {
-      field: `quantity`,
+      field: `id`,
+      maxWidth: 400,
+      minWidth: 100,
       headerName: 'Actions',
       flex: 1,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
-          component: DefaultCell,
-          params: {value: '...'}
+          component: TransactionActionsCell,
+          params: {transactionId: params.value, setLoadingState: setLoadingState, fetchPortfolios: fetchPortfolios}
         };
       }
     },

@@ -48,9 +48,6 @@ const Footer = () => {
 												<li className="text-sm">
 													<a href="https://oc.app/community/5bgep-3aaaa-aaaar-a3toq-cai/" className='hover:underline' target='_blank'>OpenChat</a>
 												</li>
-												<li className="text-sm">
-													<a href="https://www.reddit.com/r/icp_tokens/" className='hover:underline' target='_blank'>Reddit</a>
-												</li>
 										</ul>
 								</div>
 						</div>

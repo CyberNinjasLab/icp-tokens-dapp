@@ -8,7 +8,6 @@ import LoginMessage from '../ui/components/_base/LoginMessage';
 const Watchlist = () => {
   const { isAuthenticated } = useContext(AuthContext);
 
-
 	return (
     <Layout>
       <h1 className='h1'>Tokens Watchlist</h1>

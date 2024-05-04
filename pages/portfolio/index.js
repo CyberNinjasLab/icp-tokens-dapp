@@ -14,7 +14,7 @@ const Portfolio = () => {
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
     const [showTransactionModal, setShowTransactionModal] = useState(false);
     const { setLoadingState, loadingState } = useLoading();
-    const { data: tokens, loaded } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`);
+    const { data: tokens, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`);
     const [summaries, summarizeTransactions] = useTransactionSummary(tokens); // Using the custom hook
 
     const toggleTransactionModal = () => {
@@ -24,8 +24,6 @@ const Portfolio = () => {
     const processPortfolios = async (portfoliosRawData) => {
         if (portfoliosRawData[0].length) {
             const summary = await summarizeTransactions(portfoliosRawData[0][0].transactions);
-
-						console.log(summary);
         }
     };
 
@@ -49,9 +47,15 @@ const Portfolio = () => {
     };
 
     useEffect(() => {
-				setLoadingState(true);
-        fetchPortfolios();
-    }, [backendCoreActor, isAuthenticated, tokens]); // dependencies updated
+        if(isAuthenticated) {
+            setLoadingState(true);
+            fetchPortfolios();
+
+            if(error) {
+                setLoadingState(false);
+            }
+        }
+    }, [backendCoreActor, isAuthenticated, tokens, error]); // dependencies updated
 
     const createPortfolio = async (name) => {
         try {

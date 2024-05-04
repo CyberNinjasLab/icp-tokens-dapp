@@ -6,9 +6,10 @@ import useFetchTokens from '../../hooks/token/useFetchTokens';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import usePriceNearTimestamp from '../../hooks/token/usePriceNearTimestamp';
+import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 
 
-const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor }) => {
+const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selectedCoinId }) => {
     const { setLoadingState } = useLoading();
     const [transactionType, setTransactionType] = useState('buy');
     const [coin, setCoin] = useState(null);
@@ -39,6 +40,16 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor }) => {
         fetchPrice();
     }, [coin, date]);
 
+    // Effect to handle selectedCoinId
+    useEffect(() => {
+        if (selectedCoinId && loaded) {
+            const selectedCoin = coins.data.find(coin => coin.canister_id === selectedCoinId);
+            if (selectedCoin) {
+                setCoin(selectedCoin);
+            }
+        }
+    }, [selectedCoinId, coins, loaded]);
+
     // Calculate total spent dynamically
     const totalSpent = roundPrice(parseFloat(quantity) * parseFloat(pricePerCoin));
     const totalSpentFormatted = totalSpent && !isNaN(totalSpent) ? showPriceCurrency(totalSpent, currency) : '';
@@ -47,6 +58,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor }) => {
         try {
             setLoadingState(true);
             await backendCoreActor.addPortfolioTransaction(0, {
+                id: 0,
                 canister_id: coin.canister_id,
                 quantity: parseFloat(quantity),
                 price_per_token: parseFloat(pricePerCoin),
@@ -70,11 +82,14 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor }) => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: 400,  // Sets the width of the modal
+                maxWidth: 400,  // Sets the width of the modal
+                width: '100%',
                 bgcolor: 'background.paper',
                 boxShadow: 24,
                 p: 4,
-                borderRadius: 2,  // Optional: Adds rounded corners
+                borderRadius: 0,  // Optional: Adds rounded corners
+                maxHeight: '100vh',
+                overflowY: 'auto',
             }}>
                 <h2 className='h1 mb-4'>Add Transaction</h2>
                 <ToggleButtonGroup
@@ -87,6 +102,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor }) => {
                     <ToggleButton value="sell">Sell</ToggleButton>
                 </ToggleButtonGroup>
                     <Autocomplete
+                        readOnly={selectedCoinId}
                         options={loaded ? coins.data : []}
                         getOptionLabel={(option) => getTokenName(option)}  // Adjust if your data structure requires\
                         getOptionKey={(option) => option.canister_id}
@@ -149,14 +165,14 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor }) => {
                     sx={{ my: 2 }}
                 />
                 <TextField
-                    label="Total Spent"
+                    label="Total Amount"
                     type="text"
                     fullWidth
                     value={totalSpentFormatted}
                     InputProps={{
                         readOnly: true,
                     }}
-                    sx={{ my: 2 }}
+                    sx={{ mb: 2 }}
                 />
                 <TextField
                     label="Note"

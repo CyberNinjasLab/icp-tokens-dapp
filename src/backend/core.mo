@@ -8,11 +8,14 @@ import Buffer "mo:base/Buffer";
 import Bool "mo:base/Bool";
 import Debug "mo:base/Debug";
 import Time "mo:base/Time";
+import Nat "mo:base/Nat";
 
 actor Core {
   stable var usersRepository : [(Principal, Types.User)] = [];
   stable var portfoliosRepository : [(Principal, [Types.Portfolio])] = [];
   stable var watchlistRepository : [(Principal, [Types.WatchlistId])] = [];
+
+  stable var nextTransactionId = 1;
 
   let users : Types.UsersList = HashMap.fromIter<Principal, Types.User>(usersRepository.vals(), 10, Principal.equal, Principal.hash);
   let portfolios : Types.PortfoliosList = HashMap.fromIter<Principal, [Types.Portfolio]>(portfoliosRepository.vals(), 10, Principal.equal, Principal.hash);
@@ -139,7 +142,17 @@ actor Core {
 
               let portfolio = portfoliosList[portfolioIndex];
 
-              let updatedTransactions = List.push<Types.Transaction>(transaction, List.fromArray(portfolio.transactions));
+              let newTransaction : Types.Transaction = {
+                id = nextTransactionId;
+                canister_id = transaction.canister_id;
+                quantity = transaction.quantity;
+                price_per_token = transaction.price_per_token;
+                timestamp = transaction.timestamp;
+                note = transaction.note;
+                direction = transaction.direction;
+              };
+
+              let updatedTransactions = List.push<Types.Transaction>(newTransaction, List.fromArray(portfolio.transactions));
               let updatedData = Buffer.Buffer<Types.Portfolio>(Array.size(portfoliosList));
               
               for(i in portfoliosList.keys()) {
@@ -155,38 +168,50 @@ actor Core {
               
               // Save the updated list of portfolios back to the hashmap
               portfolios.put(msg.caller, Buffer.toArray(updatedData));
+
+              nextTransactionId := Nat.add(nextTransactionId, 1);
               
-              return ?transaction;
+              return ?newTransaction;
           };
       };
   };
 
-  public shared (msg) func removePortfolioTransaction(portfolioIndex : Nat, transactionIndex : Nat) : async ?Types.Transaction {
+  public shared (msg) func removePortfolioTransaction(portfolioIndex : Nat, transactionIndex : Nat) : async Bool {
       // Retrieve the list of portfolios for the caller
       let portfoliosResult = portfolios.get(msg.caller);
       
       switch(portfoliosResult) {
           case (null) {
               // No portfolios found for the user
-              return null;
+              return false;
           };
           case (?portfoliosList) {
               if (portfolioIndex < 0 or portfolioIndex >= Array.size(portfoliosList)) {
                   // Portfolio index out of range
-                  return null;
+                  return false;
               };
               
               let portfolio = portfoliosList[portfolioIndex];
               
-              if (transactionIndex < 0 or transactionIndex >= Array.size(portfolio.transactions)) {
+              if (transactionIndex <= 0 or transactionIndex >= nextTransactionId) {
                   // Transaction index out of range
-                  return null;
+                  return false;
               };
               
               // Remove the transaction from the list and capture the removed transaction if needed
               let buffer = Buffer.fromIter<Types.Transaction>(Iter.fromArray(portfolio.transactions));
-              let deletedTransaction = buffer.get(transactionIndex);
-              let remove = buffer.remove(transactionIndex);
+
+              var bufferId = 0;
+              var isTransactionRemoved : Bool = false;
+
+              Buffer.iterate<Types.Transaction>(buffer, func(x) {
+                if(x.id == transactionIndex) {
+                  let remove = buffer.remove(bufferId);
+                  isTransactionRemoved := true;
+                };
+                bufferId := bufferId + 1;
+              });
+
               let updatedTransactions = Buffer.toArray(buffer);
               let updatedData = Buffer.Buffer<Types.Portfolio>(Array.size(portfoliosList));
               
@@ -204,7 +229,7 @@ actor Core {
               // Save the updated list of portfolios back to the hashmap
               portfolios.put(msg.caller, Buffer.toArray(updatedData));
               
-              return ?deletedTransaction;
+              return isTransactionRemoved;
           };
       };
   };

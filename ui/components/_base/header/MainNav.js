@@ -10,6 +10,8 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import PortfolioLink from '../PortfolioLink';
 import WatchlistLink from '../WatchlistLink';
+import CurrencySelector from '../CurrencySelector';
+import { PieChart, Visibility } from '@mui/icons-material';
 
 const MainNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,20 +28,20 @@ const MainNav = () => {
       icon: <AllInclusiveIcon fontSize="large" />, // Use the icon name, and dynamically render the actual icon in the component
       isDropdown: false,
     },
-    {
-      id: 'feed',
-      href: '/feed',
-      label: 'Feed',
-      icon: <FeedIcon fontSize="large" />,
-      isDropdown: false,
-    },
-    {
-      id: 'library',
-      href: '/library',
-      label: 'Library',
-      icon: <MenuBookIcon fontSize="large" />,
-      isDropdown: false,
-    },
+    // {
+    //   id: 'feed',
+    //   href: '/feed',
+    //   label: 'Feed',
+    //   icon: <FeedIcon fontSize="large" />,
+    //   isDropdown: false,
+    // },
+    // {
+    //   id: 'library',
+    //   href: '/library',
+    //   label: 'Library',
+    //   icon: <MenuBookIcon fontSize="large" />,
+    //   isDropdown: false,
+    // },
     {
       id: 'markets',
       label: 'Markets',
@@ -59,21 +61,44 @@ const MainNav = () => {
         },
       ],
     },
+    {
+      id: 'watchlist',
+      href: '/watchlist',
+      label: 'Watchlist',
+      icon: <Visibility fontSize="large" />,
+      isDropdown: false,
+      mobileOnly: true,
+    },
+    {
+      id: 'portfolio',
+      href: '/portfolio',
+      label: 'Portfolio',
+      icon: <PieChart fontSize="large" />,
+      isDropdown: false,
+      mobileOnly: true,
+    },
     // Add more navigation items as needed
   ];  
 
   return (
-    <nav className='flex items-center w-full justify-end lg:justify-between my-[2px]'>
-      {/* <DesktopNav navLinks={navConfig} path={path} /> */}
+    <nav className='flex items-center w-full justify-end lg:justify-between'>
+      <DesktopNav navLinks={navConfig} path={path} />
       <div></div>
       <div>
-        <div className='hidden sm:inline-block'>
-          <WatchlistLink />
-          <PortfolioLink />
+        <div className='inline-block'>
+          <div className='hidden sm:inline-block'>
+            <span className='mr-4'><WatchlistLink /></span>
+            <PortfolioLink />
+          </div>
         </div>
-        <AccountNav />
+        <div className='mx-4 inline-block'>
+          <CurrencySelector />
+        </div>
+        <div className='hidden lg:inline-block'>
+          <AccountNav />
+        </div>
       </div>
-      {/* <MobileNav navLinks={navConfig} isMobileMenuOpen={isMobileMenuOpen} toggleMobileMenu={toggleMobileMenu} path={path} /> */}
+      <MobileNav navLinks={navConfig} isMobileMenuOpen={isMobileMenuOpen} toggleMobileMenu={toggleMobileMenu} path={path} />
     </nav>
   );
 };

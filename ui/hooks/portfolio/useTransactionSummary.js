@@ -27,6 +27,7 @@ const useTransactionSummary = (tokens) => {
 
         let totalInvested = 0;
         let totalCurrentFunds = 0;
+        let totalQuantity = 0;
 
         for (const tokenId of Object.keys(groupedByToken)) {
             const tokenData = groupedByToken[tokenId];
@@ -48,13 +49,13 @@ const useTransactionSummary = (tokens) => {
                 tokenData.portfolio.avgBuyPrice = 0;  // Handle zero quantity to avoid division by zero
             }
 
-            const currentPriceData = await fetchPriceNearTimestamp(tokenId, Math.floor((new Date()).getTime() / 1000), 'icp');
-            const currentMarketValue = currentPriceData.close * tokenData.portfolio.totalQuantity;
+            const currentMarketValue = tokenData.metrics.price.icp * tokenData.portfolio.totalQuantity;
 
             tokenData.portfolio.currentFunds = currentMarketValue;
 
             totalInvested += tokenData.portfolio.investedFunds;
             totalCurrentFunds += currentMarketValue;
+            totalQuantity += tokenData.portfolio.totalQuantity;
         }
 
         const arrayOfTokens = Object.entries(groupedByToken).map(([index, obj]) => ({
@@ -62,7 +63,7 @@ const useTransactionSummary = (tokens) => {
             ...obj,
         }));
 
-        const output = { tokens: arrayOfTokens, totalInvested, totalCurrentFunds };
+        const output = { tokens: arrayOfTokens, totalInvested, totalCurrentFunds, totalQuantity };
 
         setSummaries(output);
 

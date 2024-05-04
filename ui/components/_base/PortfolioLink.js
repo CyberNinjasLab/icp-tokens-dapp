@@ -6,7 +6,6 @@ import PieChartIcon from '@mui/icons-material/PieChart';
 
 function PortfolioLink() {
   const router = useRouter();
-
   const handleClick = () => {
     router.push('/portfolio');
   };
@@ -17,7 +16,7 @@ function PortfolioLink() {
         onClick={handleClick}
         size="large"
         sx={{
-            ml: 2,
+            ml: 0,
             my: 0,
             '&:hover': {
               borderRadius: '12px',  // Change this value to your desired radius
