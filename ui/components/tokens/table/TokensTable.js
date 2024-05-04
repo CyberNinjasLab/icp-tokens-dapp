@@ -13,14 +13,14 @@ import useFetchTokens from '../../../hooks/token/useFetchTokens'; // Adjust the 
 import getTokenTableColDefs from './tokenTableColDefs';
 import TokensTableColumnsFilter from './TokensTableColumnsFilter';
 import FavoriteToggle from './TokensTableFavoritesFilter';
-import { TokensTableContext } from '../../../../contexts/tokensTable/TokensTableContext';
+import { useFavoriteTokens } from '../../../../contexts/general/FavoriteTokensProvider';
 
 function TokensTable(props) {
   const {
     showFavoritesOnly = false
   } = props;
   const { formatPrice, showPriceCurrency, currency } = useContext(GeneralContext);
-  const { favorites, loading } = useContext(TokensTableContext);
+  const { favoriteTokenIds, loadingFavorites } = useFavoriteTokens();
   const [gridApi, setGridApi] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [isGridReady, setIsGridReady] = useState(false);
@@ -59,22 +59,24 @@ function TokensTable(props) {
     // Update the local storage when the showFavorites state changes
     setShowFavorites(showFavorites);
   }, [showFavorites, setShowFavorites]);
+  
   const filteredData = useMemo(() => {
+    console.log(favoriteTokenIds);
     if (data) {
       if (showFavorites === 'favorites') {
-        const favoriteIds = favorites || [];
+        const favoriteIds = favoriteTokenIds || [];
         return data.filter(row => favoriteIds.includes(row.canister_id));
       }
       return data;
     }
-  }, [showFavorites, data, favorites]);
+  }, [showFavorites, data, favoriteTokenIds]);
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
-      {!loaded && !error && loading && (
+      {!loaded && !error && loadingFavorites && (
         <Skeleton variant="rounded" className="max-w-1500 mt-4" height={800} />
       )}
-      {loaded && data && !loading && (
+      {loaded && data && !loadingFavorites && (
         <Paper className="max-w-1500 mx-auto relative" style={{
           margin: '1rem 0px'
         }}>

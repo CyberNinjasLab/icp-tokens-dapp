@@ -23,7 +23,7 @@ const Portfolio = () => {
 
     const processPortfolios = async (portfoliosRawData) => {
         if (portfoliosRawData[0].length) {
-            const summary = await summarizeTransactions(portfoliosRawData[0][0].transactions);
+            await summarizeTransactions(portfoliosRawData[0][0].transactions);
         }
     };
 
@@ -61,15 +61,6 @@ const Portfolio = () => {
         try {
             return await backendCoreActor.createPortfolio(name);
             // Optionally refresh the portfolio list or add to state directly
-        } catch (err) {
-            console.error(err.message);
-        }
-    };
-
-    const deletePortfolio = async (index) => {
-        try {
-            await backendCoreActor.deletePortfolio(index);
-            // Optionally refresh the portfolio list or remove from state directly
         } catch (err) {
             console.error(err.message);
         }

@@ -5,7 +5,6 @@ import Layout from '../../ui/components/_base/Layout';
 import useTokenData from '../../ui/hooks/token/useTokenData';
 import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
-import { TokensTableContext } from '../../contexts/tokensTable/TokensTableContext';
 
 // Lazy load components
 const ChartComponent = lazy(() => import('../../ui/components/tokens/details/ChartComponent'));

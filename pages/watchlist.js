@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Layout from '../ui/components/_base/Layout';
 import TokensTable from '../ui/components/tokens/table/TokensTable';
-import TokensTableContextProvider from '../contexts/tokensTable/TokensTableProvider';
 import { AuthContext } from '../contexts/auth/Auth.Context';
 import LoginMessage from '../ui/components/_base/LoginMessage';
+import { FavoriteTokensProvider } from '../contexts/general/FavoriteTokensProvider';
 
 const Watchlist = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -15,9 +15,9 @@ const Watchlist = () => {
         <LoginMessage />
       ) : (
         <div>
-          <TokensTableContextProvider>
+          <FavoriteTokensProvider>
             <TokensTable showFavoritesOnly={true} />
-          </TokensTableContextProvider>
+          </FavoriteTokensProvider>
         </div>
       ) }
     </Layout>

@@ -3,10 +3,10 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import { Tooltip } from '@mui/material';
 import { AuthContext } from '../../../contexts/auth/Auth.Context';
-import useTokenFavorites from '../../hooks/token/useTokenFavorites';
+import { useFavoriteTokens } from '../../../contexts/general/FavoriteTokensProvider';
 
 const Favorites = props => {
-  const { favoriteTokenIds, addTokenToFavorites, removeTokenFromFavorites } = useTokenFavorites();
+  const { favoriteTokenIds, addTokenToFavorites, removeTokenFromFavorites } = useFavoriteTokens();
   const { isAuthenticated, openLoginModal } = useContext(AuthContext);
   const id = props.data.canister_id;
   const isFavorite = (favoriteTokenIds ?? []).includes(id);

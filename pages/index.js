@@ -1,8 +1,8 @@
 import Layout from '../ui/components/_base/Layout';
 import TokensTable from '../ui/components/tokens/table/TokensTable';
-import TokensTableContextProvider from '../contexts/tokensTable/TokensTableProvider';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { FavoriteTokensProvider } from '../contexts/general/FavoriteTokensProvider';
 const Home = () => {
   const router = useRouter();
   useEffect(() => {
@@ -15,9 +15,9 @@ const Home = () => {
     <Layout>
       <div>
         <h1 className='h1'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
-        <TokensTableContextProvider>
+        <FavoriteTokensProvider>
           <TokensTable />
-        </TokensTableContextProvider>
+        </FavoriteTokensProvider>
       </div>
     </Layout>
   );
