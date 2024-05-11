@@ -13,11 +13,15 @@ import Settings from '@mui/icons-material/Settings';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context'; // Adjust the import path as needed
 import { useRouter } from 'next/router';
 import { PieChart, Visibility } from '@mui/icons-material';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { GeneralContext } from '../../../../contexts/general/General.Context';
 
 const AccountNav = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const { isAuthenticated, openLoginModal, logout } = useContext(AuthContext); // Use the authentication context
+  const { theme, toggleTheme } = useContext(GeneralContext);
   const router = useRouter();
 
   const handleClick = (event) => {
@@ -34,6 +38,7 @@ const AccountNav = () => {
   // Handle login action
   const handleLogin = () => {
     openLoginModal();
+    handleClose();
   };
 
   // Handle logout action
@@ -61,7 +66,7 @@ const AccountNav = () => {
         id="account-menu"
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
+        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -91,16 +96,6 @@ const AccountNav = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {!isAuthenticated && (
-          <MenuItem onClick={handleLogin} className='text-gray-700' fontSize="medium" style={{
-            padding: '15px'
-          }} >
-            <ListItemIcon>
-              <LoginIcon fontSize='medium' />
-            </ListItemIcon>
-            Login
-          </MenuItem>
-        )}
         {isAuthenticated && [
             <MenuItem key="watchlist" onClick={() => handleLink('watchlist')} style={{ padding: '15px' }}>
                 <ListItemIcon>
@@ -115,17 +110,35 @@ const AccountNav = () => {
                 Portfolio
             </MenuItem>
         ]}
-        {isAuthenticated && (
-            <Divider style={{
+        <MenuItem key="dark-mode" onClick={() => toggleTheme()} style={{ padding: '15px' }}>
+            <ListItemIcon>
+              {
+                theme == 'dark' ? (<LightModeIcon fontSize='medium' />) : (<DarkModeIcon fontSize='medium' />)
+              }
+            </ListItemIcon>
+            <span className='inline-block min-w-[90px]'>
+              {theme == 'dark' ? 'Light' : 'Dark'} mode
+            </span>
+        </MenuItem>
+        <Divider style={{
               margin: '0'
             }} />
-        )}
             {/* <MenuItem onClick={handleClose}>
               <ListItemIcon>
                 <Settings fontSize="medium" />
               </ListItemIcon>
               Settings
             </MenuItem> */}
+          {!isAuthenticated && (
+          <MenuItem onClick={handleLogin} className='text-gray-700' fontSize="medium" style={{
+            padding: '15px'
+          }} >
+            <ListItemIcon>
+              <LoginIcon fontSize='medium' />
+            </ListItemIcon>
+            Login
+          </MenuItem>
+        )}
         {isAuthenticated && (
             <MenuItem onClick={handleLogout} style={{
               padding: '15px'

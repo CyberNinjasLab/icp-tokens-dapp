@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   ToggleButtonGroup,
@@ -8,12 +8,13 @@ import {
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
-import useLocalStorage from '../../../hooks/useLocalStorage';
 import { isMobile } from 'react-device-detect';
+import { GeneralContext } from '../../../../contexts/general/General.Context';
 
 const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   // Initialize selectedColumns with an empty array
   const [selectedColumns, setSelectedColumns] = useState([]);
+  const { theme } = useContext(GeneralContext)
 
   useEffect(() => {
     if (gridApi?.getAllGridColumns()) {
@@ -67,6 +68,9 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
             onClick={handleShowFilters}
             sx={{ py: 1 }}
             color="gray"
+            style={{
+              color: theme == 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'inerhit'
+            }}
           >
             Columns
           </Button>

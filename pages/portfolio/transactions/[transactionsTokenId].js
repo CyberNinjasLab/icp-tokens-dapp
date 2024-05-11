@@ -73,6 +73,7 @@ const Transactions = () => {
             throw err;
         } finally {
             setLoadingState(false);
+            window.scrollTo(0, 0);
         }
     };
 

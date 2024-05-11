@@ -33,12 +33,13 @@ const Portfolio = () => {
         try {
             let portfoliosData = await backendCoreActor.getPortfolios(); // Adjust this call based on your backend API
 
-            console.log(portfoliosData);
             if (!portfoliosData.length) {
                 portfoliosData = [await createPortfolio('Main')];
             }
 
             await processPortfolios(portfoliosData);
+
+            window.scrollTo(0, 0);
         } catch (err) {
             console.error('Failed to fetch portfolios:', err);
             throw err;

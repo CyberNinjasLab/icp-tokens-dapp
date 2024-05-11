@@ -19,7 +19,7 @@ function TokensTable(props) {
   const {
     showFavoritesOnly = false
   } = props;
-  const { formatPrice, showPriceCurrency, currency } = useContext(GeneralContext);
+  const { formatPrice, showPriceCurrency, currency, theme } = useContext(GeneralContext);
   const { favoriteTokenIds, loadingFavorites } = useFavoriteTokens();
   const [gridApi, setGridApi] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -77,7 +77,8 @@ function TokensTable(props) {
       )}
       {loaded && data && !loadingFavorites && (
         <Paper className="max-w-1500 mx-auto relative" style={{
-          margin: '1rem 0px'
+          margin: '1rem 0px',
+          background: 'none'
         }}>
           {isGridReady && (
             <TokensTableColumnsFilter
@@ -89,7 +90,7 @@ function TokensTable(props) {
           {isGridReady && !showFavoritesOnly && (
             <FavoriteToggle value={showFavorites} setValue={setShowFavorites} />
           )}
-          <Paper className="ag-theme-quartz w-full h-full" style={{
+          <Paper className={`${theme == 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'} w-full h-full`} style={{
             margin: '1rem 0px'
           }}>
             <AgGridReact

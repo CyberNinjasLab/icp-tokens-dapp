@@ -17,7 +17,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const [pricePerCoin, setPricePerCoin] = useState('');
     const [date, setDate] = useState(null);
     const [note, setNote] = useState('');
-    const { getTokenName, showPriceCurrency, roundPrice } = useContext(GeneralContext);
+    const { getTokenName, showPriceCurrency, roundPrice, theme } = useContext(GeneralContext);
     const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
     const currency = 'icp';
 
@@ -84,7 +84,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                 transform: 'translate(-50%, -50%)',
                 maxWidth: 400,  // Sets the width of the modal
                 width: '100%',
-                bgcolor: 'background.paper',
+                bgcolor: theme == 'dark' ? '#0f0f26' : 'background.paper',
                 boxShadow: 24,
                 p: 4,
                 borderRadius: 0,  // Optional: Adds rounded corners
@@ -97,7 +97,8 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     value={transactionType}
                     onChange={(e, newAlignment) => setTransactionType(newAlignment)}
                     aria-label="Transaction Type"
-                    fullWidth>
+                    fullWidth
+                >
                     <ToggleButton value="buy">Buy</ToggleButton>
                     <ToggleButton value="sell">Sell</ToggleButton>
                 </ToggleButtonGroup>
@@ -144,6 +145,15 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                         sx={{
                             width: '100%'
                         }}
+                        slotProps={{
+                            layout: {
+                              sx: {
+                                '& .MuiDayCalendar-weekDayLabel': {
+                                  color: 'rgba(255, 255, 255, 0.3)',
+                                },
+                              },
+                            },
+                          }}
                     />
                 </LocalizationProvider>
                 <TextField

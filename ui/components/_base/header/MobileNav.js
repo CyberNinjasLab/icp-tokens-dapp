@@ -8,10 +8,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context';
 import { Button } from '@mui/material';
+import { GeneralContext } from '../../../../contexts/general/General.Context';
 
 const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
   const [dropdownStates, setDropdownStates] = useState({});
   const { isAuthenticated, openLoginModal, logout } = useContext(AuthContext);
+  const { toggleTheme } = useContext(GeneralContext)
 
   const toggleDropdown = isOpen => {
     setDropdownStates(prevState => ({
@@ -20,26 +22,33 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
     }));
   };
 
+  const handleNavLinkClick = (href) => {
+    if (href === path) {
+      toggleMobileMenu(); // Close the menu if the link is to the current page
+    }
+  };
+
   return (
     <>
       <div id="mobile-toggler" onClick={toggleMobileMenu} className="lg:hidden py-2 pl-2 cursor-pointer">
         {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
       <div
-        className={`z-[100] ${isMobileMenuOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-0 duration-300 pb-6 left-0 bg-white w-full top-[52.5px] fixed h-[calc(100%-51px)] shadow-xl`}
+        className={`z-[100] ${isMobileMenuOpen ? 'visible animate-fadeInLeft' : 'invisible animate-fadeInRight'} flex flex-col justify-between transition-visible ease-in-out delay-0 pb-6 left-0 bg-white dark:bg-dark-bg w-full top-[52.5px] fixed h-[calc(100%-51px)] shadow-xl`}
       >
         <div>
           <ul className="pb-0 pt-6 overflow-y-scroll hidden-scrollbar">
             {navLinks.map(link =>
               link.isDropdown !== true ? (
                 <li
-                  key={link.href}
+                  key={link.href ?? link.id}
                   className={`${path === link.href && "before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:border-l-4 before:border-solid before:border-primary"} relative mb-4 px-4`}
+                  onClick={() => link.id == 'toggle-theme' ? toggleTheme() : handleNavLinkClick(link.href)}
                 >
                   <div className="relative flex items-center">
                     <Link
                       href={link.href}
-                      className={`${path === link.href ? 'text-primary' : 'text-mobile-menu'} py-2`}
+                      className={`${path === link.href ? 'text-primary' : 'text-mobile-menu dark:text-white'} py-2`}
                     >
                       <span
                         className={`${path === link.href && 'text-primary'} pr-5`}
@@ -60,12 +69,12 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
                       className={`px-4 ${link.dropdownItems.some(item => path === item.href) && " before:content-[''] before:absolute before:left-0 before:h-[51px] before:border-l-4 before:border-solid before:border-primary"} relative flex items-center`}
                     >
                       <span
-                        className={`${link.dropdownItems.some(item => path === item.href) ? 'text-primary' : 'text-mobile-menu'} pr-5`}
+                        className={`${link.dropdownItems.some(item => path === item.href) ? 'text-primary' : 'text-mobile-menu dark:text-white'} pr-5`}
                       >
                         {link.icon}
                       </span>
                       <button
-                        className={`${link.dropdownItems.some(item => path === item.href) ? 'text-primary' : 'text-mobile-menu'}`}
+                        className={`${link.dropdownItems.some(item => path === item.href) ? 'text-primary' : 'text-mobile-menu dark:text-white'}`}
                       >
                         {link.label}
                       </button>
@@ -73,12 +82,12 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
                     <div id={link.label} className="px-4">
                       {dropdownStates[link.isOpen] ? (
                         <KeyboardArrowUpIcon
-                          className="text-mobile-menu cursor-pointer"
+                          className="text-mobile-menu cursor-pointer dark:text-white"
                           sx={{ fontSize: 35 }}
                         />
                       ) : (
                         <KeyboardArrowDownIcon
-                          className="text-mobile-menu cursor-pointer"
+                          className="text-mobile-menu cursor-pointer dark:text-white"
                           sx={{ fontSize: 35 }}
                         />
                       )}
@@ -89,7 +98,8 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
                       {link.dropdownItems.map(sublink => (
                         <li
                           key={sublink.id}
-                          className="mb-2 py-2 text-mobile-menu"
+                          className="mb-2 py-2 text-mobile-menu dark:text-white"
+                          onClick={() => handleNavLinkClick(sublink.href)}
                         >
                           <Link href={sublink.href}>{sublink.label}</Link>
                         </li>
@@ -102,11 +112,11 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
           </ul>
           <div className='pb-16 px-4'>
             {!isAuthenticated ? (
-              <Button variant="contained" fullWidth color="primary" onClick={() => openLoginModal()}>
+              <Button variant="contained" fullWidth color="primary" onClick={() => openLoginModal()} style={{padding:'10px'}}>
                   Login
               </Button>
             ) : (
-              <Button fullWidth variant="containedGray" onClick={() => logout()}>
+              <Button fullWidth variant="containedGray" onClick={() => logout()} style={{padding:'10px'}}>
                   Logout
               </Button>
             )}

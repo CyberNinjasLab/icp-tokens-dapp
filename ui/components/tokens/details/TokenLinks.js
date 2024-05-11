@@ -10,6 +10,7 @@ import LinkIcon from '@mui/icons-material/Link'; // Example icon for 'Link'
 // Import the SVG file as a React component
 import DscvrIcon from '../../_base/icons/DscvrIcon';
 import OpenChatIcon from '../../_base/icons/OpenChatIcon';
+import TAGGRIcon from '../../_base/icons/TAGGRIcon';
 import { styled } from '@mui/material/styles';
 
 export default function TokenLinks({ links }) {
@@ -17,6 +18,7 @@ export default function TokenLinks({ links }) {
   const getIconComponent = (link) => {
     const type = link.link_type.type.toLowerCase();
     let iconComponent;
+    console.log(type);
     switch (type) {
       case 'dscvr':
         iconComponent = <div className='w-[36px] h-[36px] flex justify-center items-center'><DscvrIcon className="w-[36px]" /></div>;
@@ -25,16 +27,19 @@ export default function TokenLinks({ links }) {
         iconComponent = <OpenChatIcon className="w-[36px]" />;
         break;
       case 'whitepaper':
-        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><PaperIcon /></div>;
+        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white dark:bg-gray-700 dark:text-white rounded-full flex justify-center items-center'><PaperIcon /></div>;
         break;
       case 'app':
-        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><AppIcon /></div>;
+        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white dark:bg-gray-700 dark:text-white rounded-full flex justify-center items-center'><AppIcon /></div>;
         break;
       case 'site':
-        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><SiteIcon /></div>;
+        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white dark:bg-gray-700 dark:text-white rounded-full flex justify-center items-center'><SiteIcon /></div>;
         break;
       case 'link':
-        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white rounded-full flex justify-center items-center'><LinkIcon /></div>;
+        iconComponent = <div className='w-[36px] h-[36px] bg-black text-white dark:bg-gray-700 dark:text-white rounded-full flex justify-center items-center'><LinkIcon /></div>;
+        break;
+      case 'taggr':
+        iconComponent = <TAGGRIcon className="w-[36px]" />;
         break;
       default:
         // Use SocialIcon as the default without additional wrapping
@@ -49,7 +54,7 @@ export default function TokenLinks({ links }) {
   };
 
   const CustomTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} arrow placement="top" />
+    <Tooltip {...props} classes={{ popper: className }} arrow placement="bottom" />
   ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
       backgroundColor: 'dark-gray',

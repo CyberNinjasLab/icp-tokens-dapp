@@ -18,8 +18,9 @@ const ChartComponent = ({ canister_id }) => {
   const [chartType, setChartType] = useState('area'); // State for the chart type (area or candle)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [chartInitTrigger, setChartInitTrigger] = useState(0);
+  const [docWidth, setDocWidth] = useState(document.documentElement.clientWidth);
 
-  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice, prepareChartData, showPriceCurrency, currency } = useContext(GeneralContext)
+  const { parseTimestampToUnix, calculatePrecisionAndMinMove, formatDateBasedOnInterval, formatPrice, prepareChartData, showPriceCurrency, currency, theme } = useContext(GeneralContext)
     
   // Use the custom hook to fetch data
   const { data, loading, error } = useFetchOHLCVData(canister_id, selectedInterval, selectedPeriod, currency);
@@ -126,7 +127,7 @@ const ChartComponent = ({ canister_id }) => {
     const volumeData = data.map(d => ({
       time: parseTimestampToUnix(d.timestamp),
       value: parseFloat(d.volume),
-      color: parseFloat(d.close) < parseFloat(d.open) ? '#D3D3D3' : '#D3D3D3', // Red for down days, green for up days
+      color: theme == 'dark' ? 'rgba(59, 130, 246, 0.5)' : '#D3D3D3'
     }));
   
     volumeSeries.setData(prepareChartData(volumeData));
@@ -154,81 +155,82 @@ const ChartComponent = ({ canister_id }) => {
     return series;
   };
 
-  const appendTolltipToChar = (chart, series, data) => {
-    const container = chartContainerRef.current
+  const appendTolltipToChart = (chart, series, data) => {
+    const container = chartContainerRef.current;
     const toolTipWidth = 140;
     const toolTipHeight = 80;
     const toolTipMargin = 15;
-
+  
     let toolTip = container.querySelector('.chart-tooltip'); // Try to find an existing tooltip
-
+  
     // If a tooltip doesn't exist, create and append it
     if (!toolTip) {
       toolTip = document.createElement('div');
       toolTip.className = 'chart-tooltip'; // Add a class for easy identification
-      toolTip.style = `width: 140px; height: auto; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; pointer-events: none; border: 1px solid; border-radius: 2px; background: white; border-color: #D3D3D3; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
+      // Adjust tooltip styling based on theme
+      toolTip.style = `width: 140px; height: auto; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; pointer-events: none; border: 1px solid; border-radius: 2px; background: ${theme == 'dark' ? '#1e1e2c' : 'white'}; border-color: ${theme === 'dark' ? '#555' : '#D3D3D3'}; color: ${theme === 'dark' ? 'white' : 'black'}; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`;
       container.appendChild(toolTip);
     }
-
+  
     // Subscribe to crosshair move events to update the tooltip
     chart.subscribeCrosshairMove(param => {
-        if (
-            param.point === undefined ||
-            !param.time ||
-            param.point.x < 0 ||
-            param.point.x > container.clientWidth ||
-            param.point.y < 0 ||
-            param.point.y > container.clientHeight
-        ) {
-            toolTip.style.display = 'none';
-        } else {
-            const dateStr = formatDateBasedOnInterval(param.time, selectedInterval);
-            toolTip.style.display = 'block';
-            const seriesData = param.seriesData.get(series);
-            const fullData = data.find(obj => obj.time == param.time);
-
-            if(chartType == 'area') {
-              toolTip.innerHTML = `
-              <div style="font-size: 16px; margin-bottom: 2px; color: black">
-              ${formatPrice(fullData.value)}
-              </div>
-              <div>
-                VOL: ${showPriceCurrency(Math.round(fullData.volume).toLocaleString())}
-              </div>
-              <div style="color: black; margin-top: 6px">
-                ${dateStr}
-              </div>`;
-            } else if(chartType == 'candle') {
-              toolTip.innerHTML = `
-              <div style="margin-bottom: 2px; color: black">
-                <span style="font-weight: 500">OPEN</span>: ${formatPrice(fullData.open)}<br>
-                <span style="font-weight: 500">HIGH</span>: ${formatPrice(fullData.high)}<br>
-                <span style="font-weight: 500">LOW</span>: ${formatPrice(fullData.low)}<br>
-                <span style="font-weight: 500">CLOSE</span>: ${formatPrice(fullData.close)}
-              </div>
-              <div>
-                VOL: ${showPriceCurrency(Math.round(fullData.volume).toLocaleString())}
-              </div>
-              <div style="color: black; margin-top: 6px">
-                ${dateStr}
-              </div>`;
-            }
-
-            const y = param.point.y;
-            let left = param.point.x + toolTipMargin;
-            if (left > container.clientWidth - toolTipWidth) {
-              left = param.point.x - toolTipMargin - toolTipWidth;
-            }
-        
-            let top = y + toolTipMargin;
-            if (top > container.clientHeight - toolTipHeight) {
-              top = y - toolTipHeight - toolTipMargin;
-            }
-            toolTip.style.left = left + 'px';
-            toolTip.style.top = top + 'px';
+      if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.x > container.clientWidth ||
+        param.point.y < 0 ||
+        param.point.y > container.clientHeight
+      ) {
+        toolTip.style.display = 'none';
+      } else {
+        const dateStr = formatDateBasedOnInterval(param.time, selectedInterval);
+        toolTip.style.display = 'block';
+        const fullData = data.find(obj => obj.time == param.time);
+  
+        if(chartType == 'area') {
+          toolTip.innerHTML = `
+          <div style="font-size: 16px; margin-bottom: 2px;">
+          ${formatPrice(fullData.value)}
+          </div>
+          <div>
+            VOL: ${showPriceCurrency(Math.round(fullData.volume).toLocaleString())}
+          </div>
+          <div style="margin-top: 6px">
+            ${dateStr}
+          </div>`;
+        } else if(chartType == 'candle') {
+          toolTip.innerHTML = `
+          <div style="margin-bottom: 2px;">
+            <span style="font-weight: 500">OPEN</span>: ${formatPrice(fullData.open)}<br>
+            <span style="font-weight: 500">HIGH</span>: ${formatPrice(fullData.high)}<br>
+            <span style="font-weight: 500">LOW</span>: ${formatPrice(fullData.low)}<br>
+            <span style="font-weight: 500">CLOSE</span>: ${formatPrice(fullData.close)}
+          </div>
+          <div>
+            VOL: ${showPriceCurrency(Math.round(fullData.volume).toLocaleString())}
+          </div>
+          <div style="margin-top: 6px">
+            ${dateStr}
+          </div>`;
         }
+  
+        const y = param.point.y;
+        let left = param.point.x + toolTipMargin;
+        if (left > container.clientWidth - toolTipWidth) {
+          left = param.point.x - toolTipMargin - toolTipWidth;
+        }
+        
+        let top = y + toolTipMargin;
+        if (top > container.clientHeight - toolTipHeight) {
+          top = y - toolTipHeight - toolTipMargin;
+        }
+        toolTip.style.left = `${left}px`;
+        toolTip.style.top = `${top}px`;
+      }
     });
   }
+  
 
   useEffect(() => {
     if (!chartContainerRef.current || loading || error) return;
@@ -238,15 +240,17 @@ const ChartComponent = ({ canister_id }) => {
       width: chartContainerRef.current.clientWidth,
       height: calculateChartHeight(isFullScreen),
       layout: {
-        backgroundColor: '#ffffff',
-        textColor: 'rgba(33, 56, 77, 1)',
+        textColor: theme == 'dark' ? 'white' : 'black', 
+        background: { 
+          type: 'solid',
+          color: theme == 'dark' ? '#0f0f26' : 'white' }
       },
       grid: {
         vertLines: {
-          color: 'rgba(197, 203, 206, 0.7)',
+          color: 'transparent',
         },
         horzLines: {
-          color: 'rgba(197, 203, 206, 0.7)',
+          color: theme == 'dark' ? 'rgba(197, 203, 206, 0.2)' : 'rgba(197, 203, 206, 0.4)',
         },
       },
       crosshair: {
@@ -294,7 +298,7 @@ const ChartComponent = ({ canister_id }) => {
     }
 
     if(series) {
-      appendTolltipToChar(chart, series, transformedData)
+      appendTolltipToChart(chart, series, transformedData)
     }
 
     return () => {
@@ -302,7 +306,7 @@ const ChartComponent = ({ canister_id }) => {
       chart.remove();
       chartInstanceRef.current = null;
     }
-  }, [chartType, data, loading, error, chartInitTrigger, currency]); // Reinitialize the chart when these dependencies change
+  }, [chartType, data, loading, error, chartInitTrigger, currency, theme, docWidth]); // Reinitialize the chart when these dependencies change
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -319,6 +323,18 @@ const ChartComponent = ({ canister_id }) => {
     };
   }, []);  
 
+  useEffect(() => {
+    const handleResize = () => {
+      setDocWidth(document.documentElement.clientWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   if (loading) return <div className='h-[480px]'>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -331,7 +347,7 @@ const ChartComponent = ({ canister_id }) => {
     <div ref={chartWrapperRef} className="flex flex-col justify-center gap-4 max-w-6xl">
       <div className="flex gap-1 justify-between">
         {/* Left side: UI for toggling chart type */}
-        <ButtonGroup size="small" aria-label="chart type buttons" sx={{ backgroundColor: 'white' }}>
+        <ButtonGroup size="small" aria-label="chart type buttons" sx={{ backgroundColor: theme == 'dark' ? 'transparent' : 'white' }}>
           <Tooltip title="Area Chart">
             <Button 
               variant={chartType === 'area' ? "containedGray" : "outlinedGray"}
@@ -354,13 +370,13 @@ const ChartComponent = ({ canister_id }) => {
           </Tooltip>
         </ButtonGroup>
 
-        <Button onClick={toggleFullScreen} className='opacity-0 lg:opacity-100' color='gray' sx={{backgroundColor: 'white'}}>
+        <Button onClick={toggleFullScreen} className='opacity-0 lg:opacity-100' color='gray' sx={{backgroundColor: theme == 'dark' ? 'transparent' : 'white'}}>
           {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
         </Button>
 
 
         {/* Right side: UI for selecting intervals (only if chart type is 'candle') */}  
-        <ButtonGroup size="small" aria-label="chart interval buttons" sx={{ backgroundColor: 'white' }}>
+        <ButtonGroup size="small" aria-label="chart interval buttons" sx={{ backgroundColor: theme == 'dark' ? 'transparent' : 'white' }}>
           {intervals.map((interval) => (
             <Tooltip key={interval} title={`${interval} Interval`}>
               <Button

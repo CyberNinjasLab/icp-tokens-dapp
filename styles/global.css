@@ -20,6 +20,32 @@
   }
 }
 
+.tv-lightweight-charts > table > tr:nth-child(1) > td:nth-child(2) canvas {
+  border-top: 1px solid rgba(197, 203, 206, 0.4);
+  border-left: 1px solid rgba(197, 203, 206, 0.4);
+}
+
+.dark .tv-lightweight-charts > table > tr:nth-child(1) > td:nth-child(2) canvas {
+  border-top: 1px solid rgba(197, 203, 206, 0.1);
+  border-left: 1px solid rgba(197, 203, 206, 0.1);
+}
+
+.dark .favorite-icon {
+  color: gray;
+}
+
+.dark .ag-root-wrapper {
+  border-color: rgb(75, 85, 99);
+}
+
+.dark .ag-header, .dark .ag-row, .dark .ag-body {
+  background-color: #0f0f26 !important;
+}
+
+.dark .ag-overlay-no-rows-center {
+  color: #fff !important;
+}
+
 .ag-cell-focus {
   border: none !important;
   outline: none !important;

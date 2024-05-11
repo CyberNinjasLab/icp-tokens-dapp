@@ -5,6 +5,7 @@ import Layout from '../../ui/components/_base/Layout';
 import useTokenData from '../../ui/hooks/token/useTokenData';
 import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
+import { FavoriteTokensProvider } from '../../contexts/general/FavoriteTokensProvider';
 
 // Lazy load components
 const ChartComponent = lazy(() => import('../../ui/components/tokens/details/ChartComponent'));
@@ -30,23 +31,25 @@ const TokenPage = () => {
         {isLoading && <div>Loading...</div>}
         {error && <div>Error: {error}</div>}
         {!isLoading && !error && tokenData && (
-          <Suspense fallback={<div>Loading...</div>}>
-            <div className='mt-4 lg:mt-0'>
-              <TokenHeader tokenData={tokenData} />
-              <div className="flex flex-col xl:flex-row xl:gap-20 gap-10">
-                <div className="w-full">
-                  <ChartComponent canister_id={tokenData.canister_id} />
-                  <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
+          <FavoriteTokensProvider>
+            <Suspense fallback={<div>Loading...</div>}>
+              <div className='mt-4 lg:mt-0'>
+                <TokenHeader tokenData={tokenData} />
+                <div className="flex flex-col xl:flex-row xl:gap-20 gap-10">
+                  <div className="w-full">
+                    <ChartComponent canister_id={tokenData.canister_id} />
+                    <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
+                      <TokenInfo data={tokenData} />
+                    </div>
+                    <TokenDetails data={tokenData} />
+                  </div>
+                  <div className='w-full xl:max-w-sm hidden xl:block'>
                     <TokenInfo data={tokenData} />
                   </div>
-                  <TokenDetails data={tokenData} />
-                </div>
-                <div className='w-full xl:max-w-sm hidden xl:block'>
-                  <TokenInfo data={tokenData} />
                 </div>
               </div>
-            </div>
-          </Suspense>
+            </Suspense>
+          </FavoriteTokensProvider>
         )}
       </Layout>
     </>

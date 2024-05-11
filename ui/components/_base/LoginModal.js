@@ -4,10 +4,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import { AuthContext } from '../../../contexts/auth/Auth.Context';
+import { GeneralContext } from '../../../contexts/general/General.Context';
 import CloseIcon from '@mui/icons-material/Close';
 
 const LoginModal = ({ open, onClose }) => {
     const { login } = useContext(AuthContext);
+    const { theme } = useContext(GeneralContext);
     
     // Handle login action
     const handleLogin = () => {
@@ -27,7 +29,10 @@ const LoginModal = ({ open, onClose }) => {
             <DialogContent style={{
                 paddingBottom: 30
             }}>
-                <Button variant="contained" color='black' onClick={handleLogin} className='w-full'>
+                <Button variant="contained" color='black' onClick={handleLogin} className='w-full' style={{
+                    padding: '10px',
+                    color: theme == 'dark' ? '#000' : '#fff'
+                }}>
                     <img src="/icp-logo.svg" className='w-6 mr-2' /> Internet Identity
                 </Button>
             </DialogContent>

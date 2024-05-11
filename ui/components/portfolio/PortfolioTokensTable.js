@@ -16,7 +16,7 @@ import TokenActionsCell from './TokenActionsCell';
 
 function PortfolioTokensTable({ tokens }) {
   const router = useRouter();
-  const { formatPrice, currency, roundPrice } = useContext(GeneralContext);
+  const { formatPrice, currency, roundPrice, theme } = useContext(GeneralContext);
   const [gridApi, setGridApi] = useState(null);
   const [isGridReady, setIsGridReady] = useState(false);
   const isWindowUnder1370 = useWindowWidthUnder(1370);
@@ -66,7 +66,7 @@ function PortfolioTokensTable({ tokens }) {
     {
       // field: ``,
       headerName: 'Holdings',
-      width: isWindowUnder1370 ? 120 : 160,
+      width: isWindowUnder1370 ? 130 : 160,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
@@ -79,7 +79,7 @@ function PortfolioTokensTable({ tokens }) {
     {
       field: `portfolio.avgBuyPrice`,
       headerName: isWindowUnder1370 ? 'Avg. Price' : 'Avg. Buy Price',
-      width: isWindowUnder1370? 120 : 160,
+      width: isWindowUnder1370? 130 : 160,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
@@ -147,7 +147,7 @@ function PortfolioTokensTable({ tokens }) {
     <>
       {tokens && (
         <Paper className="max-w-1500 mx-auto relative" style={{ margin: '1rem 0px' }}>
-          <Paper className="ag-theme-quartz w-full h-full" style={{ margin: '1rem 0px' }}>
+          <Paper className={`${theme == 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'} w-full h-full`} style={{ margin: '1rem 0px' }}>
             <AgGridReact
               rowData={tokens}
               rowHeight={60}

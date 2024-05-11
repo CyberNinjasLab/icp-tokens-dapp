@@ -6,6 +6,8 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Typography } from '@mui/material';
 import TokenLinks from './TokenLinks';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
+import ICHouseLink from '../ICHouseLink';
+import ContractButton from '../ContractButton';
 
 const style = {
   py: 1,
@@ -52,7 +54,7 @@ export default function TokenInfo({ data }) {
             <Typography>{showPriceCurrency(data.metrics.volume[currency]['7d'].toLocaleString())}</Typography>
           </div>
         </ListItem>
-        <ListItem>
+        <ListItem style={{display: 'none'}}>
           <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">
               Circulating Supply
@@ -68,6 +70,28 @@ export default function TokenInfo({ data }) {
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
             <Typography>{formatTotalSupply(data)} {data.symbol}</Typography>
+          </div>
+        </ListItem>
+        <ListItem>
+          <div className="flex justify-between items-center w-full">
+            <Typography variant="textSemiBold">
+              Contract
+              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
+            </Typography>
+            <Typography>
+              <ContractButton canisterId={data.canister_id} />
+            </Typography>
+          </div>
+        </ListItem>
+        <ListItem>
+          <div className="flex justify-between items-center w-full">
+            <Typography variant="textSemiBold">
+              Explorer
+              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
+            </Typography>
+            <Typography>
+              <ICHouseLink canisterId={data.canister_id} />
+            </Typography>
           </div>
         </ListItem>
         {data.details?.short_description && (

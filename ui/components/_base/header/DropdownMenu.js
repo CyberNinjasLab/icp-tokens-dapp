@@ -27,7 +27,7 @@ const DropdownMenu = ({ link, path }) => {
           }}>
             <MenuList>
               {link.dropdownItems.map(sublink => (
-                <li key={sublink.id} className=" hover:bg-background-hover-menu">
+                <li key={sublink.id} className=" hover:bg-background-hover-menu rounded-[4px] dark:hover:bg-dark-hover-menu dark:text-white">
                   <Link href={sublink.href} className='py-4 px-6 min-w-[80px] block'>
                     {sublink.label}
                   </Link>

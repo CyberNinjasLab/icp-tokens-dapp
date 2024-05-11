@@ -17,7 +17,7 @@ import { useLoading } from '../../../contexts/general/Loading.Provider';
 import TransactionAmountCell from './TransactionAmountCell';
 
 function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
-  const { formatPrice, currency, roundPrice } = useContext(GeneralContext);
+  const { formatPrice, currency, roundPrice, theme } = useContext(GeneralContext);
   const [gridApi, setGridApi] = useState(null);
   const [isGridReady, setIsGridReady] = useState(false);
   const isWindowUnder1370 = useWindowWidthUnder(1370);
@@ -99,7 +99,7 @@ function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
     <>
       {transactions && (
         <Paper className="max-w-1500 mx-auto relative" style={{ margin: '1rem 0px' }}>
-          <Paper className="ag-theme-quartz w-full h-full" style={{ margin: '1rem 0px' }}>
+          <Paper className={`${theme == 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'} w-full h-full`} style={{ margin: '1rem 0px' }}>
             <AgGridReact
               rowData={transactions}
               rowHeight={60}

@@ -2,14 +2,36 @@ import React, { useEffect, useState } from 'react';
 import { GeneralContext } from './General.Context';
 
 const GeneralContextProvider = ({ children }) => {
-  // const [currency, setCurrency] = useLocalStorage('currency', 'icp'); // Default currency is USD
   const [currency, setCurrency] = useState('usd'); // Default currency is USD
+  const [theme, setTheme] = useState('light');  // Default to light
 
-  const [identity, setIdentity] = useState(233456);
+  useEffect(() => {
+      // Check local storage for theme
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+          setTheme(storedTheme);
+      }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('currency', currency);
   }, [currency]);
+
+  const toggleTheme = () => {
+    const newValue = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newValue);
+    setTheme(newValue);
+  };
+
+  useEffect(() => {
+    // Set the class on the <html> element based on the theme
+    const html = document.documentElement;
+    if (theme === 'dark') {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+  }, [theme]);
 
   // Define the formatPrice function here
   const formatPrice = value => {
@@ -62,7 +84,7 @@ const GeneralContextProvider = ({ children }) => {
     return priceAndCurrency;
   }
 
-  function roundPrice(price) {
+  function roundPrice(price, toLocaleString = true) {
       const absolutePrice = Math.abs(price); // Use absolute value for comparison
       let roundedPrice;
 
@@ -87,8 +109,10 @@ const GeneralContextProvider = ({ children }) => {
       } else {
           return price.toString(); // For very small numbers, return the full string of the original price
       }
+
+      roundedPrice = parseFloat(roundedPrice); // Removes trailing zeros and retains the sign
       
-      return parseFloat(roundedPrice).toString(); // Removes trailing zeros and retains the sign
+      return toLocaleString && absolutePrice > 10 ? roundedPrice.toLocaleString() : roundedPrice; 
   }
 
   const formatTotalSupply = (data) => {
@@ -233,9 +257,9 @@ const GeneralContextProvider = ({ children }) => {
   }
 
   const contextValues = {
-      identity,
-      setIdentity,
       currency,
+      theme,
+      toggleTheme,
       setCurrency,
       showPriceCurrency,
       formatPrice,
@@ -247,7 +271,7 @@ const GeneralContextProvider = ({ children }) => {
       formatUnixTimestampToDate,
       getTokenName,
       parseTokensByCanisterId,
-      prepareChartData
+      prepareChartData,
   }
 
   return (

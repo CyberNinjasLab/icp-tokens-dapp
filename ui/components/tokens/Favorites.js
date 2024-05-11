@@ -5,10 +5,10 @@ import { Tooltip } from '@mui/material';
 import { AuthContext } from '../../../contexts/auth/Auth.Context';
 import { useFavoriteTokens } from '../../../contexts/general/FavoriteTokensProvider';
 
-const Favorites = props => {
+const Favorites = ({ data, size="small" }) => {
   const { favoriteTokenIds, addTokenToFavorites, removeTokenFromFavorites } = useFavoriteTokens();
   const { isAuthenticated, openLoginModal } = useContext(AuthContext);
-  const id = props.data.canister_id;
+  const id = data.canister_id;
   const isFavorite = (favoriteTokenIds ?? []).includes(id);
   
   const onClick = () => {
@@ -33,11 +33,11 @@ const Favorites = props => {
     >
       {isFavorite ? (
         <Tooltip title="Remove from Watchlist">
-          <StarIcon color="secondary" className="favorite-icon" style={{ fontSize: '16px' }} />
+          <StarIcon color="secondary" className="favorite-icon dark:text-yellow-500" style={{ fontSize: `${size == 'small' ? '16px' : '18px'}` }} />
         </Tooltip>
       ) : (
         <Tooltip title="Add to Watchlist">
-          <StarBorderIcon color="lightGray" className="favorite-icon" style={{ fontSize: '16px' }} />
+          <StarBorderIcon color="lightGray" className="favorite-icon" style={{ fontSize: `${size == 'small' ? '16px' : '18px'}` }} />
         </Tooltip>
       )}
     </div>

@@ -43,6 +43,7 @@ const useTransactionSummary = (tokens) => {
                 }
             }
 
+            // console.log(tokenData.portfolio);
             if (tokenData.portfolio.totalQuantity > 0) {
                 tokenData.portfolio.avgBuyPrice = tokenData.portfolio.investedFunds / tokenData.portfolio.totalQuantity;
             } else {

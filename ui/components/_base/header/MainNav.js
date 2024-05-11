@@ -1,5 +1,5 @@
 // MainNav.js
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import AccountNav from './AccountNav';
 import MobileNav from './MobileNav';
 import DesktopNav from './DesktopNav';
@@ -11,10 +11,13 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import PortfolioLink from '../PortfolioLink';
 import WatchlistLink from '../WatchlistLink';
 import CurrencySelector from '../CurrencySelector';
-import { PieChart, Visibility } from '@mui/icons-material';
+import { DarkMode, PieChart, Visibility } from '@mui/icons-material';
+import LightMode from '@mui/icons-material/LightMode';
+import { GeneralContext } from '../../../../contexts/general/General.Context';
 
 const MainNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme } = useContext(GeneralContext);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -77,6 +80,13 @@ const MainNav = () => {
       isDropdown: false,
       mobileOnly: true,
     },
+    {
+      id: 'toggle-theme',
+      href: '#toggle-theme',
+      label: theme == 'dark' ? 'Light mode': 'Dark mode',
+      icon: theme == 'dark' ? <LightMode fontSize="large" /> : <DarkMode fontSize="large" />,
+      mobileOnly: true
+    }
     // Add more navigation items as needed
   ];  
 
