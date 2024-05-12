@@ -5,7 +5,7 @@ const HowItWorks = () => {
 		<Layout>
       <div className='max-w-xl mx-auto mt-6'>
         <h2 className='text-xl font-semibold text-center'>Token Price Calculation Mechanism</h2>
-        <p className='mt-4'>Our token price tracker for the <b>Internet Computer network</b> utilizes direct interactions with decentralized exchange (DEX) applications native to the Internet Computer platform. By querying pool canisters directly, we ensure real-time, accurate tracking of token metrics within the ecosystem.</p>
+        <p className='mt-4'>Our token price tracker for the <b>Internet Computer network</b> utilizes direct interactions with decentralized exchange (DEX) applications native to the Internet Computer platform. By querying pool canisters directly, we ensure real-time, accurate tracking of token metrics within the ecosystem</p>
         
         <h3 className='text-base font-semibold mt-6'>Process Overview:</h3>
         <div className='mt-2'>

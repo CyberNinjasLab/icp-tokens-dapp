@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Modal, TextField, Button, ToggleButtonGroup, ToggleButton, Autocomplete, Box } from '@mui/material';
+import { Modal, TextField, Button, ToggleButtonGroup, ToggleButton, Autocomplete, Box, createMuiTheme, createTheme } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import useFetchTokens from '../../hooks/token/useFetchTokens';
@@ -7,6 +7,7 @@ import { GeneralContext } from '../../../contexts/general/General.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import usePriceNearTimestamp from '../../hooks/token/usePriceNearTimestamp';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
+import { ThemeProvider } from '@emotion/react';
 
 
 const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selectedCoinId }) => {
@@ -20,6 +21,43 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const { getTokenName, showPriceCurrency, roundPrice, theme } = useContext(GeneralContext);
     const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
     const currency = 'icp';
+
+    const datePickerTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+        components: {
+            MuiInputBase: {
+              styleOverrides: {
+                root: {
+                    'font-size': '0.8571428571428571rem'
+                }
+              }
+            },
+            MuiFormLabel: {
+                styleOverrides: {
+                    root: {
+                        color: '#fff',
+                        'font-family': 'inherit',
+                        'font-weight': '400',
+                        'font-size': '0.8571428571428571rem',
+                        '&.Mui-focused': { 
+                            color: '#28abe596'
+                        }
+                    }
+                }
+            },
+            MuiOutlinedInput: {
+                styleOverrides: {
+                  root: {
+                    '& fieldset': {
+                      borderColor: 'rgb(75 85 99) !important', // Default border color
+                    },
+                  },
+                },
+            },
+        }
+    })
 
     const { data: coins, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens/autocomplete`);
 
@@ -136,26 +174,34 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                         disabled={!loaded || error}  // Disable if not loaded or if there's an error
                         disablePortal
                     />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateTimePicker
-                        label="Transaction Date"
-                        value={date}
-                        onChange={(newDate) => setDate(newDate)}
-                        renderInput={(params) => <TextField {...params} fullWidth />}
-                        sx={{
-                            width: '100%'
-                        }}
-                        slotProps={{
-                            layout: {
-                              sx: {
-                                '& .MuiDayCalendar-weekDayLabel': {
-                                  color: 'rgba(255, 255, 255, 0.3)',
-                                },
-                              },
-                            },
-                          }}
-                    />
-                </LocalizationProvider>
+                {theme === 'dark' ? (
+                    <ThemeProvider theme={datePickerTheme} >
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateTimePicker
+                                theme={datePickerTheme}
+                                label="Transaction Date"
+                                value={date}
+                                onChange={(newDate) => setDate(newDate)}
+                                renderInput={(params) => <TextField {...params} fullWidth />}
+                                sx={{
+                                    width: '100%'
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </ThemeProvider>
+                ) : (
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            label="Transaction Date"
+                            value={date}
+                            onChange={setDate}
+                            renderInput={(params) => <TextField {...params} />}
+                            sx={{
+                                width: '100%'
+                            }}
+                        />
+                    </LocalizationProvider>
+                )}
                 <TextField
                     label="Quantity"
                     type="number"

@@ -25,7 +25,7 @@ export default function TokenInfo({ data }) {
   const { formatTotalSupply, currency, showPriceCurrency } = useContext(GeneralContext)
 
   return (
-    <div className='bg-[#28abe508] border border-[#D3D3D3] rounded-md max-w-[400px] mx-auto'>
+    <div className='bg-[#28abe508] border border-[#D3D3D3] dark:border-[#555] rounded-md max-w-[400px] mx-auto'>
       <List sx={style}>
         <ListItem>
           <div className="flex justify-between items-center w-full">

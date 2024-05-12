@@ -4,9 +4,11 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import copy from 'copy-to-clipboard';
+import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 
 const ContractButton = ({ canisterId }) => {
   const [open, setOpen] = useState(false);
+  const isWindowUnder800 = useWindowWidthUnder(800);
 
   // Function to format canisterId
   const formatCanisterId = (id) => {
@@ -40,7 +42,7 @@ const ContractButton = ({ canisterId }) => {
         open={open}
         autoHideDuration={4000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: `${isWindowUnder800 ? 'bottom' : 'top'}`, horizontal: 'center' }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Contract ID copied to clipboard!

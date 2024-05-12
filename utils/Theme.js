@@ -232,6 +232,20 @@ export const darkTheme = createTheme({
     fontSize: 12
   },
   components: {
+    MuiPickersPopper: {
+      styleOverrides: {
+        paper: {
+          color: '#fff',
+        }
+      }
+    },
+    MuiPickersToolbarText: {
+      styleOverrides: {
+        paper: {
+          color: '#fff',
+        }
+      }
+    },
     MuiDialog: {
       styleOverrides: {
         paper: ({ ownerState, theme }) => ({ // The paper key targets the Dialog's internal Paper component

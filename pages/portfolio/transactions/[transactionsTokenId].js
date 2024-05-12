@@ -29,7 +29,7 @@ const Transactions = () => {
     };
 
     const processPortfolios = async (portfoliosRawData) => {
-        let filteredTransactions = [];
+        const filteredTransactions = [];
         if (portfoliosRawData[0].length && portfoliosRawData[0][0].transactions) {
             for (const transaction of portfoliosRawData[0][0].transactions) {
                 if (transaction.canister_id === transactionsTokenId) {
@@ -61,7 +61,7 @@ const Transactions = () => {
         if (!backendCoreActor || !isAuthenticated || !tokens) return;
 
         try {
-            let portfoliosData = await backendCoreActor.getPortfolios(); // Adjust this call based on your backend API
+            const portfoliosData = await backendCoreActor.getPortfolios(); // Adjust this call based on your backend API
 
             if (!portfoliosData.length) {
                 router.push('/portfolio');
