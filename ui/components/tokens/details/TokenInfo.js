@@ -36,24 +36,33 @@ export default function TokenInfo({ data }) {
             <Typography>{showPriceCurrency(parseFloat(data.metrics.fully_diluted_market_cap[currency])?.toLocaleString())}</Typography>
           </div>
         </ListItem>
-        <ListItem>
-          <div className="flex justify-between items-center w-full">
-            <Typography variant="textSemiBold">
-              Volume (24h)
-              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
-            </Typography>
-            <Typography>{showPriceCurrency(data.metrics.volume[currency]['24h'].toLocaleString())}</Typography>
-          </div>
-        </ListItem>
-        <ListItem>
-          <div className="flex justify-between items-center w-full">
-            <Typography variant="textSemiBold">
-              Volume (7d)
-              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
-            </Typography>
-            <Typography>{showPriceCurrency(data.metrics.volume[currency]['7d'].toLocaleString())}</Typography>
-          </div>
-        </ListItem>
+        {data.metrics.volume && data.metrics.volume[currency] && (
+          <>
+            {data.metrics.volume[currency]['24h'] != null ? (
+              <ListItem>
+                <div className="flex justify-between items-center w-full">
+                  <Typography variant="textSemiBold">
+                    Volume (24h)
+                    {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
+                  </Typography>
+                  <Typography>{showPriceCurrency(data.metrics.volume[currency]['24h'].toLocaleString())}</Typography>
+                </div>
+              </ListItem>
+            ) : null}
+
+            {data.metrics.volume[currency]['7d'] != null ? (
+              <ListItem>
+                <div className="flex justify-between items-center w-full">
+                  <Typography variant="textSemiBold">
+                    Volume (7d)
+                    {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
+                  </Typography>
+                  <Typography>{showPriceCurrency(data.metrics.volume[currency]['7d'].toLocaleString())}</Typography>
+                </div>
+              </ListItem>
+            ) : null}
+          </>
+        )}
         <ListItem style={{display: 'none'}}>
           <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">

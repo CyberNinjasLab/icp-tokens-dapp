@@ -96,7 +96,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: showPriceCurrency(params.value.toLocaleString())}
+          params: {value: params.value ? showPriceCurrency(params.value.toLocaleString()) : ''}
         };
       }
     },
@@ -110,7 +110,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: showPriceCurrency(params.value.toLocaleString())}
+          params: {value: params.value ? showPriceCurrency(params.value.toLocaleString()) : ''}
         };
       }
     },
@@ -124,7 +124,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
         // cellRendererSelector: params => {
         //   return {
         //     component: DefaultCell,
-        //     params: {value: showPriceCurrency(params.value.toLocaleString())}
+        //     params: {value: params.value ? showPriceCurrency(params.value.toLocaleString()) : ''}
         //   };
         // }
     // },

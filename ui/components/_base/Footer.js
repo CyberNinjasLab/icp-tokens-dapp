@@ -32,6 +32,9 @@ const Footer = () => {
 												<li className="text-sm">
 													<Link href="https://docs.google.com/forms/d/e/1FAIpQLSdgnD57_rJuz4ZkQI8ayjbe1LUInOmGozRehGAlY9pznzuRYw/viewform" target='_blank' className='hover:underline'>Listing request</Link>
 												</li>
+												<li className="text-sm">
+													<Link href="/changelog" className='hover:underline'>Changelog</Link>
+												</li>
 										</ul>
 								</div>
 								{/* <div>

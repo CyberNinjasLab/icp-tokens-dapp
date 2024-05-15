@@ -6,6 +6,7 @@ import useTokenData from '../../ui/hooks/token/useTokenData';
 import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
 import { FavoriteTokensProvider } from '../../contexts/general/FavoriteTokensProvider';
+import TradingViewWidget from '../../ui/components/tokens/TradingViewWidget';
 
 // Lazy load components
 const ChartComponent = lazy(() => import('../../ui/components/tokens/details/ChartComponent'));
@@ -16,7 +17,7 @@ const TokenPage = () => {
   const router = useRouter();
   const { tokenId } = router.query;
   const { tokenData, isLoading, error } = useTokenData(tokenId);
-  const { getTokenName } = useContext(GeneralContext);
+  const { getTokenName, currency } = useContext(GeneralContext);
 
   // Example dynamic title. Adjust accordingly based on your tokenData properties.
   const pageTitle = tokenData ? `${getTokenName(tokenData)} | ICP Tokens` : "ICP Tokens";
@@ -37,7 +38,11 @@ const TokenPage = () => {
                 <TokenHeader tokenData={tokenData} />
                 <div className="flex flex-col xl:flex-row xl:gap-20 gap-10">
                   <div className="w-full">
-                    <ChartComponent canister_id={tokenData.canister_id} />
+                    {tokenData.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? (
+                      <ChartComponent canister_id={tokenData.canister_id} />
+                    ) : currency == 'usd' && (
+                      <TradingViewWidget symbol='ICPUSD' />
+                    )}
                     <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
                       <TokenInfo data={tokenData} />
                     </div>
