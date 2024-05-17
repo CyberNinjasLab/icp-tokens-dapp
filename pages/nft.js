@@ -8,7 +8,7 @@ const Nft = () => {
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
 					<a href="https://entrepot.app/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/nft/entrepot_logo.webp" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/entrepot_logo.webp" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">Entrepot</span>
 						</div>
 						<div className="mt-4">
@@ -17,7 +17,7 @@ const Nft = () => {
 					</a>
 					<a href="https://bioniq.io/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/nft/bioniq-logo.jpeg" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/bioniq-logo.jpeg" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">Bioniq</span>
 						</div>
 						<div className="mt-4">
@@ -26,7 +26,7 @@ const Nft = () => {
 					</a>
 					<a href="https://yumi.io/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/nft/yumi_logo.webp" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/yumi_logo.webp" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">Yumi</span>
 						</div>
 						<div className="mt-4">
@@ -35,7 +35,7 @@ const Nft = () => {
 					</a>
 					<a href="https://yuku.app/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/nft/yuku_logo.png" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/yuku_logo.png" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">Yuku</span>
 						</div>
 						<div className="mt-4">

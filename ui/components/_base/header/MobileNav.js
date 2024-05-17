@@ -38,7 +38,7 @@ const MobileNav = ({ navLinks, isMobileMenuOpen, toggleMobileMenu, path }) => {
       >
         <div>
           <ul className="pb-0 pt-6 overflow-y-scroll hidden-scrollbar">
-            {navLinks.map(link =>
+            {navLinks.filter(link => !link.desktopOnly).map(link =>
               link.isDropdown !== true ? (
                 <li
                   key={link.href ?? link.id}

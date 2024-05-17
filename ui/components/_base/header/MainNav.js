@@ -11,7 +11,7 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import PortfolioLink from '../PortfolioLink';
 import WatchlistLink from '../WatchlistLink';
 import CurrencySelector from '../CurrencySelector';
-import { DarkMode, PieChart, Visibility } from '@mui/icons-material';
+import { DarkMode, InsertDriveFile, PieChart, Visibility } from '@mui/icons-material';
 import LightMode from '@mui/icons-material/LightMode';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 
@@ -46,11 +46,33 @@ const MainNav = () => {
     //   isDropdown: false,
     // },
     {
-      id: 'markets',
-      label: 'Markets',
-      icon: <SwapHorizIcon fontSize="large" />,
+      id: 'dex',
+      href: '/dex',
+      label: 'DEX',
+      isDropdown: false,
+      desktopOnly: true,
+    },
+    {
+      id: 'nft',
+      href: '/nft',
+      label: 'NFT',
+      isDropdown: false,
+      desktopOnly: true,
+    },
+    {
+      id: 'wallets',
+      href: '/wallets',
+      label: 'Wallets',
+      isDropdown: false,
+      desktopOnly: true,
+    },
+    {
+      id: 'pages',
+      label: 'Pages',
+      icon: <InsertDriveFile fontSize="large" />,
       isDropdown: true,
       isOpen: false, // This can be dynamically checked/updated based on `isMenuOpen` state
+      mobileOnly: true,
       dropdownItems: [
         {
           id: 'dex',
@@ -61,6 +83,11 @@ const MainNav = () => {
           id: 'nft',
           href: '/nft',
           label: 'NFT',
+        },
+        {
+          id: 'wallets',
+          href: '/wallets',
+          label: 'Wallets',
         },
       ],
     },

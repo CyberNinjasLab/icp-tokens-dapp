@@ -8,7 +8,7 @@ const Dex = () => {
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
 					<a href="https://app.icpswap.com/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/dex/icpswap_logo.webp" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/icpswap_logo.webp" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">ICPSwap</span>
 						</div>
 						<div className="mt-4">
@@ -17,7 +17,7 @@ const Dex = () => {
 					</a>
 					<a href="https://iclight.io/" target='_blank' className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/dex/icdex_logo.webp" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/icdex_logo.webp" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">ICDex</span>
 						</div>
 						<div className="mt-4">
@@ -26,7 +26,7 @@ const Dex = () => {
 					</a>
 					<a href="https://app.sonic.ooo/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/dex/sonic-dex_logo.webp" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/sonic-dex_logo.webp" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">Sonic</span>
 						</div>
 						<div className="mt-4">
@@ -35,7 +35,7 @@ const Dex = () => {
 					</a>
 					<a href="https://www.helixmarkets.io/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 						<div className="flex items-center space-x-4">
-							<img src="/dex/helix_logo.webp" alt="Logo" className="h-12 w-12" />
+							<img src="/logos/helix_logo.webp" alt="Logo" className="h-12 w-12" />
 							<span className="font-bold text-lg">Helix Markets</span>
 						</div>
 						<div className="mt-4">

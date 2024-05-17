@@ -96,7 +96,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: params.value ? showPriceCurrency(params.value.toLocaleString()) : ''}
+          params: {value: params.data.metrics.volume ? showPriceCurrency(params.value.toLocaleString()) : ''}
         };
       }
     },
@@ -104,13 +104,13 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       field: `metrics.volume.${currency}.7d`,
       headerName: '7d Volume',
       autoHeight: true,
-      width: 115,
+      width: 125,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: params.value ? showPriceCurrency(params.value.toLocaleString()) : ''}
+          params: {value: params.data.metrics.volume ? showPriceCurrency(params.value.toLocaleString()) : ''}
         };
       }
     },
@@ -118,13 +118,13 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
     //   field: `metrics.volume.${currency}.30d`,
     //   headerName: '30d Volume',
     //   autoHeight: true,
-    //   width: 150,
+    //   width: 125,
     //   cellStyle: { textAlign: 'right' },
     //   headerClass: 'text-right',
         // cellRendererSelector: params => {
         //   return {
         //     component: DefaultCell,
-        //     params: {value: params.value ? showPriceCurrency(params.value.toLocaleString()) : ''}
+        //     params: {value: params.data.volume ? showPriceCurrency(params.value.toLocaleString()) : ''}
         //   };
         // }
     // },

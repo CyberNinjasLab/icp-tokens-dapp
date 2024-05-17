@@ -39,7 +39,7 @@ const ChartComponent = ({ canister_id }) => {
   };
 
   const calculateChartHeight = (isFullScreen) => {
-    return isFullScreen ? (window.innerHeight - 130) : 400;
+    return isFullScreen ? (window.innerHeight - 130) : 200;
   };
   
   const updateChartSize = (isFullScreenNow) => {
