@@ -9,7 +9,7 @@ const DefaultCell = ({ value }) => {
       component="span"
       className="inline-flex justify-center h-[60px] items-center"
     >
-      {value}
+      <span>{value}</span>
     </Typography>
   );
 };

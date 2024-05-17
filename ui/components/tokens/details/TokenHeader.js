@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { Typography } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import Favorites from '../Favorites';
 
 const TokenHeader = ({ tokenData }) => {
-  const {formatPrice, getTokenName} = useContext(GeneralContext);
-  const tokenName = getTokenName(tokenData)
+  const {formatPrice, getTokenName, currency} = useContext(GeneralContext);
+  const tokenName = getTokenName(tokenData);
 
   return (
     <>
@@ -18,48 +19,52 @@ const TokenHeader = ({ tokenData }) => {
           className="w-10 h-10 rounded-full"
         />
       )}
-        <Typography variant="h7">
+        <Typography variant="h7" style={{
+          marginRight: 3
+        }}>
           {tokenName != tokenData.symbol ? `${tokenName} (${tokenData?.symbol})` : tokenData?.symbol}
         </Typography>
+
+        <Favorites data={tokenData} size='medium' />
       </div>
       <div className="flex gap-6 sm:gap-8 items-center mb-3">
-        <Typography variant="body1" fontSize="medium">
-          {formatPrice(tokenData.price)}
+        <Typography variant="body1" fontSize="large">
+          {formatPrice(tokenData.metrics.price[currency])}
         </Typography>
-        <Typography color={tokenData?.metrics.change_24h > 0 ? 'green' : 'error'}>
-          {tokenData?.metrics.change_24h > 0 ? (
+        <Typography variant={tokenData?.metrics.change['24h'][currency] > 0 ? 'green' : 'error'}>
+          {tokenData?.metrics.change['24h'][currency] > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.metrics.change_24h}% (24h)
+          {tokenData?.metrics.change['24h'][currency]}% (24h)
         </Typography>
         
-        <Typography color={tokenData?.metrics.change_7d > 0 ? 'green' : 'error'} className='hidden sm:block'>
-          {tokenData?.metrics.change_7d > 0 ? (
+        <Typography variant={tokenData?.metrics.change['7d'][currency] > 0 ? 'green' : 'error'} >
+          {tokenData?.metrics.change['7d'][currency] > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.metrics.change_7d}% (7d)
+          {tokenData?.metrics.change['7d'][currency]}% (7d)
         </Typography>   
 
-        <Typography color={tokenData?.metrics.change_30d > 0 ? 'green' : 'error'} className='hidden md:block'>
-          {tokenData?.metrics.change_30d > 0 ? (
+        <Typography variant={tokenData?.metrics.change['30d'][currency] > 0 ? 'green' : 'error'} className='hidden md:block'>
+          {tokenData?.metrics.change['30d'][currency] > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.metrics.change_30d}% (30d)
+          {tokenData?.metrics.change['30d'][currency]}% (30d)
         </Typography>  
 
-        <Typography color={tokenData?.metrics.change_90d > 0 ? 'green' : 'error'} className='hidden md:block'>
-          {tokenData?.metrics.change_90d > 0 ? (
+        <Typography variant={tokenData?.metrics.change['90d'][currency] > 0 ? 'green' : 'error'} className='hidden md:block'>
+          {tokenData?.metrics.change['90d'][currency] > 0 ? (
             <ArrowUpwardIcon fontSize="small" />
           ) : (
             <ArrowDownwardIcon fontSize="small" />
           )}
-          {tokenData?.metrics.change_90d}% (90d)
+          {tokenData?.metrics.change['90d'][currency]}% (90d)
         </Typography>
       </div>
     </>

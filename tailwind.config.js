@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './ui/components/**/*.{js,ts,jsx,tsx,mdx}'
@@ -28,9 +29,11 @@ module.exports = {
         'xl': '1370px' // Increased container width for 'xl' (desktop) breakpoint
       },
       colors: {
-        'primary': '#019a9a',
+        'primary': '#28abe5',
         'mobile-menu': '#565D6DFF',
-        'background-hover-menu': '#F5F5F5'
+        'background-hover-menu': '#F5F5F5',
+        'dark-hover-menu': '#2e2e38',
+        'dark-bg': '#0f0f26'
       },
 
       keyframes: {

@@ -29,6 +29,12 @@ const Footer = () => {
 												<li className="text-sm">
 													<Link href="/how-it-works" className='hover:underline'>How it works</Link>
 												</li>
+												<li className="text-sm">
+													<Link href="https://docs.google.com/forms/d/e/1FAIpQLSdgnD57_rJuz4ZkQI8ayjbe1LUInOmGozRehGAlY9pznzuRYw/viewform" target='_blank' className='hover:underline'>Listing request</Link>
+												</li>
+												<li className="text-sm">
+													<Link href="/changelog" className='hover:underline'>Changelog</Link>
+												</li>
 										</ul>
 								</div>
 								{/* <div>
@@ -47,9 +53,6 @@ const Footer = () => {
 												</li>
 												<li className="text-sm">
 													<a href="https://oc.app/community/5bgep-3aaaa-aaaar-a3toq-cai/" className='hover:underline' target='_blank'>OpenChat</a>
-												</li>
-												<li className="text-sm">
-													<a href="https://www.reddit.com/r/icp_tokens/" className='hover:underline' target='_blank'>Reddit</a>
 												</li>
 										</ul>
 								</div>

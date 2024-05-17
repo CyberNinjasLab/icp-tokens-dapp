@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, LinearProgress } from '@mui/material';
 
-const CirculatingSupplyIndicator = ({ circulatingSupply, percent, barColor = '#019a9a' }) => (
+const CirculatingSupplyIndicator = ({ circulatingSupply, percent, barColor = '#28abe5' }) => (
   <Box className="items-center leading-normal">
     <Typography className="overflow-hidden whitespace-nowrap overflow-ellipsis">
       {circulatingSupply}

@@ -13,7 +13,7 @@ const TokenDetails = ({ data }) => {
 
   // Render token details
   return (
-    <div className='token-details'>
+    <div className='markdown-content'>
       {renderLongDescription()}
     </div>
   );

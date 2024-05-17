@@ -1,24 +1,28 @@
 import React, { useContext } from 'react';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
-import { TokensTableContext } from '../../../contexts/tokensTable/TokensTableContext';
 import { Tooltip } from '@mui/material';
+import { AuthContext } from '../../../contexts/auth/Auth.Context';
+import { useFavoriteTokens } from '../../../contexts/general/FavoriteTokensProvider';
 
-const Favorites = props => {
-  const { favorites, setFavorites } = useContext(TokensTableContext);
-  const id = props.data.id;
-  const isFavorite = (favorites ?? []).includes(id);
+const Favorites = ({ data, size="small" }) => {
+  const { favoriteTokenIds, addTokenToFavorites, removeTokenFromFavorites } = useFavoriteTokens();
+  const { isAuthenticated, openLoginModal } = useContext(AuthContext);
+  const id = data.canister_id;
+  const isFavorite = (favoriteTokenIds ?? []).includes(id);
+  
   const onClick = () => {
-    const index = favorites.indexOf(id);
-    if (index !== -1) {
-      // ID is already in the array, remove it
-      setFavorites([
-        ...favorites.slice(0, index),
-        ...favorites.slice(index + 1)
-      ]);
+    if(isAuthenticated) {
+      const index = favoriteTokenIds.indexOf(id);
+      if (index !== -1) {
+        // ID is already in the array, remove it
+        removeTokenFromFavorites(id);
+      } else {
+        // ID is not in the array, add it
+        addTokenToFavorites(id);
+      }
     } else {
-      // ID is not in the array, add it
-      setFavorites([...favorites, id]);
+      openLoginModal();
     }
   };
   return (
@@ -29,11 +33,11 @@ const Favorites = props => {
     >
       {isFavorite ? (
         <Tooltip title="Remove from Watchlist">
-          <StarIcon color="primary" className="favorite-icon" style={{ fontSize: '16px' }} />
+          <StarIcon color="secondary" className="favorite-icon dark:text-yellow-500" style={{ fontSize: `${size == 'small' ? '16px' : '18px'}` }} />
         </Tooltip>
       ) : (
         <Tooltip title="Add to Watchlist">
-          <StarBorderIcon color="primary" className="favorite-icon" style={{ fontSize: '16px' }} />
+          <StarBorderIcon color="lightGray" className="favorite-icon" style={{ fontSize: `${size == 'small' ? '16px' : '18px'}` }} />
         </Tooltip>
       )}
     </div>

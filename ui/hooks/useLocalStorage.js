@@ -9,11 +9,16 @@ const useLocalStorage = (key, defaultTo) => {
   const storedValue = isLocalStorageAvailable
     ? localStorage.getItem(key)
     : null;
-  const initial =
-    storedValue === 'undefined' || storedValue === null
-      ? defaultTo
-      : JSON.parse(storedValue);
-
+  let initial;
+  try {
+    initial = JSON.parse(storedValue);
+  } catch (error) {
+    // If parsing fails, use the stored value directly
+    initial = storedValue;
+  }
+  if (initial === null || initial === undefined) {
+    initial = defaultTo;
+  }
   // State to hold the current value
   const [value, setValue] = useState(initial);
 

@@ -1,15 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GeneralContext } from './General.Context';
 
 const GeneralContextProvider = ({ children }) => {
-  const [identity, setIdentity] = useState(233456);
+  const [currency, setCurrency] = useState('usd'); // Default currency is USD
+  const [theme, setTheme] = useState('dark');  // Default to light
+
+  useEffect(() => {
+      // Check local storage for theme
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+          setTheme(storedTheme);
+      }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('currency', currency);
+  }, [currency]);
+
+  const toggleTheme = () => {
+    const newValue = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newValue);
+    setTheme(newValue);
+  };
+
+  useEffect(() => {
+    // Set the class on the <html> element based on the theme
+    const html = document.documentElement;
+    if (theme === 'dark') {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+  }, [theme]);
 
   // Define the formatPrice function here
   const formatPrice = value => {
     let result = value;
 
     if (value === 0) {
-      return value + ' ICP'; // Assuming you want to keep the "ICP" suffix
+      return showPriceCurrency(value); // Assuming you want to keep the "ICP" suffix
     }
 
     if (value === null) {
@@ -31,10 +60,60 @@ const GeneralContextProvider = ({ children }) => {
       }
     }
 
-    result = result.toLocaleString() + ' ICP';
+    result = showPriceCurrency(result.toLocaleString());
 
     return result;
   };
+
+  const showPriceCurrency = (price, hardcodedCurrency = null) => {
+    if(!hardcodedCurrency) {
+      hardcodedCurrency = currency;
+    }
+
+    let priceAndCurrency = price;
+
+    switch(hardcodedCurrency.toLowerCase()) {
+      case 'icp':
+        priceAndCurrency = price + ' ICP';
+        break;
+      case 'usd':
+        priceAndCurrency = '$' + price;
+        break;
+    }
+
+    return priceAndCurrency;
+  }
+
+  function roundPrice(price, toLocaleString = true) {
+      const absolutePrice = Math.abs(price); // Use absolute value for comparison
+      let roundedPrice;
+
+      if (absolutePrice >= 1000) {
+          roundedPrice = price.toFixed(0);
+      } else if (absolutePrice >= 10) {
+          roundedPrice = price.toFixed(1);
+      } else if (absolutePrice >= 1) {
+          roundedPrice = price.toFixed(2);
+      } else if (absolutePrice >= 0.1) {
+          roundedPrice = price.toFixed(2);
+      } else if (absolutePrice >= 0.01) {
+          roundedPrice = price.toFixed(3);
+      } else if (absolutePrice >= 0.001) {
+          roundedPrice = price.toFixed(4);
+      } else if (absolutePrice >= 0.0001) {
+          roundedPrice = price.toFixed(5);
+      } else if (absolutePrice >= 0.00001) {
+          roundedPrice = price.toFixed(6);
+      } else if (absolutePrice >= 0.000001) {
+          roundedPrice = price.toFixed(7);
+      } else {
+          return price.toString(); // For very small numbers, return the full string of the original price
+      }
+
+      roundedPrice = parseFloat(roundedPrice); // Removes trailing zeros and retains the sign
+      
+      return toLocaleString && absolutePrice > 10 ? roundedPrice.toLocaleString() : roundedPrice; 
+  }
 
   const formatTotalSupply = (data) => {
     return  Math.round(data.total_supply / Math.pow(10, data.decimals)).toLocaleString();
@@ -96,6 +175,40 @@ const GeneralContextProvider = ({ children }) => {
     return uniqueData;
   }
 
+  function formatUnixTimestampToDate(timestampBigInt, short = false) {
+      // Convert BigInt to a number, ensuring compatibility with date operations
+      const timestamp = Number(timestampBigInt);
+    
+      // Create a date object from the Unix timestamp (converted to milliseconds)
+      const date = new Date(timestamp * 1000);
+    
+      if (short) {
+          // Define formatting options for the short date format
+          const shortDateOptions = {
+              month: 'short', // Abbreviated month name
+              day: 'numeric', // Numeric day
+              year: '2-digit', // 2-digit year
+              hour: 'numeric', // Numeric hour
+              minute: 'numeric', // Numeric minute
+              hour12: true // Use 12-hour time format
+          };
+
+          return date.toLocaleString('en-US', shortDateOptions);
+      } else {
+          // Define formatting options for the regular date format
+          const regularDateOptions = {
+              month: 'long', // Full name of the month
+              day: 'numeric', // Numeric day
+              year: 'numeric', // Numeric year
+              hour: 'numeric', // Numeric hour
+              minute: 'numeric', // Numeric minute
+              hour12: true // Use 12-hour time format
+          };
+
+          return date.toLocaleString('en-US', regularDateOptions);
+      }
+  }
+
   const formatDateBasedOnInterval = (timestamp, interval) => {
     const date = new Date(timestamp * 1000); // Convert UNIX timestamp to milliseconds
 
@@ -132,16 +245,33 @@ const GeneralContextProvider = ({ children }) => {
       : tokenData.name;
   };
 
+  function parseTokensByCanisterId(tokenArray) {
+    const parsedTokens = {};
+  
+    tokenArray.forEach(token => {
+      const { canister_id } = token;  // Extract canister_id for use as key
+      parsedTokens[canister_id] = { ...token };  // Copy entire token object including canister_id
+    });
+  
+    return parsedTokens;
+  }
+
   const contextValues = {
-      identity,
-      setIdentity,
+      currency,
+      theme,
+      toggleTheme,
+      setCurrency,
+      showPriceCurrency,
       formatPrice,
       formatTotalSupply,
+      roundPrice,
       parseTimestampToUnix,
       calculatePrecisionAndMinMove,
       formatDateBasedOnInterval,
+      formatUnixTimestampToDate,
       getTokenName,
-      prepareChartData
+      parseTokensByCanisterId,
+      prepareChartData,
   }
 
   return (

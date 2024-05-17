@@ -9,28 +9,29 @@ import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { isMobile } from 'react-device-detect';
 import SupplyDetailsTooltip from '../SupplyDetailsTooltip';
 import { useRouter } from 'next/router';
-import useFetchTokens from '../../../hooks/useFetchTokens'; // Adjust the path as needed
+import useFetchTokens from '../../../hooks/token/useFetchTokens'; // Adjust the path as needed
 import getTokenTableColDefs from './tokenTableColDefs';
 import TokensTableColumnsFilter from './TokensTableColumnsFilter';
-import useLocalStorage from '../../../hooks/useLocalStorage';
 import FavoriteToggle from './TokensTableFavoritesFilter';
-import { TokensTableContext } from '../../../../contexts/tokensTable/TokensTableContext';
+import { useFavoriteTokens } from '../../../../contexts/general/FavoriteTokensProvider';
 
-function TokensTable() {
-  const { formatPrice } = useContext(GeneralContext);
-  const { favorites } = useContext(TokensTableContext);
+function TokensTable(props) {
+  const {
+    showFavoritesOnly = false
+  } = props;
+  const { formatPrice, showPriceCurrency, currency, theme } = useContext(GeneralContext);
+  const { favoriteTokenIds, loadingFavorites } = useFavoriteTokens();
   const [gridApi, setGridApi] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [isGridReady, setIsGridReady] = useState(false);
   const { data, loaded, error } = useFetchTokens(
     `${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`
   );
-  const [showFavorites, setShowFavorites] = useLocalStorage(
-    'showFavorites',
-    'all'
-  );
+
+  const [showFavorites, setShowFavorites] = useState(showFavoritesOnly ? 'favorites' : 'all');
+  
   const router = useRouter();
-  const colDefs = getTokenTableColDefs({ formatPrice, isMobile });
+  const colDefs = getTokenTableColDefs({ formatPrice, isMobile, showPriceCurrency, currency });
   const rowHeight = 60;
   const defaultColDef = useMemo(() => {
     return {
@@ -58,23 +59,27 @@ function TokensTable() {
     // Update the local storage when the showFavorites state changes
     setShowFavorites(showFavorites);
   }, [showFavorites, setShowFavorites]);
+  
   const filteredData = useMemo(() => {
     if (data) {
       if (showFavorites === 'favorites') {
-        const favoriteIds = JSON.parse(localStorage.getItem('favorites')) || [];
-        return data.filter(row => favoriteIds.includes(row.id));
+        const favoriteIds = favoriteTokenIds || [];
+        return data.filter(row => favoriteIds.includes(row.canister_id));
       }
       return data;
     }
-  }, [showFavorites, data, favorites]);
+  }, [showFavorites, data, favoriteTokenIds]);
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
-      {!loaded && !error && (
+      {!loaded && !error && loadingFavorites && (
         <Skeleton variant="rounded" className="max-w-1500 mt-4" height={800} />
       )}
-      {loaded && data && (
-        <Paper className="max-w-1500 mx-auto relative">
+      {loaded && data && !loadingFavorites && (
+        <Paper className="max-w-1500 mx-auto relative" style={{
+          margin: '1rem 0px',
+          background: 'none'
+        }}>
           {isGridReady && (
             <TokensTableColumnsFilter
               gridApi={gridApi}
@@ -82,10 +87,12 @@ function TokensTable() {
               setShowFilters={setShowFilters}
             />
           )}
-          {isGridReady && (
+          {isGridReady && !showFavoritesOnly && (
             <FavoriteToggle value={showFavorites} setValue={setShowFavorites} />
           )}
-          <Paper className="ag-theme-quartz w-full h-full">
+          <Paper className={`${theme == 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'} w-full h-full`} style={{
+            margin: '1rem 0px'
+          }}>
             <AgGridReact
               rowData={filteredData}
               columnDefs={colDefs}

@@ -1,38 +1,44 @@
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   ToggleButtonGroup,
   ToggleButton,
-  Typography
+  Typography,
+  Tooltip
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import React, { useEffect, useState } from 'react';
 import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
-import useLocalStorage from '../../../hooks/useLocalStorage';
 import { isMobile } from 'react-device-detect';
+import { GeneralContext } from '../../../../contexts/general/General.Context';
 
 const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
-  const allColumns = gridApi?.getAllGridColumns();
-  const [selectedColumns, setSelectedColumns] = useLocalStorage(
-    'visibleColumns',
-    allColumns.map(column => column.getColId())
-  );
+  // Initialize selectedColumns with an empty array
+  const [selectedColumns, setSelectedColumns] = useState([]);
+  const { theme } = useContext(GeneralContext)
+
+  useEffect(() => {
+    if (gridApi?.getAllGridColumns()) {
+      const allColumns = gridApi.getAllGridColumns();
+      // Update selectedColumns after gridApi is ready and columns are fetched
+      setSelectedColumns(allColumns.map(column => column.getColId()));
+    }
+  }, [gridApi]); // Depend on gridApi to update state when it changes
 
   const defaultVisibleColumns = ['favorites', 'rank', 'name', 'price'];
 
   useEffect(() => {
-    updateColumnVisibility();
-  }, [selectedColumns]);
+    if (gridApi?.getAllGridColumns()) {
+      updateColumnVisibility();
+    }
+  }, [selectedColumns, gridApi]);
 
   const updateColumnVisibility = () => {
+    const allColumns = gridApi?.getAllGridColumns();
     allColumns?.forEach(column => {
       const colId = column.getColId();
-
-      // Check if the column should be visible:
-      // - It is selected by the user or it's a default visible column,
-      // - AND it's not the "rank" column on a mobile device.
       const isVisible =
-      (selectedColumns.includes(colId) || defaultVisibleColumns.includes(colId)) && // User-selected or default visible column
-      (!isMobile || colId !== 'rank'); // Not the "rank" column on a mobile device
+        (selectedColumns.includes(colId) || defaultVisibleColumns.includes(colId)) &&
+        (!isMobile || colId !== 'rank');
       
       gridApi.setColumnVisible(colId, isVisible);
     });
@@ -42,7 +48,6 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
     if (defaultVisibleColumns.includes(colId)) {
       return;
     }
-
     const updatedColumns = selectedColumns.includes(colId)
       ? selectedColumns.filter(id => id !== colId)
       : [...selectedColumns, colId];
@@ -56,17 +61,23 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   return (
     <div className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
       <div className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}>
-        <Button
-          variant="text"
-          startIcon={<ViewWeekOutlinedIcon />}
-          onClick={handleShowFilters}
-          sx={{ py: 1 }}
-        >
-          Columns
-        </Button>
+        <Tooltip title="Customize columns">
+          <Button
+            variant="text"
+            startIcon={<ViewWeekOutlinedIcon />}
+            onClick={handleShowFilters}
+            sx={{ py: 1 }}
+            color="gray"
+            style={{
+              color: theme == 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'inerhit'
+            }}
+          >
+            Columns
+          </Button>
+        </Tooltip>
       </div>
       {showFilters && (
-        <div>
+        <div className='mb-3'>
           <ToggleButtonGroup
             exclusive
             onChange={handleColumnChange}
@@ -81,11 +92,10 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
                 flexGrow: 1,
                 borderRadius: '40px !important',
                 border: 'none !important',
-                marginBottom: '16px'
               }
             }}
           >
-            {allColumns?.map(column => {
+            {gridApi?.getAllGridColumns()?.map(column => {
               const colId = column.getColId();
               const isSelected = selectedColumns.includes(colId);
               const isDefaultVisible = defaultVisibleColumns.includes(colId);
@@ -93,7 +103,7 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
                 <ToggleButton
                   value={colId}
                   key={colId}
-                  disabled={isDefaultVisible} // Disable toggle for default columns
+                  disabled={isDefaultVisible}
                   style={{display: (isDefaultVisible ? 'none' : 'flex')}}
                 >
                   <Typography component="p" fontSize={12}>
