@@ -1,14 +1,23 @@
 import Layout from '../ui/components/_base/Layout';
-import Link from 'next/link';
-import TokensTable from './table/[TokensTable]';
-
+import TokensTable from '../ui/components/tokens/table/TokensTable';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { FavoriteTokensProvider } from '../contexts/general/FavoriteTokensProvider';
 const Home = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (window.location.pathname != router.pathname) {
+      router.push(`/${window.location.pathname}`)
+    }
+  }, [])
+
   return (
     <Layout>
       <div>
-        <TokensTable />
-        <br />
-        <Link href="/token/ICP">Internet Computer (ICP)</Link>
+        <h1 className='h1'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
+        <FavoriteTokensProvider>
+          <TokensTable />
+        </FavoriteTokensProvider>
       </div>
     </Layout>
   );

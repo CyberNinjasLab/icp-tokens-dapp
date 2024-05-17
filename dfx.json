@@ -5,9 +5,22 @@
         "entrypoint": "out/index.html"
       },
       "source": ["out"],
-      "type": "assets"
+      "type": "assets",
+      "dependencies": [
+        "backend_core",
+        "internet-identity"
+      ]
+    },
+    "internet-identity": {
+      "type": "pull",
+      "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+    },
+    "backend_core": {
+      "main": "src/backend/core.mo",
+      "type": "motoko",
+      "dependencies": []
     }
   },
-  "dfx": "0.15.3",
+  "dfx": "0.19.0",
   "version": 1
 }
