@@ -12,7 +12,7 @@ const Dex = () => {
 							<span className="font-bold text-lg">NNS Dapp</span>
 						</div>
 						<div className="mt-4">
-							<p>The NNS front-end dapp allows anyone to interact with the Internet Computer's Network Nervous System with a user-friendly UI. Served completely end-to-end through blockchain, this dapp allows you to manage ICP, stake neurons, participate in voting, and earn governance rewards.</p>
+							<p>{"The NNS front-end dapp allows anyone to interact with the Internet Computer's Network Nervous System with a user-friendly UI. Served completely end-to-end through blockchain, this dapp allows you to manage ICP, stake neurons, participate in voting, and earn governance rewards."}</p>
 						</div>
 					</a>
 					<a href="https://astrox.me/" target='_blank' className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">

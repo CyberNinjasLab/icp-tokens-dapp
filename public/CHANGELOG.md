@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file
 
+## v0.3.0
+_May 20, 2024_
+
+### Added
+- **ICP Token**
+  - Integrated with **Trading View** for price tracking, analysis, and drawing tools
+  - Provided project **links** and a brief **description**
+- **Wallets page**: Listed the most popular wallets in the ICP ecosystem
+
+## Improved
+- **Main Navigation**: Enhanced for better user experience (UX) and consistency across platforms
+
 ## v0.2.0 - The Official Launch
 _May 12, 2024_
 
