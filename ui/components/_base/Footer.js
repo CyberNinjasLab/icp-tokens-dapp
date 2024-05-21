@@ -13,9 +13,7 @@ const Footer = () => {
 								<div className="flex items-center gap-4 mb-4">
 										<Logo />
 								</div>
-								<p className="text-left mb-8 max-w-lg text-sm">
-								Designed for the ICP enthusiast, our platform is a dedicated hub for all aspects of <b>Internet Computer tokens</b>. From real-time price data to the latest news feeds, we provide a comprehensive and engaging experience for everyone interested in the dynamic world of ICP tokens.
-								</p>
+								<p className="text-left mb-8 max-w-lg text-sm">The all-in-one tool for investors within the ICP ecosystem.</p>
 						</div>
 
 						{/* Right Column: Footer Links */}

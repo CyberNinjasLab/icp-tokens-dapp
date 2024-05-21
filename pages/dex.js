@@ -42,6 +42,15 @@ const Dex = () => {
 							<p>Helix Markets introduces a decentralized exchange that ensures true ownership and complete transparency in the crypto trading landscape.</p>
 						</div>
 					</a>
+					<a href="https://icpex.org/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<div className="flex items-center space-x-4">
+							<img src="/logos/ICPEx.jpg" alt="Logo" className="h-12 w-12" />
+							<span className="font-bold text-lg">ICPEx</span>
+						</div>
+						<div className="mt-4">
+							<p>Decentralized exchange built entirely on the chain based on the ICP.</p>
+						</div>
+					</a>
 				</div>
 			</div>
 		</Layout>
