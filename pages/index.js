@@ -3,6 +3,8 @@ import TokensTable from '../ui/components/tokens/table/TokensTable';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FavoriteTokensProvider } from '../contexts/general/FavoriteTokensProvider';
+import Gainers from '../ui/components/tokens/gainers/Gainers';
+import Loosers from '../ui/components/tokens/loosers/Loosers';
 const Home = () => {
   const router = useRouter();
   useEffect(() => {
@@ -16,6 +18,8 @@ const Home = () => {
       <div>
         <h1 className='h1'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
         <FavoriteTokensProvider>
+        <Gainers/>
+        <Loosers/>
           <TokensTable />
         </FavoriteTokensProvider>
       </div>
