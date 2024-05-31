@@ -116,3 +116,5 @@
   /* Use Tailwind's list styles */
   @apply pl-8 mb-0; /* Example: apply list-disc pl-4 mb-4 for unordered list */
 }
+
+@import url("bubbles.css");

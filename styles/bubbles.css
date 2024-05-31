@@ -1,0 +1,273 @@
+#bubbleWrapper {
+  position: fixed;
+  width: 100vw;
+  top: 100px;
+  left: 0;
+}
+#bubbleWrapper .bubble img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+}
+
+#bubbleWrapper .bubble {
+position: absolute;
+width: 100px;
+height: 100px;
+margin-left: -50px;
+margin-top: -50px;
+border-radius: 50%;
+box-sizing: border-box;
+color: #000;
+text-align: center;
+display: flex;
+flex-wrap: wrap;
+cursor: pointer;
+-webkit-user-select: none; /* Safari */
+-ms-user-select: none; /* IE 10 and IE 11 */
+user-select: none; /* Standard syntax */
+overflow: hidden;
+animation-fill-mode: forwards;
+}
+
+.dark #bubbleWrapper .bubble {
+  color: #fff !important;
+}
+#bubbleWrapper .bubble.red {
+  background-color: rgba(255, 0, 0, 0.01);
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  box-shadow:
+  inset 0 0 8px rgba(255, 0, 0, 0.7),
+  inset 20px 0 50px rgba(255, 0, 0, 0.01),
+  inset -20px 0 50px rgba(255, 0, 0, 0.1),
+  0 0 10px rgba(255, 0, 0, 0.13),
+  -10px 0 30px rgba(255, 0, 0, 0.1),
+  10px 0 30px rgba(255, 0, 0, 0.1);
+}
+  
+.dark #bubbleWrapper .bubble.red {
+background-color: rgba(255, 0, 0, 0.03);
+border: 1px solid rgba(255, 100, 100, 0.4);
+box-shadow:
+inset 0 0 8px rgba(255, 100, 100, 0.7),
+inset 20px 0 50px rgba(255, 100, 100, 0.01),
+inset -20px 0 50px rgba(255, 100, 100, 0.1),
+0 0 10px rgba(255, 100, 100, 0.13),
+-10px 0 30px rgba(255, 100, 100, 0.1),
+10px 0 30px rgba(255, 100, 100, 0.1);
+}
+.bubble.red.bold-red {
+  background-color: rgba(255, 0, 0, 0.13) !important;
+}
+.dark .bubble.red.bold-red {
+  background-color: rgba(255, 0, 0, 0.2) !important;
+}
+.bubble.red.bolder-red {
+  background-color: rgba(255, 0, 0, 0.19) !important;
+}
+.dark .bubble.red.bolder-red {
+  background-color: rgba(255, 0, 0, 0.25) !important;
+}
+.bubble.red.bolder2-red {
+  background-color: rgba(255, 0, 0, 0.3) !important;
+}
+.dark .bubble.red.bolder2-red {
+  background-color: rgba(255, 0, 0, 0.4) !important;
+}
+#bubbleWrapper .bubble.green {
+background-color: rgba(50,205,50, 0.03);
+border: 1px solid rgba(50,205,50, 0.4);
+box-shadow:
+inset 0 0 8px rgba(50,205,50, 0.7),
+inset 20px 0 50px rgba(50,205,50, 0.01),
+inset -20px 0 50px rgba(50,205,50, 0.1),
+0 0 10px rgba(50,205,50, 0.13),
+-10px 0 30px rgba(50,205,50, 0.1),
+10px 0 30px rgba(50,205,50, 0.1);
+}
+
+.dark #bubbleWrapper .bubble.green {
+  background-color: rgba(50,205,50, 0.04);
+}
+
+.bubble.green.bold-green {
+  background-color: rgba(50,205,50, 0.14) !important;
+}
+.dark .bubble.green.bold-green {
+  background-color: rgba(50,205,50, 0.16) !important;
+}
+.bubble.green.bolder-green {
+  background-color: rgba(50,205,50, 0.2) !important;
+}
+.dark .bubble.green.bolder-green {
+  background-color: rgba(50,205,50, 0.21) !important;
+}
+.bubble.green.bolder2-green {
+  background-color: rgba(50,205,50, 0.4) !important;
+}
+.dark .bubble.green.bolder2-green {
+  background-color: rgba(50,205,50, 0.4) !important;
+}
+
+#bubbleWrapper .bubble .symbol, #bubbleWrapper .bubble .value {
+width: 100%;
+height: auto;
+display: flex;
+}
+#bubbleWrapper .bubble .symbol {
+font-size: 18px;
+display:block;
+position: absolute;
+width: 100%;
+top: 50%;
+transform: translate(0, -35%);
+white-space: nowrap;
+}
+#bubbleWrapper .bubble img {
+width: 30px;
+height: 30px;
+position: absolute;
+left: 50%;
+margin-left: -15px;
+top: 7px;
+border-radius: 50%;
+}
+#bubbleWrapper .bubble .value {
+font-size: 12px;
+display:block;
+position: absolute;
+bottom: 17px;
+font-weight: 500;
+}
+@keyframes float1 {
+  0%, 100% {
+  transform: translate(0px, 0px);
+  }
+  7% {
+  transform: translate(2px, 2px);
+  }
+  20% {
+  transform: translate(5px, -4px);
+  }
+  32.5% {
+  transform: translate(3px, -3px);
+  }
+  45% {
+  transform: translate(0px, 0px);
+  }
+  60% {
+  transform: translate(-3px, -3px);
+  }
+  75% {
+  transform: translate(2px, 2px);
+  }
+  87.5% {
+  transform: translate(5px, 5px);
+  }
+}
+@keyframes float2 {
+  0%, 100% {
+  transform: translate(0px, 0px);
+  }
+  10% {
+  transform: translate(-3px, -2px);
+  }
+  26% {
+  transform: translate(1px, 0px);
+  }
+  35% {
+  transform: translate(4px, -2px);
+  }
+  55% {
+  transform: translate(1px, -5px);
+  }
+  62.5% {
+  transform: translate(3px, -3px);
+  }
+  80% {
+  transform: translate(1px, -1px);
+  }
+  87.5% {
+  transform: translate(-5px, -5px);
+  }
+}
+
+@keyframes float3 {
+  0%, 100% {
+  transform: translate(0px, 0px);
+  }
+  15% {
+  transform: translate(2px, 3px);
+  }
+  25% {
+  transform: translate(-2px, 1px);
+  }
+  30.5% {
+  transform: translate(-4px, -4px);
+  }
+  52% {
+  transform: translate(-1px, -1px);
+  }
+  62.5% {
+  transform: translate(3px, 3px);
+  }
+  75% {
+  transform: translate(5px, 5px);
+  }
+  87.5% {
+  transform: translate(3px, 3px);
+  }
+}
+@keyframes float4 {
+  0%, 100% {
+  transform: translate(0px, 0px);
+  }
+  12.5% {
+  transform: translate(1px, 1px);
+  }
+  21% {
+  transform: translate(-2px, -2px);
+  }
+  37.5% {
+  transform: translate(-5px, -6px);
+  }
+  60% {
+  transform: translate(-4px, -3px);
+  }
+  70.5% {
+  transform: translate(-1px, -1px);
+  }
+  77% {
+  transform: translate(3px, 3px);
+  }
+  87.5% {
+  transform: translate(5px, 5px);
+  }
+}
+
+@keyframes float5 {
+  0%, 100% {
+  transform: translate(0px, 0px);
+  }
+  8.5% {
+  transform: translate(-3px, -3px);
+  }
+  24% {
+  transform: translate(-4px, -4px);
+  }
+  40.5% {
+  transform: translate(-5px, -6px);
+  }
+  51% {
+  transform: translate(-4px, -3px);
+  }
+  60.5% {
+  transform: translate(-2px, -1px);
+  }
+  75% {
+  transform: translate(2px, 2px);
+  }
+  90.5% {
+  transform: translate(5px, 5px);
+  }
+}

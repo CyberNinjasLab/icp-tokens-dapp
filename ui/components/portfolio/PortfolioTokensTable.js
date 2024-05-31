@@ -79,7 +79,7 @@ function PortfolioTokensTable({ tokens }) {
     {
       field: `portfolio.avgBuyPrice`,
       headerName: isWindowUnder1370 ? 'Avg. Price' : 'Avg. Buy Price',
-      width: isWindowUnder1370? 130 : 160,
+      width: 165,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
@@ -92,7 +92,7 @@ function PortfolioTokensTable({ tokens }) {
     {
       field: ``,
       headerName: 'Profit/Loss',
-      width: isWindowUnder1370 ? 120 : 160,
+      width: 160,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {

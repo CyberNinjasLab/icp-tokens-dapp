@@ -106,11 +106,23 @@ const GeneralContextProvider = ({ children }) => {
           roundedPrice = price.toFixed(6);
       } else if (absolutePrice >= 0.000001) {
           roundedPrice = price.toFixed(7);
+      } else if (absolutePrice >= 0.0000001) {
+          roundedPrice = price.toFixed(8);
+      } else if (absolutePrice >= 0.00000001) {
+          roundedPrice = price.toFixed(9);
+      } else if (absolutePrice >= 0.000000001) {
+          roundedPrice = price.toFixed(10);
+      } else if (absolutePrice >= 0.0000000001) {
+          roundedPrice = price.toFixed(11);
+      } else if (absolutePrice >= 0.00000000001) {
+          roundedPrice = price.toFixed(12);
+      } else if (absolutePrice >= 0.000000000001) {
+          roundedPrice = price.toFixed(13);
       } else {
           return price.toString(); // For very small numbers, return the full string of the original price
       }
 
-      roundedPrice = parseFloat(roundedPrice); // Removes trailing zeros and retains the sign
+      // roundedPrice = parseFloat(roundedPrice); // Removes trailing zeros and retains the sign
       
       return toLocaleString && absolutePrice > 10 ? roundedPrice.toLocaleString() : roundedPrice; 
   }

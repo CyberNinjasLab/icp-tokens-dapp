@@ -11,7 +11,7 @@ _May 20, 2024_
   - Provided project **links** and a brief **description**
 - **Wallets page**: Listed the most popular wallets in the ICP ecosystem
 
-## Improved
+### Improved
 - **Main Navigation**: Enhanced for better user experience (UX) and consistency across platforms
 
 ## v0.2.0 - The Official Launch

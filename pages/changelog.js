@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Layout from '../ui/components/_base/Layout';
 import { useLoading } from '../contexts/general/Loading.Provider';
+import Head from 'next/head';
 
 const Changelog = () => {
   const [markdown, setMarkdown] = useState('');
@@ -23,11 +24,16 @@ const Changelog = () => {
   }, []);
 
   return (
-    <Layout>
-      <div className="markdown-content max-w-xl mx-auto lg:mt-6 min-h-screen">
-        <ReactMarkdown className="markdown-body">{markdown}</ReactMarkdown>
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>Changelog | ICP Tokens</title>
+      </Head>
+      <Layout>
+        <div className="markdown-content max-w-xl mx-auto lg:mt-6 min-h-screen">
+          <ReactMarkdown className="markdown-body">{markdown}</ReactMarkdown>
+        </div>
+      </Layout>
+    </>
   );
 };
 

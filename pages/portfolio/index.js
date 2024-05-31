@@ -9,6 +9,7 @@ import PortfolioTokensTable from '../../ui/components/portfolio/PortfolioTokensT
 import useTransactionSummary from '../../ui/hooks/portfolio/useTransactionSummary';
 import { useLoading } from '../../contexts/general/Loading.Provider';
 import PortfolioSummary from '../../ui/components/portfolio/PortfolioSummary';
+import Head from 'next/head';
 
 const Portfolio = () => {
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
@@ -69,24 +70,28 @@ const Portfolio = () => {
     };
 
     return (
-        <Layout>
-            <div className='min-h-[300px]'>
-                <div className="flex justify-between items-center">
-                    <h1 className="h1">My Portfolio</h1>
-                    { isAuthenticated && (
-                        <Button variant="contained" color="primary" onClick={toggleTransactionModal}>
-                            Add Transaction
-                        </Button>
-                    ) }
-                </div>
-                { !isAuthenticated && <LoginMessage /> }
-                { isAuthenticated && !loadingState && loaded && summaries.tokens && (
-                    <div>
-                        {showTransactionModal && (
-                            <AddTransaction
-                                closeModal={toggleTransactionModal}
-                                fetchPortfolios={fetchPortfolios}
-                                backendCoreActor={backendCoreActor}
+        <>
+            <Head>
+                <title>Portfolio | ICP Tokens</title>
+            </Head>
+            <Layout>
+                <div className='min-h-[300px]'>
+                    <div className="flex justify-between items-center">
+                        <h1 className="h1">My Portfolio</h1>
+                        { isAuthenticated && (
+                            <Button variant="contained" color="primary" onClick={toggleTransactionModal}>
+                                Add Transaction
+                            </Button>
+                        ) }
+                    </div>
+                    { !isAuthenticated && <LoginMessage /> }
+                    { isAuthenticated && !loadingState && loaded && summaries.tokens && (
+                        <div>
+                            {showTransactionModal && (
+                                <AddTransaction
+                                    closeModal={toggleTransactionModal}
+                                    fetchPortfolios={fetchPortfolios}
+                                    backendCoreActor={backendCoreActor}
                             />
                         )}
                         <PortfolioSummary summary={summaries} />
@@ -95,6 +100,7 @@ const Portfolio = () => {
                 )}
             </div>
         </Layout>
+        </>
     );
 };
 
