@@ -8,12 +8,10 @@ import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
 
 class Bubble {
-	constructor(x, y, token, radius, speedX, speedY, color, currency, changePeriod, router) {
+	constructor(x, y, token, radius, color, currency, changePeriod, router) {
 			this.x = x;
 			this.y = y;
 			this.radius = radius;
-			this.speedX = speedX;
-			this.speedY = speedY;
 			this.token = token;
 			this.color = color;
 			this.currency = currency;
@@ -55,29 +53,6 @@ class Bubble {
 			const dy = this.y - other.y;
 			const distance = Math.sqrt(dx * dx + dy * dy);
 			return distance < this.radius + other.radius + this.buffer; // Include buffer
-	}
-
-	handleCollision(other) {
-			let dx = this.x - other.x;
-			let dy = this.y - other.y;
-			let distance = Math.sqrt(dx * dx + dy * dy);
-
-			let overlap = 0.5 * (distance - this.radius - other.radius - this.buffer); // Include buffer
-
-			this.x -= overlap * (this.x - other.x) / distance;
-			this.y -= overlap * (this.y - other.y) / distance;
-
-			other.x += overlap * (this.x - other.x) / distance;
-			other.y += overlap * (this.y - other.y) / distance;
-
-			let nx = dx / distance;
-			let ny = dy / distance;
-			let p = 2 * (this.speedX * nx + this.speedY * ny - other.speedX * nx - other.speedY * ny) / (this.radius + other.radius);
-
-			this.speedX -= p * other.radius * nx * 0.99;
-			this.speedY -= p * other.radius * ny * 0.99;
-			other.speedX += p * this.radius * nx * 0.99;
-			other.speedY += p * this.radius * ny * 0.99;
 	}
 }
 
@@ -122,30 +97,18 @@ class Bubbles {
 					}
 			}
 	}
-
-	animate() {
-			for (let i = 0; i < this.bubbles.length; i++) {
-					for (let j = i + 1; j < this.bubbles.length; j++) {
-							if (this.bubbles[i].collidesWith(this.bubbles[j])) {
-									this.bubbles[i].handleCollision(this.bubbles[j]);
-							}
-					}
-					this.bubbles[i].move();
-			}
-			requestAnimationFrame(() => this.animate());
-	}
 }
 
 const BubblesComponent = () => {
 	const [bubblesInstance, setBubblesInstance] = useState(null);
 	const bubbleWrapperRef = useRef(null);
 	const { data: tokensData, loaded, error, refetch } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`);
-	const { setLoadingState } = useLoading();
+	const { setLoadingState, loadingState } = useLoading();
 	const { currency } = useContext(GeneralContext);
 	const [changePeriod, setChangePeriod] = useState('24h');
-	const [radiusMultiplier2, setRadiusMultiplier2] = useState(1);
-	const [isComponentLoaded, setIsComponentLoaded] = useState(false);
-	const router = useRouter(); 
+	const [radiusReducer, setRadiusReducer] = useState(1);
+	const router = useRouter();
+	const [reloadDataInterval, setReloadDataInterval] = useState(null);
 
 	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 1.8) {
 		return tokenData.map(token => {
@@ -157,9 +120,7 @@ const BubblesComponent = () => {
 	}
 
 	const selectChangePeriod = (event, newPeriod) => {
-		setIsComponentLoaded(false);
 		setLoadingState(true);
-
 		setChangePeriod(newPeriod)
 	}
 
@@ -169,111 +130,94 @@ const BubblesComponent = () => {
   }, 500); // Delay of 500ms after resize stops
 
 	useEffect(() => {
+			clearInterval(reloadDataInterval)
 			setLoadingState(true);
-			// Setup an interval to refetch token data every minute
+			// Setup an interval to refetch token data every 5 minutes
 			const intervalId = setInterval(() => {
 				refetch(); // Assuming refetchTokens is a function provided by useFetchTokens for refetching data
-			}, 60 * 1000);
+			}, 5 * 60 * 1000);
+
+			setReloadDataInterval(intervalId);
 
 			return () => {
-					clearInterval(intervalId); // Cleanup the interval on component unmount
+					clearInterval(reloadDataInterval); // Cleanup the interval on component unmount
 			};
-	}, []);
+	}, [currency, changePeriod]);
 
 	useEffect(() => {
-		setRadiusMultiplier2(1);
+		// on currency, period or tokens data change, set radius reducer to 1
+		setRadiusReducer(1);
 	}, [currency, changePeriod, tokensData])
 
 	useEffect(() => {
-			setLoadingState(true);
-			setIsComponentLoaded(false);
 			if (loaded && tokensData && bubbleWrapperRef.current) {
+					setLoadingState(true);
 					if(bubblesInstance) {
 						bubblesInstance.removeAllBubbles();
 					}
 					const bubbles = new Bubbles(bubbleWrapperRef.current);
 					setBubblesInstance(bubbles);
 
+					// Filling factor (percentage of the container to ideally fill with bubbles)
+					const phi = 0.011;
+
 					let scaledTokens = addScaleFactor(tokensData);
 					scaledTokens = filterAndShuffleTokens(scaledTokens);
-
-					const adjusments = calculateDynamicAdjustments(bubbles.containerWidth, bubbles.containerHeight);
-					const radiusMultiplier = getRadiusMultiplier(scaledTokens, currency, changePeriod, adjusments);
-					
+					const totalScaleSquare = sumScalesSquared(scaledTokens);
+					const areaContainer = bubbles.containerWidth * bubbles.containerHeight;
+					const r = Math.sqrt((phi * areaContainer) / (Math.PI * totalScaleSquare));
 					let count = 0;
 
+					let pointsMatrix = generatePointsMatrix(bubbles.containerWidth, bubbles.containerHeight, 15);
+
 					scaledTokens.forEach(token => {
-							const radius = adjusments.radius * token.scale * radiusMultiplier * radiusMultiplier2;
+							const radius = token.scale * r * 6.7 * radiusReducer;
 
-							console.log(token.scale)
+							for (const [key, value] of pointsMatrix.entries()) {
+								let hasCollision = false;
+								const color = token.metrics.change[changePeriod][currency] >= 0 ? 'green' : 'red';
+								const bubble = new Bubble(value.x + radius, value.y + radius, token, radius, color, currency, changePeriod, router);
 
-							let xPoint = radius + 5;
-							let yPoint = radius + 5;
-							let isBubbleAdded = false;
+								bubbles.addBubble(bubble);
 
-							while(!isBubbleAdded) {
-									xPoint = radius + 5;
-
-									while(true) {
-											xPoint += adjusments.pointIncrement;
-
-											if(xPoint >= bubbles.containerWidth - (radius + 10)) break;
-
-											const x = Math.min(bubbles.containerWidth - radius / 2 - 10, xPoint - getRandomInt(5));
-											const y = Math.min(bubbles.containerHeight - radius - 10, yPoint + getRandomInt(30));
-											
-											const speedX = (Math.random() - 0.5) * 1.6;
-											const speedY = (Math.random() - 0.5) * 1.6;
-											const color = token.metrics.change[changePeriod][currency] >= 0 ? 'green' : 'red';
-
-											const bubble = new Bubble(x, y, token, radius, speedX, speedY, color, currency, changePeriod, router);
-
-											bubbles.addBubble(bubble);
-
-											let hasCollision = false;
-
-											if(bubbles.bubbles.length > 1) {
-													for (let i = 0; i < bubbles.bubbles.length - 1; i++) {
-															if (bubble.collidesWith(bubbles.bubbles[i])) {
-																	hasCollision = true;
-															}
-													}
-											}
-
-											if(!hasCollision) {
-													isBubbleAdded = true;
-													count++;
-													break;
-											} else {
-													isBubbleAdded = false;
-													bubbles.removeBubble(token.canister_id);
-											}
+								if(bubbles.bubbles.length > 1) {
+									for (let i = 0; i < bubbles.bubbles.length - 1; i++) {
+										if (bubble.collidesWith(bubbles.bubbles[i]) || bubble.x > bubbles.containerWidth - radius || bubble.y > bubbles.containerHeight - radius) {
+											hasCollision = true;
+											break;
+										}
 									}
+								}
 
-									yPoint += adjusments.pointIncrement;
+								pointsMatrix.delete(key);
 
-									if(yPoint >= bubbles.containerHeight - (radius + 10)) break;
-							}
+								if(hasCollision) {
+									bubbles.removeBubble(token.canister_id);
+								} else {
+									count++;
+									break;
+								}
+							};
 					});
 
+					console.log(count)
 					if(count < 50) {
-						setRadiusMultiplier2(radiusMultiplier2 - 0.02)
+						setRadiusReducer(radiusReducer - 0.01)
 					} else {
 						animateBubbles();
 
 						setTimeout(function() {
-							setIsComponentLoaded(true)
 							setLoadingState(false);
 						}, 500);
 					}
 			}
-	}, [loaded, tokensData, currency, radiusMultiplier2, changePeriod]);
+	}, [loaded, tokensData, currency, radiusReducer, changePeriod]);
 
 	return (
 		<Layout footer={false}>
 				<div className='w-full'>
 						{error && <div className="error-message">Error loading tokens!</div>}
-						{!error && loaded && (
+						{!error && (
 							<>
 									<div className='fixed top-[42px] left-1/2 w-[200px] flex justify-center ml-[-100px]'>
 										<ToggleButtonGroup
@@ -303,7 +247,7 @@ const BubblesComponent = () => {
 											</Tooltip>
 										</ToggleButtonGroup>
 								</div>
-								<div id="bubbleWrapper" ref={bubbleWrapperRef} className={`bubbles ${isComponentLoaded ? 'opacity-100' : 'opacity-0'}`}>
+								<div id="bubbleWrapper" ref={bubbleWrapperRef} className={`bubbles ${!loadingState ? 'opacity-100' : 'opacity-0'}`}>
 										{/* Managed by Bubbles class */}
 								</div>
 							</>
@@ -314,6 +258,29 @@ const BubblesComponent = () => {
 };
 
 export default BubblesComponent;
+
+function sumScalesSquared(tokens) {
+	return tokens.reduce((acc, token) => acc + token.scale * token.scale, 0);
+}
+
+// Define the function to generate the matrix of points
+function generatePointsMatrix(containerWidth, containerHeight, step = 10) {
+	const startX = 10;
+	const startY = 10;
+	const endX = containerWidth - 15;
+	const endY = containerHeight - 15;
+	const pointsMap = new Map();
+
+	for (let y = startY; y <= endY; y += step) {
+		for (let x = startX; x <= endX; x += step) {
+			// Create a unique key for each point
+			const key = `${x},${y}`;
+			pointsMap.set(key, { x: x + getRandomInt(13), y: y + getRandomInt(33) });
+		}
+	}
+
+	return pointsMap;
+}
 
 function filterAndShuffleTokens(array) {
 	// First, sort the array by the .scale property in descending order
@@ -331,46 +298,8 @@ function filterAndShuffleTokens(array) {
 	return top50; // Return the shuffled array of top 50 elements
 }
 
-function getRadiusMultiplier(tokens, currency, changePeriod, adjusments) {
-	const changeSum = tokens.reduce((sum, token) => sum + Math.abs(token.metrics.change[changePeriod][currency]), 0);
-
-	let radiusMultiplier;
-	if (changeSum < 500) {
-			radiusMultiplier = 1 + (changeSum / 2000) + adjusments.radius / 500; // Accelerate growth
-	} else {
-		radiusMultiplier = 1 - (changeSum / 10000) - adjusments.radius / 5000;
-	}
-
-	// console.log(radiusMultiplier)
-
-	return radiusMultiplier;
-}
-
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
-}
-
-function calculateDynamicAdjustments(width, height) {
-	const baseWidth = 1512;
-	const baseHeight = 823;
-	const baseArea = baseWidth * baseHeight;  // Area for the reference resolution
-	const currentArea = width * height;       // Area for the current resolution
-
-	// Calculate area ratio using square root
-	const areaRatio = Math.sqrt(currentArea / baseArea);
-
-	// Adjustments for radius
-	const baseRadius = 72;
-	const dynamicRadius = baseRadius * areaRatio;
-
-	// Adjustments for Point
-	const basePointIncrement = 50;
-	const dynamicPointIncrement = basePointIncrement * areaRatio;
-
-	return {
-			radius: dynamicRadius,
-			pointIncrement: Math.min(60, Math.max(dynamicPointIncrement, 20))
-	};
 }
 
 function animateBubbles() {

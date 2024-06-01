@@ -10,11 +10,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import ViewWeekOutlinedIcon from '@mui/icons-material/ViewWeekOutlined';
 import { isMobile } from 'react-device-detect';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
+import { ScatterPlot } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   // Initialize selectedColumns with an empty array
   const [selectedColumns, setSelectedColumns] = useState([]);
   const { theme } = useContext(GeneralContext)
+  const router = useRouter();
 
   useEffect(() => {
     if (gridApi?.getAllGridColumns()) {
@@ -61,20 +64,38 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   return (
     <div className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
       <div className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}>
-        <Tooltip title="Customize columns">
-          <Button
-            variant="text"
-            startIcon={<ViewWeekOutlinedIcon />}
-            onClick={handleShowFilters}
-            sx={{ py: 1 }}
-            color="gray"
-            style={{
-              color: theme == 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'inerhit'
-            }}
-          >
-            Columns
-          </Button>
-        </Tooltip>
+        <span className='absolute right-0 sm:bottom-0 top-100 sm:mt-0 mt-[13px] sm:right-[140px]'>
+          <Tooltip title="Bubbles chart">
+            <Button
+              variant="text"
+              startIcon={<ScatterPlot />}
+              onClick={() => router.push('/bubbles')}
+              sx={{ py: 1 }}
+              color="gray"
+              style={{
+                color: theme == 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'inerhit'
+              }}
+            >
+              Bubbles
+            </Button>
+          </Tooltip>
+        </span>
+        <span className='sm:inline-block hidden'>
+          <Tooltip title="Customize columns">
+            <Button
+              variant="text"
+              startIcon={<ViewWeekOutlinedIcon />}
+              onClick={handleShowFilters}
+              sx={{ py: 1 }}
+              color="gray"
+              style={{
+                color: theme == 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'inerhit'
+              }}
+            >
+              Customize
+            </Button>
+          </Tooltip>
+        </span>
       </div>
       {showFilters && (
         <div className='mb-3'>
