@@ -6,9 +6,10 @@ import { GeneralContext } from '../contexts/general/General.Context';
 import useDebouncedResize from '../ui/hooks/useDebouncedResize';
 import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
+import useWindowWidthUnder from '../ui/hooks/useWindowWidthUnder';
 
 class Bubble {
-	constructor(x, y, token, radius, color, currency, changePeriod, router) {
+	constructor(x, y, token, radius, color, currency, changePeriod, router, buffer) {
 			this.x = x;
 			this.y = y;
 			this.radius = radius;
@@ -17,7 +18,7 @@ class Bubble {
 			this.currency = currency;
 			this.changePeriod = changePeriod;
 			this.router = router;
-			this.buffer = 7;
+			this.buffer = buffer;
 			this.element = document.createElement('div');
 			this.init();
 	}
@@ -109,6 +110,7 @@ const BubblesComponent = () => {
 	const [radiusReducer, setRadiusReducer] = useState(1);
 	const router = useRouter();
 	const [reloadDataInterval, setReloadDataInterval] = useState(null);
+	const isWindowUnder800 = useWindowWidthUnder(800);
 
 	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 1.8) {
 		return tokenData.map(token => {
@@ -176,7 +178,7 @@ const BubblesComponent = () => {
 							for (const [key, value] of pointsMatrix.entries()) {
 								let hasCollision = false;
 								const color = token.metrics.change[changePeriod][currency] >= 0 ? 'green' : 'red';
-								const bubble = new Bubble(value.x + radius, value.y + radius, token, radius, color, currency, changePeriod, router);
+								const bubble = new Bubble(value.x + radius, value.y + radius, token, radius, color, currency, changePeriod, router, isWindowUnder800 ? 3 : 7);
 
 								bubbles.addBubble(bubble);
 
