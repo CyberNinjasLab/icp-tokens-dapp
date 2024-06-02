@@ -7,6 +7,7 @@ import useDebouncedResize from '../ui/hooks/useDebouncedResize';
 import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
 import useWindowWidthUnder from '../ui/hooks/useWindowWidthUnder';
+import Head from 'next/head';
 
 class Bubble {
 	constructor(x, y, token, radius, color, currency, changePeriod, router, buffer) {
@@ -216,46 +217,52 @@ const BubblesComponent = () => {
 	}, [loaded, tokensData, currency, radiusReducer, changePeriod]);
 
 	return (
-		<Layout footer={false}>
-				<div className='w-full'>
-						{error && <div className="error-message">Error loading tokens!</div>}
-						{!error && (
-							<>
-									<div className='fixed top-[42px] left-1/2 w-[200px] flex justify-center ml-[-100px]'>
-										<ToggleButtonGroup
-											value={changePeriod}
-											exclusive
-											onChange={selectChangePeriod}
-											className='my-2'
-											color="primary"
-											sx={{
-												'& .Mui-selected': { color: 'primary' },
-											}}
-										>
-											<Tooltip title="Last 24 hours" placement="bottom">
-												<ToggleButton value="24h" aria-label="Today" size="medium">
-													Day
-												</ToggleButton>
-											</Tooltip>
-											<Tooltip title="Last 7 days" placement="bottom">
-												<ToggleButton value="7d" aria-label="Week" size="medium">
-													Week
-												</ToggleButton>
-											</Tooltip>
-											<Tooltip title="Last 30 days" placement="bottom">
-												<ToggleButton value="30d" aria-label="Month" size="medium">
-													Month
-												</ToggleButton>
-											</Tooltip>
-										</ToggleButtonGroup>
-								</div>
-								<div id="bubbleWrapper" ref={bubbleWrapperRef} className={`bubbles ${!loadingState ? 'opacity-100' : 'opacity-0'}`}>
-										{/* Managed by Bubbles class */}
-								</div>
-							</>
-						)}
-				</div>
-		</Layout>
+		
+			<>
+				<Head>
+					<title>Bubble Screener | ICP Tokens</title>
+				</Head>
+				<Layout footer={false}>
+						<div className='w-full'>
+								{error && <div className="error-message">Error loading tokens!</div>}
+								{!error && (
+									<>
+											<div className='fixed top-[42px] left-1/2 w-[200px] flex justify-center ml-[-100px]'>
+												<ToggleButtonGroup
+													value={changePeriod}
+													exclusive
+													onChange={selectChangePeriod}
+													className='my-2'
+													color="primary"
+													sx={{
+														'& .Mui-selected': { color: 'primary' },
+													}}
+												>
+													<Tooltip title="Last 24 hours" placement="bottom">
+														<ToggleButton value="24h" aria-label="Today" size="medium">
+															Day
+														</ToggleButton>
+													</Tooltip>
+													<Tooltip title="Last 7 days" placement="bottom">
+														<ToggleButton value="7d" aria-label="Week" size="medium">
+															Week
+														</ToggleButton>
+													</Tooltip>
+													<Tooltip title="Last 30 days" placement="bottom">
+														<ToggleButton value="30d" aria-label="Month" size="medium">
+															Month
+														</ToggleButton>
+													</Tooltip>
+												</ToggleButtonGroup>
+										</div>
+										<div id="bubbleWrapper" ref={bubbleWrapperRef} className={`bubbles ${!loadingState ? 'opacity-100' : 'opacity-0'}`}>
+												{/* Managed by Bubbles class */}
+										</div>
+									</>
+								)}
+						</div>
+				</Layout>
+			</>
 );
 };
 
