@@ -6,7 +6,9 @@ import useTokenData from '../../ui/hooks/token/useTokenData';
 import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
 import { FavoriteTokensProvider } from '../../contexts/general/FavoriteTokensProvider';
+import { CommentsProvider } from '../../contexts/comments/CommentsContext';
 import TradingViewWidget from '../../ui/components/tokens/TradingViewWidget';
+import CommentsComponent from '../../ui/components/tokens/details/CommentsComponent';
 
 // Lazy load components
 const ChartComponent = lazy(() => import('../../ui/components/tokens/details/ChartComponent'));
@@ -33,6 +35,7 @@ const TokenPage = () => {
         {error && <div>Error: {error}</div>}
         {!isLoading && !error && tokenData && (
           <FavoriteTokensProvider>
+            <CommentsProvider>
             <Suspense fallback={<div>Loading...</div>}>
               <div className='mt-4 lg:mt-0'>
                 <TokenHeader tokenData={tokenData} />
@@ -45,15 +48,18 @@ const TokenPage = () => {
                     )}
                     <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
                       <TokenInfo data={tokenData} />
+                      <CommentsComponent />
                     </div>
                     <TokenDetails data={tokenData} />
                   </div>
                   <div className='w-full xl:max-w-sm hidden xl:block'>
                     <TokenInfo data={tokenData} />
+                    <CommentsComponent />
                   </div>
                 </div>
               </div>
             </Suspense>
+            </CommentsProvider>
           </FavoriteTokensProvider>
         )}
       </Layout>

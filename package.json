@@ -71,6 +71,7 @@
     "react-ga4": "^2.1.0",
     "react-markdown": "^9.0.1",
     "react-social-icons": "^6.10.0",
+    "react-timeago": "^7.2.0",
     "recharts": "^2.10.4",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5"
