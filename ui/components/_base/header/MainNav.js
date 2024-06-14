@@ -14,6 +14,7 @@ import CurrencySelector from '../CurrencySelector';
 import { DarkMode, InsertDriveFile, PieChart, Visibility } from '@mui/icons-material';
 import LightMode from '@mui/icons-material/LightMode';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
+import Link from 'next/link';
 
 const MainNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -119,7 +120,16 @@ const MainNav = () => {
 
   return (
     <nav className='flex items-center w-full justify-end lg:justify-between'>
-      <DesktopNav navLinks={navConfig} path={path} />
+      <div className='flex items-center w-full sm:w-auto'>
+        <DesktopNav navLinks={navConfig} path={path} />
+        {/* Bubbles button */}
+        <div className='font-semibold'>
+          <Link href="/bubbles" className={`py-4 px-4 md:mr-4 block sm:hidden md:block hover:text-primary`}>
+            Bubbles <span className='uppercase rounded-3xl bg-orange text-black dark:text-dark-bg relative bottom-2 left-[4px] text-[10px] font-extrabold px-2 py-1'>Hot</span>
+          </Link>
+        </div>
+      </div>
+
       <div></div>
       <div>
         <div className='inline-block'>

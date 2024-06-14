@@ -113,7 +113,7 @@ const BubblesComponent = () => {
 	const [reloadDataInterval, setReloadDataInterval] = useState(null);
 	const isWindowUnder800 = useWindowWidthUnder(800);
 
-	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 1.8) {
+	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 3) {
 		return tokenData.map(token => {
 				const changeMagnitude = Math.abs(token.metrics.change[changePeriod][currency]);
 				const normalizedScale = Math.sqrt(changeMagnitude) / 7 + minScale; // Scale and shift
@@ -174,7 +174,7 @@ const BubblesComponent = () => {
 					let pointsMatrix = generatePointsMatrix(bubbles.containerWidth, bubbles.containerHeight, 15);
 
 					scaledTokens.forEach(token => {
-							const radius = token.scale * r * 6.7 * radiusReducer;
+							const radius = token.scale * r * 7 * radiusReducer;
 
 							for (const [key, value] of pointsMatrix.entries()) {
 								let hasCollision = false;
@@ -204,7 +204,7 @@ const BubblesComponent = () => {
 					});
 
 					console.log(count)
-					if(count < 50) {
+					if(count < scaledTokens.length) {
 						setRadiusReducer(radiusReducer - 0.01)
 					} else {
 						animateBubbles();
@@ -296,15 +296,15 @@ function filterAndShuffleTokens(array) {
 	array.sort((a, b) => b.scale - a.scale);
 
 	// Get the top 50 elements with the highest .scale
-	const top50 = array.slice(0, 50);
+	// const top50 = array.slice(0, 50);
 
-	// Shuffle the top 50 elements
-	for (let i = top50.length - 1; i > 0; i--) {
+	// Shuffle the elements
+	for (let i = array.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
-			[top50[i], top50[j]] = [top50[j], top50[i]];
+			[array[i], array[j]] = [array[j], array[i]];
 	}
 
-	return top50; // Return the shuffled array of top 50 elements
+	return array; // Return the shuffled array of top 50 elements
 }
 
 function getRandomInt(max) {

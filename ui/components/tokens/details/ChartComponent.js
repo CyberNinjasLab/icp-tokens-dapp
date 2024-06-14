@@ -125,7 +125,7 @@ const ChartComponent = ({ canister_id }) => {
     });
     // Map your data to the format expected by the volume series
     const volumeData = data.map(d => ({
-      time: parseTimestampToUnix(d.timestamp),
+      time: parseTimestampToUnix(d.interval_timestamp),
       value: parseFloat(d.volume),
       color: theme == 'dark' ? 'rgba(59, 130, 246, 0.5)' : '#D3D3D3'
     }));
@@ -270,7 +270,7 @@ const ChartComponent = ({ canister_id }) => {
     let series;
     if (chartType === 'area') {
       transformedData = data.data.map(d => ({
-        time: parseTimestampToUnix(d.timestamp),
+        time: parseTimestampToUnix(d.interval_timestamp),
         value: parseFloat(d.close), // Ensure value is a number
         volume: parseFloat(d.volume)
       }));
@@ -278,7 +278,7 @@ const ChartComponent = ({ canister_id }) => {
       setupChartWithVolume(chart, data.data)
     } else if (chartType === 'candle') {
       transformedData = data.data.map(d => ({
-        time: parseTimestampToUnix(d.timestamp),
+        time: parseTimestampToUnix(d.interval_timestamp),
         open: parseFloat(d.open),
         high: parseFloat(d.high),
         low: parseFloat(d.low),

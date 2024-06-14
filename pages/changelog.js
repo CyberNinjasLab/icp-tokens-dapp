@@ -29,7 +29,7 @@ const Changelog = () => {
         <title>Changelog | ICP Tokens</title>
       </Head>
       <Layout>
-        <div className="markdown-content max-w-xl mx-auto lg:mt-6 min-h-screen">
+        <div className="markdown-content changelog-wrap max-w-xl mx-auto lg:mt-6 min-h-screen">
           <ReactMarkdown className="markdown-body">{markdown}</ReactMarkdown>
         </div>
       </Layout>

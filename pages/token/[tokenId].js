@@ -7,16 +7,19 @@ import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
 import { FavoriteTokensProvider } from '../../contexts/general/FavoriteTokensProvider';
 import TradingViewWidget from '../../ui/components/tokens/TradingViewWidget';
+import useTokenMarketsData from '../../ui/hooks/token/useTokenMarketsData';
 
 // Lazy load components
 const ChartComponent = lazy(() => import('../../ui/components/tokens/details/ChartComponent'));
 const TokenInfo = lazy(() => import('../../ui/components/tokens/details/TokenInfo'));
 const TokenDetails = lazy(() => import('../../ui/components/tokens/details/TokenDetails'));
+const TokenMarkets = lazy(() => import('../../ui/components/tokens/details/TokenMarkets'));
 
 const TokenPage = () => {
   const router = useRouter();
   const { tokenId } = router.query;
   const { tokenData, isLoading, error } = useTokenData(tokenId);
+  const { tokenMarketsData, isLoading: isLoading2, error: error2 } = useTokenMarketsData(tokenId);
   const { getTokenName, currency } = useContext(GeneralContext);
 
   // Example dynamic title. Adjust accordingly based on your tokenData properties.
@@ -46,6 +49,7 @@ const TokenPage = () => {
                     <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
                       <TokenInfo data={tokenData} />
                     </div>
+                    <TokenMarkets tokenMarkets={tokenMarketsData} token={tokenData} />
                     <TokenDetails data={tokenData} />
                   </div>
                   <div className='w-full xl:max-w-sm hidden xl:block'>

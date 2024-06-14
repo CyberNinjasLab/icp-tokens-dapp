@@ -20,6 +20,14 @@
   }
 }
 
+.ag-center-cols-viewport {
+  min-height: 50px !important;
+}
+
+.no-underline {
+  text-decoration: none !important;
+}
+
 .tv-lightweight-charts > table > tr:nth-child(1) > td:nth-child(2) canvas {
   border-top: 1px solid rgba(197, 203, 206, 0.4);
   border-left: 1px solid rgba(197, 203, 206, 0.4);
@@ -59,7 +67,7 @@
 .h1 {
   @apply lg:text-lg text-base font-semibold;
 }
-.markdown-content h2 {
+.markdown-content.changelog-wrap h2 {
   border-bottom: 1px solid gray;
   padding-bottom: .3em;
 }

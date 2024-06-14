@@ -3,7 +3,7 @@
 import PriceMovementIndicator from '../PriceMovementIndicator';
 import TokenLogoAndName from '../TokenLogoAndName';
 import Favorites from '../Favorites';
-import DefaultCell from './DefaultCell';
+import DefaultCell from '../../_base/table/DefaultCell';
 import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
 
 const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, currency }) => {

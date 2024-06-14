@@ -33,7 +33,8 @@ module.exports = {
         'mobile-menu': '#565D6DFF',
         'background-hover-menu': '#F5F5F5',
         'dark-hover-menu': '#2e2e38',
-        'dark-bg': '#0f0f26'
+        'dark-bg': '#0f0f26',
+        'orange': '#ffa93d'
       },
 
       keyframes: {

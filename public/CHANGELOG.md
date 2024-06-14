@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file
 
+## v0.4.0
+_June 14, 2024_
+
+### Added
+- **Bubble Chart Feature**: Interactive visualization tool presenting the ICP Tokens Market.
+- **Price Sources Integration**: Added Sonic & IcLight as new sources to display token volume based on the sum of top ICP DEXes (ICP Swap, Sonic, IcLight).
+- **Main Navigation Cosmetics**: Added a prominent 'Bubbles' button to the main navigation.
+- **Footer Cosmetics**: Updated the footer design for a cleaner look.
+
 ## v0.3.0
 _May 20, 2024_
 

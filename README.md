@@ -16,7 +16,7 @@ sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"
 Clone this Git repository:
 
 ```bash
-git clone https://github.com/ICP-Bulgaria/icp-tokens
+git clone https://github.com/ICP-Bulgaria/icp-tokens-dapp
 ```
 
 Open command terminal:
