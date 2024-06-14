@@ -62,9 +62,9 @@ const TokensTableColumnsFilter = ({ gridApi, showFilters, setShowFilters }) => {
   };
 
   return (
-    <div className={`${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
+    <div className={`table-column-filters ${showFilters ? 'relative' : 'absolute bottom-full right-0 mb-[9px]'}`}>
       <div className={`text-right ${showFilters ? 'absolute right-0 bottom-full mb-[9px]' : ''}`}>
-        <span className='absolute right-0 sm:bottom-0 top-100 sm:mt-0 mt-[12px] sm:right-[140px] hidden sm:block md:hidden'>
+        <span className='bubbles-button absolute right-0 sm:bottom-0 top-100 sm:mt-0 mt-[12px] sm:right-[140px] hidden sm:block md:hidden'>
           <Tooltip title="Bubbles chart">
             <Button
               variant="text"

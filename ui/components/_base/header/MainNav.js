@@ -124,8 +124,8 @@ const MainNav = () => {
         <DesktopNav navLinks={navConfig} path={path} />
         {/* Bubbles button */}
         <div className='font-semibold'>
-          <Link href="/bubbles" className={`py-4 px-4 md:mr-4 block sm:hidden md:block hover:text-primary`}>
-            Bubbles <span className='uppercase rounded-3xl bg-orange text-black dark:text-dark-bg relative bottom-2 left-[4px] text-[10px] font-extrabold px-2 py-1'>Hot</span>
+          <Link href="/bubbles" className={`bubbles-button py-4 px-4 block sm:hidden md:block hover:text-primary relative sm:mr-[70px]`}>
+            Bubbles <span className='uppercase rounded-3xl bg-orange text-black dark:text-dark-bg absolute top-2 sm:left-[90%] left-[85%] text-[10px] font-extrabold px-2 py-1 scale-90 sm:scale-100'>Hot</span>
           </Link>
         </div>
       </div>

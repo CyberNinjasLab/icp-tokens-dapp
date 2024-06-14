@@ -126,3 +126,15 @@
 }
 
 @import url("bubbles.css");
+
+/* Media queries for edge cases */
+
+@media (max-width: 410px) {
+  nav .bubbles-button {
+      display: none;
+  }
+
+  .table-column-filters .bubbles-button {
+    display: block !important;
+  }
+}

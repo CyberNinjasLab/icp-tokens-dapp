@@ -49,7 +49,10 @@ const TokenPage = () => {
                     <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
                       <TokenInfo data={tokenData} />
                     </div>
-                    <TokenMarkets tokenMarkets={tokenMarketsData} token={tokenData} />
+                    {!isLoading2 && !error2 && tokenMarketsData && (
+                      <TokenMarkets tokenMarkets={tokenMarketsData} token={tokenData} />
+                    )}
+                    {error2 && <div>Error loading market data: {error2}</div>}
                     <TokenDetails data={tokenData} />
                   </div>
                   <div className='w-full xl:max-w-sm hidden xl:block'>

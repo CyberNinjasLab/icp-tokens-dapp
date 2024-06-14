@@ -1,6 +1,6 @@
 {
-  "name": "ICP Tokens",
-  "version": "0.3.0",
+  "name": "icp-tokens",
+  "version": "0.4.0",
   "author": "ICP Bulgaria",
   "description": "ICP Tokens Frontend. Project for tracking the price of the ICP tokens.",
   "keywords": [
