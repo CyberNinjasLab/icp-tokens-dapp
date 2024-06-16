@@ -4,16 +4,26 @@ import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
 import List "mo:base/List";
 import Buffer "mo:base/Buffer";
+import Text "mo:base/Text";
 
 actor Comments {
   stable var commentsRepository : [(Principal, [Types.Comment])] = [];
 
   let comments : Types.CommentList = HashMap.fromIter<Principal, [Types.Comment]>(commentsRepository.vals(), 10, Principal.equal, Principal.hash);
+  var commentIdentifier : Nat = 1;
 
   // Comments
-  public shared func addComment(tokenId : Principal, comment : Types.Comment) : async ?Types.Comment {
+  public shared (msg) func addComment(tokenId : Principal, text : Text, timestamp : Int) : async ?Types.Comment {
     // Retrieve the list of comments for the caller
     let commentsResult = comments.get(tokenId);
+
+    var comment = {
+      id = commentIdentifier;
+      text = text;
+      timestamp = timestamp;
+      user_principal = msg.caller;
+    };
+    commentIdentifier += 1;
 
     switch (commentsResult) {
       case (null) {
@@ -40,7 +50,7 @@ actor Comments {
         return false;
       };
       case (?tokenComments) {
-        let updatedComments = List.filter<Types.Comment>(List.fromArray(tokenComments), func c { c.id != commentId }); 
+        let updatedComments = List.filter<Types.Comment>(List.fromArray(tokenComments), func c { c.id != commentId });
 
         comments.put(tokenId, List.toArray(updatedComments));
         return true;
