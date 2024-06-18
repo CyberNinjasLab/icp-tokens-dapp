@@ -71,6 +71,9 @@
   border-bottom: 1px solid gray;
   padding-bottom: .3em;
 }
+.markdown-content a {
+  text-decoration: underline;
+}
 .markdown-content h1 {
   @apply text-3xl font-bold mb-4; /* Example: apply text-3xl font-bold mb-4 for h1 */
 }
