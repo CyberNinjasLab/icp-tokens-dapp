@@ -15,7 +15,7 @@ const Portfolio = () => {
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
     const [showTransactionModal, setShowTransactionModal] = useState(false);
     const { setLoadingState, loadingState } = useLoading();
-    const { data: tokens, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens?is_processed=true`);
+    const { data: tokens, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens?list_all=true`);
     const [summaries, summarizeTransactions] = useTransactionSummary(tokens); // Using the custom hook
 
     const toggleTransactionModal = () => {
