@@ -18,6 +18,13 @@
   .ag-sort-indicator-container .ag-sort-order {
     display: none !important;
   }
+
+  .label {
+    @apply uppercase cursor-pointer rounded-md text-sm px-[8px] py-[6px]
+  }
+  .label.orange {
+    @apply bg-orange/20 text-dark-orange dark:text-orange
+  }
 }
 
 .ag-center-cols-viewport {

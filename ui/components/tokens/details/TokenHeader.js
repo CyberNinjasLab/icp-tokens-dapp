@@ -34,7 +34,7 @@ const TokenHeader = ({ tokenData }) => {
           {tokenData.is_sns ? (
             <Tooltip title="Learn more about SNS" placement="bottom">
               <Link href="https://wiki.internetcomputer.org/wiki/Service_Nervous_System_(SNS)" target='_blank'>
-                <span className='uppercase cursor-pointer rounded-md text-sm bg-orange/20 text-orange dark:text-orange px-[8px] py-[6px]'>
+                <span className='label orange'>
                   SNS
                 </span>
               </Link>
