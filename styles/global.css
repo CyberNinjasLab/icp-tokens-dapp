@@ -18,6 +18,13 @@
   .ag-sort-indicator-container .ag-sort-order {
     display: none !important;
   }
+
+  .label {
+    @apply uppercase cursor-pointer rounded-md text-sm px-[8px] py-[6px]
+  }
+  .label.orange {
+    @apply bg-orange/20 text-dark-orange dark:text-orange
+  }
 }
 
 .ag-center-cols-viewport {
@@ -70,6 +77,9 @@
 .markdown-content.changelog-wrap h2 {
   border-bottom: 1px solid gray;
   padding-bottom: .3em;
+}
+.markdown-content a {
+  text-decoration: underline;
 }
 .markdown-content h1 {
   @apply text-3xl font-bold mb-4; /* Example: apply text-3xl font-bold mb-4 for h1 */
