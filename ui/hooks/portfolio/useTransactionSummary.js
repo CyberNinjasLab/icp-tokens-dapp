@@ -4,12 +4,15 @@ import usePriceNearTimestamp from '../token/usePriceNearTimestamp';
 
 const useTransactionSummary = (tokens) => {
     const { parseTokensByCanisterId } = useContext(GeneralContext);
-    const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
     const [summaries, setSummaries] = useState({});
 
     const summarizeTransactions = async (transactions) => {
         const tokensByCanisterId = parseTokensByCanisterId(tokens);
         const groupedByToken = transactions.reduce((acc, transaction) => {
+            if (!tokensByCanisterId[transaction.canister_id]) {
+                return acc; // Skip this transaction if the token is not found
+            }
+
             if (!acc[transaction.canister_id]) {
                 acc[transaction.canister_id] = tokensByCanisterId[transaction.canister_id];
                 acc[transaction.canister_id].portfolio = {

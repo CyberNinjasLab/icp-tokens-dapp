@@ -21,3 +21,4 @@ src/declarations/*
 # Next.js
 .next/
 
+/public/js/trading-view

@@ -41,6 +41,11 @@ The standard includes robust features to ensure reliable transaction processing,
 For a more detailed look at the technical aspects and capabilities of the ICRC-1 standard, refer to the **[official documentation on GitHub](https://github.com/dfinity/ICRC-1)**.
 
 This overview gives you a basic understanding of how the ICRC-1 standard functions on the Internet Computer, facilitating everything from daily transactions to more intricate actions like minting and burning tokens.
+
+## Useful Links
+
+- [ICRC-2: Approve & Transfer Token Standard](/standards/ICRC-2)
+- [ICRC-3: Block Log Token Standard](/standards/ICRC-3)
             `}
           </ReactMarkdown>
         </div>

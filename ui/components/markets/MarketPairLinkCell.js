@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const MarketPairLinkCell = ({params, token}) => {
   const marketSwapLinksMapping = {
-    icpswap: 'https://app.icpswap.com/swap?input=ryjl3-tyaaa-aaaaa-aaaba-cai&output=',
+    icpswap: 'https://app.icpswap.com/swap?input=ryjl3-tyaaa-aaaaa-aaaba-cai&output=' + token.canister_id,
     sonic: "https://app.sonic.ooo/swap",
     iclight: `https://iclight.io/ICDex/${token.symbol}/ICP`,
   }

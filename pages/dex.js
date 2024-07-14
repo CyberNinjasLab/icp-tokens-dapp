@@ -56,6 +56,15 @@ const Dex = () => {
 								<p>Decentralized exchange built entirely on the chain based on the ICP.</p>
 							</div>
 						</a>
+						<a href="https://app.appic.solutions/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+							<div className="flex items-center space-x-4">
+								<img src="/logos/appic_logo_icon.jpg" alt="Logo" className="h-12 w-12" />
+								<span className="font-bold text-lg">AppIC DAO</span>
+							</div>
+							<div className="mt-4">
+								<p>First-ever infrastructure layer that allows transferring and swapping of tokens between ICP and blockchains such as Bitcoin, Ethereum, and Solana.</p>
+							</div>
+						</a>
 					</div>
 				</div>
 			</Layout>

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file
 
+## v0.5.0
+_June 21, 2024_
+
+### Added
+- **Trading View Advanced Charts Integration**: A complete toolkit of the most popular and powerful indicators.
+- **More Candles**: Introduced new time intervals for candlestick charts - 30m, 1h, 4h, 8h, 12h, 1d, 1w.
+
+### Improved
+- **SNS Tokens Migration**: OGY, Motoko, ICL tokens have been migrated.
+
 ## v0.4.0
 _June 14, 2024_
 

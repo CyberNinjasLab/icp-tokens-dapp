@@ -6,11 +6,11 @@ import useTokenData from '../../ui/hooks/token/useTokenData';
 import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
 import { FavoriteTokensProvider } from '../../contexts/general/FavoriteTokensProvider';
-import TradingViewWidget from '../../ui/components/tokens/TradingViewWidget';
+import TradingViewWidget from '../../ui/components/tokens/trading-view/TradingViewWidget';
 import useTokenMarketsData from '../../ui/hooks/token/useTokenMarketsData';
 
 // Lazy load components
-const ChartComponent = lazy(() => import('../../ui/components/tokens/details/ChartComponent'));
+const TradingViewCustomWidget = lazy(() => import('../../ui/components/tokens/trading-view/TradingViewCustomWidget'));
 const TokenInfo = lazy(() => import('../../ui/components/tokens/details/TokenInfo'));
 const TokenDetails = lazy(() => import('../../ui/components/tokens/details/TokenDetails'));
 const TokenMarkets = lazy(() => import('../../ui/components/tokens/details/TokenMarkets'));
@@ -37,12 +37,12 @@ const TokenPage = () => {
         {!isLoading && !error && tokenData && (
           <FavoriteTokensProvider>
             <Suspense fallback={<div>Loading...</div>}>
-              <div className='mt-4 lg:mt-0'>
+              <div>
                 <TokenHeader tokenData={tokenData} />
                 <div className="flex flex-col xl:flex-row xl:gap-20 gap-10">
                   <div className="w-full">
                     {tokenData.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? (
-                      <ChartComponent canister_id={tokenData.canister_id} />
+                      <TradingViewCustomWidget canister_id={tokenData.canister_id} />
                     ) : currency == 'usd' && (
                       <TradingViewWidget symbol='ICPUSD' />
                     )}
