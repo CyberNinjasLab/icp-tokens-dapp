@@ -11,7 +11,10 @@ const HowItWorks = () => {
         <div className='max-w-xl mx-auto lg:mt-6'>
           <h2 className='text-xl font-semibold lg:text-center'>Why ICP Tokens?</h2>    
           <p className='mt-6'>
-          Every day, thousands of cryptocurrencies are launched, overwhelming the crypto space and diluting its core. We are committed to providing a service that paves the way for projects that go beyond just being a token — projects that carry the idea of a decentralized product, functioning according to Web3.0 standards. Our focus is on <b>delivering everything our users need</b> to navigate the Internet Computer ecosystem, all in one place. By considering the needs and vision of those who use the platform, we are showing the world that it's possible to create projects with true value!
+          Every day, thousands of cryptocurrencies are launched, overwhelming the crypto space and diluting its core. We are committed to providing a service that paves the way for projects that go beyond just being a token — projects that carry the idea of a decentralized product, functioning according to Web3.0 standards. 
+          </p>
+          <p className='mt-6'>
+          Our focus is on <b>delivering everything our users need</b> to navigate the Internet Computer ecosystem, all in one place. By considering the needs and vision of those who use the platform, we are showing the world that it&apos;s possible to create projects with true value!
           </p>
 
           <h2 className='text-lg font-semibold mt-10'>Building with Love ❤️</h2>
@@ -20,7 +23,7 @@ const HowItWorks = () => {
           </p>
           <h2 className='text-lg font-semibold mt-10'>Our Mission 🎯</h2>
           <p className='mt-6'>
-          The platform's goal is to create an <b>all-in-one tool for future and current investors</b> in the #ICP ecosystem. Our mission is to build a bridge that fills the gap between tokens and the user base.
+          The platform&apos;s goal is to create an <b>all-in-one tool for future and current investors</b> in the #ICP ecosystem. Our mission is to build a bridge that fills the gap between tokens and the user base.
           </p>      
 
           <h2 className='text-lg font-semibold mt-10'>Our Vision 👇</h2>    
@@ -29,7 +32,7 @@ const HowItWorks = () => {
           </p>
 
           <blockquote className="text-lg font-semibold mt-16 italic border-l-4 border-blue-500 pl-4 dark:bg-black/25 bg-black/5 p-4">
-            "Build the Tools, Shape the Future!"
+            &quot;Build the Tools, Shape the Future!&quot;
           </blockquote>
         </div>
       </Layout>
