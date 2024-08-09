@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file
 
+## v0.7.0
+_August 9, 2024_
+
+### Added
+- **Search Functionality**: Users are now able to search tokens by name, symbol/ticker, and contract.
+
+### Improved
+- **About Us Page**: Updated the content for better clarity and engagement.
+- **Site Header Optimization**: Optimized the site header for better usability on tablets and mobile devices.
+
 ## v0.6.0
 _August 1, 2024_
 
