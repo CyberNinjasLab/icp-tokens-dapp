@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file
 
+## v0.6.0
+_August 1, 2024_
+
+### Added
+- **Bubbles**: Users can now filter bubbles by:
+  - **Filter by Watchlist**: The idea is to display only the items in the user's watchlist.
+- **Save Button (Trading View Charts)**: Users can now save their chart drawings directly via Internet Identity. When logged in, the drawings are stored on-chain; otherwise, the data is saved in the browser's local storage.
+
 ## v0.5.0
 _June 21, 2024_
 

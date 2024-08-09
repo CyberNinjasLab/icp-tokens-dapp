@@ -1,6 +1,6 @@
 {
   "name": "icp-tokens",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "ICP Bulgaria",
   "description": "ICP Tokens Frontend. Project for tracking the price of the ICP tokens.",
   "keywords": [
@@ -40,7 +40,9 @@
     "@dfinity/auth-client": "^1.0.0",
     "@dfinity/candid": "^1.0.0",
     "@dfinity/identity": "^1.0.0",
-    "@dfinity/principal": "^1.0.0",
+    "@dfinity/ledger-icp": "^2.4.0",
+    "@dfinity/ledger-icrc": "^2.4.0",
+    "@dfinity/principal": "^1.4.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",

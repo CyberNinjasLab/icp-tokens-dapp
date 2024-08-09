@@ -10,6 +10,7 @@ module {
     public type HashMap<K, V> = HashMap.HashMap<K, V>;
     public type TrieMap<K, V> = TrieMap.TrieMap<K, V>;
     public type List<T> = List.List<T>;
+    public type KeyValueText = HashMap<Text, Text>;
 
     // User core
     public type User = {
@@ -39,6 +40,9 @@ module {
     // Watchlist
     public type WatchlistId = Text;
     public type Watchlist = HashMap<Principal, [WatchlistId]>;
+
+    // Watchlist
+    public type TradingViewSavings = HashMap<Principal, KeyValueText>;
 
     // Comments
     public type Comment = {

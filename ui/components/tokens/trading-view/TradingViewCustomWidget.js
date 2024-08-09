@@ -1,29 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { loadScript } from '../../../../utils/scriptLoader';
+import TradingViewSaveLoadAdapter from './TradingViewSaveLoadAdapter';
+import { AuthContext } from '../../../../contexts/auth/Auth.Context';
 
-const TradingViewCustomWidget = ({ canister_id }) => {
+const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   const { theme, currency } = useContext(GeneralContext);
-
-  const saveChartState = (chart) => {
-    chart.save((state) => {
-      localStorage.setItem('tv_chart_state', JSON.stringify(state));
-    });
-  };
-
-  const loadChartState = () => {
-    const savedState = localStorage.getItem('tv_chart_state');
-    return savedState ? JSON.parse(savedState) : null;
-  };
+  const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
 
   const initializeWidget = () => {
     if (window.TradingView) {
-      const savedState = loadChartState();
-
       const widget = new window.TradingView.widget({
         symbol: 'icptokens.net',             // Default symbol
         interval: '1d',                    // Default interval
-        fullscreen: false,                 // Displays the chart in the fullscreen mode
+        fullscreen: fullscreen,                 // Displays the chart in the fullscreen mode
         container: 'tv_chart_container',   // Reference to an attribute of the DOM element
         theme: 'dark',
         datafeed: new Datafeeds.UDFCompatibleDatafeed("https://web2.icptokens.net/api/datafeed/" + canister_id + "/" + currency),
@@ -37,18 +27,17 @@ const TradingViewCustomWidget = ({ canister_id }) => {
           { text: "7d", resolution: "60", description: "7 Days" },
           { text: "1d", resolution: "30", description: "1 Day" },
         ],
+        save_load_adapter: new TradingViewSaveLoadAdapter(canister_id, backendCoreActor, isAuthenticated),
+        load_last_chart: true,
+        enabled_features: [
+            "header_in_fullscreen_mode",
+            "side_toolbar_in_fullscreen_mode",
+            "hide_left_toolbar_by_default",
+        ],
       });
 
       widget.onChartReady(() => {
-        if (savedState) {
-          widget.load(savedState);
-        }
 
-        const saveState = () => saveChartState(widget);
-
-        widget.chart().onIntervalChanged(saveState);
-        widget.chart().onSymbolChanged(saveState);
-        widget.chart().onChartTypeChanged(saveState);
       });
     }
   };
@@ -57,7 +46,7 @@ const TradingViewCustomWidget = ({ canister_id }) => {
     const viewportHeight = window.innerHeight;
     const element = document.getElementById('tv_chart_container');
     if (element) {
-      element.style.height = `${viewportHeight - 200}px`;
+      element.style.height = fullscreen ? `${viewportHeight}px` : `${viewportHeight - 200}px`;
     }
   };
 
@@ -83,11 +72,16 @@ const TradingViewCustomWidget = ({ canister_id }) => {
 
   useEffect(() => {
     initializeWidget();
-  }, [currency, canister_id]);
+    setDynamicHeight();
+  }, [currency, canister_id, isAuthenticated, fullscreen]);
 
   return (
-    <div className='md:ml-0 md:mr-0 -ml-4 -mr-4'>
-      <div id="tv_chart_container" style={{ width: '100%' }} className='md:border md:max-h-[469px] md:rounded-md overflow-hidden border-[#D3D3D3] dark:border-[#555]'></div>
+    <div className='relative md:ml-0 md:mr-0 -ml-4 -mr-4'>
+      <div 
+        id="tv_chart_container" 
+        style={{ width: '100%', transition: 'height 0.3s ease' }} 
+        className={`md:border md:rounded-md overflow-hidden border-[#D3D3D3] dark:border-[#555] ${fullscreen ? 'fixed top-0 left-0 z-50' : `md:max-h-[469px]`}`}
+      ></div>
     </div>
   );
 };

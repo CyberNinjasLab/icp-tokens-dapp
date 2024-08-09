@@ -4,10 +4,11 @@ import useFetchTokens from '../ui/hooks/token/useFetchTokens';
 import { useLoading } from '../contexts/general/Loading.Provider';
 import { GeneralContext } from '../contexts/general/General.Context';
 import useDebouncedResize from '../ui/hooks/useDebouncedResize';
-import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import { FormControlLabel, Switch, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
 import useWindowWidthUnder from '../ui/hooks/useWindowWidthUnder';
 import Head from 'next/head';
+import { FavoriteTokensProvider, useFavoriteTokens } from '../contexts/general/FavoriteTokensProvider';
 
 class Bubble {
 	constructor(x, y, token, radius, color, currency, changePeriod, router, buffer) {
@@ -112,6 +113,11 @@ const BubblesComponent = () => {
 	const router = useRouter();
 	const [reloadDataInterval, setReloadDataInterval] = useState(null);
 	const isWindowUnder800 = useWindowWidthUnder(800);
+	const isWindowUnder420 = useWindowWidthUnder(420);
+
+	const { favoriteTokenIds, loadingFavorites } = useFavoriteTokens();
+	
+	const [watchlistOnly, setWatchlistOnly] = useState(false);
 
 	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 3) {
 		return tokenData.map(token => {
@@ -164,8 +170,9 @@ const BubblesComponent = () => {
 					// Filling factor (percentage of the container to ideally fill with bubbles)
 					const phi = 0.011;
 
-					let scaledTokens = addScaleFactor(tokensData);
-					scaledTokens = filterAndShuffleTokens(scaledTokens);
+					const filteredTokens = filterTokens(tokensData, watchlistOnly, favoriteTokenIds);
+					let scaledTokens = addScaleFactor(filteredTokens);
+					scaledTokens = shuffleTokens(scaledTokens);
 					const totalScaleSquare = sumScalesSquared(scaledTokens);
 					const areaContainer = bubbles.containerWidth * bubbles.containerHeight;
 					const r = Math.sqrt((phi * areaContainer) / (Math.PI * totalScaleSquare));
@@ -203,7 +210,6 @@ const BubblesComponent = () => {
 							};
 					});
 
-					console.log(count)
 					if(count < scaledTokens.length) {
 						setRadiusReducer(radiusReducer - 0.01)
 					} else {
@@ -214,7 +220,7 @@ const BubblesComponent = () => {
 						}, 500);
 					}
 			}
-	}, [loaded, tokensData, currency, radiusReducer, changePeriod]);
+	}, [loaded, tokensData, currency, radiusReducer, changePeriod, watchlistOnly, loadingFavorites]);
 
 	return (
 		
@@ -227,33 +233,51 @@ const BubblesComponent = () => {
 								{error && <div className="error-message">Error loading tokens!</div>}
 								{!error && (
 									<>
-											<div className='fixed top-[42px] left-1/2 w-[200px] flex justify-center ml-[-100px]'>
-												<ToggleButtonGroup
-													value={changePeriod}
-													exclusive
-													onChange={selectChangePeriod}
-													className='my-2'
-													color="primary"
-													sx={{
-														'& .Mui-selected': { color: 'primary' },
-													}}
-												>
-													<Tooltip title="Last 24 hours" placement="bottom">
-														<ToggleButton value="24h" aria-label="Today" size="medium">
-															Day
-														</ToggleButton>
-													</Tooltip>
-													<Tooltip title="Last 7 days" placement="bottom">
-														<ToggleButton value="7d" aria-label="Week" size="medium">
-															Week
-														</ToggleButton>
-													</Tooltip>
-													<Tooltip title="Last 30 days" placement="bottom">
-														<ToggleButton value="30d" aria-label="Month" size="medium">
-															Month
-														</ToggleButton>
-													</Tooltip>
-												</ToggleButtonGroup>
+										<div>
+											<div className={`fixed top-[42px] ${!favoriteTokenIds.length ? ' left-1/2 ml-[-100px] ' : (isWindowUnder420 ? 'ml-[-15px]' : '') } sm:left-1/2 w-[200px] flex justify-center sm:ml-[-100px]`}>
+													<ToggleButtonGroup
+														value={changePeriod}
+														exclusive
+														onChange={selectChangePeriod}
+														className='my-2'
+														color="primary"
+														sx={{
+															'& .Mui-selected': { color: 'primary' },
+														}}
+													>
+														<Tooltip title="Last 24 hours" placement="bottom">
+															<ToggleButton value="24h" aria-label="Today" size="medium">
+																Day
+															</ToggleButton>
+														</Tooltip>
+														<Tooltip title="Last 7 days" placement="bottom">
+															<ToggleButton value="7d" aria-label="Week" size="medium">
+																Week
+															</ToggleButton>
+														</Tooltip>
+														<Tooltip title="Last 30 days" placement="bottom">
+															<ToggleButton value="30d" aria-label="Month" size="medium">
+																Month
+															</ToggleButton>
+														</Tooltip>
+													</ToggleButtonGroup>
+											</div>
+											{favoriteTokenIds.length > 0 && (
+													<div className={`absolute ${isWindowUnder420 ? 'right-0' : 'right-[15px]'} lg:right-[0] top-[75px] transform -translate-y-1/2`}>
+														<FormControlLabel
+															control={
+																<Switch
+																	checked={watchlistOnly}
+																	onChange={(e) => setWatchlistOnly(e.target.checked)}
+																	color="primary"
+																	inputProps={{ 'aria-label': 'Watchlist Filter' }}
+																/>
+															}
+															label={isWindowUnder420 ? "Watchlist" : "Show Watchlist" }
+															labelPlacement="end" // or "start" depending on where you want the label
+														/>
+													</div>
+												)}
 										</div>
 										<div id="bubbleWrapper" ref={bubbleWrapperRef} className={`bubbles ${!loadingState ? 'opacity-100' : 'opacity-0'}`}>
 												{/* Managed by Bubbles class */}
@@ -266,7 +290,13 @@ const BubblesComponent = () => {
 );
 };
 
-export default BubblesComponent;
+const WrappedBubblesComponent = () => (
+  <FavoriteTokensProvider>
+    <BubblesComponent />
+  </FavoriteTokensProvider>
+);
+
+export default WrappedBubblesComponent;
 
 function sumScalesSquared(tokens) {
 	return tokens.reduce((acc, token) => acc + token.scale * token.scale, 0);
@@ -291,20 +321,25 @@ function generatePointsMatrix(containerWidth, containerHeight, step = 10) {
 	return pointsMap;
 }
 
-function filterAndShuffleTokens(array) {
-	// First, sort the array by the .scale property in descending order
-	array.sort((a, b) => b.scale - a.scale);
+function filterTokens(array, watchlistOnly, favoriteTokenIds) {
+	// Apply filters logic here
+	let filteredArray = array;
 
-	// Get the top 50 elements with the highest .scale
-	// const top50 = array.slice(0, 50);
-
-	// Shuffle the elements
-	for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
+	if (watchlistOnly) {
+		filteredArray = filteredArray.filter(token => favoriteTokenIds.includes(token.canister_id)); // Example filter condition
 	}
 
-	return array; // Return the shuffled array of top 50 elements
+	return filteredArray;
+}
+
+function shuffleTokens(array) {
+  // Shuffle the elements
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array; // Return the filtered and shuffled array
 }
 
 function getRandomInt(max) {

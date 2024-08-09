@@ -232,6 +232,43 @@ export const darkTheme = createTheme({
     fontSize: 12
   },
   components: {
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: 'rgba(255, 255, 255, 0.7)', // Default unchecked color
+          '&.Mui-checked': {
+            color: '#ffffff', // Checked color
+          },
+          '& .MuiSvgIcon-root': {
+            fill: 'white', // Ensures the icon itself is white
+          },
+        },
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          '& .MuiSwitch-switchBase': {
+            color: 'rgba(255, 255, 255, 0.7)', // Default unchecked color
+            '&.Mui-checked': {
+              color: '#ffffff', // Checked color
+              '& .MuiSwitch-thumb': {
+                backgroundColor: '#ffffff', // Color of the thumb when checked
+              },
+              '& + .MuiSwitch-track': {
+                backgroundColor: '#ffffff', // Color of the track when checked
+              },
+            },
+            '& .MuiSwitch-thumb': {
+              backgroundColor: 'rgba(255, 255, 255, 0.7)', // Thumb color for unchecked state
+            },
+          },
+          '& .MuiSwitch-track': {
+            backgroundColor: 'rgba(255, 255, 255, 0.3)', // Track color for unchecked state
+          },
+        },
+      },
+    },
     MuiPickersPopper: {
       styleOverrides: {
         paper: {

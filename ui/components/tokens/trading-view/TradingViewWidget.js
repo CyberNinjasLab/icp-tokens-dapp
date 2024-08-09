@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 
-function TradingViewWidget({ symbol }) {
+function TradingViewWidget({ symbol, fullscreen=false }) {
   const container = useRef();
   const chartWrapperRef = useRef();
   const [isFullScreen, setIsFullScreen] = useState(false);

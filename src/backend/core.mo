@@ -9,17 +9,20 @@ import Bool "mo:base/Bool";
 import Debug "mo:base/Debug";
 import Time "mo:base/Time";
 import Nat "mo:base/Nat";
+import Text "mo:base/Text";
 
 actor Core {
   stable var usersRepository : [(Principal, Types.User)] = [];
   stable var portfoliosRepository : [(Principal, [Types.Portfolio])] = [];
   stable var watchlistRepository : [(Principal, [Types.WatchlistId])] = [];
+  stable var tradingViewSavingsRepository : [(Principal, [(Text, Text)])] = [];
 
   stable var nextTransactionId = 1;
 
   let users : Types.UsersList = HashMap.fromIter<Principal, Types.User>(usersRepository.vals(), 10, Principal.equal, Principal.hash);
   let portfolios : Types.PortfoliosList = HashMap.fromIter<Principal, [Types.Portfolio]>(portfoliosRepository.vals(), 10, Principal.equal, Principal.hash);
   let watchlist : Types.Watchlist = HashMap.fromIter<Principal, [Types.WatchlistId]>(watchlistRepository.vals(), 10, Principal.equal, Principal.hash);
+  let tradingViewSavings : Types.TradingViewSavings = HashMap.HashMap<Principal, Types.KeyValueText>(10, Principal.equal, Principal.hash);
 
   // User core logic
   public query func getAllUsers() : async [Types.User] {
@@ -322,11 +325,60 @@ actor Core {
       return newWatchlist;
   };
 
+  // Trading View - Save/Get chart data
+  public shared (msg) func storeTradingViewChartData(key : Text, val : Text) : async (Text, Text) {
+    let savingsResult = tradingViewSavings.get(msg.caller);
+
+    switch (savingsResult) {
+      case (null) {
+        let userSavings : Types.KeyValueText = HashMap.HashMap<Text, Text>(3, Text.equal, Text.hash);
+        userSavings.put(key, val);
+        tradingViewSavings.put(msg.caller, userSavings);
+      };
+      case(?userSavings) {
+        userSavings.put(key, val);
+        tradingViewSavings.put(msg.caller, userSavings);
+      }
+    };
+
+    return (key, val)
+  };
+
+  public shared query (msg) func getTradingViewChartData(key : Text) : async ?(Text, Text) {
+    let savingsResult = tradingViewSavings.get(msg.caller);
+
+    switch (savingsResult) {
+      case (null) {
+        return null;
+      };
+      case(?userSavings) {
+        let resultByKey = userSavings.get(key);
+        switch (resultByKey) {
+          case (null) {
+            return null;
+          };
+          case (?result) {
+            return ?(key, result);
+          };
+        };
+      };
+    };
+  };
+
   // Actions before upgrade the canister
   system func preupgrade() {
     usersRepository := Iter.toArray(users.entries());
     portfoliosRepository := Iter.toArray(portfolios.entries());
     watchlistRepository := Iter.toArray(watchlist.entries());
+
+    let tradingViewEntries : HashMap.HashMap<Principal, [(Text, Text)]> = HashMap.HashMap<Principal, [(Text, Text)]>(10, Principal.equal, Principal.hash);
+
+    for ((key: Principal, value: Types.KeyValueText) in tradingViewSavings.entries()) {
+        let ownerDecks : [(Text, Text)] = Iter.toArray<(Text, Text)>(value.entries());
+        tradingViewEntries.put(key, ownerDecks);
+    };
+
+    tradingViewSavingsRepository := Iter.toArray(tradingViewEntries.entries());
   };
 
   // Actions after canister upgrade
@@ -334,5 +386,13 @@ actor Core {
     usersRepository := [];
     portfoliosRepository := [];
     watchlistRepository := [];
+
+    for ((key: Principal, value: [(Text, Text)]) in tradingViewSavingsRepository.vals()) {
+        let ownerDecks: Types.KeyValueText = HashMap.fromIter<Text, Text>(Iter.fromArray<(Text, Text)>(value), 10, Text.equal, Text.hash);
+
+        tradingViewSavings.put(key, ownerDecks);
+    };
+    
+    tradingViewSavingsRepository := [];
   };
 }

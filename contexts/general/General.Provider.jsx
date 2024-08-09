@@ -128,7 +128,10 @@ const GeneralContextProvider = ({ children }) => {
   }
 
   const formatTotalSupply = (data) => {
-    return  Math.round(data.total_supply / Math.pow(10, data.decimals)).toLocaleString();
+    return  (data.total_supply / Math.pow(10, data.decimals)).toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
   }
   const parseTimestampToUnix = (timestampStr) => {
     // Assuming the input format is "YYYY-MM-DD HH:MM:SS" and should be treated as UTC

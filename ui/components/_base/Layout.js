@@ -1,14 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import Header from './header/Header';
 import Footer from './Footer';
 import ThemeRegistry from '../../../utils/ThemeRegistry';
-import { GeneralContext } from '../../../contexts/general/General.Context';
 
 const Layout = ({ children, footer=true }) => {
-  const {currency} = useContext(GeneralContext);
-  const [timeframe, setTimeFrame] = useState('24h');
-  
-
   return (
     <div>
       <ThemeRegistry options={{ key: 'mui-theme' }}>
