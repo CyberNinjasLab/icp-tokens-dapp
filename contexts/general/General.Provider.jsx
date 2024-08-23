@@ -45,13 +45,35 @@ const GeneralContextProvider = ({ children }) => {
       return '';
     }
 
-    if (value >= 1 && value < 10) {
-      result = parseFloat(value).toFixed(4);
-    } else if (value >= 10 && value <= 200) {
-      result = parseFloat(value).toFixed(2);
-    } else if (value > 200) {
-      result = parseFloat(value).toFixed(0);
-    } else {
+    if (value >= 1) {
+        result = parseFloat(value).toFixed(2);
+    } else if (value >= 0.1) {
+        result = parseFloat(value).toFixed(3);
+    } else if (value >= 0.01) {
+        result = parseFloat(value).toFixed(4);
+    } else if (value >= 0.001) {
+        result = parseFloat(value).toFixed(5);
+    } else if (value >= 0.0001) {
+        result = parseFloat(value).toFixed(6);
+    } else if (value >= 0.00001) {
+        result = parseFloat(value).toFixed(7);
+    } else if (value >= 0.000001) {
+        result = parseFloat(value).toFixed(8);
+    } else if (value >= 0.0000001) {
+        result = parseFloat(value).toFixed(9);
+    } else if (value >= 0.00000001) {
+        result = parseFloat(value).toFixed(10);
+    } else if (value >= 0.000000001) {
+        result = parseFloat(value).toFixed(11);
+    } else if (value >= 0.0000000001) {
+        result = parseFloat(value).toFixed(12);
+    } else if (value >= 0.00000000001) {
+        result = parseFloat(value).toFixed(13);
+    } else if (value >= 0.000000000001) {
+        result = parseFloat(value).toFixed(14);
+    }
+
+    if(value < 1) {
       const matches = value.toString().match(/0\.(0*?[1-9]{1})(\d{0,2})/);
       result = matches ? matches[0] : value.toString();
 
@@ -60,7 +82,11 @@ const GeneralContextProvider = ({ children }) => {
       }
     }
 
-    result = showPriceCurrency(result.toLocaleString());
+    if(value >= 1000) {
+      result = new Intl.NumberFormat('en-US').format(result);
+    }
+
+    result = showPriceCurrency(result);
 
     return result;
   };
@@ -95,29 +121,29 @@ const GeneralContextProvider = ({ children }) => {
       } else if (absolutePrice >= 1) {
           roundedPrice = price.toFixed(2);
       } else if (absolutePrice >= 0.1) {
-          roundedPrice = price.toFixed(2);
-      } else if (absolutePrice >= 0.01) {
           roundedPrice = price.toFixed(3);
-      } else if (absolutePrice >= 0.001) {
+      } else if (absolutePrice >= 0.01) {
           roundedPrice = price.toFixed(4);
-      } else if (absolutePrice >= 0.0001) {
+      } else if (absolutePrice >= 0.001) {
           roundedPrice = price.toFixed(5);
-      } else if (absolutePrice >= 0.00001) {
+      } else if (absolutePrice >= 0.0001) {
           roundedPrice = price.toFixed(6);
-      } else if (absolutePrice >= 0.000001) {
+      } else if (absolutePrice >= 0.00001) {
           roundedPrice = price.toFixed(7);
-      } else if (absolutePrice >= 0.0000001) {
+      } else if (absolutePrice >= 0.000001) {
           roundedPrice = price.toFixed(8);
-      } else if (absolutePrice >= 0.00000001) {
+      } else if (absolutePrice >= 0.0000001) {
           roundedPrice = price.toFixed(9);
-      } else if (absolutePrice >= 0.000000001) {
+      } else if (absolutePrice >= 0.00000001) {
           roundedPrice = price.toFixed(10);
-      } else if (absolutePrice >= 0.0000000001) {
+      } else if (absolutePrice >= 0.000000001) {
           roundedPrice = price.toFixed(11);
-      } else if (absolutePrice >= 0.00000000001) {
+      } else if (absolutePrice >= 0.0000000001) {
           roundedPrice = price.toFixed(12);
-      } else if (absolutePrice >= 0.000000000001) {
+      } else if (absolutePrice >= 0.00000000001) {
           roundedPrice = price.toFixed(13);
+      } else if (absolutePrice >= 0.000000000001) {
+          roundedPrice = price.toFixed(14);
       } else {
           return price.toString(); // For very small numbers, return the full string of the original price
       }

@@ -4,14 +4,16 @@ import useFetchTokens from '../ui/hooks/token/useFetchTokens';
 import { useLoading } from '../contexts/general/Loading.Provider';
 import { GeneralContext } from '../contexts/general/General.Context';
 import useDebouncedResize from '../ui/hooks/useDebouncedResize';
-import { FormControlLabel, Switch, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import { Box, Button, FormControlLabel, Modal, Switch, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
 import useWindowWidthUnder from '../ui/hooks/useWindowWidthUnder';
 import Head from 'next/head';
 import { FavoriteTokensProvider, useFavoriteTokens } from '../contexts/general/FavoriteTokensProvider';
+import SettingsIcon from '@mui/icons-material/Settings';
+import useLocalStorage from '../ui/hooks/useLocalStorage';
 
 class Bubble {
-	constructor(x, y, token, radius, color, currency, changePeriod, router, buffer) {
+	constructor(x, y, token, radius, color, currency, changePeriod, bubbleValue, router, buffer, formatPrice) {
 			this.x = x;
 			this.y = y;
 			this.radius = radius;
@@ -19,16 +21,23 @@ class Bubble {
 			this.color = color;
 			this.currency = currency;
 			this.changePeriod = changePeriod;
+			this.bubbleValue = bubbleValue;
 			this.router = router;
 			this.buffer = buffer;
+			this.formatPrice = formatPrice; // Add formatPrice to constructor
 			this.element = document.createElement('div');
 			this.init();
 	}
 
 	init() {
+			// Set bubble bold class, based on scale
 			let extraClass = this.token.scale > 0.8 ? ('bold-' + this.color) : '';
 			extraClass = this.token.scale > 1 ? ('bolder-' + this.color) : extraClass;
 			extraClass = this.token.scale > 1.36 ? ('bolder2-' + this.color) : extraClass;
+
+			// Set small bubble class based on scale (the idea is to hide the Logo)
+			extraClass += this.token.scale < 0.45 ? ' small-bubble' : '';
+
 			this.element.className = 'bubble ' + this.color + ' ' + extraClass;
 			this.element.style.scale = this.radius / 50;
 			this.element.style.left = `${this.x}px`;
@@ -46,8 +55,14 @@ class Bubble {
 
 			const value = document.createElement('span');
 			value.className = 'value';
-			value.innerText = this.token.metrics.change[this.changePeriod][this.currency] + '%';
-			// value.element.style.color = this.color;
+			
+			// Dynamically set value based on bubbleValue
+			if (this.bubbleValue === 'change') {
+					value.innerText = this.token.metrics.change[this.changePeriod][this.currency] + '%';
+			} else {
+					value.innerText = this.formatPrice(this.token.metrics.price[this.currency]); // Use formatPrice
+			}
+
 			this.element.appendChild(value);
 	}
 
@@ -107,7 +122,7 @@ const BubblesComponent = () => {
 	const bubbleWrapperRef = useRef(null);
 	const { data: tokensData, loaded, error, refetch } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens`);
 	const { setLoadingState, loadingState } = useLoading();
-	const { currency } = useContext(GeneralContext);
+	const { currency, theme, formatPrice } = useContext(GeneralContext);
 	const [changePeriod, setChangePeriod] = useState('24h');
 	const [radiusReducer, setRadiusReducer] = useState(1);
 	const router = useRouter();
@@ -132,6 +147,18 @@ const BubblesComponent = () => {
 		setLoadingState(true);
 		setChangePeriod(newPeriod)
 	}
+
+	// Settings logic
+	const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+	const [bubbleValue, setBubbleValue] = useLocalStorage('bubbleValue', 'change');
+
+	const openSettingsModal = () => {
+			setIsSettingsModalOpen(true);
+	};
+
+	const closeSettingsModal = () => {
+			setIsSettingsModalOpen(false);
+	};
 
 	useDebouncedResize(() => {
     console.log("Resized window, refetching tokens...");
@@ -186,7 +213,19 @@ const BubblesComponent = () => {
 							for (const [key, value] of pointsMatrix.entries()) {
 								let hasCollision = false;
 								const color = token.metrics.change[changePeriod][currency] >= 0 ? 'green' : 'red';
-								const bubble = new Bubble(value.x + radius, value.y + radius, token, radius, color, currency, changePeriod, router, isWindowUnder800 ? 3 : 7);
+								const bubble = new Bubble(
+										value.x + radius,
+										value.y + radius,
+										token,
+										radius,
+										color,
+										currency,
+										changePeriod,
+										bubbleValue, // Pass bubbleValue here
+										router,
+										isWindowUnder800 ? 3 : 7,
+										formatPrice
+								);
 
 								bubbles.addBubble(bubble);
 
@@ -220,7 +259,7 @@ const BubblesComponent = () => {
 						}, 500);
 					}
 			}
-	}, [loaded, tokensData, currency, radiusReducer, changePeriod, watchlistOnly, loadingFavorites]);
+	}, [loaded, tokensData, currency, radiusReducer, changePeriod, watchlistOnly, loadingFavorites, bubbleValue]);
 
 	return (
 		
@@ -261,6 +300,24 @@ const BubblesComponent = () => {
 															</ToggleButton>
 														</Tooltip>
 													</ToggleButtonGroup>
+
+													<Tooltip title="Settings" placement="bottom" onClick={openSettingsModal}>
+														<Button
+															sx={{
+																	position: 'absolute',
+																	left: "100%",
+																	top: '50%',
+																	transform: 'translateY(-50%)',
+																	zIndex: 10,
+																	minWidth: 'auto',  // Ensures the button is only as wide as the icon
+																	padding: '10px',    // Optional: Adjust padding for better touch area
+																	marginLeft: '-12px',
+																	marginTop: '1px'
+															}}
+													>
+															<SettingsIcon />
+													</Button>
+												</Tooltip>
 											</div>
 											{favoriteTokenIds.length > 0 && (
 													<div className={`absolute ${isWindowUnder420 ? 'right-0' : 'right-[15px]'} lg:right-[0] top-[75px] transform -translate-y-1/2`}>
@@ -285,6 +342,43 @@ const BubblesComponent = () => {
 									</>
 								)}
 						</div>
+
+						{/* Settings Modal */}
+						<Modal open={isSettingsModalOpen} onClose={closeSettingsModal} style={{
+							zIndex: 999999
+						}}>
+							<Box sx={{
+									position: 'absolute',
+									top: '50%',
+									left: '50%',
+									transform: 'translate(-50%, -50%)',
+									maxWidth: 400,  // Sets the width of the modal
+									width: '100%',
+									bgcolor: theme == 'dark' ? '#0f0f26' : 'background.paper',
+									boxShadow: 24,
+									p: 4,
+									borderRadius: 0,
+									maxHeight: '100vh',
+									overflowY: 'auto',
+							}}>
+									<h2 className='h1 mb-2'>Bubble Content</h2>
+									<ToggleButtonGroup
+											exclusive
+											value={bubbleValue}
+											onChange={(e, newValue) => setBubbleValue(newValue)}
+											aria-label="Settings Option"
+											fullWidth
+									>
+											<ToggleButton value="change">Price Change</ToggleButton>
+											<ToggleButton value="price">Current Price</ToggleButton>
+									</ToggleButtonGroup>
+
+									<div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+											<Button variant="contained" onClick={closeSettingsModal}>Close Settings</Button>
+									</div>
+							</Box>
+					</Modal>
+
 				</Layout>
 			</>
 );

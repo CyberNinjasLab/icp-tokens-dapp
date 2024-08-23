@@ -64,35 +64,42 @@ const Search = () => {
       setSearchResults([]);
       return;
     }
-
+  
     const lowerCaseQuery = query.toLowerCase();
-
-    const filteredResults = tokens.filter(token => 
-      token.name?.toLowerCase().includes(lowerCaseQuery) ||
-      token.symbol?.toLowerCase().includes(lowerCaseQuery) ||
-      token.canister_id?.toLowerCase().includes(lowerCaseQuery) ||
-      token.display_name?.toLowerCase().includes(lowerCaseQuery)
-    );
-
-    const sortedResults = filteredResults.sort((a, b) => {
-      const aMatches = [
-        a.name?.toLowerCase().includes(lowerCaseQuery) || false,
-        a.symbol?.toLowerCase().includes(lowerCaseQuery) || false,
-        a.canister_id?.toLowerCase().includes(lowerCaseQuery) || false,
-        a.display_name?.toLowerCase().includes(lowerCaseQuery) || false
-      ].filter(Boolean).length;
-
-      const bMatches = [
-        b.name?.toLowerCase().includes(lowerCaseQuery) || false,
-        b.symbol?.toLowerCase().includes(lowerCaseQuery) || false,
-        b.canister_id?.toLowerCase().includes(lowerCaseQuery) || false,
-        b.display_name?.toLowerCase().includes(lowerCaseQuery) || false
-      ].filter(Boolean).length;
-
-      return bMatches - aMatches;
+  
+    // Separate exact matches
+    const exactMatches = [];
+    const otherMatches = [];
+  
+    tokens.forEach((token) => {
+      const isExactMatch =
+        token.name?.toLowerCase() === lowerCaseQuery ||
+        token.symbol?.toLowerCase() === lowerCaseQuery ||
+        token.canister_id?.toLowerCase() === lowerCaseQuery;
+  
+      if (isExactMatch) {
+        exactMatches.push(token);
+      } else if (
+        token.name?.toLowerCase().includes(lowerCaseQuery) ||
+        token.symbol?.toLowerCase().includes(lowerCaseQuery) ||
+        token.canister_id?.toLowerCase().includes(lowerCaseQuery) ||
+        token.display_name?.toLowerCase().includes(lowerCaseQuery)
+      ) {
+        otherMatches.push(token);
+      }
     });
-
-    setSearchResults(sortedResults);
+  
+    // Sort other matches by rank or other criteria if needed
+    const sortedOtherMatches = otherMatches.sort((a, b) => {
+      const aRank = a.rank || 0; // Assuming there's a rank property
+      const bRank = b.rank || 0;
+      return aRank - bRank;
+    });
+  
+    // Combine exact matches with the sorted other matches
+    const finalResults = [...exactMatches, ...sortedOtherMatches];
+  
+    setSearchResults(finalResults);
   };
 
   useEffect(() => {
@@ -180,7 +187,7 @@ const Search = () => {
       </Tooltip>
 
       {searchWrapVisible && (
-        <div ref={dropdownRef} className='fixed w-full min-h-[40px] top-0 sm:p-0 p-2 sm:absolute left-0 sm:top-[-6px] sm:w-[320px] bg-white dark:bg-dark-bg z-[1000] sm:mt-[10px]' >
+        <div ref={dropdownRef} className='fixed w-full min-h-[40px] h-full sm:h-auto top-0 sm:p-0 p-2 sm:absolute left-0 sm:top-[-6px] sm:w-[320px] bg-white dark:bg-dark-bg z-[1000] sm:mt-[10px]' >
           <div className='relative'>
           <TextField
             inputRef={inputRef}
@@ -191,8 +198,8 @@ const Search = () => {
             variant="outlined"
             fullWidth
             size='small'
-            inputProps={{style: {fontSize: 14}}} // font size of input text
-            InputLabelProps={{style: {fontSize: 14}}} // font size of input label
+            inputProps={{style: {fontSize: isWindowUnder640 ? 16 : 14}}} // font size of input text
+            InputLabelProps={{style: {fontSize: isWindowUnder640 ? 16 : 14}}} // font size of input label
             sx={{
               '& .MuiOutlinedInput-root': {
                 '&.Mui-focused fieldset': {

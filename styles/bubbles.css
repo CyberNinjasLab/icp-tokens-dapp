@@ -30,6 +30,15 @@ overflow: hidden;
 animation-fill-mode: forwards;
 }
 
+#bubbleWrapper .bubble.small-bubble .symbol {
+  top: 45%;
+  font-size: 20px;
+}
+#bubbleWrapper .bubble.small-bubble .value {
+  font-size: 16px;
+  bottom: 15px;
+}
+
 .dark #bubbleWrapper .bubble {
   color: #fff !important;
 }

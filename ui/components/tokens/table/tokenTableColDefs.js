@@ -40,7 +40,6 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       field: 'name',
       headerName: 'Name',
       cellRenderer: TokenLogoAndName,
-      filter: true,
       width: `${isWindowUnder800 ? 101 : isWindowUnder1370 ? 248 : 280}`,
       pinned: isWindowUnder1370 ? 'left' : null,
       cellStyle: {

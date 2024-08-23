@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Layout from '../ui/components/_base/Layout';
+import Link from 'next/link';
+import { Button } from '@mui/material';
 
 const HowItWorks = () => {
 	return (
@@ -19,21 +21,25 @@ const HowItWorks = () => {
 
           <h2 className='text-lg font-semibold mt-10'>Building with Love ❤️</h2>
           <p className='mt-6'>
-          To bring this project to life, we chose not to raise funds or tokenize from day one. The idea is to first satisfy needs and demonstrate that we <b>bring real value to the network</b> before taking any further steps. This dedication ensures that we will build a strong foundation for future growth and innovation within the community.
+          To bring this project to life, we chose not to raise funds or tokenize from day one. We strive to <b>bring real value to the network</b> before taking any further steps, ensuring a strong foundation and a community incentivised by love, vision and purpose...
           </p>
           <h2 className='text-lg font-semibold mt-10'>Our Mission 🎯</h2>
           <p className='mt-6'>
-          The platform&apos;s goal is to create an <b>all-in-one tool for future and current investors</b> in the #ICP ecosystem. Our mission is to build a bridge that fills the gap between tokens and the user base.
+          The platform&apos;s goal is to create an <b>all-in-one tool for investors</b> in the ICP ecosystem. Our mission is to be a bridge for everything ICP can offer.
           </p>      
 
           <h2 className='text-lg font-semibold mt-10'>Our Vision 👇</h2>    
           <p className='mt-6'>
-          ICP Tokens aims to become <b>a project driven and guided by the community</b> through a DAO model. We believe that collective effort, volunteerism, and participation in this cause provide the energy needed to be pioneers in the crypto space! Together, we are shaping the future, creating unique conditions for collaboration and development!
+          ICP Tokens aims to become a project driven and guided by the community through a DAO model. We believe that collective effort, volunteerism, and participation in this cause provide the energy needed to be pioneers in the crypto space! <b>Together we shape the future.</b>
           </p>
 
-          <blockquote className="text-lg font-semibold mt-16 italic border-l-4 border-blue-500 pl-4 dark:bg-black/25 bg-black/5 p-4">
-            &quot;Build the Tools, Shape the Future!&quot;
-          </blockquote>
+          {/* <blockquote className="text-lg text-center font-semibold mt-6 italic border-l-4 border-blue-500 pl-4 dark:bg-black/25 bg-black/5 p-4">
+            &quot;Together we shape the future.&quot;
+          </blockquote> */}
+
+          <Link href="https://oc.app/community/5bgep-3aaaa-aaaar-a3toq-cai/" target='_blank' className='sm:mt-16 mt-12 text-center scale-125 block'>
+            <Button variant="contained" size='large'>🚨 We are recruiting 🚨</Button>
+          </Link>
         </div>
       </Layout>
     </>

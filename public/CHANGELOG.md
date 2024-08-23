@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file
 
-## v0.7.0
+## v0.8.0 Bubbles Settings
+_August 23, 2024_
+
+### Added
+- **Change Bubble Content**: Users can now customize bubble content (Price or Change) via the Settings button, accessed through a modal.
+
+### Improved
+- **Token Price Formatting**: Enhanced the formatting of token prices for better readability and consistency.
+
+## v0.7.0 Search Tokens
 _August 9, 2024_
 
 ### Added
@@ -12,7 +21,7 @@ _August 9, 2024_
 - **About Us Page**: Updated the content for better clarity and engagement.
 - **Site Header Optimization**: Optimized the site header for better usability on tablets and mobile devices.
 
-## v0.6.0
+## v0.6.0 Bubbles Watchlist
 _August 1, 2024_
 
 ### Added
@@ -20,7 +29,7 @@ _August 1, 2024_
   - **Filter by Watchlist**: The idea is to display only the items in the user's watchlist.
 - **Save Button (Trading View Charts)**: Users can now save their chart drawings directly via Internet Identity. When logged in, the drawings are stored on-chain; otherwise, the data is saved in the browser's local storage.
 
-## v0.5.0
+## v0.5.0 Advanced Charts
 _June 21, 2024_
 
 ### Added
@@ -30,7 +39,7 @@ _June 21, 2024_
 ### Improved
 - **SNS Tokens Migration**: OGY, Motoko, ICL tokens have been migrated.
 
-## v0.4.0
+## v0.4.0 Bubble Chart
 _June 14, 2024_
 
 ### Added
@@ -39,7 +48,7 @@ _June 14, 2024_
 - **Main Navigation Cosmetics**: Added a prominent 'Bubbles' button to the main navigation.
 - **Footer Cosmetics**: Updated the footer design for a cleaner look.
 
-## v0.3.0
+## v0.3.0 Wallets Page
 _May 20, 2024_
 
 ### Added
