@@ -1,6 +1,7 @@
 class TradingViewSaveLoadAdapter {
-  constructor(contract, backendCoreActor, isAuthenticated) {
+  constructor(contract, currency, backendCoreActor, isAuthenticated) {
     this._contract = contract;
+    this._currency = currency;
     this._backendCoreActor = backendCoreActor;
     this._isAuthenticated = isAuthenticated;
     this._isDirty = false;
@@ -169,19 +170,19 @@ class TradingViewSaveLoadAdapter {
 
   async _getFromStorage(key) {
     if (this._isAuthenticated) {
-      const data = await this._backendCoreActor.getTradingViewChartData(key + '_' + this._contract);
+      const data = await this._backendCoreActor.getTradingViewChartData(key + '_' + this._contract + '_' + this._currency);
       return data && data.length ? JSON.parse(data[0][1]) : null;
     } else {
-      const data = window.localStorage.getItem(key + '_' + this._contract);
+      const data = window.localStorage.getItem(key + '_' + this._contract + '_' + this._currency);
       return data ? JSON.parse(data) : null;
     }
   }
 
   async _saveToStorage(key, data) {
     if (this._isAuthenticated) {
-      await this._backendCoreActor.storeTradingViewChartData(key + '_' + this._contract, JSON.stringify(data));
+      await this._backendCoreActor.storeTradingViewChartData(key + '_' + this._contract + '_' + this._currency, JSON.stringify(data));
     } else {
-      window.localStorage.setItem(key + '_' + this._contract, JSON.stringify(data));
+      window.localStorage.setItem(key + '_' + this._contract + '_' + this._currency, JSON.stringify(data));
     }
   }
 
