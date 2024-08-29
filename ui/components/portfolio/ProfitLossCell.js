@@ -7,17 +7,17 @@ import PriceMovementIndicator from '../tokens/PriceMovementIndicator';
 // Define the component
 const ProfitLossCell = ({ value }) => {
   const { formatPrice } = useContext(GeneralContext);
-  const { currentFunds, investedFunds } = value.portfolio;
+  const { currentFunds, buySum } = value.portfolio;
   
   // Calculate absolute profit or loss
-  const profitOrLoss = currentFunds - investedFunds;
+  const profitOrLoss = currentFunds - buySum;
   let isProfit = profitOrLoss >= 0;
   
   // Format the profit/loss value
   const formattedProfitOrLoss = formatPrice(Math.abs(profitOrLoss));
 
   // Calculate price movement percentage
-  const priceMovement = (investedFunds !== 0) ? (profitOrLoss / investedFunds * 100) : 0;
+  const priceMovement = (buySum !== 0) ? (profitOrLoss / buySum * 100) : 0;
   const formattedPriceMovement = parseFloat(priceMovement.toFixed(2)); // Round to two decimal places
 
   return (

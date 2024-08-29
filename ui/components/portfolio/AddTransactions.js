@@ -1,14 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { Modal, TextField, Button, ToggleButtonGroup, ToggleButton, Autocomplete, Box, createMuiTheme, createTheme } from '@mui/material';
+import { Modal, TextField, Button, ToggleButtonGroup, ToggleButton, Autocomplete, Box, createTheme } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import useFetchTokens from '../../hooks/token/useFetchTokens';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import usePriceNearTimestamp from '../../hooks/token/usePriceNearTimestamp';
-import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 import { ThemeProvider } from '@emotion/react';
-
 
 const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selectedCoinId }) => {
     const { setLoadingState } = useLoading();
@@ -16,13 +14,13 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const [coin, setCoin] = useState(null);
     const [quantity, setQuantity] = useState('');
     const [pricePerCoin, setPricePerCoin] = useState('');
-    const [icpPricePerCoin, setIcpPricePerCoin] = useState('');
     const [date, setDate] = useState(null);
     const [pickerOpen, setPickerOpen] = useState(false);
     const [tempDate, setTempDate] = useState(null);
     const [note, setNote] = useState('');
-    const { getTokenName, showPriceCurrency, roundPrice, theme, currency } = useContext(GeneralContext);
-    const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
+    const { getTokenName, showPriceCurrency, roundPrice, theme } = useContext(GeneralContext);
+    const { fetchPricesNearTimestamps } = usePriceNearTimestamp();
+    const [currency, setCurrency] = useState('usd');
 
     const datePickerTheme = createTheme({
         palette: {
@@ -102,38 +100,35 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                 try {
                     setLoadingState(true);
 
-                    let priceData, priceDataICP;
+                    const timestamp = Math.floor(date.toDate().getTime() / 1000);
 
-                    // If the selected coin is ICP set ICP price to 1 (no need external request)
-                    if (coin.canister_id === 'ryjl3-tyaaa-aaaaa-aaaba-cai' && currency == 'icp') {
-                        priceData, priceDataICP = {
-                            value: 1
-                        };
-                    } else {
-                        priceData = await fetchPriceNearTimestamp(coin.canister_id, Math.floor(date.toDate().getTime() / 1000), currency);
-                        if(coin.canister_id === 'ryjl3-tyaaa-aaaaa-aaaba-cai') {
-                            priceDataICP = {
-                                value: 1
-                            };
-                        } else {
-                            priceDataICP = currency == 'icp' ? priceData : await fetchPriceNearTimestamp(coin.canister_id, Math.floor(date.toDate().getTime() / 1000), 'icp');
-                        }
+                    // Prepare the requests array
+                    const requests = [
+                        { canister_id: coin.canister_id, timestamp, currency },
+                    ];
+
+                    if (coin.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' && currency !== 'icp') {
+                        requests.push({ canister_id: coin.canister_id, timestamp, currency: 'icp' });
                     }
-                    
-                    setLoadingState(false);
-                    priceData = roundPrice(parseFloat(priceData.value));
-                    priceDataICP = roundPrice(parseFloat(priceDataICP.value));
 
-                    setPricePerCoin(priceData.toString());
-                    setIcpPricePerCoin(priceDataICP.toString());
+                    // Fetch prices in a batch request
+                    const prices = await fetchPricesNearTimestamps(requests);
+
+                    if (prices && prices.length > 0) {
+                        const priceData = roundPrice(parseFloat(prices[0]?.value || 0));
+                        setPricePerCoin(priceData.toString());
+                    }
+
+                    setLoadingState(false);
                 } catch (error) {
                     console.error('Error fetching price:', error);
+                    setLoadingState(false);
                 }
             }
         };
 
         fetchPrice();
-    }, [coin, date]);
+    }, [coin, date, currency]);
 
     // Effect to handle selectedCoinId
     useEffect(() => {
@@ -141,9 +136,17 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
             const selectedCoin = coins.data.find(coin => coin.canister_id === selectedCoinId);
             if (selectedCoin) {
                 setCoin(selectedCoin);
+                setCurrency(selectedCoinId == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
             }
         }
     }, [selectedCoinId, coins, loaded]);
+
+    const handleAutocompleteChange = (event, newValue) => {
+        setCoin(newValue);
+        if(newValue) {
+            setCurrency(newValue.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
+        }
+    };
 
     // Calculate total spent dynamically
     const totalSpent = roundPrice(parseFloat(quantity) * parseFloat(pricePerCoin));
@@ -156,7 +159,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                 id: 0,
                 canister_id: coin.canister_id,
                 quantity: parseFloat(quantity),
-                price_per_token: parseFloat(icpPricePerCoin),
+                price_per_token: coin.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 1 : parseFloat(pricePerCoin),
                 timestamp: Math.floor(date.toDate().getTime() / 1000),
                 note: note,
                 direction: transactionType === 'buy'
@@ -200,7 +203,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     <Autocomplete
                         readOnly={selectedCoinId}
                         options={loaded ? coins.data : []}
-                        getOptionLabel={(option) => getTokenName(option)}  // Adjust if your data structure requires\
+                        getOptionLabel={(option) => getTokenName(option)}  // Adjust if your data structure requires
                         getOptionKey={(option) => option.canister_id}
                         renderOption={(props, option) => {
                             return (
@@ -226,7 +229,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                           }}
                         renderInput={(params) => <TextField {...params} label="Select Coin" fullWidth />}
                         value={coin}
-                        onChange={(event, newValue) => setCoin(newValue)}
+                        onChange={handleAutocompleteChange}
                         sx={{ my: 2 }}
                         disabled={!loaded || error}  // Disable if not loaded or if there's an error
                         disablePortal
@@ -275,6 +278,9 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     fullWidth
                     value={pricePerCoin}
                     onChange={(e) => setPricePerCoin(e.target.value)}
+                    InputProps={{
+                        readOnly: coin?.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+                    }}
                     sx={{ my: 2 }}
                 />
                 <TextField

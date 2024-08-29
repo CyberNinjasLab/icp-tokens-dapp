@@ -20,7 +20,7 @@ const Transactions = () => {
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
     const { currency } = useContext(GeneralContext);
     const [showTransactionModal, setShowTransactionModal] = useState(false);
-    const { setLoadingState, loadingState } = useLoading();
+    const { setLoadingState } = useLoading();
     const { data: tokens, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens?list_all=true`);
     const [token, setToken] = useState({});
     const [transactions, setTransactions] = useState([]);
@@ -131,7 +131,7 @@ const Transactions = () => {
                     ) }
                 </div>
                 { !isAuthenticated && <LoginMessage /> }
-                { isAuthenticated && !loadingState && loaded && summaries.tokens && (
+                { isAuthenticated && loaded && summaries.tokens && (
                     <div>
                         {showTransactionModal && (
                             <AddTransaction

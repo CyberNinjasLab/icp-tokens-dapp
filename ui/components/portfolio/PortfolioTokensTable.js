@@ -76,20 +76,6 @@ function PortfolioTokensTable({ tokens }) {
         };
       }
     },
-
-    {
-      field: `portfolio.investedFunds`,
-      headerName: 'Investments',
-      width: isWindowUnder1370 ? 120 : 160,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
-      cellRendererSelector: params => {
-        return {
-          component: DefaultCell,
-          params: {value: formatPrice(params.value)}
-        };
-      }
-    },
     {
       field: ``,
       headerName: 'Profit/Loss',
