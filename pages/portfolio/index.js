@@ -28,6 +28,10 @@ const Portfolio = () => {
         try {
             let portfoliosData = await backendCoreActor.getPortfolios();
 
+            if (!portfoliosData.length) {
+                portfoliosData = [await createPortfolio('Main')];
+            }
+
             if (portfoliosData.length && portfoliosData[0].length) {
                 await summarizeTransactions(portfoliosData[0][0].transactions);
             }
@@ -35,6 +39,15 @@ const Portfolio = () => {
             console.error('Error fetching portfolios or summarizing transactions:', error);
         } finally {
             setLoadingState(false);
+        }
+    };
+
+    const createPortfolio = async (name) => {
+        try {
+            return await backendCoreActor.createPortfolio(name);
+            // Optionally refresh the portfolio list or add to state directly
+        } catch (err) {
+            console.error(err.message);
         }
     };
 
