@@ -40,7 +40,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       field: 'name',
       headerName: 'Name',
       cellRenderer: TokenLogoAndName,
-      width: `${isWindowUnder800 ? 101 : isWindowUnder1370 ? 248 : 280}`,
+      width: `${isWindowUnder800 ? 101 : isWindowUnder1370 ? 248 : 295}`,
       pinned: isWindowUnder1370 ? 'left' : null,
       cellStyle: {
         'padding': isWindowUnder800 ? '0px 5px 0 0' : '0px 15px'
@@ -49,8 +49,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
     {
       field: `metrics.price.${currency}`,
       headerName: 'Price',
-      flex: 1,
-      minWidth: isMobile ? 124 : isWindowUnder1370 ?140 : 110,
+      width: 130,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {

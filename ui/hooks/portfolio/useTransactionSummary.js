@@ -4,7 +4,12 @@ import usePriceNearTimestamp from '../token/usePriceNearTimestamp';
 
 const useTransactionSummary = (tokens, currency) => {
     const { parseTokensByCanisterId, roundPrice } = useContext(GeneralContext);
-    const [summaries, setSummaries] = useState({});
+    const [summaries, setSummaries] = useState({
+        tokens: [],
+        totalInvested: 0, 
+        totalCurrentFunds: 0,
+        totalQuantity: 0
+    });
     const { fetchPricesNearTimestamps } = usePriceNearTimestamp();
 
     const summarizeTransactions = async (transactions) => {

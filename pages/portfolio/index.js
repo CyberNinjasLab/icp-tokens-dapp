@@ -64,7 +64,7 @@ const Portfolio = () => {
                         )}
                     </div>
                     { !isAuthenticated && <LoginMessage /> }
-                    { isAuthenticated && loaded && summaries.tokens && (
+                    { isAuthenticated && loaded && (
                         <div>
                             {showTransactionModal && (
                                 <AddTransaction
