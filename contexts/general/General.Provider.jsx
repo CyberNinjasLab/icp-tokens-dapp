@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { GeneralContext } from './General.Context';
+import useLocalStorage from '../../ui/hooks/useLocalStorage';
 
 const GeneralContextProvider = ({ children }) => {
-  const [currency, setCurrency] = useState('usd'); // Default currency is USD
+  const [currency, setCurrency] = useLocalStorage('usd', 'usd'); // Default currency is USD
   const [theme, setTheme] = useState('dark');  // Default to light
 
   useEffect(() => {
