@@ -16,11 +16,13 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const [coin, setCoin] = useState(null);
     const [quantity, setQuantity] = useState('');
     const [pricePerCoin, setPricePerCoin] = useState('');
+    const [icpPricePerCoin, setIcpPricePerCoin] = useState('');
     const [date, setDate] = useState(null);
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [tempDate, setTempDate] = useState(null);
     const [note, setNote] = useState('');
-    const { getTokenName, showPriceCurrency, roundPrice, theme } = useContext(GeneralContext);
+    const { getTokenName, showPriceCurrency, roundPrice, theme, currency } = useContext(GeneralContext);
     const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
-    const currency = 'icp';
 
     const datePickerTheme = createTheme({
         palette: {
@@ -61,14 +63,69 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
 
     const { data: coins, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens/autocomplete`);
 
+    const handleOpen = () => {
+        setPickerOpen(true);
+    };
+    
+    const handleClose = () => {
+        if (pickerOpen) {
+            setDate(tempDate);  // Set the date when the picker is closed
+        }
+        setPickerOpen(false);
+    };
+    
+    const handleAccept = (newDate) => {
+        setDate(newDate);  // Set the date when "OK" is clicked
+        setPickerOpen(false);
+    };
+    
+    const handleChange = (newDate) => {
+        setTempDate(newDate);
+    };
+    
+    // Debounce effect to update date after typing stops
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (!pickerOpen) {
+                setDate(tempDate);  // Update date when typing stops
+            }
+        }, 1000);  // 500ms debounce time
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [tempDate, pickerOpen]);
+
     useEffect(() => {
         const fetchPrice = async () => {
             if (coin && date) {
                 try {
-                    let priceData = await fetchPriceNearTimestamp(coin.canister_id, Math.floor(date.toDate().getTime() / 1000), currency);
-                    priceData = roundPrice(parseFloat(priceData.close));
+                    setLoadingState(true);
+
+                    let priceData, priceDataICP;
+
+                    // If the selected coin is ICP set ICP price to 1 (no need external request)
+                    if (coin.canister_id === 'ryjl3-tyaaa-aaaaa-aaaba-cai' && currency == 'icp') {
+                        priceData, priceDataICP = {
+                            value: 1
+                        };
+                    } else {
+                        priceData = await fetchPriceNearTimestamp(coin.canister_id, Math.floor(date.toDate().getTime() / 1000), currency);
+                        if(coin.canister_id === 'ryjl3-tyaaa-aaaaa-aaaba-cai') {
+                            priceDataICP = {
+                                value: 1
+                            };
+                        } else {
+                            priceDataICP = currency == 'icp' ? priceData : await fetchPriceNearTimestamp(coin.canister_id, Math.floor(date.toDate().getTime() / 1000), 'icp');
+                        }
+                    }
+                    
+                    setLoadingState(false);
+                    priceData = roundPrice(parseFloat(priceData.value));
+                    priceDataICP = roundPrice(parseFloat(priceDataICP.value));
 
                     setPricePerCoin(priceData.toString());
+                    setIcpPricePerCoin(priceDataICP.toString());
                 } catch (error) {
                     console.error('Error fetching price:', error);
                 }
@@ -99,7 +156,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                 id: 0,
                 canister_id: coin.canister_id,
                 quantity: parseFloat(quantity),
-                price_per_token: parseFloat(pricePerCoin),
+                price_per_token: parseFloat(icpPricePerCoin),
                 timestamp: Math.floor(date.toDate().getTime() / 1000),
                 note: note,
                 direction: transactionType === 'buy'
@@ -178,14 +235,14 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     <ThemeProvider theme={datePickerTheme} >
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
-                                theme={datePickerTheme}
                                 label="Transaction Date"
                                 value={date}
-                                onChange={(newDate) => setDate(newDate)}
+                                onChange={handleChange}
+                                onAccept={handleAccept}
+                                onOpen={handleOpen}
+                                onClose={handleClose}
                                 renderInput={(params) => <TextField {...params} fullWidth />}
-                                sx={{
-                                    width: '100%'
-                                }}
+                                sx={{ width: '100%' }}
                             />
                         </LocalizationProvider>
                     </ThemeProvider>

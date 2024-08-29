@@ -2,9 +2,10 @@ import { useState, useContext } from 'react';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import usePriceNearTimestamp from '../token/usePriceNearTimestamp';
 
-const useTransactionSummary = (tokens) => {
-    const { parseTokensByCanisterId } = useContext(GeneralContext);
+const useTransactionSummary = (tokens, currency) => {
+    const { parseTokensByCanisterId, roundPrice } = useContext(GeneralContext);
     const [summaries, setSummaries] = useState({});
+    const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
 
     const summarizeTransactions = async (transactions) => {
         const tokensByCanisterId = parseTokensByCanisterId(tokens);
@@ -35,7 +36,19 @@ const useTransactionSummary = (tokens) => {
         for (const tokenId of Object.keys(groupedByToken)) {
             const tokenData = groupedByToken[tokenId];
             for (const transaction of tokenData.portfolio.transactions) {
-                const transactionValue = transaction.quantity * transaction.price_per_token;
+                let usdPrice = null;
+
+                // If currency set to USD, get token usd price for the current timestamp:
+                if(currency == 'usd') {
+                    let usdPriceData = await fetchPriceNearTimestamp(transaction.canister_id, transaction.timestamp, currency);
+                    usdPrice = roundPrice(parseFloat(usdPriceData.value));
+                }
+
+                transaction.price_per_token_usd = usdPrice;
+                transaction.price_per_token_icp = transaction.price_per_token;
+
+                const transactionValue = transaction.quantity * (currency == 'usd' ? usdPrice : transaction.price_per_token);
+
                 if (transaction.direction === true) { // Buy
                     tokenData.portfolio.investedFunds += transactionValue;
                     tokenData.portfolio.totalQuantity += transaction.quantity;
@@ -44,8 +57,11 @@ const useTransactionSummary = (tokens) => {
                     tokenData.portfolio.totalQuantity -= transaction.quantity;
                     tokenData.portfolio.realizedProfit += transactionValue;
                 }
-            }
 
+                if(currency == 'usd') {
+                    tokenData.portfolio.investedFunds
+                }
+            }
             // console.log(tokenData.portfolio);
             if (tokenData.portfolio.totalQuantity > 0) {
                 tokenData.portfolio.avgBuyPrice = tokenData.portfolio.investedFunds / tokenData.portfolio.totalQuantity;
@@ -53,7 +69,7 @@ const useTransactionSummary = (tokens) => {
                 tokenData.portfolio.avgBuyPrice = 0;  // Handle zero quantity to avoid division by zero
             }
 
-            const currentMarketValue = tokenData.metrics.price.icp * tokenData.portfolio.totalQuantity;
+            const currentMarketValue = tokenData.metrics.price[currency] * tokenData.portfolio.totalQuantity;
 
             tokenData.portfolio.currentFunds = currentMarketValue;
 

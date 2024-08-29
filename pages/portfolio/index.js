@@ -10,13 +10,41 @@ import useTransactionSummary from '../../ui/hooks/portfolio/useTransactionSummar
 import { useLoading } from '../../contexts/general/Loading.Provider';
 import PortfolioSummary from '../../ui/components/portfolio/PortfolioSummary';
 import Head from 'next/head';
+import { GeneralContext } from '../../contexts/general/General.Context';
 
 const Portfolio = () => {
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
+    const { currency } = useContext(GeneralContext);
     const [showTransactionModal, setShowTransactionModal] = useState(false);
     const { setLoadingState, loadingState } = useLoading();
     const { data: tokens, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens?list_all=true`);
-    const [summaries, summarizeTransactions] = useTransactionSummary(tokens); // Using the custom hook
+    const [summaries, summarizeTransactions] = useTransactionSummary(tokens, currency);
+
+    useEffect(() => {
+        if (summarizeTransactions && tokens) {
+            const resetSummaries = async () => {
+                setLoadingState(true); // Start loading state
+    
+                const portfoliosData = await backendCoreActor.getPortfolios(); // Fetch portfolios again or use existing data
+
+                try {
+                    if (portfoliosData.length && portfoliosData[0].length) {
+                        await summarizeTransactions(portfoliosData[0][0].transactions); // Recalculate summaries with the new currency
+                    }
+                } catch (error) {
+                    console.error('Error summarizing transactions:', error);
+                } finally {
+                    if(portfoliosData.length) {
+                        setTimeout(function() {
+                            setLoadingState(false); // End loading state after summarization is complete
+                        }, 500);
+                    }
+                }
+            };
+    
+            resetSummaries();
+        }
+    }, [currency, tokens]); // Add necessary dependencies
 
     const toggleTransactionModal = () => {
         setShowTransactionModal(!showTransactionModal);
@@ -45,8 +73,8 @@ const Portfolio = () => {
             console.error('Failed to fetch portfolios:', err);
             throw err;
         } finally {
-					setLoadingState(false);
-				}
+            setLoadingState(false);
+        }
     };
 
     useEffect(() => {
@@ -85,19 +113,21 @@ const Portfolio = () => {
                         ) }
                     </div>
                     { !isAuthenticated && <LoginMessage /> }
-                    { isAuthenticated && !loadingState && loaded && summaries.tokens && (
+                    { isAuthenticated && loaded && summaries.tokens && (
                         <div>
                             {showTransactionModal && (
-                                <AddTransaction
-                                    closeModal={toggleTransactionModal}
-                                    fetchPortfolios={fetchPortfolios}
-                                    backendCoreActor={backendCoreActor}
-                            />
-                        )}
-                        <PortfolioSummary summary={summaries} />
-                        <PortfolioTokensTable tokens={summaries.tokens} />
-                    </div>
-                )}
+                                    <AddTransaction
+                                        closeModal={toggleTransactionModal}
+                                        fetchPortfolios={fetchPortfolios}
+                                        backendCoreActor={backendCoreActor}
+                                />
+                            )}
+                            <div className={`${loadingState ? 'opacity-0' : ''}`}>
+                                <PortfolioSummary summary={summaries} />
+                                <PortfolioTokensTable tokens={summaries.tokens}/>
+                            </div>
+                        </div>
+                    )}
             </div>
         </Layout>
         </>

@@ -12,17 +12,19 @@ import PortfolioTransactionsTable from '../../../ui/components/portfolio/Portfol
 import TokenLogoAndName from '../../../ui/components/tokens/TokenLogoAndName';
 import useTransactionSummary from '../../../ui/hooks/portfolio/useTransactionSummary';
 import TokenTransactionsSummary from '../../../ui/components/portfolio/TokenTransactionsSummary';
+import { GeneralContext } from '../../../contexts/general/General.Context';
 
 const Transactions = () => {
     const router = useRouter();
     const { transactionsTokenId } = router.query;
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
+    const { currency } = useContext(GeneralContext);
     const [showTransactionModal, setShowTransactionModal] = useState(false);
     const { setLoadingState, loadingState } = useLoading();
     const { data: tokens, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens?list_all=true`);
     const [token, setToken] = useState({});
-    const [transactions, setTransactions] = useState([])
-    const [summaries, summarizeTransactions] = useTransactionSummary(tokens);
+    const [transactions, setTransactions] = useState([]);
+    const [summaries, summarizeTransactions] = useTransactionSummary(tokens, currency);
 
     const toggleTransactionModal = () => {
         setShowTransactionModal(!showTransactionModal);
@@ -52,7 +54,7 @@ const Transactions = () => {
                 });
                   
                 setTransactions(filteredTransactions); // Update state with sorted transactions
-                summarizeTransactions(filteredTransactions);
+                await summarizeTransactions(filteredTransactions); // Await the summarization
             }
         }
     };
@@ -62,7 +64,6 @@ const Transactions = () => {
 
         try {
             const portfoliosData = await backendCoreActor.getPortfolios(); // Adjust this call based on your backend API
-
             if (!portfoliosData.length) {
                 router.push('/portfolio');
             } else {
@@ -72,7 +73,7 @@ const Transactions = () => {
             console.error('Failed to fetch portfolios:', err);
             throw err;
         } finally {
-            setLoadingState(false);
+            setLoadingState(false); // Ensure loading state is reset after all async operations
             window.scrollTo(0, 0);
         }
     };
@@ -80,13 +81,12 @@ const Transactions = () => {
     useEffect(() => {
         if(loaded && tokens) {
             const currentToken = tokens.find(coin => coin.canister_id === transactionsTokenId);
-            
             setToken(currentToken);
         }
-    }, [loaded, tokens, token]);
+    }, [loaded, tokens, transactionsTokenId]);
 
     useEffect(() => {
-        if(isAuthenticated) {
+        if(isAuthenticated === true) {
             setLoadingState(true);
             fetchPortfolios();
 
@@ -94,9 +94,30 @@ const Transactions = () => {
                 setLoadingState(false);
             }
         } else {
-            router.push('/portfolio');
+            if(isAuthenticated === false) {
+                router.push('/portfolio');
+            }
         }
-    }, [backendCoreActor, isAuthenticated, tokens]); // dependencies updated
+    }, [backendCoreActor, isAuthenticated, tokens, error]);
+
+    // Re-summarize transactions when currency or tokens change
+    useEffect(() => {
+        if (summarizeTransactions && transactions.length > 0) {
+            const resetSummaries = async () => {
+                setLoadingState(true); // Start loading state
+    
+                try {
+                    await summarizeTransactions(transactions); // Recalculate summaries with the new currency
+                } catch (error) {
+                    console.error('Error summarizing transactions:', error);
+                } finally {
+                    setLoadingState(false); // End loading state after summarization is complete
+                }
+            };
+    
+            resetSummaries();
+        }
+    }, [currency, tokens]);
 
     return (
         <Layout>
@@ -110,7 +131,7 @@ const Transactions = () => {
                     ) }
                 </div>
                 { !isAuthenticated && <LoginMessage /> }
-                { isAuthenticated && !loadingState && loaded && (
+                { isAuthenticated && !loadingState && loaded && summaries.tokens && (
                     <div>
                         {showTransactionModal && (
                             <AddTransaction
@@ -126,7 +147,7 @@ const Transactions = () => {
                         <div>
                             <TokenTransactionsSummary summary={summaries} token={token} />
                         </div>
-                        <PortfolioTransactionsTable transactions={transactions} fetchPortfolios={fetchPortfolios} />
+                        <PortfolioTransactionsTable summary={summaries} fetchPortfolios={fetchPortfolios} />
                     </div>
                 )}
             </div>
