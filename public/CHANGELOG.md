@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file
 
+## v0.9.0 Portfolio USD Support
+_August 29, 2024_
+
+### Added
+- **Portfolio USD Support**: Users can now track their tokens in USD, offering a clearer view of their portfolio's value.
+
+### Fixed
+- **Trading View Drawings**: Resolved an issue with Trading View drawings. 
+
+🚨 _Please note that all previously saved drawings have been lost._ 🚨
+
+
 ## v0.8.0 Bubbles Settings
 _August 23, 2024_
 
