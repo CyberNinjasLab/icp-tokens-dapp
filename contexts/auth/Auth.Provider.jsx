@@ -9,7 +9,7 @@ import ThemeRegistry from "../../utils/ThemeRegistry";
 const AuthContextProvider = ({ children }) => {
   const [authClient, setAuthClient] = useState(undefined);
   const [user, setUser] = useState(undefined);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [identity, setIdentity] = useState(null);
   const [backendCoreActor, setBackendCoreActor] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);

@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 
-const TokenLogoAndName = ({ data, showFullContent }) => {
+const TokenLogoAndName = ({ data, showFullContent, logoSizeClass='w-6 h-6' }) => {
   const { getTokenName }  = useContext(GeneralContext)
   const tokenName = getTokenName(data)
   const isWindowUnder800 = useWindowWidthUnder(800);
@@ -37,8 +37,7 @@ const TokenLogoAndName = ({ data, showFullContent }) => {
         <img
           alt={`${data.name} Logo`}
           src={`${process.env.NEXT_PUBLIC_WEB2_API_URL}/storage/${data.logo}`}
-          className="block w-30 h-30 mr-2 brightness-110 rounded-full"
-          style={{ width: isWindowUnder800 ? '26px' : '30px', height: isWindowUnder800 ? '26px' : '30px' }}
+          className={`block ${logoSizeClass} mr-2 brightness-110 rounded-full`}
         />
       )}
       {renderNameAndSymbol()}

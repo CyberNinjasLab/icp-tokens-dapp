@@ -6,18 +6,18 @@ import PriceMovementIndicator from '../tokens/PriceMovementIndicator';
 
 // Define the component
 const ProfitLossCell = ({ value }) => {
-  const { roundPrice } = useContext(GeneralContext);
-  const { currentFunds, investedFunds } = value.portfolio;
+  const { formatPrice } = useContext(GeneralContext);
+  const { currentFunds, buySum } = value.portfolio;
   
   // Calculate absolute profit or loss
-  const profitOrLoss = currentFunds - investedFunds;
+  const profitOrLoss = currentFunds - buySum;
   let isProfit = profitOrLoss >= 0;
   
   // Format the profit/loss value
-  const formattedProfitOrLoss = roundPrice(Math.abs(profitOrLoss));
+  const formattedProfitOrLoss = formatPrice(Math.abs(profitOrLoss));
 
   // Calculate price movement percentage
-  const priceMovement = (investedFunds !== 0) ? (profitOrLoss / investedFunds * 100) : 0;
+  const priceMovement = (buySum !== 0) ? (profitOrLoss / buySum * 100) : 0;
   const formattedPriceMovement = parseFloat(priceMovement.toFixed(2)); // Round to two decimal places
 
   return (
@@ -26,7 +26,7 @@ const ProfitLossCell = ({ value }) => {
       className="flex justify-end h-[60px] items-center"
     >
       <div>
-        {isProfit ? '+' : '-'} {formattedProfitOrLoss} ICP<br></br>
+        {isProfit ? '+' : '-'} {formattedProfitOrLoss}<br></br>
         <PriceMovementIndicator value={formattedPriceMovement} />
       </div>
     </Typography>

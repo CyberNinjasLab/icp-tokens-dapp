@@ -3,6 +3,7 @@ import TokensTable from '../ui/components/tokens/table/TokensTable';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FavoriteTokensProvider } from '../contexts/general/FavoriteTokensProvider';
+import Head from 'next/head';
 const Home = () => {
   const router = useRouter();
   useEffect(() => {
@@ -12,14 +13,19 @@ const Home = () => {
   }, [])
 
   return (
-    <Layout>
-      <div>
-        <h1 className='h1'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
-        <FavoriteTokensProvider>
-          <TokensTable />
-        </FavoriteTokensProvider>
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>ICP Tokens by Market Cap</title>
+      </Head>
+      <Layout>
+        <div>
+          <h1 className='h1'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
+          <FavoriteTokensProvider>
+            <TokensTable />
+          </FavoriteTokensProvider>
+        </div>
+      </Layout>
+    </>
   );
 };
 

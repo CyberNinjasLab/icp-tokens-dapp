@@ -8,6 +8,7 @@ import TokenLinks from './TokenLinks';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import ICHouseLink from '../ICHouseLink';
 import ContractButton from '../ContractButton';
+import StandardLink from '../StandardLink';
 
 const style = {
   py: 1,
@@ -100,6 +101,17 @@ export default function TokenInfo({ data }) {
             </Typography>
             <Typography>
               <ICHouseLink canisterId={data.canister_id} />
+            </Typography>
+          </div>
+        </ListItem>
+        <ListItem>
+          <div className="flex justify-between items-center w-full">
+            <Typography variant="textSemiBold">
+              Standard
+              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
+            </Typography>
+            <Typography>
+              <StandardLink standard={data.token_standard} />
             </Typography>
           </div>
         </ListItem>

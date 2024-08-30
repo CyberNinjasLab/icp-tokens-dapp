@@ -5,7 +5,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { Paper } from '@mui/material';
 import TokenLogoAndName from '../tokens/TokenLogoAndName';
-import DefaultCell from '../tokens/table/DefaultCell';
+import DefaultCell from '../_base/table/DefaultCell';
 import { isMobile } from 'react-device-detect';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import HoldingsCell from './HoldingsCell';
@@ -51,19 +51,6 @@ function PortfolioTokensTable({ tokens }) {
       comparator: (valueA, valueB, nodeA, nodeB, isDescending) => Number(valueA) - Number(valueB)
     },
     {
-      field: `portfolio.investedFunds`,
-      headerName: 'Investments',
-      width: isWindowUnder1370 ? 120 : 160,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
-      cellRendererSelector: params => {
-        return {
-          component: DefaultCell,
-          params: {value: roundPrice(params.value) + ' ICP'}
-        };
-      }
-    },
-    {
       // field: ``,
       headerName: 'Holdings',
       width: isWindowUnder1370 ? 130 : 160,
@@ -79,20 +66,20 @@ function PortfolioTokensTable({ tokens }) {
     {
       field: `portfolio.avgBuyPrice`,
       headerName: isWindowUnder1370 ? 'Avg. Price' : 'Avg. Buy Price',
-      width: isWindowUnder1370? 130 : 160,
+      width: 165,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: roundPrice(params.value) + ' ICP'}
+          params: {value: formatPrice(params.value)}
         };
       }
     },
     {
       field: ``,
       headerName: 'Profit/Loss',
-      width: isWindowUnder1370 ? 120 : 160,
+      width: 160,
       cellStyle: { textAlign: 'right' },
       headerClass: 'text-right',
       cellRendererSelector: params => {
@@ -103,7 +90,7 @@ function PortfolioTokensTable({ tokens }) {
       }
     },
     {
-      field: `name`,
+      field: ``,
       headerName: 'Actions',
       width: 90,
       cellStyle: { textAlign: 'right' },
@@ -130,16 +117,15 @@ function PortfolioTokensTable({ tokens }) {
     setIsGridReady(true);
   };
 
-  const onRowClicked = params => {
-    if (
-      !params.event.target.classList.contains('action-button') &&
-      params.event.target.classList.length > 0
-    ) {
-      // Only proceed with row click if the click did not originate from the star icon
-      const canisterId = params.data['canister_id'];
-      if (canisterId) {
+  const onCellClicked = params => {
+    const clickedField = params.colDef?.field; // Safely get the field of the clicked cell
+
+    const canisterId = params.data['canister_id'];
+
+    if (clickedField === 'name') {
+        router.push(`/token/${canisterId}`);
+    } else {
         router.push(`/portfolio/transactions/${canisterId}`);
-      }
     }
   };
 
@@ -156,7 +142,7 @@ function PortfolioTokensTable({ tokens }) {
               suppressMovableColumns={true}
               defaultColDef={defaultColDef}
               onGridReady={onGridReady}
-              onRowClicked={onRowClicked}
+              onCellClicked={onCellClicked}
               rowClass="cursor-pointer"
             />
           </Paper>

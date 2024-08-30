@@ -1,14 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { Modal, TextField, Button, ToggleButtonGroup, ToggleButton, Autocomplete, Box, createMuiTheme, createTheme } from '@mui/material';
+import { Modal, TextField, Button, ToggleButtonGroup, ToggleButton, Autocomplete, Box, createTheme } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import useFetchTokens from '../../hooks/token/useFetchTokens';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import usePriceNearTimestamp from '../../hooks/token/usePriceNearTimestamp';
-import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 import { ThemeProvider } from '@emotion/react';
-
 
 const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selectedCoinId }) => {
     const { setLoadingState } = useLoading();
@@ -17,10 +15,12 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const [quantity, setQuantity] = useState('');
     const [pricePerCoin, setPricePerCoin] = useState('');
     const [date, setDate] = useState(null);
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [tempDate, setTempDate] = useState(null);
     const [note, setNote] = useState('');
     const { getTokenName, showPriceCurrency, roundPrice, theme } = useContext(GeneralContext);
-    const { fetchPriceNearTimestamp } = usePriceNearTimestamp();
-    const currency = 'icp';
+    const { fetchPricesNearTimestamps } = usePriceNearTimestamp();
+    const [currency, setCurrency] = useState('usd');
 
     const datePickerTheme = createTheme({
         palette: {
@@ -61,22 +61,74 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
 
     const { data: coins, loaded, error } = useFetchTokens(`${process.env.NEXT_PUBLIC_WEB2_API_URL}/api/tokens/autocomplete`);
 
+    const handleOpen = () => {
+        setPickerOpen(true);
+    };
+    
+    const handleClose = () => {
+        if (pickerOpen) {
+            setDate(tempDate);  // Set the date when the picker is closed
+        }
+        setPickerOpen(false);
+    };
+    
+    const handleAccept = (newDate) => {
+        setDate(newDate);  // Set the date when "OK" is clicked
+        setPickerOpen(false);
+    };
+    
+    const handleChange = (newDate) => {
+        setTempDate(newDate);
+    };
+    
+    // Debounce effect to update date after typing stops
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (!pickerOpen) {
+                setDate(tempDate);  // Update date when typing stops
+            }
+        }, 1000);  // 500ms debounce time
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [tempDate, pickerOpen]);
+
     useEffect(() => {
         const fetchPrice = async () => {
             if (coin && date) {
                 try {
-                    let priceData = await fetchPriceNearTimestamp(coin.canister_id, Math.floor(date.toDate().getTime() / 1000), currency);
-                    priceData = roundPrice(parseFloat(priceData.close));
+                    setLoadingState(true);
 
-                    setPricePerCoin(priceData.toString());
+                    const timestamp = Math.floor(date.toDate().getTime() / 1000);
+
+                    // Prepare the requests array
+                    const requests = [
+                        { canister_id: coin.canister_id, timestamp, currency },
+                    ];
+
+                    if (coin.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' && currency !== 'icp') {
+                        requests.push({ canister_id: coin.canister_id, timestamp, currency: 'icp' });
+                    }
+
+                    // Fetch prices in a batch request
+                    const prices = await fetchPricesNearTimestamps(requests);
+
+                    if (prices && prices.length > 0) {
+                        const priceData = roundPrice(parseFloat(prices[0]?.value || 0));
+                        setPricePerCoin(priceData.toString());
+                    }
+
+                    setLoadingState(false);
                 } catch (error) {
                     console.error('Error fetching price:', error);
+                    setLoadingState(false);
                 }
             }
         };
 
         fetchPrice();
-    }, [coin, date]);
+    }, [coin, date, currency]);
 
     // Effect to handle selectedCoinId
     useEffect(() => {
@@ -84,9 +136,17 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
             const selectedCoin = coins.data.find(coin => coin.canister_id === selectedCoinId);
             if (selectedCoin) {
                 setCoin(selectedCoin);
+                setCurrency(selectedCoinId == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
             }
         }
     }, [selectedCoinId, coins, loaded]);
+
+    const handleAutocompleteChange = (event, newValue) => {
+        setCoin(newValue);
+        if(newValue) {
+            setCurrency(newValue.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
+        }
+    };
 
     // Calculate total spent dynamically
     const totalSpent = roundPrice(parseFloat(quantity) * parseFloat(pricePerCoin));
@@ -99,7 +159,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                 id: 0,
                 canister_id: coin.canister_id,
                 quantity: parseFloat(quantity),
-                price_per_token: parseFloat(pricePerCoin),
+                price_per_token: coin.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 1 : parseFloat(pricePerCoin),
                 timestamp: Math.floor(date.toDate().getTime() / 1000),
                 note: note,
                 direction: transactionType === 'buy'
@@ -143,7 +203,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     <Autocomplete
                         readOnly={selectedCoinId}
                         options={loaded ? coins.data : []}
-                        getOptionLabel={(option) => getTokenName(option)}  // Adjust if your data structure requires\
+                        getOptionLabel={(option) => getTokenName(option)}  // Adjust if your data structure requires
                         getOptionKey={(option) => option.canister_id}
                         renderOption={(props, option) => {
                             return (
@@ -169,7 +229,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                           }}
                         renderInput={(params) => <TextField {...params} label="Select Coin" fullWidth />}
                         value={coin}
-                        onChange={(event, newValue) => setCoin(newValue)}
+                        onChange={handleAutocompleteChange}
                         sx={{ my: 2 }}
                         disabled={!loaded || error}  // Disable if not loaded or if there's an error
                         disablePortal
@@ -178,14 +238,14 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     <ThemeProvider theme={datePickerTheme} >
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
-                                theme={datePickerTheme}
                                 label="Transaction Date"
                                 value={date}
-                                onChange={(newDate) => setDate(newDate)}
+                                onChange={handleChange}
+                                onAccept={handleAccept}
+                                onOpen={handleOpen}
+                                onClose={handleClose}
                                 renderInput={(params) => <TextField {...params} fullWidth />}
-                                sx={{
-                                    width: '100%'
-                                }}
+                                sx={{ width: '100%' }}
                             />
                         </LocalizationProvider>
                     </ThemeProvider>
@@ -218,6 +278,9 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     fullWidth
                     value={pricePerCoin}
                     onChange={(e) => setPricePerCoin(e.target.value)}
+                    InputProps={{
+                        readOnly: coin?.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+                    }}
                     sx={{ my: 2 }}
                 />
                 <TextField

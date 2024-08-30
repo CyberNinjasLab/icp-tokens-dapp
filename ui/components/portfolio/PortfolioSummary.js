@@ -5,7 +5,7 @@ import PriceMovementIndicator from '../tokens/PriceMovementIndicator';
 
 // Define the component
 const PortfolioSummary = ({ summary }) => {
-  const { roundPrice } = useContext(GeneralContext);
+  const { roundPrice, formatPrice } = useContext(GeneralContext);
   const totalInvested = summary.totalInvested;
   const totalCurrentFunds = summary.totalCurrentFunds;
 
@@ -20,12 +20,12 @@ const PortfolioSummary = ({ summary }) => {
     <div className='flex flex-wrap mt-3 sm:space-x-4 sm:space-y-0 space-y-2'>
       <div className='border border-[#DDDDDD] dark:border-[#4b5563] rounded-md py-3 px-4 w-full sm:w-64'>
         <span className='block text-sm font-medium'>Current Worth</span>
-        <span className='text-xl font-bold'>{roundPrice(totalCurrentFunds)} ICP</span>
+        <span className='text-xl font-bold'>{formatPrice(totalCurrentFunds)}</span>
       </div>
       <div className='border border-[#DDDDDD] dark:border-[#4b5563] rounded-md py-3 px-4 w-full sm:w-auto sm:min-w-64'>
         <span className='block text-sm font-medium'>Profit/Loss</span>
         <div className='flex align-middle'>
-          <span className='text-xl font-bold inline-block'> {profitValueSign} {roundPrice(Math.abs(profitValue))} ICP</span>
+          <span className='text-xl font-bold inline-block'> {profitValueSign} {formatPrice(Math.abs(profitValue))}</span>
           <span className='text-sm font-bold inline-block ml-1'><PriceMovementIndicator value={profitPercentage} /></span>
         </div>
       </div>

@@ -18,6 +18,21 @@
   .ag-sort-indicator-container .ag-sort-order {
     display: none !important;
   }
+
+  .label {
+    @apply uppercase cursor-pointer rounded-md text-sm px-[8px] py-[6px]
+  }
+  .label.orange {
+    @apply bg-orange/20 text-dark-orange dark:text-orange
+  }
+}
+
+.ag-center-cols-viewport {
+  min-height: 50px !important;
+}
+
+.no-underline {
+  text-decoration: none !important;
 }
 
 .tv-lightweight-charts > table > tr:nth-child(1) > td:nth-child(2) canvas {
@@ -59,9 +74,12 @@
 .h1 {
   @apply lg:text-lg text-base font-semibold;
 }
-.markdown-content h2 {
+.markdown-content.changelog-wrap h2 {
   border-bottom: 1px solid gray;
   padding-bottom: .3em;
+}
+.markdown-content a {
+  text-decoration: underline;
 }
 .markdown-content h1 {
   @apply text-3xl font-bold mb-4; /* Example: apply text-3xl font-bold mb-4 for h1 */
@@ -115,4 +133,18 @@
 .markdown-content ul ol {
   /* Use Tailwind's list styles */
   @apply pl-8 mb-0; /* Example: apply list-disc pl-4 mb-4 for unordered list */
+}
+
+@import url("bubbles.css");
+
+/* Media queries for edge cases */
+
+@media (max-width: 410px) {
+  nav .bubbles-button {
+      display: none;
+  }
+
+  .table-column-filters .bubbles-button {
+    display: block !important;
+  }
 }

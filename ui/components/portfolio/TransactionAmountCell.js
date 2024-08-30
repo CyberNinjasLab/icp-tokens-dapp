@@ -5,7 +5,7 @@ import { GeneralContext } from '../../../contexts/general/General.Context';
 
 // Define the component
 const TransactionAmountCell = ({ value }) => {
-  const { roundPrice } = useContext(GeneralContext);
+  const { currency, formatPrice } = useContext(GeneralContext);
 
   return (
     <Typography
@@ -14,7 +14,7 @@ const TransactionAmountCell = ({ value }) => {
     >
       <div>
         <span className={value.direction ? 'text-green-500' : 'text-red-500'}>{value.direction ? '+' : '-'}{value.quantity.toLocaleString()}</span>
-        <span className='block text-xs opacity-50'>{value.direction ? '+' : '-'}{roundPrice(value.quantity * value.price_per_token)} (ICP)</span>
+        <span className='block text-xs opacity-50'>{formatPrice(value.quantity * value['price_per_token_' + currency])}</span>
       </div>
     </Typography>
   );

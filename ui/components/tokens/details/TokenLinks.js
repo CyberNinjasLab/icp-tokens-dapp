@@ -18,7 +18,6 @@ export default function TokenLinks({ links }) {
   const getIconComponent = (link) => {
     const type = link.link_type.type.toLowerCase();
     let iconComponent;
-    console.log(type);
     switch (type) {
       case 'dscvr':
         iconComponent = <div className='w-[36px] h-[36px] flex justify-center items-center'><DscvrIcon className="w-[36px]" /></div>;

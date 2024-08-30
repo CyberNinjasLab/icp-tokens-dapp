@@ -4,23 +4,19 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { Paper } from '@mui/material';
-import TokenLogoAndName from '../tokens/TokenLogoAndName';
-import DefaultCell from '../tokens/table/DefaultCell';
+import DefaultCell from '../_base/table/DefaultCell';
 import { isMobile } from 'react-device-detect';
 import { GeneralContext } from '../../../contexts/general/General.Context';
-import HoldingsCell from './HoldingsCell';
-import ProfitLossCell from './ProfitLossCell';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 import TransactionTypeCell from './TransactionTypeCell';
 import TransactionActionsCell from './TransactionActionsCell';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import TransactionAmountCell from './TransactionAmountCell';
 
-function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
-  const { formatPrice, currency, roundPrice, theme } = useContext(GeneralContext);
+function PortfolioTransactionsTable({ summary, fetchPortfolios }) {
   const [gridApi, setGridApi] = useState(null);
   const [isGridReady, setIsGridReady] = useState(false);
-  const isWindowUnder1370 = useWindowWidthUnder(1370);
+  const { formatPrice, theme, currency } = useContext(GeneralContext);
   const isWindowUnder800 = useWindowWidthUnder(800);
   const { setLoadingState } = useLoading();
 
@@ -39,7 +35,7 @@ function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
     },
     {
       field: `price_per_token`,
-      headerName: 'Price',
+      headerName: 'Price Per Coin',
       width: 110,
       flex: isWindowUnder800 ? 0 : 1,
       cellStyle: { textAlign: 'right' },
@@ -48,7 +44,7 @@ function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: roundPrice(params.value) + ' ICP'}
+          params: {value: formatPrice(params.data['price_per_token_' + currency])}
         };
       }
     },
@@ -97,11 +93,11 @@ function PortfolioTransactionsTable({ transactions, fetchPortfolios }) {
 
   return (
     <>
-      {transactions && (
+      {summary && (
         <Paper className="max-w-1500 mx-auto relative" style={{ margin: '1rem 0px' }}>
           <Paper className={`${theme == 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'} w-full h-full`} style={{ margin: '1rem 0px' }}>
             <AgGridReact
-              rowData={transactions}
+              rowData={summary.tokens[0].portfolio.transactions}
               rowHeight={60}
               columnDefs={colDefs}
               domLayout="autoHeight"

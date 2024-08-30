@@ -5,6 +5,7 @@ import { Button, ButtonGroup, Tooltip } from '@mui/material';
 import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import useFetchOHLCVData from '../../../hooks/token/useFetchOHLCVData'
+import TradingViewCustomWidget from '../trading-view/TradingViewCustomWidget';
 
 const periods = ['7d', '30d', '90d', 'All'];
 const intervals = ['1h', '1d', '1w'];
@@ -39,7 +40,7 @@ const ChartComponent = ({ canister_id }) => {
   };
 
   const calculateChartHeight = (isFullScreen) => {
-    return isFullScreen ? (window.innerHeight - 130) : 200;
+    return isFullScreen ? (window.innerHeight - 130) : 400;
   };
   
   const updateChartSize = (isFullScreenNow) => {
@@ -125,7 +126,7 @@ const ChartComponent = ({ canister_id }) => {
     });
     // Map your data to the format expected by the volume series
     const volumeData = data.map(d => ({
-      time: parseTimestampToUnix(d.timestamp),
+      time: parseTimestampToUnix(d.interval_timestamp),
       value: parseFloat(d.volume),
       color: theme == 'dark' ? 'rgba(59, 130, 246, 0.5)' : '#D3D3D3'
     }));
@@ -133,27 +134,27 @@ const ChartComponent = ({ canister_id }) => {
     volumeSeries.setData(prepareChartData(volumeData));
   };  
   
-  const setupCandleChart = (chart, data, min) => {
-    const { precision, minMove } = calculatePrecisionAndMinMove(min);
+  // const setupCandleChart = (chart, data, min) => {
+  //   const { precision, minMove } = calculatePrecisionAndMinMove(min);
 
-    const series = chart.addCandlestickSeries({
-      upColor: 'rgb(38,166,154)',
-      downColor: 'rgb(239,83,80)',
-      borderDownColor: 'rgb(239,83,80)',
-      borderUpColor: 'rgb(38,166,154)',
-      wickDownColor: 'rgb(239,83,80)',
-      wickUpColor: 'rgb(38,166,154)',
-      priceFormat: {
-        type: 'price',
-        precision: precision, // Adjusted based on min value
-        minMove: minMove,
-      },
-      crossHairMarkerVisible: false,
-    });
-    series.setData(prepareChartData(data));
+  //   const series = chart.addCandlestickSeries({
+  //     upColor: 'rgb(38,166,154)',
+  //     downColor: 'rgb(239,83,80)',
+  //     borderDownColor: 'rgb(239,83,80)',
+  //     borderUpColor: 'rgb(38,166,154)',
+  //     wickDownColor: 'rgb(239,83,80)',
+  //     wickUpColor: 'rgb(38,166,154)',
+  //     priceFormat: {
+  //       type: 'price',
+  //       precision: precision, // Adjusted based on min value
+  //       minMove: minMove,
+  //     },
+  //     crossHairMarkerVisible: false,
+  //   });
+  //   series.setData(prepareChartData(data));
 
-    return series;
-  };
+  //   return series;
+  // };
 
   const appendTolltipToChart = (chart, series, data) => {
     const container = chartContainerRef.current;
@@ -270,23 +271,23 @@ const ChartComponent = ({ canister_id }) => {
     let series;
     if (chartType === 'area') {
       transformedData = data.data.map(d => ({
-        time: parseTimestampToUnix(d.timestamp),
+        time: parseTimestampToUnix(d.interval_timestamp),
         value: parseFloat(d.close), // Ensure value is a number
         volume: parseFloat(d.volume)
       }));
       series = setupAreaChart(chart, transformedData, data.min);
       setupChartWithVolume(chart, data.data)
     } else if (chartType === 'candle') {
-      transformedData = data.data.map(d => ({
-        time: parseTimestampToUnix(d.timestamp),
-        open: parseFloat(d.open),
-        high: parseFloat(d.high),
-        low: parseFloat(d.low),
-        close: parseFloat(d.close), // Ensure all numeric fields are converted
-        volume: parseFloat(d.volume),
-        value: parseFloat(d.close)
-      }));
-      series = setupCandleChart(chart, transformedData, data.min);
+      // transformedData = data.data.map(d => ({
+      //   time: parseTimestampToUnix(d.interval_timestamp),
+      //   open: parseFloat(d.open),
+      //   high: parseFloat(d.high),
+      //   low: parseFloat(d.low),
+      //   close: parseFloat(d.close), // Ensure all numeric fields are converted
+      //   volume: parseFloat(d.volume),
+      //   value: parseFloat(d.close)
+      // }));
+      // series = setupCandleChart(chart, transformedData, data.min);
     }
 
     // Assuming `data.start_date` and `data.end_date` are in a format recognized by your `parseTimestampToUnix` function
@@ -353,7 +354,7 @@ const ChartComponent = ({ canister_id }) => {
               variant={chartType === 'area' ? "containedGray" : "outlinedGray"}
               {...(chartType === 'area' && { color: "primary" })}
               onClick={() => handleChartTypeChange('area')}
-              sx={{padding: 0}}
+              sx={{padding: '5px 0'}}
             >
               <ShowChartIcon />
             </Button>
@@ -363,19 +364,20 @@ const ChartComponent = ({ canister_id }) => {
               variant={chartType === 'candle' ? "containedGray" : "outlinedGray"}
               {...(chartType === 'candle' && { color: "primary" })}
               onClick={() => handleChartTypeChange('candle')}
-              sx={{padding: 0}}
+              sx={{padding: '5px 0'}}
             >
               <CandlestickChartIcon />
             </Button>
           </Tooltip>
         </ButtonGroup>
 
-        <Button onClick={toggleFullScreen} className='opacity-0 lg:opacity-100' color='gray' sx={{backgroundColor: theme == 'dark' ? 'transparent' : 'white'}}>
+        {/* <Button onClick={toggleFullScreen} className='opacity-0 lg:opacity-100' color='gray' sx={{backgroundColor: theme == 'dark' ? 'transparent' : 'white'}}>
           {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
-        </Button>
+        </Button> */}
 
 
         {/* Right side: UI for selecting intervals (only if chart type is 'candle') */}  
+        {chartType === 'area' && (
         <ButtonGroup size="small" aria-label="chart interval buttons" sx={{ backgroundColor: theme == 'dark' ? 'transparent' : 'white' }}>
           {intervals.map((interval) => (
             <Tooltip key={interval} title={`${interval} Interval`}>
@@ -390,17 +392,23 @@ const ChartComponent = ({ canister_id }) => {
             </Tooltip>
           ))}
         </ButtonGroup>
+        )}
       </div>
       <div className='relative'>
-        <div ref={chartContainerRef} className="w-full" />
+        {chartType == 'area' ? (
+          <div ref={chartContainerRef} className="w-full" />
+        ) : (
+          <TradingViewCustomWidget canister_id={canister_id} />
+        )}
       </div>
       {/* Period Selection UI */}
-      <ButtonGroup 
-        variant="outlined"
-        aria-label="outlined primary button group"
-        fullWidth={true}
-        className="m-auto mt-2 xl:mt-4 max-w-[404px]"
-      >
+      {chartType === 'area' && (
+        <ButtonGroup 
+          variant="outlined"
+          aria-label="outlined primary button group"
+          fullWidth={true}
+          className="m-auto mt-2 xl:mt-4 max-w-[404px]"
+        >
           {periods.map((period) => (
             <Tooltip key={period} title={`${period} Period`}>
               <Button
@@ -413,6 +421,7 @@ const ChartComponent = ({ canister_id }) => {
             </Tooltip>
           ))}
         </ButtonGroup>
+      )}
     </div>
   );
 };

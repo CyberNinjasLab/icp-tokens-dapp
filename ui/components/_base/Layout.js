@@ -3,7 +3,7 @@ import Header from './header/Header';
 import Footer from './Footer';
 import ThemeRegistry from '../../../utils/ThemeRegistry';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, footer=true }) => {
   return (
     <div>
       <ThemeRegistry options={{ key: 'mui-theme' }}>
@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
           <main className="pt-[84px] mx-auto container px-4 md:px-8">
             {children}
           </main>
-        <Footer />
+        {footer ? <Footer /> : ""}
       </ThemeRegistry>
     </div>
   );
