@@ -5,6 +5,7 @@ import TokenLogoAndName from '../TokenLogoAndName';
 import Favorites from '../Favorites';
 import DefaultCell from '../../_base/table/DefaultCell';
 import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
+import PriceTrendLineChart from '../PriceTrendLineChart';
 
 const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, currency }) => {
   const isWindowUnder1370 = useWindowWidthUnder(1370);
@@ -63,34 +64,46 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
     {
       field: `metrics.change.24h.${currency}`,
       headerName: '24h %',
-      width: 110,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
+      width: 85,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right px5',
       cellRenderer: PriceMovementIndicator,
     },
     {
       field: `metrics.change.7d.${currency}`,
       headerName: '7d %',
-      width: 110,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
+      width: 85,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right px5',
       cellRenderer: PriceMovementIndicator
     },
     {
       field: `metrics.change.30d.${currency}`,
       headerName: '30d %',
-      width: 110,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
+      width: 85,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right px5',
       cellRenderer: PriceMovementIndicator
     },
     {
       field: `metrics.volume.${currency}.24h`,
       headerName: '24h Volume',
       autoHeight: true,
-      width: 160,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
+      width: 140,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right px5',
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
@@ -102,9 +115,12 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
       field: `metrics.volume.${currency}.7d`,
       headerName: '7d Volume',
       autoHeight: true,
-      width: 125,
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
+      width: 140,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right px5',
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
@@ -128,9 +144,13 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
     // },
     {
       field: `metrics.fully_diluted_market_cap.${currency}`,
-      headerName: 'Fully Diluted M Cap',
-      cellStyle: { textAlign: 'right' },
-      headerClass: 'text-right',
+      headerName: 'Market Cap',
+      width: 150,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right px5',
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
@@ -138,6 +158,25 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
         };
       },
       comparator: (valueA, valueB, nodeA, nodeB, isDescending) => Number(valueA) - Number(valueB)
+    },
+    {
+      field: ``,
+      headerName: 'Last 7 Days',
+      flex: isWindowUnder1370 ? 0 : 1,
+      width: 170,
+      cellStyle: { 
+        textAlign: 'right',
+        padding: '0 5px'
+      },
+      headerClass: 'text-right',
+      cellRendererSelector: params => {
+        const priceData = params.data.metrics.chartLast7Days ? params.data.metrics.chartLast7Days[currency.toUpperCase()] : [];
+
+        return {
+          component: PriceTrendLineChart,
+          params: { priceData, lineColor: params.data.metrics.change['7d'][currency] >= 0 ? 'rgb(34 197 94)' : 'rgb(255 58 51)' },
+        };
+      }
     }
   ];
 }

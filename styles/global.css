@@ -9,7 +9,7 @@
   .ag-header-cell.no-header-name .ag-header-cell-label {
     @apply justify-center;
   }
-  .ag-header-cell.no-header-name  {
+  .ag-header-cell.no-header-name, .ag-header-cell.px5  {
     padding: 0 5px;
   }
   .ag-header-cell.no-header-name .ag-sort-indicator-icon {
