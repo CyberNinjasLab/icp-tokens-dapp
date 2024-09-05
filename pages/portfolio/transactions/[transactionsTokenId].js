@@ -54,7 +54,7 @@ const Transactions = () => {
                 });
                   
                 setTransactions(filteredTransactions); // Update state with sorted transactions
-                await summarizeTransactions(filteredTransactions); // Await the summarization
+                await summarizeTransactions(filteredTransactions); // Await the summarizatio
             }
         }
     };
@@ -147,7 +147,9 @@ const Transactions = () => {
                         <div>
                             <TokenTransactionsSummary summary={summaries} token={token} />
                         </div>
-                        <PortfolioTransactionsTable summary={summaries} fetchPortfolios={fetchPortfolios} />
+                        {summaries.tokens.length && (
+                            <PortfolioTransactionsTable summary={summaries} fetchPortfolios={fetchPortfolios} />
+                        )}
                     </div>
                 )}
             </div>

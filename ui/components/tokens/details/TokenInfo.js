@@ -104,17 +104,17 @@ export default function TokenInfo({ data }) {
             </Typography>
           </div>
         </ListItem>
-        <ListItem>
+        {/* <ListItem>
           <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">
               Standard
-              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
+              <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '}
             </Typography>
             <Typography>
               <StandardLink standard={data.token_standard} />
             </Typography>
           </div>
-        </ListItem>
+        </ListItem> */}
         {data.details?.short_description && (
           <>
             <Divider variant="middle" component="li" className="pt-4" />
