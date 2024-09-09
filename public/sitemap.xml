@@ -2,19 +2,79 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
       <loc>https://icptokens.net/standards/ICRC-1</loc>
-      <lastmod>2005-01-01</lastmod>
+      <lastmod>2024-09-09</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
 </url>
 <url>
       <loc>https://icptokens.net/standards/ICRC-2</loc>
-      <lastmod>2005-01-01</lastmod>
+      <lastmod>2024-09-09</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
 </url>
 <url>
       <loc>https://icptokens.net/standards/ICRC-3</loc>
-      <lastmod>2005-01-01</lastmod>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/bubbles</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/wallets</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/dex</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/nft</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/watchlist</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/portfolio</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/portfolio</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/about-us</loc>
+      <lastmod>2024-09-09</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/changelog</loc>
+      <lastmod>2024-09-09</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
 </url>
