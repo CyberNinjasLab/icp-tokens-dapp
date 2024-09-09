@@ -10,6 +10,21 @@ import { useEffect } from 'react';
 export default function App({ Component, pageProps }) {
   useEffect(() => {
     ReactGA.initialize('G-VW500QY288');
+
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname;
+
+      // Check if the current URL has a 'www' prefix and redirect to the non-www version.
+      // Temporary hotfix: Redirect users to the non-www version.
+      // This should ideally be handled via a backend canister solution or DNS configuration.
+      if (host.startsWith('www.')) {
+        const newHost = host.slice(4); // Remove the 'www.' prefix
+        const newUrl = `https://${newHost}${window.location.pathname}${window.location.search}`;
+
+        // Perform the 302 redirect
+        window.location.replace(newUrl);
+      }
+    }
   }, []);
 
   return (
