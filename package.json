@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@dfinity/agent": "^1.0.0",
-    "@dfinity/auth-client": "^1.0.0",
+    "@dfinity/auth-client": "^1.0.1",
     "@dfinity/candid": "^1.0.0",
     "@dfinity/identity": "^1.0.1",
     "@dfinity/ledger-icp": "^2.4.0",
