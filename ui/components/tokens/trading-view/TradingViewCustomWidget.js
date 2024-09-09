@@ -27,7 +27,7 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
           { text: "7d", resolution: "60", description: "7 Days" },
           { text: "1d", resolution: "30", description: "1 Day" },
         ],
-        save_load_adapter: new TradingViewSaveLoadAdapter(canister_id, backendCoreActor, isAuthenticated),
+        save_load_adapter: new TradingViewSaveLoadAdapter(canister_id, currency, backendCoreActor, isAuthenticated),
         load_last_chart: true,
         enabled_features: [
             "header_in_fullscreen_mode",
