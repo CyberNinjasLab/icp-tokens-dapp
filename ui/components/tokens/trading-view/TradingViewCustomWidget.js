@@ -80,7 +80,7 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
       <div 
         id="tv_chart_container" 
         style={{ width: '100%', transition: 'height 0.3s ease' }} 
-        className={`md:border md:rounded-md overflow-hidden border-[#D3D3D3] dark:border-[#555] ${fullscreen ? 'fixed top-0 left-0 z-50' : `md:max-h-[469px]`}`}
+        className={`md:border md:rounded-md overflow-hidden border-[#D3D3D3] dark:border-[#555] ${fullscreen ? 'fixed top-0 left-0 z-50' : `md:max-h-[calc(100vh-260px)] min-h-[500px]`}`}
       ></div>
     </div>
   );

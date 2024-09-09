@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { lazy, useContext } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -9,6 +9,9 @@ import { GeneralContext } from '../../../../contexts/general/General.Context';
 import ICHouseLink from '../ICHouseLink';
 import ContractButton from '../ContractButton';
 import StandardLink from '../StandardLink';
+import ShowMoreText from '../../_base/ShowMoreText';
+
+const TokenMarketLinks = lazy(() => import('./TokenMarketLinks'));
 
 const style = {
   py: 1,
@@ -28,8 +31,25 @@ export default function TokenInfo({ data }) {
   return (
     <div className='bg-[#28abe508] border border-[#D3D3D3] dark:border-[#555] rounded-md max-w-[400px] mx-auto'>
       <List sx={style}>
+        {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
+          <ListItem>
+            <div className="">
+              <Typography variant="textSemiBold">Markets</Typography>
+            </div>
+          </ListItem>
+        )}
+        {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
+        <ListItem sx={{ paddingTop: 0 }}>
+          <div className='relative left-[-5px]'>
+            <TokenMarketLinks token={data} />
+          </div>
+        </ListItem>
+        )}
+        {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
+          <Divider variant="middle" component="li" className="pt-2" />
+        )}
         <ListItem>
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center w-full mt-2">
             <Typography variant="textSemiBold">
               Fully Diluted M Cap
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}
@@ -120,7 +140,7 @@ export default function TokenInfo({ data }) {
             <Divider variant="middle" component="li" className="pt-4" />
             <ListItem>
               <div className="mt-2">
-                <Typography>{data.details?.short_description}</Typography>
+                <ShowMoreText text={data.details?.short_description} />
               </div>
             </ListItem>
           </>
@@ -129,7 +149,12 @@ export default function TokenInfo({ data }) {
           <>
             <Divider variant="middle" component="li" className="pt-2" />
             <ListItem>
-              <div>
+              <div className="mt-2">
+                <Typography variant="textSemiBold">Links</Typography>
+              </div>
+            </ListItem>
+            <ListItem sx={{paddingTop: 0}}>
+              <div className='relative left-[-5px]'>
                 <TokenLinks links={data.links} />
               </div>
             </ListItem>
