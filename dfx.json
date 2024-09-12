@@ -16,7 +16,7 @@
       "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"
     },
     "backend_core": {
-      "main": "src/backend/core.mo",
+      "main": "src/backend/old/core.mo",
       "type": "motoko",
       "dependencies": []
     }
