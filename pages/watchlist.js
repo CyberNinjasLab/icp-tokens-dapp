@@ -14,7 +14,7 @@ const Watchlist = () => {
       <Head>
         <title>Watchlist | ICP Tokens</title>
       </Head>
-      <Layout extraClass={'xl:max-w-[1430px]'}>
+      <Layout extraClass={'max-w-[1430px]'}>
         <h1 className='h1'>Tokens Watchlist</h1>
         { !isAuthenticated ? (
           <LoginMessage />

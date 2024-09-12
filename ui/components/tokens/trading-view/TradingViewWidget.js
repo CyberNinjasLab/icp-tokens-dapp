@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
+import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
 
 function TradingViewWidget({ symbol, fullscreen=false }) {
   const container = useRef();
   const chartWrapperRef = useRef();
   const [isFullScreen, setIsFullScreen] = useState(false);
   const { theme } = useContext(GeneralContext);
+
+  const isWindowUnder1024 = useWindowWidthUnder(1024);
 
   useEffect(() => {
     // Clear the container before adding the new script
@@ -28,9 +31,11 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
       "style": "1",
       "hide_side_toolbar": isMobile,
       "locale": "en",
+      "range": "4M",
       "allow_symbol_change": true,
       "calendar": true,
-      "support_host": "https://www.tradingview.com"
+      "support_host": "https://www.tradingview.com",
+      "is_transparent": false,
     });
 
     container.current.appendChild(script);
@@ -53,6 +58,19 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
     }
   };
 
+  const setDynamicHeight = () => {
+    const viewportHeight = window.innerHeight;
+    const element = document.getElementById('tv_chart_container');
+    if (element) {
+      const chartOffset = isWindowUnder1024 ? 108 : 235;
+      element.style.height = fullscreen ? `${viewportHeight}px` : `${viewportHeight - chartOffset}px`;
+    }
+  };
+
+  useEffect(() => {
+    setDynamicHeight();
+  }, [isWindowUnder1024]);
+
   useEffect(() => {
     const handleFullScreenChange = () => {
       if (!document.fullscreenElement) {
@@ -69,7 +87,7 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
   return (
     <>
       <div ref={chartWrapperRef} className='text-center bg-white dark:bg-dark-bg'>
-        <div className={`mb-2 ${isFullScreen ? 'h-[calc(100vh-40px)]' : 'h-[500px]'}`}>
+        <div id="tv_chart_container" className={`w-full lg:border md:rounded-md border-[#D3D3D3] dark:border-[#555]`}>
           <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%" }}>
             <div className="tradingview-widget-container__widget"></div>
             <div className="tradingview-widget-copyright">
@@ -79,14 +97,14 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
             </div>
           </div>
         </div>
-        <Button 
+        {/* <Button 
           onClick={toggleFullScreen} 
           className='opacity-0 lg:opacity-100' 
           color='gray' 
           sx={{backgroundColor: 'transparent'}}
         >
           {isFullScreen ? 'Exit Full Screen' : 'Maximize Chart View'}
-        </Button>
+        </Button> */}
       </div>
     </>
   );

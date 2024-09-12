@@ -3,10 +3,12 @@ import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { loadScript } from '../../../../utils/scriptLoader';
 import TradingViewSaveLoadAdapter from './TradingViewSaveLoadAdapter';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context';
+import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
 
 const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   const { theme, currency } = useContext(GeneralContext);
   const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
+  const isWindowUnder1024 = useWindowWidthUnder(1024);
 
   const initializeWidget = () => {
     if (window.TradingView) {
@@ -46,9 +48,14 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
     const viewportHeight = window.innerHeight;
     const element = document.getElementById('tv_chart_container');
     if (element) {
-      element.style.height = fullscreen ? `${viewportHeight}px` : `${viewportHeight - 200}px`;
+      const chartOffset = isWindowUnder1024 ? 110 : 200;
+      element.style.height = fullscreen ? `${viewportHeight}px` : `${viewportHeight - chartOffset}px`;
     }
   };
+
+  useEffect(() => {
+    setDynamicHeight();
+  }, [isWindowUnder1024])
 
   useEffect(() => {
     const loadScriptsAndInitialize = async () => {
@@ -63,11 +70,6 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
     };
 
     loadScriptsAndInitialize();
-
-    window.addEventListener('resize', setDynamicHeight); // Update height on window resize
-    return () => {
-      window.removeEventListener('resize', setDynamicHeight);
-    };
   }, []);
 
   useEffect(() => {
@@ -76,11 +78,11 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   }, [currency, canister_id, isAuthenticated, fullscreen]);
 
   return (
-    <div className='relative md:ml-0 md:mr-0 -ml-4 -mr-4'>
+    <div className='relative'>
       <div 
         id="tv_chart_container" 
         style={{ width: '100%', transition: 'height 0.3s ease' }} 
-        className={`md:border md:rounded-md overflow-hidden border-[#D3D3D3] dark:border-[#555] ${fullscreen ? 'fixed top-0 left-0 z-50' : `md:max-h-[calc(100vh-260px)] min-h-[500px]`}`}
+        className={`lg:border lg:rounded-md overflow-hidden border-[#D3D3D3] dark:border-[#555] ${fullscreen ? 'fixed top-0 left-0 z-50' : `lg:max-h-[calc(100vh-235px)]`}`}
       ></div>
     </div>
   );

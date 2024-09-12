@@ -17,7 +17,7 @@ const Home = () => {
       <Head>
         <title>ICP Tokens by Market Cap</title>
       </Head>
-      <Layout extraClass={'xl:max-w-[1430px]'}>
+      <Layout extraClass={'max-w-[1430px]'}>
         <div>
           <h1 className='h1'>Internet Computer Tokens <span className='block xs:inline'>by Market Cap</span></h1>
           <FavoriteTokensProvider>

@@ -1,0 +1,49 @@
+/* Default (Light Mode) Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Hide the background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Light handle (thumb) color */
+  border-radius: 10px; /* Rounded corners for the handle */
+  border: 3px solid transparent; /* Ensure the thumb is separated from the edge */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker handle color on hover */
+}
+
+/* Firefox specific */
+html {
+  scrollbar-width: thin; /* Make the scrollbar thinner */
+  scrollbar-color: #888 transparent; /* Only show the handle, hide the track */
+}
+
+/* Dark Mode Scrollbar Styling */
+html.dark::-webkit-scrollbar {
+  width: 12px;
+}
+
+html.dark::-webkit-scrollbar-track {
+  background: transparent; /* Hide the background of the scrollbar track */
+}
+
+html.dark::-webkit-scrollbar-thumb {
+  background-color: #555; /* Darker handle color */
+  border-radius: 10px;
+  border: 3px solid transparent; /* Ensure the thumb is separated from the edge */
+}
+
+html.dark::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Lighter handle color on hover */
+}
+
+/* Firefox specific */
+html.dark {
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent; /* Only show the handle, hide the track */
+}

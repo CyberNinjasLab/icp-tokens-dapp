@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext } from 'react';
+import React, { lazy, Suspense, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head'; // Import the Head component
 import Layout from '../../ui/components/_base/Layout';
@@ -7,17 +7,27 @@ import TokenHeader from '../../ui/components/tokens/details/TokenHeader';
 import { GeneralContext } from '../../contexts/general/General.Context';
 import { FavoriteTokensProvider } from '../../contexts/general/FavoriteTokensProvider';
 import TradingViewWidget from '../../ui/components/tokens/trading-view/TradingViewWidget';
+import useWindowWidthUnder from '../../ui/hooks/useWindowWidthUnder';
+import TokenMainNav from '../../ui/components/tokens/details/TokenMainNav';
 
 // Lazy load components
 const TradingViewCustomWidget = lazy(() => import('../../ui/components/tokens/trading-view/TradingViewCustomWidget'));
 const TokenInfo = lazy(() => import('../../ui/components/tokens/details/TokenInfo'));
-const TokenDetails = lazy(() => import('../../ui/components/tokens/details/TokenDetails'));
 
 const TokenPage = () => {
   const router = useRouter();
-  const { tokenId } = router.query;
+  const { tokenId } = router.query; // Get tab from the query
   const { tokenData, isLoading, error } = useTokenData(tokenId);
-  const { getTokenName, currency } = useContext(GeneralContext);
+  const { getTokenName } = useContext(GeneralContext);
+  const isWindowUnder1024 = useWindowWidthUnder(1024);
+
+  // Store the selected tab
+  const [selectedTab, setSelectedTab] = useState('chart');
+
+  // Callback function to handle tab change
+  const handleTabChange = (newTab) => {
+    setSelectedTab(newTab);
+  };
 
   // Example dynamic title. Adjust accordingly based on your tokenData properties.
   const pageTitle = tokenData ? `${getTokenName(tokenData)} | ICP Tokens` : "ICP Tokens";
@@ -28,29 +38,40 @@ const TokenPage = () => {
         <title>{pageTitle}</title>
         {/* If you have specific meta tags that should change with the page, include them here */}
       </Head>
-      <Layout>
+      <Layout extraClass={'max-w-[6000px] lg:h-screen lg:fixed'} footer={false}>
         {isLoading && <div>Loading...</div>}
         {error && <div>Error: {error}</div>}
         {!isLoading && !error && tokenData && (
           <FavoriteTokensProvider>
             <Suspense fallback={<div>Loading...</div>}>
               <div>
-                <TokenHeader tokenData={tokenData} />
-                <div className="flex flex-col xl:flex-row xl:gap-20 gap-10">
-                  <div className="w-full">
-                    {tokenData.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? (
-                      <TradingViewCustomWidget canister_id={tokenData.canister_id} />
-                    ) : currency == 'usd' && (
-                      <TradingViewWidget symbol='ICPUSD' />
-                    )}
-                    <div className='w-full xl:max-w-sm block xl:hidden mt-12'>
+                {/* Render TokenHeader only if selectedTab == 'info' */}
+                {(!isWindowUnder1024 || selectedTab === 'info') && <TokenHeader tokenData={tokenData} />}
+
+                <div className="flex flex-col lg:flex-row xl:gap-6 lg:gap-4 gap-10">
+                  {/* Render TradingViewWidget or TradingViewCustomWidget only if selectedTab == 'chart' */}
+                  {(!isWindowUnder1024 || selectedTab === 'chart') && (
+                    <div className={`w-full ${isWindowUnder1024 ? (selectedTab === 'chart' ? 'block fixed z-50 bottom-[57px] left-0' : 'hidden') : ''}`}>
+                      {tokenData.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? (
+                        <div>
+                          <TradingViewCustomWidget canister_id={tokenData.canister_id} />
+                        </div>
+                      ) : (
+                        <TradingViewWidget symbol='ICPUSD' />
+                      )}
+                    </div>
+                  )}
+
+                  {/* Render TokenInfo only if selectedTab == 'info' */}
+                  {(!isWindowUnder1024 || selectedTab === 'info') && (
+                    <div className={`w-full lg:max-w-[320px] xl:max-w-[374px] lg:overflow-y-auto lg:max-h-[calc(100vh-195px)] pb-24 lg:pb-0`}>
                       <TokenInfo data={tokenData} />
                     </div>
-                    <TokenDetails data={tokenData} />
-                  </div>
-                  <div className='w-full xl:max-w-sm hidden xl:block'>
-                    <TokenInfo data={tokenData} />
-                  </div>
+                  )}
+                </div>
+
+                <div className='lg:hidden block'>
+                  <TokenMainNav onTabChange={handleTabChange} />
                 </div>
               </div>
             </Suspense>

@@ -43,6 +43,7 @@ const ContractButton = ({ canisterId }) => {
         autoHideDuration={4000}
         onClose={handleClose}
         anchorOrigin={{ vertical: `${isWindowUnder800 ? 'bottom' : 'top'}`, horizontal: 'center' }}
+        sx={{ marginTop: !isWindowUnder800 ? '50px' : '' }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Contract ID copied to clipboard!

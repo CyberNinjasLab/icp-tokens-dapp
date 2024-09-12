@@ -497,6 +497,23 @@ export const darkTheme = createTheme({
               borderRadius: 4,
           },
       },
-  },
+    },
+    MuiBottomNavigation: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#0f0f26', // dark background for bottom navigation
+        },
+      },
+    },
+    MuiBottomNavigationAction: {
+      styleOverrides: {
+        root: {
+          color: '#fff', // white color for the icons and labels
+          '&.Mui-selected': {
+            color: '#28abe596', // primary color when selected
+          },
+        },
+      },
+    },
   }
 });

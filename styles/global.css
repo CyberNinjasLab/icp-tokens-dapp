@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import custom scrollbar styles */
+@import './scroll.css';
+
 @layer components {
   .ag-header-cell.text-right .ag-header-cell-label {
     @apply justify-end;

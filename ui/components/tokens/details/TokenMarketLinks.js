@@ -58,7 +58,6 @@ function TokenMarketLinks({ token }) {
         '#': index + 1,
       }));
 
-      console.log(newData);
       setFormattedMarketsData(newData);
     }
   }, [tokenMarkets]);
