@@ -53,7 +53,6 @@ actor Portfolio {
   // Store next repository ID
   stable var nextPortfolioId: Nat = 1;
   stable var nextTokenId: Nat = 1;
-  stable var nextTransactionId: Nat = 1;
 
   // Store count of the total number of portfolios
   stable var totalPortfolioCount: Nat = 0;
@@ -101,7 +100,105 @@ actor Portfolio {
     return #ok(newPortfolio);
   };
 
-  private func addTokenToPortfolio(caller_principal: Principal, portfolio_id: Nat, token_canister_id: Principal) : Result<(Token), Text> {
+  public shared (msg) func importPortfolio(
+    name: Text,
+    created_at: Int,
+    tokensWithTransactions: [(Principal, [Transaction])]
+  ) : async Result<Portfolio, Text> {
+
+    // Create a new portfolio manually using the provided name and timestamp
+    let portfoliosResult = portfolioList.get(msg.caller);
+    let newPortfolio: Portfolio = {
+      id = nextPortfolioId;
+      name = name;
+      created_at = created_at; // Use custom timestamp
+    };
+
+    switch (portfoliosResult) {
+      case (null) {
+        let newMap = HashMap.HashMap<Nat, Portfolio>(3, Nat.equal, Hash.hash);
+        newMap.put(nextPortfolioId, newPortfolio);
+        portfolioList.put(msg.caller, newMap);
+      };
+      case (?existingPortfolios) {
+        return #err("This function is only for initial portfolio import.");
+      };
+    };
+
+    // Increment portfolio ID and count
+    nextPortfolioId += 1;
+    totalPortfolioCount += 1;
+
+    // Loop through each token and its transactions
+    for ((tokenCanisterId, transactions) in tokensWithTransactions.vals()) {
+
+      // Add token to the portfolio, initializing with quantity 0 and id 1
+      let tokensResult = portfolioTokens.get(newPortfolio.id);
+      var tokensMap: HashMap<Principal, Token> = switch (tokensResult) {
+        case (null) { HashMap.HashMap<Principal, Token>(10, Principal.equal, Principal.hash) };
+        case (?existingTokens) { existingTokens };
+      };
+
+      // Initialize token data with quantity 0 and next_transaction_id 1
+      var tokenQuantity: Float = 0.0;
+      var nextTransactionId: Nat = 1;
+
+      // Loop through each transaction for the token
+      for (transaction in transactions.vals()) {
+        // Update the token quantity based on the transaction direction
+        tokenQuantity := switch (transaction.direction) {
+          case (#Buy) { tokenQuantity + transaction.quantity };
+          case (#Sell) { tokenQuantity - transaction.quantity };
+          case (#Transfer) { 0.0 }; // For transfers, no change in quantity
+        };
+
+        // Update the token's transaction map
+        let tokenTransactionsResult = portfolioTokenTransactions.get(nextTokenId);
+        var transactionMap: HashMap<Nat, Transaction> = switch (tokenTransactionsResult) {
+          case (null) { HashMap.HashMap<Nat, Transaction>(100, Nat.equal, Hash.hash) };
+          case (?existingTransactions) { existingTransactions };
+        };
+
+        // Create the new transaction
+        let newTransaction: Transaction = {
+          id = ?nextTransactionId;
+          quantity = transaction.quantity;
+          price_per_token_icp = transaction.price_per_token_icp;
+          price_per_token_usd = transaction.price_per_token_usd;
+          price_per_token_btc = transaction.price_per_token_btc;
+          timestamp = transaction.timestamp;
+          note = transaction.note;
+          direction = transaction.direction;
+        };
+
+        // Add the transaction to the transaction map
+        transactionMap.put(nextTransactionId, newTransaction);
+        nextTransactionId += 1;
+
+        // Update portfolioTokenTransactions for this token
+        portfolioTokenTransactions.put(nextTokenId, transactionMap);
+      };
+
+      // After processing all transactions, add the token to the tokens map
+      let newToken: Token = {
+        id = nextTokenId;
+        portfolio_owner_id = msg.caller;
+        canister_id = tokenCanisterId;
+        quantity = tokenQuantity;
+        next_transaction_id = nextTransactionId;
+      };
+
+      tokensMap.put(tokenCanisterId, newToken);
+      portfolioTokens.put(newPortfolio.id, tokensMap);
+
+      // Increment token ID for the next token
+      nextTokenId += 1;
+    };
+
+    return #ok(newPortfolio);
+  };
+
+  private func addTokenToPortfolio(caller_principal: Principal, portfolio_id: Nat, token_canister_id: Principal) : Result<Token, Text> {
     let portfoliosResult = portfolioList.get(caller_principal);
 
     switch (portfoliosResult) {
