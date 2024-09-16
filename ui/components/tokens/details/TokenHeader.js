@@ -24,7 +24,7 @@ const TokenHeader = ({ tokenData }) => {
           <Typography variant="h7" style={{
             marginRight: 3
           }}>
-            {tokenName != tokenData.symbol ? `${tokenName} (${tokenData?.symbol})` : tokenData?.symbol}
+            {`${tokenName} (${tokenData?.symbol})`}
           </Typography>
 
           <Favorites data={tokenData} size='medium' />
