@@ -23,7 +23,7 @@ const Footer = () => {
 											<h5 className="font-bold text-xl mb-4">About</h5>
 											<ul className="flex flex-col gap-2">
 													<li className="text-sm">
-														<Link href="/about-us" className='hover:underline'>About Us</Link>
+														<a href="https://cyberninjas.net/" target='_blank'>About Us</a>
 													</li>
 													<li className="text-sm">
 														<Link href="/how-it-works" className='hover:underline'>How it works</Link>
@@ -37,7 +37,7 @@ const Footer = () => {
 														<Link href="/changelog" className='hover:underline'>Changelog</Link>
 													</li>
 													<li className="text-sm">
-														<Link href="https://docs.google.com/forms/d/e/1FAIpQLSdgnD57_rJuz4ZkQI8ayjbe1LUInOmGozRehGAlY9pznzuRYw/viewform" target='_blank' className='hover:underline'>Listing request</Link>
+														<Link href="https://tally.so/r/wkWKbd" target='_blank' className='hover:underline'>Listing request</Link>
 													</li>
 											</ul>
 									</div>
