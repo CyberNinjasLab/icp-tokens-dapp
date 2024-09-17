@@ -45,7 +45,7 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   };
 
   const setDynamicHeight = () => {
-    const viewportHeight = window.innerHeight;
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
     const element = document.getElementById('tv_chart_container');
     if (element) {
       const chartOffset = isWindowUnder1024 ? 110 : 200;

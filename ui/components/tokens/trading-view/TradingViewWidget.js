@@ -59,14 +59,18 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
   };
 
   const setDynamicHeight = () => {
-    const viewportHeight = window.innerHeight;
+    // Use visualViewport.height if available, else fall back to innerHeight
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    
     const element = document.getElementById('tv_chart_container');
+    
     if (element) {
-      const chartOffset = isWindowUnder1024 ? 108 : 235;
+      const chartOffset = isWindowUnder1024 ? 108 : 235; // Adjust offsets based on screen width
+      // Set the height considering fullscreen or the offset
       element.style.height = fullscreen ? `${viewportHeight}px` : `${viewportHeight - chartOffset}px`;
     }
   };
-
+  
   useEffect(() => {
     setDynamicHeight();
   }, [isWindowUnder1024]);
