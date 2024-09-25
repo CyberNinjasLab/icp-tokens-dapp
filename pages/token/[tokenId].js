@@ -38,14 +38,7 @@ const TokenPage = () => {
         <title>{pageTitle} | ICP Tokens by Market Cap</title>
         <meta name="description" content={`Learn more about ${pageTitle}`} />
         <meta property="og:title" content={`${ pageTitle } | ICP Tokens by Market Cap`} />
-        <meta property="og:description" content={`Learn more about ${pageTitle}`} />
-        <meta property="og:url" content={`https://icptokens.net/${slug}`} />
-        <meta property="og:type" content="website" />
-        <link
-          rel="canonical"
-          href="https://icptokens.net/${slug}"
-          key="canonical"
-        />
+        <meta property="og:description" content={`Learn more about ${pageTitle}`} />          
         <meta name="robots" content="index,follow"/> 
 
         {/* If you have specific meta tags that should change with the page, include them here */}
