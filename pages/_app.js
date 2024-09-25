@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>ICP Tokens</title>
+        <title>ICP Tokens by Market Cap</title>
         <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects." />
         <meta property="og:title" content=">ICP Tokens by Market Cap" />
         <meta property="og:description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects" />
@@ -43,7 +43,18 @@ export default function App({ Component, pageProps }) {
           href="https://icptokens.net"
           key="canonical"
         />
-        <meta name="robots" content="index,follow"/>
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@icptokens">
+        <meta name="twitter:creator" content="@icptokens">
+        <meta name="twitter:url" content="https://icptokens.net">
+        <meta name="twitter:title" content="ICP Tokens by Market Cap">
+        <meta name="twitter:description" content="Explore ICP Tokens for real-time market data and portfolio management">
+        <meta name="twitter:image" content="https://icptokens.net/og-image.png">
+        <meta name="twitter:image:alt" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects">
+        {/* <!-- Control the behavior of search engine crawling and indexing --> */}
+        <meta name="robots" content="index,follow">  {/*<!-- All Search Engines -->*/}
+        <meta name="googlebot" content="index,follow">{/*<!-- Google Specific -->*/}
         <link
           rel="apple-touch-icon"
           sizes="180x180"
