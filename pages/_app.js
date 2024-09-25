@@ -31,9 +31,19 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <title>ICP Tokens</title>
-        <meta name="description" content="Dive deep into the world of the ICP ecosystem in a one-stop-shop. Discover the ultimate platform for the latest news, comprehensive insights of your favorite ICP tokens. Whether you're a seasoned investor or new to the scene, icptokens offers everything you need to stay ahead in the dynamic cryptocurrency landscape and will keep staying up on the curve." />
-        <meta property="og:image" content="/og-image.png"/>
-        
+        <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects." />
+        <meta property="og:title" content=">ICP Tokens by Market Cap" />
+        <meta property="og:description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects" />
+        <meta property="og:url" content="https://icptokens.net/" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:image" content="https://icptokens.net/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link
+          rel="canonical"
+          href="https://icptokens.net"
+          key="canonical"
+        />
+        <meta name="robots" content="index,follow"/>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
