@@ -16,7 +16,17 @@ const Home = () => {
     <>
       <Head>
         <title>ICP Tokens by Market Cap</title>
-        <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects."></meta>
+        <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects."/>
+        <meta property="og:title" content=">ICP Tokens by Market Cap" />
+        <meta property="og:description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects" />
+        <meta property="og:image" content="https://icptokens.net/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link
+          rel="canonical"
+          href="https://icptokens.net"
+          key="canonical"
+        />
+        <meta name="robots" content="index,follow"></meta>
       </Head>
       <Layout extraClass={'max-w-[1430px]'}>
         <div>
