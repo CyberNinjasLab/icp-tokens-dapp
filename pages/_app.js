@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }) {
         <title>ICP Tokens</title>
         <meta name="description" content="Dive deep into the world of the ICP ecosystem in a one-stop-shop. Discover the ultimate platform for the latest news, comprehensive insights of your favorite ICP tokens. Whether you're a seasoned investor or new to the scene, icptokens offers everything you need to stay ahead in the dynamic cryptocurrency landscape and will keep staying up on the curve." />
         <meta property="og:image" content="/og-image.png"/>
+        
         <link
           rel="apple-touch-icon"
           sizes="180x180"

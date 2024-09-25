@@ -7,7 +7,8 @@ const HowItWorks = () => {
 	return (
 		<>
       <Head>
-        <title>About Us | ICP Tokens</title>
+        <title>About Us | ICP Tokens by Market Cap</title>
+        <meta name="description" content="ICPTokens is a platform that offers tools and resources for investors in the ICP ecosystem."></meta>
       </Head>
       <Layout>
         <div className='max-w-xl mx-auto lg:mt-6'>

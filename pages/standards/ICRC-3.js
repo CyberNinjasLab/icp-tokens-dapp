@@ -9,6 +9,7 @@ const ICRC1 = () => {
     <>
       <Head>
         <title>ICRC-3 Block Log Token Standard | ICP Tokens</title>
+        <meta name="description" content=""></meta>
       </Head>
       <Layout>
         <div className="markdown-content changelog-wrap max-w-xl mx-auto lg:mt-6 min-h-screen">

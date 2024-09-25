@@ -35,8 +35,9 @@ const TokenPage = () => {
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{pageTitle} | ICP Tokens by Market Cap</title>
         {/* If you have specific meta tags that should change with the page, include them here */}
+        {/* <meta name="description" content=" {pageTitle} | ICP Tokens by Market Cap"></meta> */}
       </Head>
       <Layout extraClass={'max-w-[6000px] lg:h-screen lg:fixed'} footer={false}>
         {isLoading && <div>Loading...</div>}

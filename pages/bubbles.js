@@ -265,7 +265,9 @@ const BubblesComponent = () => {
 		
 			<>
 				<Head>
-					<title>Bubble Screener | ICP Tokens</title>
+					<title>Bubble Screener | ICP Tokens by Market Cap</title>
+					<meta name="description" content="Visualize ICP token market movements with the Bubbles tool. Track percentage changes and discover connections between tokens in the Internet Computer ecosystem."></meta>
+
 				</Head>
 				<Layout footer={false}>
 						<div className='w-full'>
