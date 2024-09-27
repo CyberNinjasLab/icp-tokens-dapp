@@ -1,4 +1,3 @@
-import Nat64 "mo:base/Nat64";
 import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 import Hash "mo:base/Hash";
@@ -6,7 +5,7 @@ import Nat "mo:base/Nat";
 import Iter "mo:base/Iter";
 import Result "mo:base/Result";
 import Time "mo:base/Time";
-import Bool "mo:base/Bool";
+import Helper "helper";
 
 actor Portfolio {
   // Types
@@ -15,40 +14,54 @@ actor Portfolio {
 
   public type Direction = { #Buy; #Sell; #Transfer };
 
+  public type TransactionKey = (Nat, Nat); // id, timestamp
+
   public type Transaction = {
     id: ?Nat;
     quantity: Float;
-    price_per_token_icp: Float; // ICP Price
-    price_per_token_usd: Float; // USD Price
-    price_per_token_btc: Float; // BTC Price
-    timestamp: Int;
+    price_icp: Float; // ICP Price
+    price_usd: Float; // USD Price
+    price_btc: ?Float; // BTC Price
+    timestamp: Nat;
     note: Text;
     direction: Direction; // True for buy, False for sell
   };
 
   public type Token = {
     id: Nat;
-    portfolio_owner_id: Principal; // Store portfolio owner Principal
-    canister_id: Principal; // Token contract address
+    portfolio_owner_id: Principal;
+    canister_id: Principal;
     quantity: Float;
     next_transaction_id: Nat;
+    total_icp_buy_cost: Float; // Total ICP spent on buying the token
+    total_usd_buy_cost: Float; // Total USD spent on buying the token
+    total_quantity_bought: Float; // Total quantity of token bought
+  };
+
+  public type PortfolioKind = {
+    #Wallet : {
+      walletAddress: Text;
+    };
+    #Manual;
   };
 
   public type Portfolio = {
     id: Nat;
     name: Text;
+    kind: PortfolioKind;
     created_at: Int;
+    updated_at: Int;
   };
 
   public type PortfolioList = HashMap<Principal, HashMap<Nat, Portfolio>>;
   public type PortfolioTokens = HashMap<Nat, HashMap<Principal, Token>>;
-  public type PortfolioTokenTransactions = HashMap<Nat, HashMap<Nat, Transaction>>;
+  public type PortfolioTokenTransactions = HashMap<Nat, HashMap<TransactionKey, Transaction>>;
 
   // Repository
   // WARNING: Consider splitting the dataset into multiple canisters if it grows too large.
   stable var portfolioListRepository: [(Principal, [(Nat, Portfolio)])] = [];
   stable var portfolioTokenRepository: [(Nat, [(Principal, Token)])] = [];
-  stable var portfolioTokenTransactionRepository: [(Nat, [(Nat, Transaction)])] = []; // Added missing type
+  stable var portfolioTokenTransactionRepository: [(Nat, [((TransactionKey), Transaction)])] = []; // Added missing type
 
   // Store next repository ID
   stable var nextPortfolioId: Nat = 1;
@@ -60,16 +73,20 @@ actor Portfolio {
   // Variables
   let portfolioList : PortfolioList = HashMap.HashMap<Principal, HashMap.HashMap<Nat, Portfolio>>(100, Principal.equal, Principal.hash);
   let portfolioTokens : PortfolioTokens = HashMap.HashMap<Nat, HashMap<Principal, Token>>(100, Nat.equal, Hash.hash);
-  let portfolioTokenTransactions : PortfolioTokenTransactions = HashMap.HashMap<Nat, HashMap<Nat, Transaction>>(100, Nat.equal, Hash.hash);
+  let portfolioTokenTransactions : PortfolioTokenTransactions = HashMap.HashMap<Nat, HashMap<TransactionKey, Transaction>>(100, Nat.equal, Hash.hash);
 
   // Portfolio Functions
-  public shared (msg) func createPortfolio(name: Text) : async Result<Portfolio, Text> {
+  public shared (msg) func createPortfolio(name: Text, kind: PortfolioKind) : async Result<Portfolio, Text> {
     let portfoliosResult = portfolioList.get(msg.caller);
+
+    let now = Time.now();
     
     let newPortfolio: Portfolio = {
       id = nextPortfolioId;
       name = name;
-      created_at = Time.now();
+      kind = kind;
+      created_at = now;
+      updated_at = now;
     };
 
     switch (portfoliosResult) {
@@ -111,7 +128,9 @@ actor Portfolio {
     let newPortfolio: Portfolio = {
       id = nextPortfolioId;
       name = name;
+      kind = #Manual;
       created_at = created_at; // Use custom timestamp
+      updated_at = created_at;
     };
 
     switch (portfoliosResult) {
@@ -141,21 +160,30 @@ actor Portfolio {
 
       // Initialize token data with quantity 0 and next_transaction_id 1
       var tokenQuantity: Float = 0.0;
+      var totalIcpBuyCost: Float = 0.0;  // Track total ICP buy cost
+      var totalUsdBuyCost: Float = 0.0;  // Track total USD buy cost
+      var totalQuantityBought: Float = 0.0; // Track total quantity bought
       var nextTransactionId: Nat = 1;
 
       // Loop through each transaction for the token
       for (transaction in transactions.vals()) {
         // Update the token quantity based on the transaction direction
         tokenQuantity := switch (transaction.direction) {
-          case (#Buy) { tokenQuantity + transaction.quantity };
-          case (#Sell) { tokenQuantity - transaction.quantity };
-          case (#Transfer) { 0.0 }; // For transfers, no change in quantity
+            case (#Buy) {
+                // Update total costs and quantities for buy transactions
+                totalIcpBuyCost += transaction.price_icp * transaction.quantity;
+                totalUsdBuyCost += transaction.price_usd * transaction.quantity;
+                totalQuantityBought += transaction.quantity;
+                tokenQuantity + transaction.quantity;
+            };
+            case (#Sell) { tokenQuantity - transaction.quantity };
+            case (#Transfer) { tokenQuantity };  // For transfers, no change in quantity
         };
 
         // Update the token's transaction map
         let tokenTransactionsResult = portfolioTokenTransactions.get(nextTokenId);
-        var transactionMap: HashMap<Nat, Transaction> = switch (tokenTransactionsResult) {
-          case (null) { HashMap.HashMap<Nat, Transaction>(100, Nat.equal, Hash.hash) };
+        var transactionMap: HashMap<TransactionKey, Transaction> = switch (tokenTransactionsResult) {
+          case (null) { HashMap.HashMap<TransactionKey, Transaction>(100, Helper.transactionKeyEqual, Helper.transactionKeyHash) };
           case (?existingTransactions) { existingTransactions };
         };
 
@@ -163,16 +191,16 @@ actor Portfolio {
         let newTransaction: Transaction = {
           id = ?nextTransactionId;
           quantity = transaction.quantity;
-          price_per_token_icp = transaction.price_per_token_icp;
-          price_per_token_usd = transaction.price_per_token_usd;
-          price_per_token_btc = transaction.price_per_token_btc;
+          price_icp = transaction.price_icp;
+          price_usd = transaction.price_usd;
+          price_btc = transaction.price_btc;
           timestamp = transaction.timestamp;
           note = transaction.note;
           direction = transaction.direction;
         };
 
         // Add the transaction to the transaction map
-        transactionMap.put(nextTransactionId, newTransaction);
+        transactionMap.put((nextTransactionId, newTransaction.timestamp), newTransaction);
         nextTransactionId += 1;
 
         // Update portfolioTokenTransactions for this token
@@ -186,6 +214,9 @@ actor Portfolio {
         canister_id = tokenCanisterId;
         quantity = tokenQuantity;
         next_transaction_id = nextTransactionId;
+        total_icp_buy_cost = totalIcpBuyCost;      // Set total ICP buy cost
+        total_usd_buy_cost = totalUsdBuyCost;      // Set total USD buy cost
+        total_quantity_bought = totalQuantityBought;  // Set total quantity bought
       };
 
       tokensMap.put(tokenCanisterId, newToken);
@@ -238,6 +269,9 @@ actor Portfolio {
               canister_id = token_canister_id;
               quantity = 0;
               next_transaction_id = 1;
+              total_icp_buy_cost = 0.0;
+              total_usd_buy_cost = 0.0;
+              total_quantity_bought = 0.0;
             };
 
             tokensMap.put(token_canister_id, newToken);
@@ -278,7 +312,7 @@ actor Portfolio {
                 // Proceed to get or create the transaction map for the token
                 let tokenTransactionsResult = portfolioTokenTransactions.get(token.id);
 
-                var transactionMap: HashMap<Nat, Transaction> = HashMap.HashMap<Nat, Transaction>(100, Nat.equal, Hash.hash);
+                var transactionMap: HashMap<TransactionKey, Transaction> = HashMap.HashMap<TransactionKey, Transaction>(100, Helper.transactionKeyEqual, Helper.transactionKeyHash);
 
                 switch (tokenTransactionsResult) {
                   case (null) {
@@ -302,23 +336,32 @@ actor Portfolio {
                     let newTransaction: Transaction = {
                       id = ?token.next_transaction_id;
                       quantity = transaction.quantity;
-                      price_per_token_icp = transaction.price_per_token_icp;
-                      price_per_token_usd = transaction.price_per_token_usd;
-                      price_per_token_btc = transaction.price_per_token_btc;
+                      price_icp = transaction.price_icp;
+                      price_usd = transaction.price_usd;
+                      price_btc = transaction.price_btc;
                       timestamp = transaction.timestamp;
                       note = transaction.note;
                       direction = transaction.direction;
                     };
 
                     // Update the token's quantity based on the transaction direction
-                    let updatedQuantity = switch (transaction.direction) {
-                      case (#Buy) { token.quantity + transaction.quantity };
-                      case (#Sell) { token.quantity - transaction.quantity };
-                      case (#Transfer) { 0.0 };
+                    var updatedQuantity = token.quantity;
+                    var totalIcpBuyCost = token.total_icp_buy_cost + (transaction.quantity * transaction.price_icp);
+                    var totalUsdBuyCost = token.total_usd_buy_cost + (transaction.quantity * transaction.price_usd);
+                    
+                    switch (transaction.direction) {
+                      case (#Buy) { 
+                        updatedQuantity := updatedQuantity + transaction.quantity;
+                        totalIcpBuyCost := totalIcpBuyCost + (transaction.quantity * transaction.price_icp);
+                        totalUsdBuyCost := totalUsdBuyCost + (transaction.quantity * transaction.price_usd);
+                      };
+                      case (#Sell) { 
+                        updatedQuantity := updatedQuantity - transaction.quantity };
+                      case (#Transfer) { };
                     };
 
                     // Put the new transaction in the transaction map
-                    transactionMap.put(token.next_transaction_id, newTransaction);
+                    transactionMap.put((token.next_transaction_id, newTransaction.timestamp), newTransaction);
                     portfolioTokenTransactions.put(token.id, transactionMap);
 
                     // Increment the token's next_transaction_id and update the token's quantity
@@ -328,6 +371,9 @@ actor Portfolio {
                       canister_id = token.canister_id;
                       quantity = updatedQuantity;
                       next_transaction_id = (token.next_transaction_id + 1);
+                      total_icp_buy_cost = 0.0;
+                      total_usd_buy_cost = 0.0;
+                      total_quantity_bought = 0.0;
                     });
 
                     // Update the portfolioTokens with the modified token list
@@ -348,7 +394,7 @@ actor Portfolio {
   public shared (msg) func updateTransaction(
     portfolio_id: Nat,
     token_canister_id: Principal,
-    transaction_id: Nat,
+    transaction_key: TransactionKey,
     updatedTransaction: Transaction
   ) : async Result<Text, Text> {
     // Find the portfolio for the caller
@@ -389,29 +435,51 @@ actor Portfolio {
                         return #err("No transactions found for the specified token.");
                       };
                       case (?existingTransactions) {
-                        let transaction = existingTransactions.get(transaction_id);
+                        let transaction = existingTransactions.get((transaction_key.0, transaction_key.1));
 
                         switch (transaction) {
                           case (null) {
                             return #err("Transaction not found.");
                           };
                           case (?existingTransaction) {
-                            // Adjust the token quantity by removing the effect of the old transaction
-                            let adjustedQuantity = switch (existingTransaction.direction) {
-                              case (#Buy) { existingToken.quantity - existingTransaction.quantity };
-                              case (#Sell) { existingToken.quantity + existingTransaction.quantity };
-                              case (#Transfer) { 0.0 };
+                            // Adjust the token quantity and total costs by removing the effect of the old transaction
+                            var adjustedQuantity = existingToken.quantity;
+                            var adjustedTotalIcpBuyCost = existingToken.total_icp_buy_cost;
+                            var adjustedTotalUsdBuyCost = existingToken.total_usd_buy_cost;
+                            var adjustedTotalQuantityBought = existingToken.total_quantity_bought;
+
+                            switch (existingTransaction.direction) {
+                                case (#Buy) {
+                                    // Reverse the effect of the old buy transaction
+                                    adjustedQuantity -= existingTransaction.quantity;
+                                    adjustedTotalIcpBuyCost -= existingTransaction.price_icp * existingTransaction.quantity;
+                                    adjustedTotalUsdBuyCost -= existingTransaction.price_usd * existingTransaction.quantity;
+                                    adjustedTotalQuantityBought -= existingTransaction.quantity;
+                                };
+                                case (#Sell) {
+                                    adjustedQuantity += existingTransaction.quantity;
+                                };
+                                case (#Transfer) {};
                             };
 
-                            // Apply the new transaction effect to adjust the quantity
-                            let finalQuantity = switch (updatedTransaction.direction) {
-                              case (#Buy) { adjustedQuantity + updatedTransaction.quantity };
-                              case (#Sell) { adjustedQuantity - updatedTransaction.quantity };
-                              case (#Transfer) { 0.0 };
+                            // Apply the new transaction effect
+                            var finalQuantity = adjustedQuantity;
+                            switch (updatedTransaction.direction) {
+                                case (#Buy) {
+                                    // Apply the new buy transaction effect
+                                    finalQuantity += updatedTransaction.quantity;
+                                    adjustedTotalIcpBuyCost += updatedTransaction.price_icp * updatedTransaction.quantity;
+                                    adjustedTotalUsdBuyCost += updatedTransaction.price_usd * updatedTransaction.quantity;
+                                    adjustedTotalQuantityBought += updatedTransaction.quantity;
+                                };
+                                case (#Sell) {
+                                    finalQuantity -= updatedTransaction.quantity;
+                                };
+                                case (#Transfer) {};
                             };
 
                             // Update the transaction with the new details
-                            existingTransactions.put(transaction_id, updatedTransaction);
+                            existingTransactions.put((transaction_key.0, transaction_key.1), updatedTransaction);
                             portfolioTokenTransactions.put(existingToken.id, existingTransactions);
 
                             // Update the token's quantity and save it back to the portfolioTokens
@@ -421,6 +489,9 @@ actor Portfolio {
                               canister_id = existingToken.canister_id;
                               quantity = finalQuantity;
                               next_transaction_id = existingToken.next_transaction_id;
+                              total_icp_buy_cost = adjustedTotalIcpBuyCost;   // Update total ICP buy cost
+                              total_usd_buy_cost = adjustedTotalUsdBuyCost;   // Update total USD buy cost
+                              total_quantity_bought = adjustedTotalQuantityBought;  // Update total quantity bought
                             });
 
                             // Save the updated token map
@@ -444,7 +515,7 @@ actor Portfolio {
   public shared (msg) func deleteTransaction(
     portfolio_id: Nat,
     token_canister_id: Principal,
-    transaction_id: Nat
+    transaction_key: TransactionKey
   ) : async Result<Text, Text> {
     // Find the portfolio for the caller
     let portfoliosResult = portfolioList.get(msg.caller);
@@ -484,40 +555,58 @@ actor Portfolio {
                         return #err("No transactions found for the specified token.");
                       };
                       case (?existingTransactions) {
-                        let transaction = existingTransactions.get(transaction_id);
+                        let transaction = existingTransactions.get((transaction_key.0, transaction_key.1));
 
                         switch (transaction) {
                           case (null) {
                             return #err("Transaction not found.");
                           };
                           case (?existingTransaction) {
-                            // Adjust the token quantity based on the transaction being deleted
-                            let updatedQuantity = switch (existingTransaction.direction) {
-                              case (#Buy) { existingToken.quantity - existingTransaction.quantity };
-                              case (#Sell) { existingToken.quantity + existingTransaction.quantity };
-                              case (#Transfer) { 0.0 };
+                            // Adjust the token quantity and total costs based on the transaction being deleted
+                            var updatedQuantity = existingToken.quantity;
+                            var updatedTotalIcpBuyCost = existingToken.total_icp_buy_cost;
+                            var updatedTotalUsdBuyCost = existingToken.total_usd_buy_cost;
+                            var updatedTotalQuantityBought = existingToken.total_quantity_bought;
+
+                            switch (existingTransaction.direction) {
+                                case (#Buy) {
+                                    // Reverse the effect of the buy transaction
+                                    updatedQuantity -= existingTransaction.quantity;
+                                    updatedTotalIcpBuyCost -= existingTransaction.price_icp * existingTransaction.quantity;
+                                    updatedTotalUsdBuyCost -= existingTransaction.price_usd * existingTransaction.quantity;
+                                    updatedTotalQuantityBought -= existingTransaction.quantity;
+                                };
+                                case (#Sell) {
+                                    updatedQuantity += existingTransaction.quantity;
+                                };
+                                case (#Transfer) {
+                                    // For transfers, quantity remains unchanged
+                                };
                             };
 
                             // Remove the transaction from the transaction map
-                            existingTransactions.delete(transaction_id);
+                            existingTransactions.delete((transaction_key.0, transaction_key.1));
 
                             // Check if there are no more transactions for this token
                             if (existingTransactions.size() == 0) {
-                              // If no transactions left, remove the token from the portfolio
-                              existingTokens.delete(token_canister_id);
-                              portfolioTokenTransactions.delete(existingToken.id);
+                                // If no transactions left, remove the token from the portfolio
+                                existingTokens.delete(token_canister_id);
+                                portfolioTokenTransactions.delete(existingToken.id);
                             } else {
-                              // Update the token quantity in the token map
-                              existingTokens.put(token_canister_id, {
-                                id = existingToken.id;
-                                portfolio_owner_id = existingToken.portfolio_owner_id;
-                                canister_id = existingToken.canister_id;
-                                quantity = updatedQuantity;
-                                next_transaction_id = existingToken.next_transaction_id;
-                              });
+                                // Update the token quantity and total buy properties in the token map
+                                existingTokens.put(token_canister_id, {
+                                    id = existingToken.id;
+                                    portfolio_owner_id = existingToken.portfolio_owner_id;
+                                    canister_id = existingToken.canister_id;
+                                    quantity = updatedQuantity;
+                                    next_transaction_id = existingToken.next_transaction_id;
+                                    total_icp_buy_cost = updatedTotalIcpBuyCost;    // Update total ICP buy cost
+                                    total_usd_buy_cost = updatedTotalUsdBuyCost;    // Update total USD buy cost
+                                    total_quantity_bought = updatedTotalQuantityBought;  // Update total quantity bought
+                                });
 
-                              // Save the updated transaction list
-                              portfolioTokenTransactions.put(existingToken.id, existingTransactions);
+                                // Save the updated transaction list
+                                portfolioTokenTransactions.put(existingToken.id, existingTransactions);
                             };
 
                             // Save the updated token map
@@ -583,7 +672,7 @@ actor Portfolio {
     };
   };
 
-  public shared query (msg) func getTokenTransactions(portfolio_id: Nat, token_canister_id: Principal) : async Result<[(Nat, Transaction)], Text> {
+  public shared query (msg) func getTokenTransactions(portfolio_id: Nat, token_canister_id: Principal) : async Result<[(TransactionKey, Transaction)], Text> {
     // Get the portfolios for the caller
     let portfoliosResult = portfolioList.get(msg.caller);
 
@@ -692,10 +781,10 @@ actor Portfolio {
       portfolioTokenRepository := Iter.toArray(portfolioTokenEntries.entries());
 
       // Portfolio Token Transactions
-      let portfolioTokenTransactionEntries : HashMap.HashMap<Nat, [(Nat, Transaction)]> = HashMap.HashMap<Nat, [(Nat, Transaction)]>(500, Nat.equal, Hash.hash);
+      let portfolioTokenTransactionEntries : HashMap.HashMap<Nat, [(TransactionKey, Transaction)]> = HashMap.HashMap<Nat, [(TransactionKey, Transaction)]>(500, Nat.equal, Hash.hash);
 
-      for ((key: Nat, value: HashMap<Nat, Transaction>) in portfolioTokenTransactions.entries()) {
-        let array: [(Nat, Transaction)] = Iter.toArray(value.entries());
+      for ((key: Nat, value: HashMap<TransactionKey, Transaction>) in portfolioTokenTransactions.entries()) {
+        let array: [(TransactionKey, Transaction)] = Iter.toArray(value.entries());
 
         portfolioTokenTransactionEntries.put(key, array);
       };
@@ -723,8 +812,8 @@ actor Portfolio {
     };
 
     //Parse PortfolioTokenTransactions (Stable -> Heap)
-    for ((key: Nat, value: [(Nat, Transaction)]) in portfolioTokenTransactionRepository.vals()) {
-      let map = HashMap.HashMap<Nat, Transaction>(100, Nat.equal, Hash.hash);
+    for ((key: Nat, value: [(TransactionKey, Transaction)]) in portfolioTokenTransactionRepository.vals()) {
+      let map = HashMap.HashMap<TransactionKey, Transaction>(100, Helper.transactionKeyEqual, Helper.transactionKeyHash);
       for(i in value.keys()) {
         map.put(value[i].0, value[i].1);
       };
