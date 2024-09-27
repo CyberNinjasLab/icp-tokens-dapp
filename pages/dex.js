@@ -6,7 +6,9 @@ const Dex = () => {
 		<>
       <Head>
         <title>DEX | ICP Tokens by Market Cap</title>
-		<meta name="description" content="Access ICP DEX to buy, sell, and exchange ICP tokens. Track real-time market data, liquidity, and trading volumes within the Internet Computer ecosystem"></meta>
+				<meta name="description" content="Access ICP DEX to buy, sell, and exchange ICP tokens. Track real-time market data, liquidity, and trading volumes within the Internet Computer ecosystem" />
+				<meta name="twitter:title" content="DEX | ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Access ICP DEX to buy, sell, and exchange ICP tokens. Track real-time market data, liquidity, and trading volumes within the Internet Computer ecosystem"/>
       </Head>
 			<Layout>
 				<div className='w-full'>
