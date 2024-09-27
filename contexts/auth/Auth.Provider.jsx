@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { AuthClient } from "@dfinity/auth-client";
 import { AuthContext } from "./Auth.Context"; // Ensure the path matches your file structure
-import { createActor } from "../../src/declarations/backend_core"
+import { createActor as createBackendCoreActor } from "../../src/declarations/backend_core";
+import { createActor as createPortfolioActor } from "../../src/declarations/portfolio";
 import Cookies from 'js-cookie';
 import LoginModal from "../../ui/components/_base/LoginModal";
 import ThemeRegistry from "../../utils/ThemeRegistry";
@@ -12,6 +13,7 @@ const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [identity, setIdentity] = useState(null);
   const [backendCoreActor, setBackendCoreActor] = useState(null);
+  const [portfolioActor, setPortfolioActor] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const sessionDurationInDays = 30;
 
@@ -53,24 +55,32 @@ const AuthContextProvider = ({ children }) => {
     initAuth();
   }, []);
 
+  // Helper function to create an actor
+  const createActorInstance = (canisterId, identityObj, createActorFunc) => {
+    return createActorFunc(canisterId, {
+      agentOptions: {
+        identity: identityObj,
+        host: process.env.DFX_NETWORK === 'ic' ?
+          ('https://' + canisterId + '.ic0.app') :
+          ('http://127.0.0.1:4943/?canisterId=' + canisterId)
+      },
+    });
+  };
+
   const initializeUserSession = async (client) => {
     const identityObj = client.getIdentity();
     setIdentity(identityObj);
 
-    const actor = createActor(process.env.NEXT_PUBLIC_BACKEND_CORE_CANISTER_ID, {
-      agentOptions: {
-        identity: identityObj,
-        host: process.env.DFX_NETWORK === 'ic' ?
-          ('https://' + process.env.NEXT_PUBLIC_BACKEND_CORE_CANISTER_ID + '.ic0.app') :
-          ('http://127.0.0.1:4943/?canisterId=' + process.env.NEXT_PUBLIC_BACKEND_CORE_CANISTER_ID)
-      },
-    });
-    setBackendCoreActor(actor);
+    const backendActor = createActorInstance(process.env.NEXT_PUBLIC_BACKEND_CORE_CANISTER_ID, identityObj, createBackendCoreActor);
+    const portfolioActor = createActorInstance(process.env.NEXT_PUBLIC_PORTFOLIO_CANISTER_ID, identityObj, createPortfolioActor);
 
-    let user = await actor.getCurrentUser();
+    setBackendCoreActor(backendActor);
+    setPortfolioActor(portfolioActor);
+
+    let user = await backendActor.getCurrentUser();
     
     if(!user.length) {
-      user = await actor.createUser();
+      user = await backendActor.createUser();
     }
 
     setUser(user);
@@ -109,6 +119,7 @@ const AuthContextProvider = ({ children }) => {
     user,
     authClient,
     backendCoreActor,
+    portfolioActor,
     initializeUserSession,
     login,
     logout,
