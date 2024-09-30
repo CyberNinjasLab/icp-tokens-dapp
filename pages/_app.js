@@ -36,6 +36,7 @@ export default function App({ Component, pageProps }) {
         {/* <!-- Control the behavior of search engine crawling and indexing --> */}
         <meta name="robots" content="index,follow"/>  {/*<!-- All Search Engines -->*/}
         <meta name="googlebot" content="index,follow"/>{/*<!-- Google Specific -->*/}
+        <meta name="yandex-verification" content="612a306d9909f280" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"

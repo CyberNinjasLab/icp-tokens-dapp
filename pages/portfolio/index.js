@@ -66,7 +66,7 @@ const Portfolio = () => {
             <Head>
                 <title>Portfolio | ICP Tokens</title>
                 <meta name="description" content="Manage your ICP Tokens portfolio effortlessly. Track token performance, monitor gains, and make informed decisions within the Internet Computer ecosystem"></meta>
-
+                <meta name="yandex-verification" content="612a306d9909f280" />
             </Head>
             <Layout>
                 <div className='min-h-[300px]'>
