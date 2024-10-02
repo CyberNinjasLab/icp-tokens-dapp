@@ -30,7 +30,7 @@ const TokenPage = () => {
   };
 
   // Example dynamic title. Adjust accordingly based on your tokenData properties.
-  const pageTitle = tokenData ? `${getTokenName(tokenData)} | ICP Tokens` : "ICP Tokens";
+  const pageTitle = tokenData ? `${getTokenName(tokenData)}` : "ICP Tokens";
 
   return (
     <>
