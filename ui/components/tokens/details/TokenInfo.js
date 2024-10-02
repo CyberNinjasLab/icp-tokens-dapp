@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from 'react';
+import React, { lazy, useContext, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -10,6 +10,7 @@ import ICHouseLink from '../ICHouseLink';
 import ContractButton from '../ContractButton';
 import StandardLink from '../StandardLink';
 import ShowMoreText from '../../_base/ShowMoreText';
+import ic from 'ic0';
 
 const TokenMarketLinks = lazy(() => import('./TokenMarketLinks'));
 
@@ -26,7 +27,42 @@ const questionMarkStyle = {
 };
 
 export default function TokenInfo({ data }) {
-  const { formatTotalSupply, currency, showPriceCurrency } = useContext(GeneralContext)
+  const { formatTotalSupply, currency, showPriceCurrency, icpPrice } = useContext(GeneralContext)
+
+  // Store TVL value fetched from the canister
+  const [tvl, setTvl] = useState(null);
+
+  // Fetch TVL using ic0 library
+  useEffect(() => {
+    const fetchTokenTvl = async () => {
+      try {
+        // Initialize the canister interface using ic0
+        const canister = ic('gp26j-lyaaa-aaaag-qck6q-cai'); // The canister you are calling
+
+        console.log('await');
+        // Call the 'getTokenLastTvl' method using the token's canister_id
+        const result = await canister.call('getTokenLastTvl', data.canister_id);
+        const tvlUsdValue = parseInt(result.tvlUSD);
+
+        console.log(result);
+
+        if(icpPrice) {
+          let tvlObj = {
+            usd: tvlUsdValue,
+            icp: parseInt(tvlUsdValue / icpPrice)
+          };
+
+          setTvl(tvlObj);
+        }
+      } catch (error) {
+        console.error('Error fetching TVL:', error);
+      }
+    };
+
+    if (data && data.canister_id && icpPrice) {
+      fetchTokenTvl(); // Only fetch TVL when data is available
+    }
+  }, [data, icpPrice]);  
 
   return (
     <div className='bg-[#28abe508] border border-[#D3D3D3] dark:border-[#555] rounded-md max-w-[400px] mx-auto'>
@@ -50,6 +86,22 @@ export default function TokenInfo({ data }) {
         )}
         <ListItem>
           <div className="flex justify-between items-center w-full mt-2">
+            <Typography variant="textSemiBold">
+              TVL <i className='italic dark:opacity-50 opacity-30'>(ICP Swap)</i>
+              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}
+            </Typography>
+            {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
+            <Typography>
+              {tvl ? (
+                showPriceCurrency(tvl[currency].toLocaleString())
+              ) : (
+                <div className="w-20 h-5 bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+              )}
+            </Typography>
+          </div>
+        </ListItem>
+        <ListItem>
+          <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">
               Fully Diluted M Cap
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}
