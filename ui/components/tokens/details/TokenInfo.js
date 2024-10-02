@@ -56,6 +56,9 @@ export default function TokenInfo({ data }) {
         }
       } catch (error) {
         console.error('Error fetching TVL:', error);
+        setTimeout(function() {
+          fetchTokenTvl();
+        }, 30 * 1000)
       }
     };
 
