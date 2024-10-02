@@ -11,6 +11,9 @@ import ContractButton from '../ContractButton';
 import StandardLink from '../StandardLink';
 import ShowMoreText from '../../_base/ShowMoreText';
 import ic from 'ic0';
+import useSonicDexGraphQL from '../hooks/useSonicDexGraphQL';
+import { TOKEN_DATA_QUERY } from '../queries';
+
 
 const TokenMarketLinks = lazy(() => import('./TokenMarketLinks'));
 
@@ -38,8 +41,30 @@ export default function TokenInfo({ data }) {
       try {
         // Initialize the canister interface using ic0
         const canister = ic('gp26j-lyaaa-aaaag-qck6q-cai'); // The canister you are calling
+        const canister2 = ic('ggzvv-5qaaa-aaaag-qck7a-cai')
 
-        console.log('await');
+        const result3 = await canister.call('getAllPoolTvl');
+        const result2 = await canister2.call('getAllPools');
+
+        console.log(result3);
+
+        let sum = 0;
+
+        for(const item of result2) {
+          if(item.token0Id == data.canister_id || item.token1Id == data.canister_id) {
+            // console.log(item.token0Symbol, item.token1Symbol);
+            for(const poolTvl of result3) {
+              if(poolTvl[0] == item.pool) {
+                sum += poolTvl[1];
+                break;
+              }
+            }
+          }
+        }
+
+        console.log(sum);
+
+        console.log(result2);
         // Call the 'getTokenLastTvl' method using the token's canister_id
         const result = await canister.call('getTokenLastTvl', data.canister_id);
         const tvlUsdValue = parseInt(result.tvlUSD);
@@ -98,7 +123,7 @@ export default function TokenInfo({ data }) {
               {tvl ? (
                 showPriceCurrency(tvl[currency].toLocaleString())
               ) : (
-                <div className="w-20 h-5 bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+                <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
               )}
             </Typography>
           </div>

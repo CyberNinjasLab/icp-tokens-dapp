@@ -63,6 +63,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "events": "^3.3.0",
+    "graphql-request": "^7.1.0",
     "ic0": "^0.2.8",
     "js-cookie": "^3.0.5",
     "lightweight-charts": "^4.1.1",
