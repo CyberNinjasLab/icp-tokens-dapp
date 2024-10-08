@@ -9,17 +9,18 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   const { theme, currency } = useContext(GeneralContext);
   const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
   const isWindowUnder1024 = useWindowWidthUnder(1024);
+  const libraryPath = process.env.NEXT_PUBLIC_TRADING_VIEW_LIB_URL;
 
   const initializeWidget = () => {
     if (window.TradingView) {
       const widget = new window.TradingView.widget({
+        library_path: libraryPath + '/charting_library/',
         symbol: 'icptokens.net',             // Default symbol
         interval: '1d',                    // Default interval
         fullscreen: fullscreen,                 // Displays the chart in the fullscreen mode
         container: 'tv_chart_container',   // Reference to an attribute of the DOM element
         theme: 'dark',
         datafeed: new Datafeeds.UDFCompatibleDatafeed("https://web2.icptokens.net/api/datafeed/" + canister_id + "/" + currency),
-        library_path: '/js/trading-view/charting_library/',
         autosize: true,
         time_frames: [
           { text: "1y", resolution: "1W", description: "1 Year" },
@@ -45,7 +46,7 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   };
 
   const setDynamicHeight = () => {
-    const viewportHeight = window.innerHeight;
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
     const element = document.getElementById('tv_chart_container');
     if (element) {
       const chartOffset = isWindowUnder1024 ? 110 : 200;
@@ -60,8 +61,8 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   useEffect(() => {
     const loadScriptsAndInitialize = async () => {
       try {
-        await loadScript('/js/trading-view/charting_library/charting_library.js');
-        await loadScript('/js/trading-view/datafeeds/udf/dist/bundle.js');
+        await loadScript(libraryPath + '/charting_library/charting_library.js');
+        await loadScript(libraryPath + '/datafeeds/udf/dist/bundle.js');
         initializeWidget();
         setDynamicHeight(); // Set initial height
       } catch (error) {

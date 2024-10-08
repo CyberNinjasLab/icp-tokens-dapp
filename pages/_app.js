@@ -29,10 +29,14 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <title>ICP Tokens</title>
-        <meta name="description" content="Dive deep into the world of the ICP ecosystem in a one-stop-shop. Discover the ultimate platform for the latest news, comprehensive insights of your favorite ICP tokens. Whether you're a seasoned investor or new to the scene, icptokens offers everything you need to stay ahead in the dynamic cryptocurrency landscape and will keep staying up on the curve." />
-        <meta property="og:image" content="/og-image.png"/>
+      <Head>        
+      <title>ICP Tokens by Market Cap</title> 
+        <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects"></meta>
+     
+        {/* <!-- Control the behavior of search engine crawling and indexing --> */}
+        <meta name="robots" content="index,follow"/>  {/*<!-- All Search Engines -->*/}
+        <meta name="googlebot" content="index,follow"/>{/*<!-- Google Specific -->*/}
+        <meta name="yandex-verification" content="612a306d9909f280" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -54,6 +58,14 @@ export default function App({ Component, pageProps }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
         {/* Other head elements */}
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:site" content="@icptokens"/>
+        <meta name="twitter:creator" content="@icptokens"/>
+        <meta name="twitter:url" content="https://icptokens.net"/>
+        <meta name="twitter:title" content="ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Explore ICP Tokens for real-time market data and portfolio management"/>
+        <meta name="twitter:image" content="https://icptokens.net/og-image.png"/>
+        <meta name="twitter:image:alt" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects"/>
       </Head>
       <LoadingProvider>
         <LoadingOverlay />

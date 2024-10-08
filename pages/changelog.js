@@ -26,7 +26,8 @@ const Changelog = () => {
   return (
     <>
       <Head>
-        <title>Changelog | ICP Tokens</title>
+        <title>Changelog | ICP Tokens by Market Cap</title>
+        <meta name="description" content="Stay updated with the latest improvements and new features on ICP Tokens. Check out our changelog for continuous platform enhancements and updates."></meta>
       </Head>
       <Layout>
         <div className="markdown-content changelog-wrap max-w-xl mx-auto lg:mt-6 min-h-screen">

@@ -5,11 +5,14 @@ const Dex = () => {
 	return (
 		<>
       <Head>
-        <title>DEX | ICP Tokens</title>
+        <title>DEX | ICP Tokens by Market Cap</title>
+				<meta name="description" content="Access ICP DEX to buy, sell, and exchange ICP tokens. Track real-time market data, liquidity, and trading volumes within the Internet Computer ecosystem" />
+				<meta name="twitter:title" content="DEX | ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Access ICP DEX to buy, sell, and exchange ICP tokens. Track real-time market data, liquidity, and trading volumes within the Internet Computer ecosystem"/>
       </Head>
 			<Layout>
 				<div className='w-full'>
-					<h1 className='h1'>DEX</h1>
+					<h1 className='h1'>DEX  ICP Tokens</h1>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
 						<a href="https://app.icpswap.com/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">

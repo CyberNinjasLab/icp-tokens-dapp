@@ -30,13 +30,19 @@ const TokenPage = () => {
   };
 
   // Example dynamic title. Adjust accordingly based on your tokenData properties.
-  const pageTitle = tokenData ? `${getTokenName(tokenData)} | ICP Tokens` : "ICP Tokens";
+  const pageTitle = tokenData ? `${getTokenName(tokenData)}` : "ICP Tokens";
 
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{pageTitle} | ICP Tokens by Market Cap</title>
+        <meta name="description" content={`Learn more about ${pageTitle}`} />
+        <meta property="og:title" content={`${ pageTitle } | ICP Tokens by Market Cap`} />
+        <meta property="og:description" content={`Learn more about ${pageTitle}`} />          
+        <meta name="robots" content="index,follow"/> 
+
         {/* If you have specific meta tags that should change with the page, include them here */}
+        {/* <meta name="description" content=" {pageTitle} | ICP Tokens by Market Cap"></meta> */}
       </Head>
       <Layout extraClass={'max-w-[6000px] lg:h-screen lg:fixed'} footer={false}>
         {isLoading && <div>Loading...</div>}

@@ -12,7 +12,10 @@ const Watchlist = () => {
 	return (
     <>
       <Head>
-        <title>Watchlist | ICP Tokens</title>
+        <title>Watchlist | ICP Tokens by Market Cap</title>
+        <meta name="description" content="Create a personalized watchlist for ICP Tokens. Track your favorite tokens in real-time and stay updated on price changes within the Internet Computer ecosystem." />
+        <meta name="twitter:title" content="Watchlist | ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Create a personalized watchlist for ICP Tokens. Track your favorite tokens in real-time and stay updated on price changes within the Internet Computer ecosystem."/>
       </Head>
       <Layout extraClass={'max-w-[1430px]'}>
         <h1 className='h1'>Tokens Watchlist</h1>

@@ -5,7 +5,10 @@ const Nft = () => {
 	return (
 		<>
       <Head>
-        <title>NFT | ICP Tokens</title>
+        <title>NFT | ICP Tokens by Market Cap</title>
+				<meta name="description" content="Explore ICP NFT markets to buy and sell ICP NFTs easily. Track top collections and manage your digital assets within the Internet Computer ecosystem." />
+				<meta name="twitter:title" content="NFT | ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Explore ICP NFT markets to buy and sell ICP NFTs easily. Track top collections and manage your digital assets within the Internet Computer ecosystem."/>
       </Head>
 			<Layout>
 				<div className='w-full'>

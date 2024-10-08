@@ -14,8 +14,11 @@ const Home = () => {
 
   return (
     <>
-      <Head>
-        <title>ICP Tokens by Market Cap</title>
+      <Head>        
+        <title>ICP Tokens by Market Cap</title> 
+        <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects" />
+        <meta name="twitter:title" content="ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects"/>
       </Head>
       <Layout extraClass={'max-w-[1430px]'}>
         <div>

@@ -1,15 +1,17 @@
-import React, { lazy, useContext } from 'react';
+import React, { lazy, useContext, useEffect, useMemo, useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { Typography } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import TokenLinks from './TokenLinks';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import ICHouseLink from '../ICHouseLink';
 import ContractButton from '../ContractButton';
-import StandardLink from '../StandardLink';
 import ShowMoreText from '../../_base/ShowMoreText';
+import useTokenTvl from '../../../hooks/token/useTokenTvl';
+import TvlTooltip from './TvlTooltip';
+import useTokenMarketsData from '../../../hooks/token/useTokenMarketsData'
+
 
 const TokenMarketLinks = lazy(() => import('./TokenMarketLinks'));
 
@@ -20,13 +22,11 @@ const style = {
   border: 'none',
 };
 
-const questionMarkStyle = {
-  ml: '3px',
-  opacity: '0.3',
-};
-
 export default function TokenInfo({ data }) {
-  const { formatTotalSupply, currency, showPriceCurrency } = useContext(GeneralContext)
+  const { formatTotalSupply, currency, showPriceCurrency, icpPrice } = useContext(GeneralContext);
+  const { tvl } = useTokenTvl(data.canister_id);
+  // Fetch token markets data using the custom hook
+  const { tokenMarketsData: tokenMarkets, isLoading, error } = useTokenMarketsData(data?.canister_id);
 
   return (
     <div className='bg-[#28abe508] border border-[#D3D3D3] dark:border-[#555] rounded-md max-w-[400px] mx-auto'>
@@ -41,7 +41,7 @@ export default function TokenInfo({ data }) {
         {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
         <ListItem sx={{ paddingTop: 0 }}>
           <div className='relative left-[-5px]'>
-            <TokenMarketLinks token={data} />
+            <TokenMarketLinks token={data} tokenMarkets={tokenMarkets} />
           </div>
         </ListItem>
         )}
@@ -50,6 +50,24 @@ export default function TokenInfo({ data }) {
         )}
         <ListItem>
           <div className="flex justify-between items-center w-full mt-2">
+            <Typography variant="textSemiBold">
+            Total Value Locked 
+            {tvl && (
+              <TvlTooltip tvl={tvl} currency={currency} data={data} tokenMarkets={tokenMarkets} />
+            )}
+            </Typography>
+            {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
+            <Typography>
+              {tvl ? (
+                showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency]).toLocaleString())  
+              ) : (
+                <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+              )}
+            </Typography>
+          </div>
+        </ListItem>
+        <ListItem>
+          <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">
               Fully Diluted M Cap
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}

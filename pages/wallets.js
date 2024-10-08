@@ -5,7 +5,10 @@ const Dex = () => {
 	return (
 		<>
       <Head>
-        <title>Wallets | ICP Tokens</title>
+        <title>Wallets | ICP Tokens by Market Cap</title>
+				<meta name="description" content="Explore top ICP wallets for secure management of tokens, NFTs, and DeFi assets. Discover wallets like Plug, Stoic, and more, tailored for the Internet Computer ecosystem." />
+				<meta name="twitter:title" content="Wallets | ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Explore top ICP wallets for secure management of tokens, NFTs, and DeFi assets. Discover wallets like Plug, Stoic, and more, tailored for the Internet Computer ecosystem."/>
       </Head>
 			<Layout>
 				<div className='w-full'>

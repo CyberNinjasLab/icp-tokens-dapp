@@ -3,7 +3,6 @@ import { AuthClient } from "@dfinity/auth-client";
 import { AuthContext } from "./Auth.Context"; // Ensure the path matches your file structure
 import { createActor as createBackendCoreActor } from "../../src/declarations/backend_core";
 import { createActor as createPortfolioActor } from "../../src/declarations/portfolio";
-import Cookies from 'js-cookie';
 import LoginModal from "../../ui/components/_base/LoginModal";
 import ThemeRegistry from "../../utils/ThemeRegistry";
 
@@ -17,29 +16,12 @@ const AuthContextProvider = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const sessionDurationInDays = 30;
 
-  const cookieStorage = {
-    get(key) {
-      const cookieValue = Cookies.get(key);
-      return Promise.resolve(cookieValue ? cookieValue : null);
-    },
-    set(key, value) {
-      Cookies.set(key, value, { expires: sessionDurationInDays, secure: true, sameSite: 'Strict' });
-      return Promise.resolve();
-    },
-    remove(key) {
-      Cookies.remove(key, { secure: true, sameSite: 'Strict' });
-      return Promise.resolve();
-    }
-  };
-
   const initAuth = async () => {
     const client = await AuthClient.create({
-      storage: cookieStorage,
-      keyType: 'Ed25519',  // Use Ed25519 key type,
       idleOptions: {
         disableIdle: true,
-        // idleTimeout: 1000 * 60 * 60 * 24 * sessionDurationInDays,
-      }
+        disableDefaultIdleCallback: true,
+      },
     });
     setAuthClient(client);
     const isAuthenticated = await client.isAuthenticated();

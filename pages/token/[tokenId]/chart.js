@@ -20,7 +20,8 @@ const TokenPage = () => {
   return (
     <>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{pageTitle} | ICP Tokens by Market Cap</title>
+        <meta name="description" content={`${pageTitle}`} />
         {/* If you have specific meta tags that should change with the page, include them here */}
       </Head>
       {isLoading && <div>Loading...</div>}

@@ -5,7 +5,10 @@ const HowItWorks = () => {
 	return (
     <>
       <Head>
-        <title>How It Works | ICP Tokens</title>
+        <title>How It Works | ICP Tokens by Market Cap</title>
+        <meta name="description" content="Learn how ICP Tokens uses direct DEX queries for real-time, accurate token price tracking and volume analysis, ensuring reliable data within the Internet Computer ecosystem." />
+        <meta name="twitter:title" content="How It Works | ICP Tokens by Market Cap"/>
+        <meta name="twitter:description" content="Learn how ICP Tokens uses direct DEX queries for real-time, accurate token price tracking and volume analysis, ensuring reliable data within the Internet Computer ecosystem."/>
       </Head>
       <Layout>
         <div className='max-w-xl mx-auto mt-6'>
