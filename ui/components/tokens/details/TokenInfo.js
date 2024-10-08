@@ -1,18 +1,16 @@
-import React, { lazy, useContext, useEffect, useState } from 'react';
+import React, { lazy, useContext, useEffect, useMemo, useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { Typography } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import TokenLinks from './TokenLinks';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import ICHouseLink from '../ICHouseLink';
 import ContractButton from '../ContractButton';
-import StandardLink from '../StandardLink';
 import ShowMoreText from '../../_base/ShowMoreText';
-import ic from 'ic0';
-import useSonicDexGraphQL from '../hooks/useSonicDexGraphQL';
-import { TOKEN_DATA_QUERY } from '../queries';
+import useTokenTvl from '../../../hooks/token/useTokenTvl';
+import TvlTooltip from './TvlTooltip';
+import useTokenMarketsData from '../../../hooks/token/useTokenMarketsData'
 
 
 const TokenMarketLinks = lazy(() => import('./TokenMarketLinks'));
@@ -24,73 +22,11 @@ const style = {
   border: 'none',
 };
 
-const questionMarkStyle = {
-  ml: '3px',
-  opacity: '0.3',
-};
-
 export default function TokenInfo({ data }) {
-  const { formatTotalSupply, currency, showPriceCurrency, icpPrice } = useContext(GeneralContext)
-
-  // Store TVL value fetched from the canister
-  const [tvl, setTvl] = useState(null);
-
-  // Fetch TVL using ic0 library
-  useEffect(() => {
-    const fetchTokenTvl = async () => {
-      try {
-        // Initialize the canister interface using ic0
-        const canister = ic('gp26j-lyaaa-aaaag-qck6q-cai'); // The canister you are calling
-        const canister2 = ic('ggzvv-5qaaa-aaaag-qck7a-cai')
-
-        const result3 = await canister.call('getAllPoolTvl');
-        const result2 = await canister2.call('getAllPools');
-
-        console.log(result3);
-
-        let sum = 0;
-
-        for(const item of result2) {
-          if(item.token0Id == data.canister_id || item.token1Id == data.canister_id) {
-            // console.log(item.token0Symbol, item.token1Symbol);
-            for(const poolTvl of result3) {
-              if(poolTvl[0] == item.pool) {
-                sum += poolTvl[1];
-                break;
-              }
-            }
-          }
-        }
-
-        console.log(sum);
-
-        console.log(result2);
-        // Call the 'getTokenLastTvl' method using the token's canister_id
-        const result = await canister.call('getTokenLastTvl', data.canister_id);
-        const tvlUsdValue = parseInt(result.tvlUSD);
-
-        console.log(result);
-
-        if(icpPrice) {
-          let tvlObj = {
-            usd: tvlUsdValue,
-            icp: parseInt(tvlUsdValue / icpPrice)
-          };
-
-          setTvl(tvlObj);
-        }
-      } catch (error) {
-        console.error('Error fetching TVL:', error);
-        setTimeout(function() {
-          fetchTokenTvl();
-        }, 30 * 1000)
-      }
-    };
-
-    if (data && data.canister_id && icpPrice) {
-      fetchTokenTvl(); // Only fetch TVL when data is available
-    }
-  }, [data, icpPrice]);  
+  const { formatTotalSupply, currency, showPriceCurrency, icpPrice } = useContext(GeneralContext);
+  const { tvl } = useTokenTvl(data.canister_id);
+  // Fetch token markets data using the custom hook
+  const { tokenMarketsData: tokenMarkets, isLoading, error } = useTokenMarketsData(data?.canister_id);
 
   return (
     <div className='bg-[#28abe508] border border-[#D3D3D3] dark:border-[#555] rounded-md max-w-[400px] mx-auto'>
@@ -105,7 +41,7 @@ export default function TokenInfo({ data }) {
         {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
         <ListItem sx={{ paddingTop: 0 }}>
           <div className='relative left-[-5px]'>
-            <TokenMarketLinks token={data} />
+            <TokenMarketLinks token={data} tokenMarkets={tokenMarkets} />
           </div>
         </ListItem>
         )}
@@ -115,13 +51,15 @@ export default function TokenInfo({ data }) {
         <ListItem>
           <div className="flex justify-between items-center w-full mt-2">
             <Typography variant="textSemiBold">
-              TVL <i className='italic dark:opacity-50 opacity-30'>(ICP Swap)</i>
-              {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" /> */}
+            Total Value Locked 
+            {tvl && (
+              <TvlTooltip tvl={tvl} currency={currency} data={data} tokenMarkets={tokenMarkets} />
+            )}
             </Typography>
             {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
             <Typography>
               {tvl ? (
-                showPriceCurrency(tvl[currency].toLocaleString())
+                showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency]).toLocaleString())  
               ) : (
                 <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
               )}

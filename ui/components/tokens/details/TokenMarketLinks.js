@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
-import useTokenMarketsData from '../../../hooks/token/useTokenMarketsData'; // Import your custom hook
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
@@ -25,11 +24,8 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-function TokenMarketLinks({ token }) {
+function TokenMarketLinks({ token, tokenMarkets }) {
   const [formattedMarketsData, setFormattedMarketsData] = useState([]);
-
-  // Fetch token markets data using the custom hook
-  const { tokenMarketsData: tokenMarkets, isLoading, error } = useTokenMarketsData(token?.canister_id);
 
   // Mapping the markets to the corresponding swap links
   const marketSwapLinksMapping = {
@@ -41,7 +37,7 @@ function TokenMarketLinks({ token }) {
   // Mapping the markets to their logos
   const marketsLogoMapping = {
     icpswap: 'icpswap_logo.webp',
-    sonic: "sonic-dex_logo.webp",
+    sonic: "sonic-dex_logo.jpg",
     iclight: "icdex_logo.webp",
   };
 

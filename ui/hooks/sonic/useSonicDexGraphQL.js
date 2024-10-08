@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { GraphQLClient } from 'graphql-request';
 
-const endpoint = 'https://api.sonic.ooo/graphql';
+const endpoint = process.env.NEXT_PUBLIC_WEB2_API_URL + '/api/sonic';
 
 const useSonicDexGraphQL = (query, variables) => {
   const [data, setData] = useState(null);
