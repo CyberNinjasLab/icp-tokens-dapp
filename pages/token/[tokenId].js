@@ -63,7 +63,7 @@ const TokenPage = () => {
                           <TradingViewCustomWidget canister_id={tokenData.canister_id} />
                         </div>
                       ) : (
-                        <TradingViewWidget symbol='ICPUSD' />
+                        <TradingViewWidget symbol='ICPUSDT' />
                       )}
                     </div>
                   )}

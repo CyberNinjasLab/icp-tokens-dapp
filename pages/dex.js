@@ -16,7 +16,7 @@ const Dex = () => {
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
 						<a href="https://app.icpswap.com/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/icpswap_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/icpswap_logo.webp" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">ICPSwap</span>
 							</div>
 							<div className="mt-4">
@@ -25,7 +25,7 @@ const Dex = () => {
 						</a>
 						<a href="https://iclight.io/" target='_blank' className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/icdex_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/icdex_logo.webp" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">ICDex</span>
 							</div>
 							<div className="mt-4">
@@ -34,7 +34,7 @@ const Dex = () => {
 						</a>
 						<a href="https://app.sonic.ooo/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/sonic-dex_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/sonic-dex_logo.webp" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">Sonic</span>
 							</div>
 							<div className="mt-4">
@@ -43,7 +43,7 @@ const Dex = () => {
 						</a>
 						<a href="https://www.helixmarkets.io/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/helix_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/helix_logo.webp" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">Helix Markets</span>
 							</div>
 							<div className="mt-4">
@@ -52,7 +52,7 @@ const Dex = () => {
 						</a>
 						<a href="https://icpex.org/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/ICPEx.jpg" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/ICPEx.jpg" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">ICPEx</span>
 							</div>
 							<div className="mt-4">
@@ -61,11 +61,20 @@ const Dex = () => {
 						</a>
 						<a href="https://app.appic.solutions/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/appic_logo_icon.jpg" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/appic_logo_icon.jpg" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">AppIC DAO</span>
 							</div>
 							<div className="mt-4">
 								<p>First-ever infrastructure layer that allows transferring and swapping of tokens between ICP and blockchains such as Bitcoin, Ethereum, and Solana.</p>
+							</div>
+						</a>
+						<a href="https://www.kongswap.io/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+							<div className="flex items-center space-x-4">
+								<img src="/logos/KongSwap.jpg" alt="Logo" className="h-12 w-12 rounded-full" />
+								<span className="font-bold text-lg">KongSwap</span>
+							</div>
+							<div className="mt-4">
+								<p>KongSwap is a new DEX on the ICP network, delivering optimized on-chain liquidity pools, cross-chain support using ChainFusion, and a Web2-like login powered by Internet Identity, redefining DeFi&apos;s potential.</p>
 							</div>
 						</a>
 					</div>

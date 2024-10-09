@@ -48,24 +48,26 @@ export default function TokenInfo({ data }) {
         {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
           <Divider variant="middle" component="li" className="pt-2" />
         )}
-        <ListItem>
-          <div className="flex justify-between items-center w-full mt-2">
-            <Typography variant="textSemiBold">
-            Total Value Locked 
-            {tvl && (
-              <TvlTooltip tvl={tvl} currency={currency} data={data} tokenMarkets={tokenMarkets} />
-            )}
-            </Typography>
-            {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
-            <Typography>
-              {tvl ? (
-                showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency]).toLocaleString())  
-              ) : (
-                <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+        {data.canister_id != 'ryjl3-tyaaa-aaaaa-aaaba-cai' && (
+          <ListItem>
+            <div className="flex justify-between items-center w-full mt-2">
+              <Typography variant="textSemiBold">
+              Total Value Locked 
+              {tvl && (
+                <TvlTooltip tvl={tvl} currency={currency} data={data} tokenMarkets={tokenMarkets} />
               )}
-            </Typography>
-          </div>
-        </ListItem>
+              </Typography>
+              {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
+              <Typography>
+                {tvl ? (
+                  showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency]).toLocaleString())  
+                ) : (
+                  <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+                )}
+              </Typography>
+            </div>
+          </ListItem>
+        )}
         <ListItem>
           <div className="flex justify-between items-center w-full">
             <Typography variant="textSemiBold">
