@@ -62,8 +62,8 @@ const GeneralContextProvider = ({ children }) => {
     // Initial fetch
     fetchPrice();
 
-    // Set interval to fetch every 30 seconds
-    const intervalId = setInterval(fetchPrice, 30 * 1000);
+    // Set interval to fetch every 60 seconds
+    const intervalId = setInterval(fetchPrice, 60 * 1000);
 
     // Cleanup on unmount
     return () => clearInterval(intervalId);
