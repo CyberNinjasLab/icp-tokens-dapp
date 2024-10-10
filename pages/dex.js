@@ -43,7 +43,7 @@ const Dex = () => {
 						</a>
 						<a href="https://www.helixmarkets.io/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/helix_logo.webp" alt="Logo" className="h-12 w-12 rounded-full" />
+								<img src="/logos/helix_logo.jpg" alt="Logo" className="h-12 w-12 rounded-full" />
 								<span className="font-bold text-lg">Helix Markets</span>
 							</div>
 							<div className="mt-4">
@@ -56,7 +56,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">ICPEx</span>
 							</div>
 							<div className="mt-4">
-								<p>Decentralized exchange built entirely on the chain based on the ICP.</p>
+								<p>ICPEx is a decentralized exchange fully built on-chain, utilizing the power of the Internet Computer to enable fast, secure, and cost-efficient token swaps within the ICP ecosystem.</p>
 							</div>
 						</a>
 						<a href="https://app.appic.solutions/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
