@@ -5,19 +5,21 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AuthContext } from '../../../contexts/auth/Auth.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
+import { Principal } from '@dfinity/principal';
 
 // Lazy load the ConfirmationDialog
 const ConfirmationDialog = lazy(() => import('../_base/ConfirmationDialog')); // Adjust the import path as necessary
 
-const TransactionActionsCell = ({ transactionId, setLoadingState, fetchPortfolios }) => {
-  const { backendCoreActor } = useContext(AuthContext);
+const TransactionActionsCell = ({ transactionId, setLoadingState, portfolio, tokenCanisterId, fetchPortfolioData }) => {
+  const { portfolioActor } = useContext(AuthContext);
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleDelete = async () => {
     setLoadingState(true);
-    await backendCoreActor.removePortfolioTransaction(0, transactionId);
+    await portfolioActor.deleteTransaction(portfolio.id, Principal.fromText(tokenCanisterId), transactionId);
     setDialogOpen(false); // Close dialog after action
-    fetchPortfolios();
+    await fetchPortfolioData(tokenCanisterId);
+    setLoadingState(false);
   };
 
   return (

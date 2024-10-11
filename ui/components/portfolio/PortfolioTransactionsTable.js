@@ -13,7 +13,8 @@ import TransactionActionsCell from './TransactionActionsCell';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import TransactionAmountCell from './TransactionAmountCell';
 
-function PortfolioTransactionsTable({ summary, fetchPortfolios }) {
+function PortfolioTransactionsTable({ tokenTransactions, portfolio, tokenCanisterId, fetchPortfolioData }) {
+  console.log(tokenTransactions);
   const [gridApi, setGridApi] = useState(null);
   const [isGridReady, setIsGridReady] = useState(false);
   const { formatPrice, theme, currency } = useContext(GeneralContext);
@@ -44,7 +45,7 @@ function PortfolioTransactionsTable({ summary, fetchPortfolios }) {
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: formatPrice(params.data['price_per_token_' + currency])}
+          params: {value: formatPrice(params.data[1]['price_' + currency])}
         };
       }
     },
@@ -73,7 +74,7 @@ function PortfolioTransactionsTable({ summary, fetchPortfolios }) {
       cellRendererSelector: params => {
         return {
           component: TransactionActionsCell,
-          params: {transactionId: params.value, setLoadingState: setLoadingState, fetchPortfolios: fetchPortfolios}
+          params: {transactionId: params.data[0], setLoadingState: setLoadingState, portfolio, tokenCanisterId, fetchPortfolioData }
         };
       }
     },
@@ -93,11 +94,11 @@ function PortfolioTransactionsTable({ summary, fetchPortfolios }) {
 
   return (
     <>
-      {summary && (
+      {tokenTransactions && (
         <Paper className="max-w-1500 mx-auto relative" style={{ margin: '1rem 0px' }}>
           <Paper className={`${theme == 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'} w-full h-full`} style={{ margin: '1rem 0px' }}>
             <AgGridReact
-              rowData={summary.tokens[0].portfolio.transactions}
+              rowData={tokenTransactions}
               rowHeight={60}
               columnDefs={colDefs}
               domLayout="autoHeight"

@@ -14,7 +14,7 @@ import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 import { useRouter } from 'next/router';
 import TokenActionsCell from './TokenActionsCell';
 
-function PortfolioTokensTable({ tokens }) {
+function PortfolioTokensTable({ tokens, portfolio }) {
   const router = useRouter();
   const { formatPrice, currency, roundPrice, theme } = useContext(GeneralContext);
   const [gridApi, setGridApi] = useState(null);
@@ -24,10 +24,14 @@ function PortfolioTokensTable({ tokens }) {
 
   const colDefs = [
     {
-      field: 'name',
+      field: 'token',
       headerName: 'Name',
-      cellRenderer: TokenLogoAndName,
-      filter: true,
+      cellRendererSelector: params => {
+        return {
+          component: TokenLogoAndName,
+          params: {data: params.data.token}
+        };
+      },
       width: `${isMobile ? 115 : 210}`,
       pinned: isWindowUnder1370 ? 'left' : null,
       cellStyle: {
@@ -35,7 +39,7 @@ function PortfolioTokensTable({ tokens }) {
       },
     },
     {
-      field: `metrics.price.${currency}`,
+      field: `token.metrics.price.${currency}`,
       headerName: 'Price',
       // flex: 1,
       width: isWindowUnder1370 ? 124 : 160,
@@ -44,7 +48,7 @@ function PortfolioTokensTable({ tokens }) {
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: formatPrice(params.value)}
+          params: {value: formatPrice(params.value ?? '')}
         };
       },
       hide: isWindowUnder1370,
@@ -72,7 +76,7 @@ function PortfolioTokensTable({ tokens }) {
       cellRendererSelector: params => {
         return {
           component: DefaultCell,
-          params: {value: formatPrice(params.value)}
+          params: {value: formatPrice(params.data['total_quantity_bought'] > 0 ? params.data['total_' + currency + '_buy_cost'] / params.data['total_quantity_bought'] : 0)}
         };
       }
     },

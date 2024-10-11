@@ -72,6 +72,7 @@ const GeneralContextProvider = ({ children }) => {
   // Define the formatPrice function here
   const formatPrice = value => {
     let result = value;
+    let flagPrice = 0;
 
     if (value === 0) {
       return showPriceCurrency(value); // Assuming you want to keep the "ICP" suffix
@@ -79,6 +80,11 @@ const GeneralContextProvider = ({ children }) => {
 
     if (value === null) {
       return '';
+    }
+
+    if(value < 0) {
+      flagPrice = value;
+      value = Math.abs(value);
     }
 
     if (value >= 1) {
@@ -107,6 +113,10 @@ const GeneralContextProvider = ({ children }) => {
         result = parseFloat(value).toFixed(13);
     } else if (value >= 0.000000000001) {
         result = parseFloat(value).toFixed(14);
+    }
+
+    if(flagPrice < 0) {
+      result  *= -1;
     }
 
     if(value < 1) {
@@ -139,12 +149,22 @@ const GeneralContextProvider = ({ children }) => {
         priceAndCurrency = price + ' ICP';
         break;
       case 'usd':
-        priceAndCurrency = '$' + price;
+        if( price < 0) {
+          priceAndCurrency = '-$' + Math.abs(price);
+        } else {
+          priceAndCurrency = '$' + price;
+        }
         break;
     }
 
     return priceAndCurrency;
   }
+
+  function getPortfolioTransactionDirection(data) {
+    const directionKey = Object.keys(data)[0]; // Get the key (either 'Sell' or 'Buy' or 'Transfer')
+    return directionKey; // Will return 'Sell' or 'Buy'
+  }
+
 
   function roundPrice(price, toLocaleString = true) {
       const absolutePrice = Math.abs(price); // Use absolute value for comparison
@@ -350,6 +370,7 @@ const GeneralContextProvider = ({ children }) => {
       getTokenName,
       parseTokensByCanisterId,
       prepareChartData,
+      getPortfolioTransactionDirection
   }
 
   return (

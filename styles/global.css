@@ -28,6 +28,10 @@
   .label.orange {
     @apply bg-orange/20 text-dark-orange dark:text-orange
   }
+
+  .blur-effect {
+    @apply bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse
+  }
 }
 
 .ag-center-cols-viewport {

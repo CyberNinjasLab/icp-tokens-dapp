@@ -5,7 +5,7 @@ import { GeneralContext } from '../../../contexts/general/General.Context';
 
 // Define the component
 const HoldingsCell = ({ value }) => {
-  const { formatPrice, currency } = useContext(GeneralContext);
+  const { formatPrice, roundPrice, currency } = useContext(GeneralContext);
 
   return (
     <Typography
@@ -13,8 +13,8 @@ const HoldingsCell = ({ value }) => {
       className="flex justify-end h-[60px] items-center"
     >
       <div>
-        {formatPrice(value.portfolio.totalQuantity * value.metrics.price[currency])}
-        <span className='block text-xs opacity-50'>{value.portfolio.totalQuantity.toLocaleString()} {value.symbol}</span>
+        {formatPrice(roundPrice(value.quantity * value.token.metrics.price[currency]))}
+        <span className='block text-xs opacity-50'>{value.quantity.toLocaleString()} {value.token.symbol}</span>
       </div>
     </Typography>
   );

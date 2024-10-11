@@ -6,8 +6,10 @@ import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 
 // Define the component
 const TransactionTypeCell = ({ value }) => {
-  const { formatUnixTimestampToDate } = useContext(GeneralContext);
+  const { formatUnixTimestampToDate, getPortfolioTransactionDirection } = useContext(GeneralContext);
   const isWindowUnder800 = useWindowWidthUnder(800);
+
+  const direction = getPortfolioTransactionDirection(value[1].direction);
 
   const formatDate = (timestamp) => {
     // Call formatUnixTimestampToDate with appropriate short parameter based on window width
@@ -20,8 +22,8 @@ const TransactionTypeCell = ({ value }) => {
       className="flex justify-start h-[60px] items-center"
     >
       <div>
-        <span className={value.direction ? 'text-green-500' : 'text-red-500'}>{value.direction ? 'Buy' : 'Sell' }</span>
-        <span className='block text-xs opacity-50'>{formatDate(value.timestamp)}</span>
+        <span className={direction == 'Buy' ? 'text-green-500' : 'text-red-500'}>{direction == 'Buy' ? 'Buy' : 'Sell' }</span>
+        <span className='block text-xs opacity-50'>{formatDate(value[1].timestamp)}</span>
       </div>
     </Typography>
   );

@@ -36,6 +36,8 @@ actor Portfolio {
     total_icp_buy_cost: Float; // Total ICP spent on buying the token
     total_usd_buy_cost: Float; // Total USD spent on buying the token
     total_quantity_bought: Float; // Total quantity of token bought
+    total_icp_sold: Float; // Total ICP gained from selling the token
+    total_usd_sold: Float; // Total USD gained from selling the token
   };
 
   public type PortfolioKind = {
@@ -163,7 +165,29 @@ actor Portfolio {
       var totalIcpBuyCost: Float = 0.0;  // Track total ICP buy cost
       var totalUsdBuyCost: Float = 0.0;  // Track total USD buy cost
       var totalQuantityBought: Float = 0.0; // Track total quantity bought
+      var totalIcpSold: Float = 0.0;
+      var totalUsdSold: Float = 0.0;
       var nextTransactionId: Nat = 1;
+      var isTokenExists = false;
+      var tokenId = nextTokenId;
+
+      // Check if the token already exists in the tokensMap
+      let existingToken = tokensMap.get(tokenCanisterId);
+      switch (existingToken) {
+          case (?token) {
+              // Initialize from existing token data
+              tokenQuantity := token.quantity;
+              totalIcpBuyCost := token.total_icp_buy_cost;
+              totalUsdBuyCost := token.total_usd_buy_cost;
+              totalQuantityBought := token.total_quantity_bought;
+              totalIcpSold := token.total_icp_sold;
+              totalUsdSold := token.total_usd_sold;
+              nextTransactionId := token.next_transaction_id;
+              isTokenExists := true;
+              tokenId := token.id;
+          };
+          case (null) {};
+      };
 
       // Loop through each transaction for the token
       for (transaction in transactions.vals()) {
@@ -176,12 +200,16 @@ actor Portfolio {
                 totalQuantityBought += transaction.quantity;
                 tokenQuantity + transaction.quantity;
             };
-            case (#Sell) { tokenQuantity - transaction.quantity };
+            case (#Sell) { 
+              totalIcpSold += transaction.price_icp * transaction.quantity;
+              totalUsdSold += transaction.price_usd * transaction.quantity;
+              tokenQuantity - transaction.quantity 
+            };
             case (#Transfer) { tokenQuantity };  // For transfers, no change in quantity
         };
 
         // Update the token's transaction map
-        let tokenTransactionsResult = portfolioTokenTransactions.get(nextTokenId);
+        let tokenTransactionsResult = portfolioTokenTransactions.get(tokenId);
         var transactionMap: HashMap<TransactionKey, Transaction> = switch (tokenTransactionsResult) {
           case (null) { HashMap.HashMap<TransactionKey, Transaction>(100, Helper.transactionKeyEqual, Helper.transactionKeyHash) };
           case (?existingTransactions) { existingTransactions };
@@ -204,12 +232,12 @@ actor Portfolio {
         nextTransactionId += 1;
 
         // Update portfolioTokenTransactions for this token
-        portfolioTokenTransactions.put(nextTokenId, transactionMap);
+        portfolioTokenTransactions.put(tokenId, transactionMap);
       };
 
       // After processing all transactions, add the token to the tokens map
       let newToken: Token = {
-        id = nextTokenId;
+        id = tokenId;
         portfolio_owner_id = msg.caller;
         canister_id = tokenCanisterId;
         quantity = tokenQuantity;
@@ -217,13 +245,17 @@ actor Portfolio {
         total_icp_buy_cost = totalIcpBuyCost;      // Set total ICP buy cost
         total_usd_buy_cost = totalUsdBuyCost;      // Set total USD buy cost
         total_quantity_bought = totalQuantityBought;  // Set total quantity bought
+        total_icp_sold = totalIcpSold;  // Set total ICP sold
+        total_usd_sold = totalUsdSold;  // Set total USD sold
       };
 
       tokensMap.put(tokenCanisterId, newToken);
       portfolioTokens.put(newPortfolio.id, tokensMap);
 
-      // Increment token ID for the next token
-      nextTokenId += 1;
+      if(not isTokenExists) {
+        // Increment token ID for the next token
+        nextTokenId += 1;
+      }
     };
 
     return #ok(newPortfolio);
@@ -272,6 +304,8 @@ actor Portfolio {
               total_icp_buy_cost = 0.0;
               total_usd_buy_cost = 0.0;
               total_quantity_bought = 0.0;
+              total_icp_sold = 0.0;
+              total_usd_sold = 0.0;
             };
 
             tokensMap.put(token_canister_id, newToken);
@@ -346,17 +380,24 @@ actor Portfolio {
 
                     // Update the token's quantity based on the transaction direction
                     var updatedQuantity = token.quantity;
+                    var totalQuantityBought = token.total_quantity_bought;
                     var totalIcpBuyCost = token.total_icp_buy_cost + (transaction.quantity * transaction.price_icp);
                     var totalUsdBuyCost = token.total_usd_buy_cost + (transaction.quantity * transaction.price_usd);
+                    var totalIcpSold = token.total_icp_sold;
+                    var totalUsdSold = token.total_usd_sold;
                     
                     switch (transaction.direction) {
                       case (#Buy) { 
                         updatedQuantity := updatedQuantity + transaction.quantity;
+                        totalQuantityBought := totalQuantityBought + transaction.quantity;
                         totalIcpBuyCost := totalIcpBuyCost + (transaction.quantity * transaction.price_icp);
                         totalUsdBuyCost := totalUsdBuyCost + (transaction.quantity * transaction.price_usd);
                       };
                       case (#Sell) { 
-                        updatedQuantity := updatedQuantity - transaction.quantity };
+                        updatedQuantity := updatedQuantity - transaction.quantity;
+                        totalIcpSold := totalIcpSold + (transaction.quantity * transaction.price_icp); // Track total ICP sold
+                        totalUsdSold := totalUsdSold + (transaction.quantity * transaction.price_usd); // Track total USD sold
+                      };
                       case (#Transfer) { };
                     };
 
@@ -371,9 +412,11 @@ actor Portfolio {
                       canister_id = token.canister_id;
                       quantity = updatedQuantity;
                       next_transaction_id = (token.next_transaction_id + 1);
-                      total_icp_buy_cost = 0.0;
-                      total_usd_buy_cost = 0.0;
-                      total_quantity_bought = 0.0;
+                      total_icp_buy_cost = totalIcpBuyCost;
+                      total_usd_buy_cost = totalUsdBuyCost;
+                      total_quantity_bought = totalQuantityBought;
+                      total_icp_sold = totalIcpSold;
+                      total_usd_sold = totalUsdSold;
                     });
 
                     // Update the portfolioTokens with the modified token list
@@ -447,6 +490,8 @@ actor Portfolio {
                             var adjustedTotalIcpBuyCost = existingToken.total_icp_buy_cost;
                             var adjustedTotalUsdBuyCost = existingToken.total_usd_buy_cost;
                             var adjustedTotalQuantityBought = existingToken.total_quantity_bought;
+                            var adjustedTotalIcpSold = existingToken.total_icp_sold;
+                            var adjustedTotalUsdSold = existingToken.total_usd_sold;
 
                             switch (existingTransaction.direction) {
                                 case (#Buy) {
@@ -458,6 +503,8 @@ actor Portfolio {
                                 };
                                 case (#Sell) {
                                     adjustedQuantity += existingTransaction.quantity;
+                                    adjustedTotalIcpSold -= existingTransaction.price_icp * existingTransaction.quantity;
+                                    adjustedTotalUsdSold -= existingTransaction.price_usd * existingTransaction.quantity;
                                 };
                                 case (#Transfer) {};
                             };
@@ -474,6 +521,8 @@ actor Portfolio {
                                 };
                                 case (#Sell) {
                                     finalQuantity -= updatedTransaction.quantity;
+                                    adjustedTotalIcpSold += updatedTransaction.price_icp * updatedTransaction.quantity;
+                                    adjustedTotalUsdSold += updatedTransaction.price_usd * updatedTransaction.quantity;
                                 };
                                 case (#Transfer) {};
                             };
@@ -492,6 +541,8 @@ actor Portfolio {
                               total_icp_buy_cost = adjustedTotalIcpBuyCost;   // Update total ICP buy cost
                               total_usd_buy_cost = adjustedTotalUsdBuyCost;   // Update total USD buy cost
                               total_quantity_bought = adjustedTotalQuantityBought;  // Update total quantity bought
+                              total_icp_sold = adjustedTotalIcpSold;  // Update total ICP sold
+                              total_usd_sold = adjustedTotalUsdSold;  // Update total USD sold
                             });
 
                             // Save the updated token map
@@ -567,6 +618,8 @@ actor Portfolio {
                             var updatedTotalIcpBuyCost = existingToken.total_icp_buy_cost;
                             var updatedTotalUsdBuyCost = existingToken.total_usd_buy_cost;
                             var updatedTotalQuantityBought = existingToken.total_quantity_bought;
+                            var updatedTotalIcpSold = existingToken.total_icp_sold;
+                            var updatedTotalUsdSold = existingToken.total_usd_sold;
 
                             switch (existingTransaction.direction) {
                                 case (#Buy) {
@@ -578,6 +631,8 @@ actor Portfolio {
                                 };
                                 case (#Sell) {
                                     updatedQuantity += existingTransaction.quantity;
+                                    updatedTotalIcpSold -= existingTransaction.price_icp * existingTransaction.quantity;
+                                    updatedTotalUsdSold -= existingTransaction.price_usd * existingTransaction.quantity;
                                 };
                                 case (#Transfer) {
                                     // For transfers, quantity remains unchanged
@@ -603,6 +658,8 @@ actor Portfolio {
                                     total_icp_buy_cost = updatedTotalIcpBuyCost;    // Update total ICP buy cost
                                     total_usd_buy_cost = updatedTotalUsdBuyCost;    // Update total USD buy cost
                                     total_quantity_bought = updatedTotalQuantityBought;  // Update total quantity bought
+                                    total_icp_sold = updatedTotalIcpSold;  // Update total ICP sold
+                                    total_usd_sold = updatedTotalUsdSold;  // Update total USD sold
                                 });
 
                                 // Save the updated transaction list

@@ -8,9 +8,10 @@ import useFetchTokens from '../../ui/hooks/token/useFetchTokens';
 import PortfolioTokensTable from '../../ui/components/portfolio/PortfolioTokensTable';
 import useTransactionSummary from '../../ui/hooks/portfolio/useTransactionSummary';
 import { useLoading } from '../../contexts/general/Loading.Provider';
-import PortfolioSummary from '../../ui/components/portfolio/PortfolioSummary';
 import Head from 'next/head';
 import { GeneralContext } from '../../contexts/general/General.Context';
+import PortfolioSummaryOld from '../../ui/components/portfolio/PortfolioSummaryOld';
+import PortfolioTokensTableOld from '../../ui/components/portfolio/PortfolioTokensTableOld';
 
 const Portfolio = () => {
     const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
@@ -87,8 +88,8 @@ const Portfolio = () => {
                                 />
                             )}
                             <div className={`${loadingState ? 'opacity-0' : ''}`}>
-                                <PortfolioSummary summary={summaries} />
-                                <PortfolioTokensTable tokens={summaries.tokens}/>
+                                <PortfolioSummaryOld summary={summaries} />
+                                <PortfolioTokensTableOld tokens={summaries.tokens}/>
                             </div>
                         </div>
                     )}

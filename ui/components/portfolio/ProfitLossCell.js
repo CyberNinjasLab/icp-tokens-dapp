@@ -6,18 +6,20 @@ import PriceMovementIndicator from '../tokens/PriceMovementIndicator';
 
 // Define the component
 const ProfitLossCell = ({ value }) => {
-  const { formatPrice } = useContext(GeneralContext);
-  const { currentFunds, buySum } = value.portfolio;
+  const { formatPrice, currency } = useContext(GeneralContext);
+  const totalBuy = value['total_' + currency + '_buy_cost'];
+  const currentWorth = value.quantity * value.token.metrics.price[currency];
+  const totalSold = value['total_' + currency + '_sold'];
   
   // Calculate absolute profit or loss
-  const profitOrLoss = currentFunds - buySum;
+  const profitOrLoss = currentWorth - totalBuy + totalSold;
   let isProfit = profitOrLoss >= 0;
   
-  // Format the profit/loss value
+  // // Format the profit/loss value
   const formattedProfitOrLoss = formatPrice(Math.abs(profitOrLoss));
 
-  // Calculate price movement percentage
-  const priceMovement = (buySum !== 0) ? (profitOrLoss / buySum * 100) : 0;
+  // // Calculate price movement percentage
+  const priceMovement = (totalBuy !== 0) ? (profitOrLoss / totalBuy * 100) : 0;
   const formattedPriceMovement = parseFloat(priceMovement.toFixed(2)); // Round to two decimal places
 
   return (
@@ -25,10 +27,12 @@ const ProfitLossCell = ({ value }) => {
       component="span"
       className="flex justify-end h-[60px] items-center"
     >
-      <div>
-        {isProfit ? '+' : '-'} {formattedProfitOrLoss}<br></br>
-        <PriceMovementIndicator value={formattedPriceMovement} />
-      </div>
+      {totalBuy > 0 && (
+        <div>
+          {isProfit ? '+' : '-'} {formattedProfitOrLoss}<br></br>
+          <PriceMovementIndicator value={formattedPriceMovement} />
+        </div>
+      )}
     </Typography>
   );
 };

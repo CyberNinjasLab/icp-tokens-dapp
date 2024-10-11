@@ -61,7 +61,7 @@ export default function TokenInfo({ data }) {
               {tvl ? (
                 showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency]).toLocaleString())  
               ) : (
-                <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+                <div className="w-20 h-5 blur-effect"></div> // Placeholder with pulse effect
               )}
             </Typography>
           </div>
