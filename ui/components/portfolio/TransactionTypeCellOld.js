@@ -5,7 +5,7 @@ import { GeneralContext } from '../../../contexts/general/General.Context';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 
 // Define the component
-const TransactionTypeCell = ({ value }) => {
+const TransactionTypeCellOld = ({ value }) => {
   const { formatUnixTimestampToDate } = useContext(GeneralContext);
   const isWindowUnder800 = useWindowWidthUnder(800);
 
@@ -28,4 +28,4 @@ const TransactionTypeCell = ({ value }) => {
 };
 
 // Export the component
-export default TransactionTypeCell;
+export default TransactionTypeCellOld;

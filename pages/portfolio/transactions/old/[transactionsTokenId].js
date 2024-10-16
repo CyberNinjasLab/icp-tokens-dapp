@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../../../ui/components/_base/Layout';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context';
-import AddTransaction from '../../../../ui/components/portfolio/AddTransactions';
+import AddTransactionsOld from '../../../../ui/components/portfolio/AddTransactionsOld';
 import { Button } from '@mui/material';
 import LoginMessage from '../../../../ui/components/_base/LoginMessage';
 import useFetchTokens from '../../../../ui/hooks/token/useFetchTokens';
@@ -134,7 +134,7 @@ const Transactions = () => {
                 { isAuthenticated && loaded && summaries.tokens && (
                     <div>
                         {showTransactionModal && (
-                            <AddTransaction
+                            <AddTransactionsOld
                                 closeModal={toggleTransactionModal}
                                 fetchPortfolios={fetchPortfolios}
                                 backendCoreActor={backendCoreActor}

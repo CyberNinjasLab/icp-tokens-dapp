@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 
 // Define the component
-const TransactionAmountCell = ({ value }) => {
+const TransactionAmountCellOld = ({ value }) => {
   const { currency, formatPrice } = useContext(GeneralContext);
 
   return (
@@ -21,4 +21,4 @@ const TransactionAmountCell = ({ value }) => {
 };
 
 // Export the component
-export default TransactionAmountCell;
+export default TransactionAmountCellOld;

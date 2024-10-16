@@ -8,10 +8,10 @@ import DefaultCell from '../_base/table/DefaultCell';
 import { isMobile } from 'react-device-detect';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
-import TransactionTypeCell from './TransactionTypeCell';
-import TransactionActionsCell from './TransactionActionsCell';
+import TransactionTypeCellOld from './TransactionTypeCellOld';
+import TransactionActionsCellOld from './TransactionActionsCellOld';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
-import TransactionAmountCell from './TransactionAmountCell';
+import TransactionAmountCellOld from './TransactionAmountCellOld';
 
 function PortfolioTransactionsTableOld({ summary, fetchPortfolios }) {
   const [gridApi, setGridApi] = useState(null);
@@ -28,7 +28,7 @@ function PortfolioTransactionsTableOld({ summary, fetchPortfolios }) {
       flex: isWindowUnder800 ? 0 : 1,
       cellRendererSelector: params => {
         return {
-          component: TransactionTypeCell,
+          component: TransactionTypeCellOld,
           params: {value: params.data}
         };
       }
@@ -57,7 +57,7 @@ function PortfolioTransactionsTableOld({ summary, fetchPortfolios }) {
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
-          component: TransactionAmountCell,
+          component: TransactionAmountCellOld,
           params: {value: params.data}
         };
       }
@@ -72,7 +72,7 @@ function PortfolioTransactionsTableOld({ summary, fetchPortfolios }) {
       headerClass: 'text-right',
       cellRendererSelector: params => {
         return {
-          component: TransactionActionsCell,
+          component: TransactionActionsCellOld,
           params: {transactionId: params.value, setLoadingState: setLoadingState, fetchPortfolios: fetchPortfolios}
         };
       }

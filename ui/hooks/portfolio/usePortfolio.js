@@ -212,7 +212,29 @@ const usePortfolio = (tokenCanisterId = null) => {
       } catch (error) {
           console.error("Error fetching token transactions:", error);
       }
-  };
+    };
+
+    const addTransaction = async (token_canister_id, transaction) => {
+        try {
+          const result = await portfolioActor.addTransactionToPortfolio(
+            portfolio.id,
+            Principal.fromText(token_canister_id),
+            transaction
+          );
+      
+          if (result?.ok) {
+            // Refetch portfolio data
+            await fetchPortfolioData()
+
+            return result.ok;
+          } else if (result?.err) {
+            throw new Error(result.err);
+          }
+        } catch (error) {
+          console.error("Error adding transaction:", error);
+          throw error;
+        }
+    };
 
     return {
         portfolio,
@@ -223,6 +245,7 @@ const usePortfolio = (tokenCanisterId = null) => {
         isAuthenticated,
         fetchPortfolioData,
         fetchTokenTransactions,
+        addTransaction,
         tokenTransactions,
         loaded
     };

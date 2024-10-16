@@ -9,7 +9,7 @@ import { useLoading } from '../../../contexts/general/Loading.Provider';
 // Lazy load the ConfirmationDialog
 const ConfirmationDialog = lazy(() => import('../_base/ConfirmationDialog')); // Adjust the import path as necessary
 
-const TransactionActionsCell = ({ transactionId, setLoadingState, fetchPortfolios }) => {
+const TransactionActionsCellOld = ({ transactionId, setLoadingState, fetchPortfolios }) => {
   const { backendCoreActor } = useContext(AuthContext);
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -51,4 +51,4 @@ const TransactionActionsCell = ({ transactionId, setLoadingState, fetchPortfolio
 };
 
 // Export the component
-export default TransactionActionsCell;
+export default TransactionActionsCellOld;

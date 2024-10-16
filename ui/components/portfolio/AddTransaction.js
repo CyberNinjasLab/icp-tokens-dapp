@@ -7,8 +7,9 @@ import { GeneralContext } from '../../../contexts/general/General.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 import usePriceNearTimestamp from '../../hooks/token/usePriceNearTimestamp';
 import { ThemeProvider } from '@emotion/react';
+import usePortfolio from '../../hooks/portfolio/usePortfolio';
 
-const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selectedCoinId }) => {
+const AddTransaction = ({ closeModal, addTransaction, selectedCoinId }) => {
     const { setLoadingState } = useLoading();
     const [transactionType, setTransactionType] = useState('buy');
     const [coin, setCoin] = useState(null);
@@ -18,9 +19,9 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const [pickerOpen, setPickerOpen] = useState(false);
     const [tempDate, setTempDate] = useState(null);
     const [note, setNote] = useState('');
-    const { getTokenName, showPriceCurrency, roundPrice, theme } = useContext(GeneralContext);
+    const { getTokenName, showPriceCurrency, roundPrice, theme, currency } = useContext(GeneralContext);
+    const { } = usePortfolio();
     const { fetchPricesNearTimestamps } = usePriceNearTimestamp();
-    const [currency, setCurrency] = useState('usd');
 
     const datePickerTheme = createTheme({
         palette: {
@@ -136,16 +137,16 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
             const selectedCoin = coins.data.find(coin => coin.canister_id === selectedCoinId);
             if (selectedCoin) {
                 setCoin(selectedCoin);
-                setCurrency(selectedCoinId == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
+                // setCurrency(selectedCoinId == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
             }
         }
     }, [selectedCoinId, coins, loaded]);
 
     const handleAutocompleteChange = (event, newValue) => {
         setCoin(newValue);
-        if(newValue) {
-            setCurrency(newValue.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
-        }
+        // if(newValue) {
+        //     setCurrency(newValue.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 'usd' : 'icp')
+        // }
     };
 
     // Calculate total spent dynamically
@@ -155,23 +156,63 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
     const handleAddTransaction = async () => {
         try {
             setLoadingState(true);
-            await backendCoreActor.addPortfolioTransaction(0, {
-                id: 0,
-                canister_id: coin.canister_id,
+            const timestamp = Math.floor(date.toDate().getTime() / 1000);
+    
+            // Request to fetch ICP/USD price at the selected timestamp
+            const requests = [
+                { canister_id: 'ryjl3-tyaaa-aaaaa-aaaba-cai', timestamp, currency: 'usd' },
+            ];
+    
+            // Fetch ICP/USD price
+            const icpUsdPriceResponse = await fetchPricesNearTimestamps(requests);
+            
+            // Validate response
+            if (!icpUsdPriceResponse || !icpUsdPriceResponse[0] || isNaN(parseFloat(icpUsdPriceResponse[0].value))) {
+                throw new Error('Failed to fetch ICP/USD price');
+            }
+    
+            const icpUsdPrice = parseFloat(icpUsdPriceResponse[0].value);
+    
+            // Calculate price based on selected currency
+            let pricePerTokenInIcp, pricePerTokenInUsd;
+    
+            if (currency === 'icp') {
+                pricePerTokenInIcp = parseFloat(pricePerCoin);
+                pricePerTokenInUsd = pricePerTokenInIcp * icpUsdPrice;
+            } else if (currency === 'usd') {
+                pricePerTokenInUsd = parseFloat(pricePerCoin);
+                pricePerTokenInIcp = pricePerTokenInUsd / icpUsdPrice;
+            }
+
+            console.log({
+                id: [],
                 quantity: parseFloat(quantity),
-                price_per_token: coin.canister_id == 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? 1 : parseFloat(pricePerCoin),
-                timestamp: Math.floor(date.toDate().getTime() / 1000),
-                note: note,
-                direction: transactionType === 'buy'
+                price_icp: pricePerTokenInIcp,
+                price_usd: pricePerTokenInUsd,
+                price_btc: [],
+                timestamp,
+                note,
+                direction: transactionType === 'buy' ? { Buy: null } : { Sell: null },
             });
-            await fetchPortfolios();
+    
+            // Add transaction with calculated prices
+            await addTransaction(coin.canister_id, {
+                id: [],
+                quantity: parseFloat(quantity),
+                price_icp: pricePerTokenInIcp,
+                price_usd: pricePerTokenInUsd,
+                price_btc: [],
+                timestamp,
+                note,
+                direction: transactionType === 'buy' ? { Buy: null } : { Sell: null },
+            });
             closeModal();
         } catch (err) {
             console.error('Failed to add transaction:', err);
         } finally {
             setLoadingState(false);
         }
-    };
+    };    
 
     return (
         <Modal open onClose={closeModal}>
@@ -203,7 +244,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                     <Autocomplete
                         readOnly={selectedCoinId}
                         options={loaded ? coins.data : []}
-                        getOptionLabel={(option) => getTokenName(option)}  // Adjust if your data structure requires
+                        getOptionLabel={(option) => getTokenName(option) + " (" + option.symbol + ")"}  // Adjust if your data structure requires
                         getOptionKey={(option) => option.canister_id}
                         renderOption={(props, option) => {
                             return (
@@ -223,7 +264,7 @@ const AddTransaction = ({ closeModal, fetchPortfolios, backendCoreActor, selecte
                                         />
                                     </div>
                                 )}
-                                <span>{getTokenName(option)}</span>
+                                <span>{getTokenName(option)} ({option.symbol})</span>
                               </div>
                             );
                           }}

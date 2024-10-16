@@ -5,13 +5,15 @@ import LoginMessage from "../../ui/components/_base/LoginMessage";
 import { Button } from "@mui/material";
 import PortfolioSummary from '../../ui/components/portfolio/PortfolioSummary';
 import PortfolioTokensTable from "../../ui/components/portfolio/PortfolioTokensTable";
-import AddTransaction from "../../ui/components/portfolio/AddTransactions";
+import AddTransaction from "../../ui/components/portfolio/AddTransaction";
 import usePortfolio from "../../ui/hooks/portfolio/usePortfolio";
+import PortfolioPieChart from "../../ui/components/portfolio/PortfolioPieChart";
 
 const Portfolio = () => {
     const { 
         portfolio,
         portfolioProcessedData, 
+        addTransaction,
         showTransactionModal, 
         toggleTransactionModal, 
         loadingState, 
@@ -40,11 +42,12 @@ const Portfolio = () => {
                         <div>
                             {showTransactionModal && (
                                 <AddTransaction
-                                    closeModal={toggleTransactionModal}
+                                    closeModal={toggleTransactionModal} addTransaction={addTransaction}
                                 />
                             )}
                             <div className={`${loadingState ? 'opacity-0' : ''}`}>
                                 <PortfolioSummary data={portfolioProcessedData} />
+                                <PortfolioPieChart tokens={portfolioProcessedData ? portfolioProcessedData.tokens : []} />
                                 <PortfolioTokensTable tokens={portfolioProcessedData ? portfolioProcessedData.tokens : []} portfolio={portfolio} />
                             </div>
                         </div>

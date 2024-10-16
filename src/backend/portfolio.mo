@@ -381,8 +381,8 @@ actor Portfolio {
                     // Update the token's quantity based on the transaction direction
                     var updatedQuantity = token.quantity;
                     var totalQuantityBought = token.total_quantity_bought;
-                    var totalIcpBuyCost = token.total_icp_buy_cost + (transaction.quantity * transaction.price_icp);
-                    var totalUsdBuyCost = token.total_usd_buy_cost + (transaction.quantity * transaction.price_usd);
+                    var totalIcpBuyCost = token.total_icp_buy_cost;
+                    var totalUsdBuyCost = token.total_usd_buy_cost;
                     var totalIcpSold = token.total_icp_sold;
                     var totalUsdSold = token.total_usd_sold;
                     

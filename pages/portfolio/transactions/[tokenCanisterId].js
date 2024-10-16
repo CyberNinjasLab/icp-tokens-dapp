@@ -5,7 +5,7 @@ import Layout from "../../../ui/components/_base/Layout";
 import usePortfolio from "../../../ui/hooks/portfolio/usePortfolio";
 import BackLink from "../../../ui/components/_base/BackLink";
 import { Button } from "@mui/material";
-import AddTransaction from "../../../ui/components/portfolio/AddTransactions";
+import AddTransaction from "../../../ui/components/portfolio/AddTransaction";
 import TokenLogoAndName from "../../../ui/components/tokens/TokenLogoAndName";
 import TokenTransactionsSummary from '../../../ui/components/portfolio/TokenTransactionsSummary';
 import LoginMessage from "../../../ui/components/_base/LoginMessage";
@@ -23,7 +23,8 @@ const TokenTransactions = () => {
         tokenTransactions, 
         fetchPortfolioData, 
         showTransactionModal, 
-        toggleTransactionModal, 
+        toggleTransactionModal,
+        addTransaction, 
         isAuthenticated, 
         loaded 
     } = usePortfolio(tokenCanisterId);
@@ -62,8 +63,7 @@ const TokenTransactions = () => {
                             {showTransactionModal && (
                                 <AddTransaction
                                     closeModal={toggleTransactionModal}
-                                    fetchPortfolios={fetchPortfolios}
-                                    backendCoreActor={backendCoreActor}
+                                    addTransaction={addTransaction}
                                     selectedCoinId={tokenCanisterId}
                                 />
                             )}
