@@ -36,7 +36,7 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   const initializeUserSession = async (client) => {
-    const identityObj = client.getIdentity();
+    const identityObj = await client.getIdentity();
     setIdentity(identityObj);
 
     const actor = createActor(process.env.NEXT_PUBLIC_BACKEND_CORE_CANISTER_ID, {
@@ -59,12 +59,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const login = async () => {
-    // Init auth again to guarantee proper session!
-    await initAuth();
-    
-    if (!authClient) return; // Ensure the auth client is initialized
-
-    authClient.login({
+    await authClient.login({
       maxTimeToLive: BigInt(sessionDurationInDays * 24 * 60 * 60 * 1000 * 1000 * 1000),
       disableIdle: true,
       identityProvider: process.env.DFX_NETWORK === 'ic' ? 
@@ -81,6 +76,8 @@ const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     if (!authClient) return; // Ensure the auth client is initialized
     await authClient.logout();
+    // This fix a "sign in -> sign out -> sign in again" flow without window reload.
+    await initAuth();
     setIsAuthenticated(false);
     setUser(null);
   };
