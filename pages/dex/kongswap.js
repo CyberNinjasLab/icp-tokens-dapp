@@ -26,7 +26,7 @@ const KongSwap = () => {
 			<div className="flex flex-col md:flex-row md:items-center p-2">
                     {/* Content Section */}
                     <div className="flex-1 mb-4 md:mb-0">
-                        <h1 className="text-3xl font-bold p-1">Sonic | ICP DEX</h1>
+                        <h1 className="text-3xl font-bold p-1">KongSwap | ICP DEX</h1>
                         <p className="mt-2 text-lg text-gray-600 p-2">
                         KongSwap is a high-speed decentralized exchange (DEX) on the Internet Computer (ICP) network, optimized for rapid on-chain transactions and efficient liquidity pools. With cross-chain support via ChainFusion and Web2-like login powered by Internet Identity, KongSwap delivers a fast, secure, and seamless trading experience. It redefines decentralized finance (DeFi) by combining speed, scalability, and interoperability within the ICP ecosystem.
                         </p>					
@@ -34,8 +34,8 @@ const KongSwap = () => {
                    {/* Image Section */}
                     <div className="flex-2 flex justify-center items-center flex-col p-2">
                         <Image 
-                            src="/logos/sonic-dex_logo.webp" 
-                            alt="ICP Swap - ICP Tokens by Market Cap Logo" 
+                            src="/logos/kongswap.webp" 
+                            alt="KongSwap - ICP Tokens by Market Cap Logo" 
                             width={200} 
                             height={200}
                             className="rounded" // Optional: add some styling like rounded corners
