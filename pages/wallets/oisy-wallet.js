@@ -10,14 +10,14 @@ const Oisy = () => {
 		<>
       <Head>
 	  <title>Oisy Wallet  | ICP Wallet</title>
-                <meta name="description" content="Oisy Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta name="description" content="Oisy Wallet is an on-chain Ethereum wallet for Internet Computer, secured by chain-key cryptography and Internet Identity, operating seamlessly within your browser." />
                 <meta name="twitter:title" content="Oisy Wallet | ICP Tokens by Market Cap"/>
-                <meta name="twitter:description" content="Oisy Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance."/>
+                <meta name="twitter:description" content="Oisy Wallet is an on-chain Ethereum wallet for Internet Computer, secured by chain-key cryptography and Internet Identity, operating seamlessly within your browser."/>
                 <link rel="canonical" href="https://icptokens.net/wallets/oisy"/>
                 <meta property="og:locale" content="en_US" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Oisy| ICP Tokens by Market Cap" />
-                <meta property="og:description" content="Oisy Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta property="og:description" content="Oisy Wallet is an on-chain Ethereum wallet for Internet Computer, secured by chain-key cryptography and Internet Identity, operating seamlessly within your browser." />
                 <meta property="og:url" content="https://icptokens.net" />
                 <meta property="og:site_name" content="ICP Tokens by Market Cap" />      
 		</Head>

@@ -10,14 +10,14 @@ const Astroxme = () => {
 		<>
       <Head>
 	  <title>Astrox Me  | ICP Wallet</title>
-                <meta name="description" content="Astrox Me allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta name="description" content="Astrox ME is a secure wallet that protects your assets without a seed phrase, offering cross-device compatibility and enhanced security for a seamless crypto experience." />
                 <meta name="twitter:title" content="Astrox Me | ICP Tokens by Market Cap"/>
-                <meta name="twitter:description" content="Astrox Me allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance."/>
+                <meta name="twitter:description" content="Astrox ME is a secure wallet that protects your assets without a seed phrase, offering cross-device compatibility and enhanced security for a seamless crypto experience."/>
                 <link rel="canonical" href="https://icptokens.net/wallets/astrox-me"/>
                 <meta property="og:locale" content="en_US" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Astroxme| ICP Tokens by Market Cap" />
-                <meta property="og:description" content="Astrox Me allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta property="og:description" content="Astrox ME is a secure wallet that protects your assets without a seed phrase, offering cross-device compatibility and enhanced security for a seamless crypto experience." />
                 <meta property="og:url" content="https://icptokens.net" />
                 <meta property="og:site_name" content="ICP Tokens by Market Cap" />      
 		</Head>
@@ -41,17 +41,17 @@ const Astroxme = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                            <a href="https://t.me/astrox_network" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaTelegram size={30} />
                             </a>
-                            <a href="https://twitter.com/ICPSwap" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
+                            <a href="https://x.com/Astrox_Network" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
                                 <FaTwitter size={30} />
                             </a>				
-                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://astrox.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaMedium size={30} />
                             </a>
-                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaGlobe size={30} />
+                            <a href="https://github.com/AstroxNetwork" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                                <FaGitHub size={30} />
                             </a>
                         </div>	
                     </div>				

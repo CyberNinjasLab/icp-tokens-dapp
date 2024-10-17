@@ -10,14 +10,14 @@ const StoicWallet = () => {
 		<>
       <Head>
 	  <title>Stoic Wallet  | ICP Wallet</title>
-                <meta name="description" content="Stoic Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta name="description" content="Stoic Wallet by Toniq Labs is a secure digital wallet supporting NFTs, tokens, allowing users to manage accounts and store assets within the ICP ecosystem." />
                 <meta name="twitter:title" content="Stoic Wallet | ICP Tokens by Market Cap"/>
-                <meta name="twitter:description" content="Stoic Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance."/>
+                <meta name="twitter:description" content="Stoic Wallet by Toniq Labs is a secure digital wallet supporting NFTs, tokens, allowing users to manage accounts and store assets within the ICP ecosystem."/>
                 <link rel="canonical" href="https://icptokens.net/wallets/stoic-wallet"/>
                 <meta property="og:locale" content="en_US" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Stoic| ICP Tokens by Market Cap" />
-                <meta property="og:description" content="Stoic Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta property="og:description" content="Stoic Wallet by Toniq Labs is a secure digital wallet supporting NFTs, tokens, allowing users to manage accounts and store assets within the ICP ecosystem." />
                 <meta property="og:url" content="https://icptokens.net" />
                 <meta property="og:site_name" content="ICP Tokens by Market Cap" />      
 		</Head>

@@ -10,14 +10,14 @@ const Plugwallet = () => {
 		<>
       <Head>
 	  <title>Plug Wallet  | ICP Wallet</title>
-                <meta name="description" content="Plug Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta name="description" content="Plug Wallet combines identity and wallet functions for ICP, enabling users to hold, send, swap tokens, and access IC apps on mobile or as a browser extension." />
                 <meta name="twitter:title" content="Plug Wallet | ICP Tokens by Market Cap"/>
-                <meta name="twitter:description" content="Plug Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance."/>
+                <meta name="twitter:description" content="Plug Wallet combines identity and wallet functions for ICP, enabling users to hold, send, swap tokens, and access IC apps on mobile or as a browser extension."/>
                 <link rel="canonical" href="https://icptokens.net/wallets/plug-wallet"/>
                 <meta property="og:locale" content="en_US" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Plug| ICP Tokens by Market Cap" />
-                <meta property="og:description" content="Plug Wallet allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta property="og:description" content="Plug Wallet combines identity and wallet functions for ICP, enabling users to hold, send, swap tokens, and access IC apps on mobile or as a browser extension." />
                 <meta property="og:url" content="https://icptokens.net" />
                 <meta property="og:site_name" content="ICP Tokens by Market Cap" />      
 		</Head>
@@ -41,16 +41,16 @@ const Plugwallet = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                            <a href="https://discord.com/invite/thqARE5JqF" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaTelegram size={30} />
                             </a>
-                            <a href="https://twitter.com/ICPSwap" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
+                            <a href="https://x.com/plug_wallet" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
                                 <FaTwitter size={30} />
                             </a>				
-                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://play.google.com/store/apps/details?id=co.psychedelic.plug&pli=1/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaMedium size={30} />
                             </a>
-                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://apps.apple.com/us/app/plug-crypto-wallet/id1599570197" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaGlobe size={30} />
                             </a>
                         </div>	

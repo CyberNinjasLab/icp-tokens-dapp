@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
 import Image from 'next/image'; // Import Next.js Image component
 import MarketCapChart from '../../ui/components/markets/MarketCapChart'; // Import the MarketCapChart component
-import { FaTwitter, FaTelegram, FaGlobe, FaMedium, FaGithub } from 'react-icons/fa'; // Import social media icons
+import { FaTwitter, FaTelegram, FaGlobe, FaMedium, FaGithub, FaDiscord } from 'react-icons/fa'; // Import social media icons
 // import FearGreedIndex from '../../ui/components/new/FearGreedIndex';
 
 const Nnsdapp = () => {
@@ -43,7 +43,13 @@ const Nnsdapp = () => {
                         <div className="mt-4 flex justify-center space-x-6">
                             <a href="https://github.com/dfinity/nns-dapp" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaGithub size={30} />
-                            </a>                          		
+                            </a> 
+                            <a href="https://x.com/dfinity" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                                <FaTwitter size={30} />
+                            </a>
+                            <a href="https://medium.com/dfinity" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                                <FaMedium size={30} />
+                            </a>                         		
                            
                             <a href="https://nns.ic0.app/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaGlobe size={30} />

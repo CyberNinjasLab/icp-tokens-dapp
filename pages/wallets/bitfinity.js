@@ -10,14 +10,14 @@ const Bitfinity = () => {
 		<>
       <Head>
 	  <title>Bitfinity  | ICP Wallet</title>
-                <meta name="description" content="Bitfinity allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta name="description" content="Bitfinity Wallet is a multi-chain wallet for BTC, ICP, SNS-1, and NFTs, supporting Internet Identity and seamless dapp login on the Internet Computer ecosystem." />
                 <meta name="twitter:title" content="Bitfinity | ICP Tokens by Market Cap"/>
-                <meta name="twitter:description" content="Bitfinity allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance."/>
+                <meta name="twitter:description" content="Bitfinity Wallet is a multi-chain wallet for BTC, ICP, SNS-1, and NFTs, supporting Internet Identity and seamless dapp login on the Internet Computer ecosystem."/>
                 <link rel="canonical" href="https://icptokens.net/wallets/bitfinity"/>
                 <meta property="og:locale" content="en_US" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Bitfinity| ICP Tokens by Market Cap" />
-                <meta property="og:description" content="Bitfinity allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta property="og:description" content="Bitfinity Wallet is a multi-chain wallet for BTC, ICP, SNS-1, and NFTs, supporting Internet Identity and seamless dapp login on the Internet Computer ecosystem." />
                 <meta property="og:url" content="https://icptokens.net" />
                 <meta property="og:site_name" content="ICP Tokens by Market Cap" />      
 		</Head>
@@ -41,17 +41,17 @@ const Bitfinity = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                            <a href="https://t.me/infinityswapofficial" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaTelegram size={30} />
                             </a>
-                            <a href="https://twitter.com/ICPSwap" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
+                            <a href="https://x.com/bitfinitynet" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
                                 <FaTwitter size={30} />
                             </a>				
-                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://medium.com/@infinityswap" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaMedium size={30} />
                             </a>
-                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaGlobe size={30} />
+                            <a href="https://github.com/bitfinity-network" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                                <FaGitHub size={30} />
                             </a>
                         </div>	
                     </div>				

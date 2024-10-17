@@ -10,7 +10,7 @@ const NFID = () => {
 		<>
       <Head>
 	  <title>NFID | ICP Wallet</title>
-                <meta name="description" content="NFIDallows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
+                <meta name="description" content="NFID allows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance." />
                 <meta name="twitter:title" content="NFID| ICP Tokens by Market Cap"/>
                 <meta name="twitter:description" content="NFIDallows users to manage ICP, stake neurons, vote, and earn rewards on a secure blockchain-powered interface for Internet Computer governance."/>
                 <link rel="canonical" href="https://icptokens.net/wallets/nfid"/>
@@ -41,16 +41,16 @@ const NFID = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                            <a href="https://discord.com/invite/a9BFNrYJ99" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaTelegram size={30} />
                             </a>
-                            <a href="https://twitter.com/ICPSwap" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
+                            <a href="https://x.com/IdentityMaxis" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
                                 <FaTwitter size={30} />
                             </a>				
-                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://github.com/internet-identity-labs/nfid-doc" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaMedium size={30} />
                             </a>
-                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://www.linkedin.com/company/nfid-labs/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaGlobe size={30} />
                             </a>
                         </div>	
