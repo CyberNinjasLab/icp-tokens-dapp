@@ -41,17 +41,17 @@ const AppicDAO = () => {
                         />                        
                         
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                            <a href="https://t.me/Appic_dao" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaTelegram size={30} />
                             </a>
-                            <a href="https://twitter.com/ICPSwap" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
+                            <a href="https://x.com/Appic_ICP" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
                                 <FaTwitter size={30} />
                             </a>				
-                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaMedium size={30} />
+                            <a href="https://github.com/Appic-Solutions" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                                <FaGitHub size={30} />
                             </a>
-                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaGlobe size={30} />
+                            <a href="https://discord.com/invite/sHa7SCgEPV" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                                <FaDiscord size={30} />
                             </a>
                         </div>	
                     </div>				

@@ -42,17 +42,17 @@ const ICPEx = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
+                            <a href="https://t.me/icpexchange" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
                                 <FaTelegram size={30} />
                             </a>
-                            <a href="https://twitter.com/ICPSwap" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
+                            <a href="https://t.me/icpexchange" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
                                 <FaTwitter size={30} />
                             </a>				
-                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                            <a href="https://medium.com/@icpex" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
                                 <FaMedium size={30} />
                             </a>
-                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaGlobe size={30} />
+                            <a href="https://github.com/ICPExchange/icpex-app" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
+                                <FaGitHub size={30} />
                             </a>
                         </div>	
                     </div>				
