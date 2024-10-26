@@ -11,8 +11,10 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
   const isWindowUnder1024 = useWindowWidthUnder(1024);
   const libraryPath = process.env.NEXT_PUBLIC_TRADING_VIEW_LIB_URL;
 
-  const initializeWidget = () => {
+  const initializeWidget = async () => {
     if (window.TradingView) {
+      let data = await getChartDataFromStorage();
+
       const widget = new window.TradingView.widget({
         library_path: libraryPath + '/charting_library/',
         symbol: 'icptokens.net',             // Default symbol
@@ -22,6 +24,7 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
         theme: 'dark',
         datafeed: new Datafeeds.UDFCompatibleDatafeed("https://web2.icptokens.net/api/datafeed/" + canister_id + "/" + currency),
         autosize: true,
+        auto_save_delay: 3,
         time_frames: [
           { text: "1y", resolution: "1W", description: "1 Year" },
           { text: "6m", resolution: "1D", description: "6 Months" },
@@ -30,20 +33,53 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
           { text: "7d", resolution: "60", description: "7 Days" },
           { text: "1d", resolution: "30", description: "1 Day" },
         ],
+        // saved_data: data,
         save_load_adapter: new TradingViewSaveLoadAdapter(canister_id, currency, backendCoreActor, isAuthenticated),
         load_last_chart: true,
         enabled_features: [
             "header_in_fullscreen_mode",
             "side_toolbar_in_fullscreen_mode",
-            "hide_left_toolbar_by_default",
+            // "hide_left_toolbar_by_default",
         ],
+        disabled_features: [
+          "header_saveload"
+        ]
       });
 
       widget.onChartReady(() => {
-
+        // 🚨🚨🚨 Few weeks later remove this if and uncomment saved_data on widget init! 🚨🚨🚨
+        if(data) {
+          widget.load(data);
+        }
+        widget.subscribe("onAutoSaveNeeded", (params) => {
+          widget.save(saveChartDataToStorage);
+        });
       });
     }
   };
+
+  const getChartDataFromStorage = async () => {
+    if (isAuthenticated) {
+      const data = await backendCoreActor.getTradingViewChartData('tv_chart_' + canister_id + '_' + currency);
+      if(data.length) {
+        return data && data.length ? JSON.parse(data[0][1]) : null;
+      }
+
+      const LSdata = window.localStorage.getItem('tv_chart_' + canister_id + '_' + currency);
+      return LSdata ? JSON.parse(LSdata) : null;
+    } else {
+      const data = window.localStorage.getItem('tv_chart_' + canister_id + '_' + currency);
+      return data ? JSON.parse(data) : null;
+    }
+  }
+
+  const saveChartDataToStorage = async (data) => {
+    if (isAuthenticated) {
+      await backendCoreActor.storeTradingViewChartData('tv_chart_' + canister_id + '_' + currency, JSON.stringify(data));
+    } else {
+      window.localStorage.setItem('tv_chart_' + canister_id + '_' + currency, JSON.stringify(data));
+    }
+  }
 
   const setDynamicHeight = () => {
     const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
