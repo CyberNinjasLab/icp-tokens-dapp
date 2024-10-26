@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Tooltip, Typography, useMediaQuery, ClickAwayListener } from '@mui/material';
+import { Tooltip, useMediaQuery, ClickAwayListener } from '@mui/material';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { Launch } from '@mui/icons-material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';

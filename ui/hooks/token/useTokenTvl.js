@@ -33,8 +33,10 @@ const useTokenTvl = (canisterId) => {
           if (sonicTvlData) {
             for (const sonicPool of sonicTvlData.token.pairBase.length ? sonicTvlData.token.pairBase : sonicTvlData.token.pairQuote) {
               if (sonicPool.reserveICP && sonicPool.reserveUSD) {
-                sumSonicUsd += parseFloat(sonicPool.reserveUSD);
-                sumSonicIcp += parseFloat(sonicPool.reserveICP);
+                if(sonicPool.token0.symbol != sonicPool.token1.symbol) {
+                  sumSonicUsd += parseFloat(sonicPool.reserveUSD);
+                  sumSonicIcp += parseFloat(sonicPool.reserveICP);
+                }
               }
             }
           }
@@ -51,7 +53,9 @@ const useTokenTvl = (canisterId) => {
             if (poolData.token0Id == canisterId || poolData.token1Id == canisterId) {
               for (const poolTvl of icpSwapAllPoolsTvl) {
                 if (poolTvl[0] == poolData.pool) {
-                  sumIcpSwap += poolTvl[1];
+                  if(poolData.token0Symbol != poolData.token1Symbol) {
+                    sumIcpSwap += poolTvl[1];
+                  }
                   break;
                 }
               }
