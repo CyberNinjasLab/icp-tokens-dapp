@@ -16,7 +16,7 @@ const Dex = () => {
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
 						<a href="https://nns.ic0.app/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/nns_front_end_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/nns_front_end_logo.webp" alt="NNS Dashboard Dapp Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">NNS Dapp</span>
 							</div>
 							<div className="mt-4">
@@ -25,7 +25,7 @@ const Dex = () => {
 						</a>
 						<a href="https://astrox.me/" target='_blank' className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/astroxme_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/astroxme_logo.webp" alt="Astrox ME Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Astrox ME</span>
 							</div>
 							<div className="mt-4">
@@ -34,7 +34,7 @@ const Dex = () => {
 						</a>
 						<a href="https://nfid.one/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/nfid_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/nfid_logo.webp" alt="NFID Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">NFID</span>
 							</div>
 							<div className="mt-4">
@@ -43,7 +43,7 @@ const Dex = () => {
 						</a>
 						<a href="https://plugwallet.ooo/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/plug_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/plug_logo.webp" alt="Plug Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Plug Wallet</span>
 							</div>
 							<div className="mt-4">
@@ -52,7 +52,7 @@ const Dex = () => {
 						</a>
 						<a href="https://wallet.bitfinity.network/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/bitfinitywallet_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/bitfinitywallet_logo.webp" alt="Bitfinity Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Bitfinity Wallet</span>
 							</div>
 							<div className="mt-4">
@@ -61,7 +61,7 @@ const Dex = () => {
 						</a>
 						<a href="https://www.stoicwallet.com/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/stoicwallet_logo.webp" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/stoicwallet_logo.webp" alt="Stoic Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Stoic Wallet</span>
 							</div>
 							<div className="mt-4">
@@ -70,11 +70,20 @@ const Dex = () => {
 						</a>
 						<a href="https://oisy.com/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/oisy_logo.svg" alt="Logo" className="h-12 w-12" />
+								<img src="/logos/oisy_logo.svg" alt="Oisy Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Oisy Wallet</span>
 							</div>
 							<div className="mt-4">
 								<p>Crafted for the Internet Computer, Oisy is a unique Ethereum wallet that operates directly within your browser. It is entirely on-chain and secured by chain-key cryptography and Internet Identity.</p>
+							</div>
+						</a>
+						<a href="https://vly.money/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+							<div className="flex items-center space-x-4">
+								<img src="/logos/vly-money.jpg" alt="Vly.Money Wallet Logo" className="h-12 w-12 rounded-lg" />
+								<span className="font-bold text-lg">Vly Wallet</span>
+							</div>
+							<div className="mt-4">
+								<p>Send and receive crypto using social media handles instead of wallet addresses. Decentralized, non-custodial, and secured with Passkey. Supports all tokens and chains with a unified payment gateway, accessible across platforms.</p>
 							</div>
 						</a>
 					</div>
