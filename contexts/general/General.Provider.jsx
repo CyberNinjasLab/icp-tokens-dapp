@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { GeneralContext } from './General.Context';
 import useLocalStorage from '../../ui/hooks/useLocalStorage';
+import { canisterId } from '../../src/declarations/backend_core';
+import usePriceNearTimestamp from '../../ui/hooks/token/usePriceNearTimestamp';
 
 const GeneralContextProvider = ({ children }) => {
-  const [currency, setCurrency] = useLocalStorage('usd', 'usd'); // Default currency is USD
+  const { fetchPricesNearTimestamps } = usePriceNearTimestamp();
+  const [currency, setCurrency] = useLocalStorage('currency', 'usd'); // Default currency is USD
   const [theme, setTheme] = useState('dark');  // Default to light
+  const [icpPrice, setIcpPrice] = useState(null);
 
   useEffect(() => {
       // Check local storage for theme
@@ -33,6 +37,37 @@ const GeneralContextProvider = ({ children }) => {
       html.classList.remove('dark');
     }
   }, [theme]);
+
+  // Fetching ICP Price data from API every 30 seconds
+  useEffect(() => {
+    const fetchPrice = async () => {
+      try {
+        const now = Math.floor(Date.now() / 1000);
+        const icpPrice = await fetchPricesNearTimestamps([{
+          canister_id: 'ryjl3-tyaaa-aaaaa-aaaba-cai',
+          timestamp: now,
+          currency: 'usd'
+        }]);
+        
+        if (icpPrice && icpPrice.length > 0) {
+          setIcpPrice(parseFloat(icpPrice[0]?.value));
+        } else {
+          setIcpPrice(null);
+        }
+      } catch (error) {
+        console.error('Failed to fetch price:', error);
+      }
+    };
+
+    // Initial fetch
+    fetchPrice();
+
+    // Set interval to fetch every 60 seconds
+    const intervalId = setInterval(fetchPrice, 60 * 1000);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Define the formatPrice function here
   const formatPrice = value => {
@@ -300,6 +335,7 @@ const GeneralContextProvider = ({ children }) => {
 
   const contextValues = {
       currency,
+      icpPrice,
       theme,
       toggleTheme,
       setCurrency,

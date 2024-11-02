@@ -7,31 +7,37 @@ const { version } = require('/package.json');
 const Footer = () => {
 	return (
 		<footer className='w-full border-t border-solid dark:border-gray-600 mt-12 md:mt-20'>
-				<div className='container mt-8 md:mt-12 mx-auto md:mb-12 mb-8 grid gap-y-12 px-4 md:px-8'>
+				<div className='max-w-[1430px] mt-8 md:mt-12 mx-auto md:mb-12 mb-8 grid gap-y-12 px-4 md:px-8'>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
 							{/* Left Column: Logo and Description */}
 							<div>
 									<div className="flex items-center gap-4 mb-4">
 											<Logo />
 									</div>
-									<p className="text-left mb-8 max-w-lg text-sm">The all-in-one tool for investors within the ICP ecosystem.</p>
+									<p className="text-left mb-8 max-w-lg text-sm">ICPTokens is a tool for tracking, analyzing, and managing.</p>
 							</div>
 
 							{/* Right Column: Footer Links */}
 							<div className="grid grid-cols-2 md:grid-cols-3 gap-x-16 gap-y-8 text-left md:justify-end mt-4 md:mt-0">
 									<div>
-											<h5 className="font-bold text-xl mb-4">About</h5>
+											{/* <h5 className="font-bold text-xl mb-4">About</h5> */}
 											<ul className="flex flex-col gap-2">
-													<li className="text-sm">
+													{/* <li className="text-sm">
 														<a href="https://cyberninjas.net/" target='_blank'>About Us</a>
+													</li> */}
+													<li className="text-sm">
+														<Link href="https://docs.icptokens.net/faq" target='_blank' className='hover:underline'>FAQ</Link>
 													</li>
 													<li className="text-sm">
-														<Link href="/how-it-works" className='hover:underline'>How it works</Link>
+														<Link href="https://docs.icptokens.net/about/team" target='_blank' className='hover:underline'>Team</Link>
+													</li>
+													<li className="text-sm">
+														<Link href="https://docs.icptokens.net/how-it-works" target='_blank' className='hover:underline'>How it works</Link>
 													</li>
 											</ul>
 									</div>
 									<div>
-											<h5 className="font-bold text-xl mb-4">More</h5>
+											{/* <h5 className="font-bold text-xl mb-4">More</h5> */}
 											<ul className="flex flex-col gap-2">
 													<li className="text-sm">
 														<Link href="/changelog" className='hover:underline'>Changelog</Link>
@@ -39,11 +45,17 @@ const Footer = () => {
 													<li className="text-sm">
 														<Link href="https://tally.so/r/wkWKbd" target='_blank' className='hover:underline'>Listing request</Link>
 													</li>
+													<li className="text-sm">
+														<Link href="https://docs.icptokens.net" target="_blank" className='hover:underline'>Documentation</Link>
+													</li>
 											</ul>
 									</div>
 									<div>
-											<h5 className="font-bold text-xl mb-4">Socials</h5>
+											{/* <h5 className="font-bold text-xl mb-4">Socials</h5> */}
 											<ul className="flex flex-col gap-2">
+													<li className="text-sm">
+														<a href="https://github.com/CyberNinjasLab" className='hover:underline' target='_blank'>GitHub</a>
+													</li>
 													<li className="text-sm">
 														<a href="https://oc.app/community/5bgep-3aaaa-aaaar-a3toq-cai/" className='hover:underline' target='_blank'>OpenChat</a>
 													</li>
@@ -57,8 +69,9 @@ const Footer = () => {
 
 					{/* Footer Bottom Text */}
 					<div className="md:text-center mt-4 md:mt-0">
-						<p className='text-sm'>
-								&copy; {new Date().getFullYear()} ICPTokens v{version}<br />
+						<p className='text-sm leading-5'>
+								&copy; {new Date().getFullYear()} ICPTokens <br />
+								<a href="https://docs.icptokens.net/privacy-policy" target='_blank'>Privacy Policy</a> & <a href="https://docs.icptokens.net/terms-of-service" target='_blank'>Terms of Service</a><br />
 								Powered by the <a href="https://internetcomputer.org/" target='_blank' className='underline'>Internet Computer</a> &amp; <a href="https://www.tradingview.com/" target='_blank' className='underline'>Trading View</a>
 						</p>
 					</div>

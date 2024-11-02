@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file
 
+v0.10.0 Total Value Locked (TVL)
+_October 3, 2024_
+
+### Added
+- **Total Value Locked (TVL)**: Introduced a new feature that calculates and displays the total value locked (TVL) for specific tokens. This aggregates the sum of token pools from two major DEXes: **ICP Swap** and **Sonic**.
+
 ## v0.9.0 Portfolio USD Support
 _August 29, 2024_
 
