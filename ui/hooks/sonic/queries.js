@@ -63,3 +63,36 @@ export const TOKEN_DATA_QUERY = gql`
     __typename
   }
 `;
+
+export const TOKENS_DATA_QUERY = gql`
+  query TokensData($now: Int!, $twoDaysAgo: Int!, $limit: Int = 200) {
+    tokens(limit: $limit) {
+      ...TokenTable
+      __typename
+    }
+    bundle(id: 1) {
+      icpPrice
+      __typename
+    }
+  }
+
+  fragment TokenTable on Token {
+    ...TokenHeader
+    totalLiquidity
+    derivedPrice
+    volume24Hr(timestamps: [$now])
+    tokenDayData(toDate: $now, fromDate: $twoDaysAgo) {
+      dailyVolumeUSD
+      priceUSD
+      __typename
+    }
+    __typename
+  }
+
+  fragment TokenHeader on Token {
+    id
+    symbol
+    name
+    __typename
+  }
+`;

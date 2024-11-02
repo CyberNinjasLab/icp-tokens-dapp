@@ -57,6 +57,7 @@
     "ag-grid-community": "^31.3.4",
     "ag-grid-react": "^31.3.4",
     "assert": "^2.1.0",
+    "axios": "^1.7.7",
     "buffer": "^6.0.3",
     "compressorjs": "^1.2.1",
     "copy-to-clipboard": "^3.3.3",
