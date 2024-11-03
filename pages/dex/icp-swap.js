@@ -58,16 +58,16 @@ const ICPSwap = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/kong_swap" target="_blank" rel="noopener noreferrer" className="text-white-500 hover:text-blue-600">
+                            <a href="https://t.me/ICPSwap_Official" target="_blank" rel="noopener noreferrer" className="text-white-500 hover:text-blue-600">
                                 <FaTelegram size={20} />
                             </a>
-                            <a href="https://x.com/kongswap" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-blue-800">
+                            <a href="https://x.com/icpswap" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-blue-800">
                                 <FaTwitter size={20} />
                             </a>				
-                            <a href="https://oc.app/community/maceh-niaaa-aaaaf-bm37q-cai/channel/143833652212619352659918759629305427896" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-blue-800">
+                            <a href="https://icpswap.medium.com/" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-blue-800">
                                 <FaMedium size={20} />
                             </a>
-                            <a href="https://github.com/KongSwap/kong" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-blue-800">
+                            <a href="https://www.icpswap.com/" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-blue-800">
                                 <FaGlobe size={20} />
                             </a>
                         </div>	

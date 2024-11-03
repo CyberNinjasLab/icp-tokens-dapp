@@ -60,9 +60,7 @@ const ICPEx = () => {
                         />                        
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/icpexchange" target="_blank" rel="noopener noreferrer" className="text-white-500 hover:text-blue-600">
-                                <FaTelegram size={20} />
-                            </a>
+                          
                             <a href="https://t.me/icpexchange" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-blue-800">
                                 <FaTwitter size={20} />
                             </a>				
