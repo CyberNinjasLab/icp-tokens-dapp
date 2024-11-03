@@ -1,0 +1,45 @@
+.line-and-column {
+  .highcharts-label.highcharts-tooltip.highcharts-color-undefined {
+    display: none !important;
+  }
+}
+
+.tooltip-custom-bar {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none;
+  display: flex;
+  gap: 7px;
+  width: 160px;
+
+  h4 {
+    color: black;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+  }
+}
+
+.tooltip-custom-line {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none;
+  width: 70px;
+
+  h4 {
+    color: black;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+  }
+}
+
+[data-theme^="dark"] {
+  .tooltip-custom-line h4 {
+    color: var(--c-text-second);
+  }
+
+  .tooltip-custom-bar h4 {
+    color: var(--c-text-second);
+  }
+}

@@ -1,0 +1,41 @@
+type WatchlistId = text;
+type User = 
+ record {
+   createdAt: opt int;
+   id: principal;
+   twitterAcc: text;
+ };
+type Transaction = 
+ record {
+   canister_id: text;
+   direction: bool;
+   id: nat;
+   note: text;
+   price_per_token: float64;
+   quantity: float64;
+   timestamp: int;
+ };
+type Portfolio = 
+ record {
+   name: text;
+   transactions: vec Transaction;
+ };
+service : {
+  addPortfolioTransaction: (nat, Transaction) -> (opt Transaction);
+  createPortfolio: (text) -> (opt Portfolio);
+  createUser: () -> (opt User);
+  deletePortfolio: (nat) -> (bool);
+  editPortfolioTransaction: (nat, nat, Transaction) -> (opt Transaction);
+  getAllUsers: () -> (vec User) query;
+  getCurrentUser: () -> (opt User) query;
+  getPortfolios: () -> (opt vec Portfolio) query;
+  getTradingViewChartData: (text) -> (opt record {
+                                            text;
+                                            text;
+                                          }) query;
+  getWatchlist: () -> (opt vec WatchlistId) query;
+  removePortfolioTransaction: (nat, nat) -> (bool);
+  storeTradingViewChartData: (text, text) -> (text, text);
+  updateWatchlist: (vec WatchlistId) -> (vec WatchlistId);
+  whoami: () -> (principal);
+}

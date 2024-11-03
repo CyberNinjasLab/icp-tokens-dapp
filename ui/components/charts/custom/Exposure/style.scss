@@ -1,0 +1,43 @@
+@import "../../../../styles/variables";
+
+.exposure {
+  &__content {
+    &-itemsList {
+      &__item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        .point {
+          min-width: 10px;
+          height: 10px;
+          border-radius: 10px;
+        }
+        .label {
+          min-width: 100px;
+          margin-left: 15px;
+        }
+        .percent {
+          width: 50px;
+          margin-left: 20px;
+        }
+        .label,
+        .percent {
+          font-size: 12px;
+        }
+        .bar-wrap {
+          margin-left: 20px;
+          width: 100%;
+          height: 15px;
+          border-radius: 2px;
+          background: var(--c-bg-third);
+
+          .bar {
+            height: 100%;
+            border-radius: 2px;
+            transition: background-color 0.15s, width 0.4s;
+          }
+        }
+      }
+    }
+  }
+}

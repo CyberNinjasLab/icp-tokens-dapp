@@ -1,0 +1,118 @@
+@import "../../../../../styles/variables";
+
+.area-four.box {
+  padding: 0;
+
+  .title .wrapper-two-icons {
+    width: 75px;
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 30px;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-left: 15px;
+    }
+
+    .col-1 {
+      display: flex;
+      align-items: center;
+    }
+
+    .col-2 {
+      display: flex;
+      gap: 30px;
+
+      span:first-child {
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--c-text-second);
+      }
+
+      span:last-child {
+        font-size: 15px;
+        font-weight: 500;
+        margin-left: 18px;
+      }
+    }
+  }
+
+  .user-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 30px;
+
+    .box-2 {
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      width: 120px;
+    }
+
+    .dropdown {
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .dropdown__options {
+      top: 153%;
+      left: -19px;
+      width: 120px;
+    }
+
+    .dropdown .arrow {
+      path {
+        stroke: transparent;
+      }
+    }
+  }
+
+  #container-column-chart {
+    position: relative;
+    z-index: 10;
+  }
+
+  .highcharts-range-selector-buttons .highcharts-label {
+    display: none !important;
+  }
+
+  .highcharts-range-selector-group {
+    display: none;
+  }
+}
+
+@include _600 {
+  .area-four.box {
+    .title {
+      padding: 20px;
+      .col-2 {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+
+    .user-panel {
+      gap: 15px;
+      padding: 0 20px;
+
+      div.box-2 {
+        height: 36px;
+      }
+    }
+
+    .nav-select-three {
+      button {
+        padding: 7px 12px;
+      }
+    }
+  }
+}

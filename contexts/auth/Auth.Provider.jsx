@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { AuthClient } from "@dfinity/auth-client";
 import { AuthContext } from "./Auth.Context"; // Ensure the path matches your file structure
 import { createActor } from "../../src/declarations/backend_core"
-import Cookies from 'js-cookie';
 import LoginModal from "../../ui/components/_base/LoginModal";
 import ThemeRegistry from "../../utils/ThemeRegistry";
 
@@ -15,29 +14,12 @@ const AuthContextProvider = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const sessionDurationInDays = 30;
 
-  const cookieStorage = {
-    get(key) {
-      const cookieValue = Cookies.get(key);
-      return Promise.resolve(cookieValue ? cookieValue : null);
-    },
-    set(key, value) {
-      Cookies.set(key, value, { expires: sessionDurationInDays, secure: true, sameSite: 'Strict' });
-      return Promise.resolve();
-    },
-    remove(key) {
-      Cookies.remove(key, { secure: true, sameSite: 'Strict' });
-      return Promise.resolve();
-    }
-  };
-
   const initAuth = async () => {
     const client = await AuthClient.create({
-      storage: cookieStorage,
-      keyType: 'Ed25519',  // Use Ed25519 key type,
       idleOptions: {
         disableIdle: true,
-        // idleTimeout: 1000 * 60 * 60 * 24 * sessionDurationInDays,
-      }
+        disableDefaultIdleCallback: true,
+      },
     });
     setAuthClient(client);
     const isAuthenticated = await client.isAuthenticated();
@@ -54,7 +36,7 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   const initializeUserSession = async (client) => {
-    const identityObj = client.getIdentity();
+    const identityObj = await client.getIdentity();
     setIdentity(identityObj);
 
     const actor = createActor(process.env.NEXT_PUBLIC_BACKEND_CORE_CANISTER_ID, {
@@ -77,12 +59,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const login = async () => {
-    // Init auth again to guarantee proper session!
-    await initAuth();
-    
-    if (!authClient) return; // Ensure the auth client is initialized
-
-    authClient.login({
+    await authClient.login({
       maxTimeToLive: BigInt(sessionDurationInDays * 24 * 60 * 60 * 1000 * 1000 * 1000),
       disableIdle: true,
       identityProvider: process.env.DFX_NETWORK === 'ic' ? 
@@ -99,6 +76,8 @@ const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     if (!authClient) return; // Ensure the auth client is initialized
     await authClient.logout();
+    // This fix a "sign in -> sign out -> sign in again" flow without window reload.
+    await initAuth();
     setIsAuthenticated(false);
     setUser(null);
   };

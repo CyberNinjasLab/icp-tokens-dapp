@@ -162,8 +162,7 @@ const getTokenTableColDefs = ({ formatPrice, isMobile, showPriceCurrency, curren
     {
       field: ``,
       headerName: 'Last 7 Days',
-      flex: isWindowUnder1370 ? 0 : 1,
-      width: 170,
+      width: 190,
       cellStyle: { 
         textAlign: 'right',
         padding: '0 5px'

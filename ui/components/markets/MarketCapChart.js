@@ -7,14 +7,14 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August','Septembre' ,'Oktober', 'November','December'],
   datasets: [
     {
-      label: 'Market Cap (in billions)',
-      data: [50, 55, 60, 65, 70, 80, 85],
+      label: 'TVL (in billions)',
+      data: [3, 5.5, 7, 6, 9, 8, 3, 5.5, 7, 6, 9, 8, 11],
       fill: false,
-      backgroundColor: 'rgba(75,192,192,1)',
-      borderColor: 'rgba(75,192,192,1)'
+      backgroundColor: '#2f2048',
+      borderColor: '#2f2048'
     }
   ]
 };
@@ -41,7 +41,7 @@ const options = {
     y: {
       title: {
         display: true,
-        text: 'Market Cap (in billions)'
+        text: 'TVL (in billions)'
       },
       beginAtZero: true
     }

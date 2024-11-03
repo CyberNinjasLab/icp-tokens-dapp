@@ -24,6 +24,11 @@ export default function TokenLinks({ links }) {
         break;
       case 'openchat':
         iconComponent = <OpenChatIcon className="w-[36px]" />;
+
+        // Append ref query parameter for OpenChat links if it isn't already present
+        if (!link.url.includes('?ref=logdp-miaaa-aaaar-a6wha-cai')) {
+          link.url += '?ref=logdp-miaaa-aaaar-a6wha-cai';
+        }
         break;
       case 'whitepaper':
         iconComponent = <div className='w-[36px] h-[36px] bg-black text-white dark:bg-gray-700 dark:text-white rounded-full flex justify-center items-center'><PaperIcon /></div>;

@@ -6,7 +6,7 @@ import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 const MarketLogoAndNameCell = (params) => {
   const marketsLogoMapping = {
     icpswap: 'icpswap_logo.webp',
-    sonic: "sonic-dex_logo.webp",
+    sonic: "sonic-dex_logo.jpg",
     iclight: "icdex_logo.webp",
   }
   

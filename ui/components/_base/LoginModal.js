@@ -12,8 +12,8 @@ const LoginModal = ({ open, onClose }) => {
     const { theme } = useContext(GeneralContext);
     
     // Handle login action
-    const handleLogin = () => {
-        login();
+    const  handleLogin = async () => {
+        await login();
     };
     
     return (

@@ -1,0 +1,63 @@
+@import "../../../../styles/variables";
+
+.area-negative-color {
+  .user-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .nav-select {
+      border: 0;
+      font-size: 14px;
+    }
+
+    .nav-select:last-child {
+      button {
+        padding: 0 9px;
+
+        &:hover svg * {
+          fill: #fff;
+        }
+      }
+    }
+  }
+
+  .areas-spline-wrapper {
+    .highcharts-range-selector-group {
+      display: none;
+    }
+  }
+
+  .highcharts-plot-line-label {
+    padding: 0 4px;
+    border-radius: 5px;
+    background: var(--c-bg-second);
+    color: rgb(133, 133, 162);
+    border: 1px solid var(--c-border-primary);
+    font-size: 13px;
+    font-weight: 500;
+  }
+}
+
+@include _480 {
+  .area-negative-color {
+    .user-panel {
+      gap: 20px;
+
+      .nav-select:first-child {
+        button {
+          padding: 0;
+        }
+      }
+
+      .nav-select {
+        border: 0;
+
+        button {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

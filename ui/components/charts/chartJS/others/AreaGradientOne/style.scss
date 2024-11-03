@@ -1,0 +1,44 @@
+.area-gradient-one {
+  padding: 10px 15px 15px 15px;
+
+  h2 {
+    color: var(--c-text-second);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  &__item {
+    display: flex;
+    height: 24px;
+    width: 100%;
+    max-width: 160px;
+    border-radius: 4px;
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 18px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0px 5px 0px 5px;
+    font-size: 12px;
+    line-height: 10px;
+  }
+}

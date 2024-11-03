@@ -1,11 +1,27 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
+import React, { useEffect, useState } from "react";
+import useTvlAndVolume from '../../ui/hooks/dex/useTvlAndVolume'
+import MarketCapChart from '../../ui/components/markets/MarketCapChart';
+import MarketCapChartTVL from '../../ui/components/markets/MarketCapChartTVL';
 import Image from 'next/image'; // Import Next.js Image component
-import MarketCapChart from '../../ui/components/markets/MarketCapChart'; // Import the MarketCapChart component
 import { FaTwitter, FaTelegram, FaGlobe, FaMedium } from 'react-icons/fa'; // Import social media icons
-// import FearGreedIndex from '../../ui/components/new/FearGreedIndex';
-
 const AppicDAO = () => {
+    const { icpswap, kongswap, icpex, iclight, sonic, icdex, helix, appic} = useTvlAndVolume();
+  const [loading, setLoading] = useState(true);
+ 
+  useEffect(() => {
+      // Set loading to false when all data is fetched
+      if (icpswap.tvl && kongswap.tvl && icpex.tvl && iclight.tvl && sonic.tvl) {
+          setLoading(false);
+      }
+  }, [icpswap, kongswap, icpex, iclight, sonic, icdex, helix, appic]);
+    useEffect(() => {
+        // Set loading to false when all data is fetched
+        if (icpswap.tvl && kongswap.tvl && icpex.tvl && iclight.tvl && sonic.tvl) {
+            setLoading(false);
+        }
+    }, [icpswap, kongswap, icpex, iclight, sonic, icdex, helix, appic]);
     return (
         <>
             <Head>
@@ -26,7 +42,7 @@ const AppicDAO = () => {
                     {/* Content Section */}
                     <div className="flex-1 mb-4 md:mb-0">
                         <h1 className="text-3xl font-bold p-1">AppIC DAO</h1>
-                        <p className="mt-2 text-lg text-gray-600 p-2">
+                        <p className="mt-2 text-lg text-gray-200 p-2">
                         AppIC DAO is the first infrastructure layer enabling seamless token transfers and swaps between the Internet Computer (ICP) blockchain and major networks like Bitcoin, Ethereum, and Solana. By bridging these ecosystems, AppIC DAO enhances interoperability, allowing users to interact with multiple blockchain platforms effortlessly. This pioneering solution offers a scalable and secure way to perform cross-chain transactions, empowering decentralized finance across networks.
                         </p>					
                    </div>										
@@ -35,34 +51,38 @@ const AppicDAO = () => {
                         <Image 
                             src="/logos/appic_logo_icon.jpg" 
                             alt="AppIC DAO - ICP Tokens by Market Cap Logo" 
-                            width={200} 
-                            height={200}
-                            className="rounded" // Optional: add some styling like rounded corners
+                            width={150} 
+                            height={150}
+                            className="rounded-full" // Optional: add some styling like rounded corners
                         />                        
-                        
-                        <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://t.me/Appic_dao" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600">
-                                <FaTelegram size={30} />
+                     {/* Social Icons */}
+                       <div className="mt-4 flex justify-center space-x-6">
+                            <a href="https://t.me/kong_swap" target="_blank" rel="noopener noreferrer" className="text-white-500 hover:text-blue-600">
+                                <FaTelegram size={20} />
                             </a>
-                            <a href="https://x.com/Appic_ICP" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800">
-                                <FaTwitter size={30} />
+                            <a href="https://x.com/kongswap" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-blue-800">
+                                <FaTwitter size={20} />
                             </a>				
-                            <a href="https://github.com/Appic-Solutions" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaGitHub size={30} />
+                            <a href="https://oc.app/community/maceh-niaaa-aaaaf-bm37q-cai/channel/143833652212619352659918759629305427896" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-blue-800">
+                                <FaMedium size={20} />
                             </a>
-                            <a href="https://discord.com/invite/sHa7SCgEPV" target="_blank" rel="noopener noreferrer" className="text-blue-900 hover:text-blue-800">
-                                <FaDiscord size={30} />
+                            <a href="https://github.com/KongSwap/kong" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-blue-800">
+                                <FaGlobe size={20} />
                             </a>
-                        </div>	
-                    </div>				
+                       </div>
+                    </div>
                 </div>
-                
-            	{/* Insert the Market Cap Chart */}
-                <MarketCapChart />
-				{/* Add Fear and Greed Index */}
-                <div className="flex-2 flex justify-center items-center flex-col p-2">
-				{/* { <FearGreedIndex indexValue={FearGreedIndex} /> } */}
-                </div>
+                <h1 className="text-3xl font-bold items-center p-1"></h1>                
+                <div className="flex justify-around items-center p-4 space-x-8 mt-10">
+                <div className="flex-1 flex flex-col items-center">
+                        <h3 className="text-xl font-bold pb-2">Total Value Locked: {appic?.tvl}</h3>	
+                        <MarketCapChart></MarketCapChart>
+                    </div> 
+                    <div className="flex-1 flex flex-col items-center">
+                        <h3 className="text-xl font-bold pb-2 ">24H Volume: {appic?.volume24h}</h3>	
+                       <MarketCapChartTVL></MarketCapChartTVL>
+                    </div>                   
+                </div>             
             </Layout>
         </>
     );

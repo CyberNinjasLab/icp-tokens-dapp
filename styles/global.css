@@ -5,6 +5,7 @@
 /* Import custom scrollbar styles */
 @import './scroll.css';
 
+
 @layer components {
   .ag-header-cell.text-right .ag-header-cell-label {
     @apply justify-end;
@@ -150,4 +151,28 @@
   .table-column-filters .bubbles-button {
     display: block !important;
   }
+}
+
+.label {
+  font-size: 13px;
+  color: #f2f2f2; /* Grey for labels */
+}
+
+.valueUp {
+  font-size: 15px;
+  font-weight: bold;
+  color: #f8f8f8; /* Blue for values */
+}
+.valueDown {
+  font-size: 15px;
+  font-weight: bold;
+  color: #f8f8f8; /* Blue for values */
+}
+
+.info-box {
+  background: #1a1c2c;
+  border-radius: 15px;
+  padding: 3%;
+  box-shadow: 0 5px 5px rgba(183, 20, 224, 0.1);
+  text-align: left;
 }

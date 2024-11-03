@@ -1,0 +1,92 @@
+@import "../../../../../../styles/variables";
+
+.doughnut-info-three {
+  width: 100%;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+
+    > h3 {
+      font-size: 14px;
+      color: var(--c-text-three);
+      min-width: 130px;
+      max-width: 130px;
+      cursor: pointer;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 280px;
+
+      h3 {
+        font-size: 14px;
+        min-width: 42px;
+        text-align: right;
+        color: var(--c-text-three);
+      }
+    }
+
+    &:first-child {
+      margin-top: 20px;
+    }
+  }
+
+  .range-slider {
+    position: relative;
+    height: 5px;
+    width: 100%;
+    background: var(--text-second);
+    border-radius: 20px;
+
+    &__shadow {
+      position: relative;
+      height: 5px;
+      width: 49%;
+      background: #8599e7;
+      filter: blur(6px);
+      border-radius: 20px;
+      transition: width 1s;
+    }
+
+    &__full {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      width: 49%;
+      background: #8599e7;
+      border-radius: 20px;
+      transition: width 1s;
+    }
+  }
+}
+
+@include _480 {
+  .doughnut-info-three {
+    &__item {
+      div {
+        width: 100%;
+
+        h3 {
+          min-width: 40px;
+        }
+      }
+
+      > h3 {
+        min-width: 130px;
+        max-width: 130px;
+      }
+    }
+  }
+}

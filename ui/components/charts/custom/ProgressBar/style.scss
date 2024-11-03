@@ -1,0 +1,20 @@
+.progress-bar {
+  margin: 4px 0 7px 0;
+  width: 100%;
+  height: 5px;
+  background: var(--c-border-primary);
+  border-radius: 20px;
+  overflow: hidden;
+
+  .track {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    transition: width 1s;
+  }
+}

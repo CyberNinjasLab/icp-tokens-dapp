@@ -1,0 +1,83 @@
+.box.radar-chart {
+  height: calc(100% - 56px); // minus title
+}
+
+.chart-radar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.dropdown-second {
+  height: 28px;
+  width: 100%;
+}
+
+.total-score-title {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-text-second);
+
+  span {
+    font-weight: 700;
+    color: var(--c-text-three);
+  }
+}
+
+.total-scores {
+  display: flex;
+  gap: 10px;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -13px;
+    margin-top: 10px;
+    padding: 5px 10px;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--c-border-primary);
+    padding-top: 7.5px;
+    padding-bottom: 5.5px;
+    color: var(--c-text-second);
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+      padding-top: 4.5px;
+      padding-bottom: 3.5px;
+    }
+
+    div {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+
+      &:last-child {
+        color: var(--c-text-three);
+      }
+    }
+  }
+}
+
+.diversification-text {
+  width: 100%;
+  max-height: 100%;
+  margin-top: 45px;
+  color: var(--c-text-second);
+  font-family: Poppins;
+  font-size: 14px;
+  line-height: 20px;
+}

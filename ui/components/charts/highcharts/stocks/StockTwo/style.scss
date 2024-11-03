@@ -1,0 +1,56 @@
+@import "../../../../../styles/highchartsCSS/highcharts-gui.scss";
+@import "../../../../../styles/highchartsCSS/highcharts-popup.scss";
+
+:root {
+  --highcharts-neutral-color-3: #f7f7f7;
+}
+
+[data-theme^="light"] {
+  --highcharts-annotation-color-0: #393939;
+}
+
+[data-theme^="dark"] {
+  --highcharts-neutral-color-3: #393939;
+  --highcharts-annotation-color-0: #f7f7f7;
+}
+
+.stock-two {
+  @include highcharts-popup;
+  @include highcharts-gui;
+
+  .highcharts-background {
+    fill: transparent;
+  }
+
+  .highcharts-tab-item-content.highcharts-no-mousewheel.highcharts-tab-item-show {
+    background: var(--c-bg-second);
+
+    input,
+    select {
+      background: var(--c-bg-primary);
+    }
+
+    button {
+      background: var(--gradient-color-first);
+      border: 1px solid var(--c-border-primary);
+      padding: 10px;
+      border-radius: 5px;
+      color: aliceblue;
+    }
+  }
+
+  .highcharts-menu-item-btn {
+    filter: invert(1);
+  }
+
+  input.highcharts-range-selector {
+    background: var(--c-bg-second);
+    color: var(--c-text-second) !important;
+  }
+
+  .highcharts-annotation-shapes {
+    path:first-child {
+      stroke: var(--highcharts-annotation-color-0);
+    }
+  }
+}
