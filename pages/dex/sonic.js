@@ -37,7 +37,7 @@ const Sonic = () => {
 						            </p>				
                    </div>	
                    <div className="flex-2 flex justify-center items-center flex-col p-5">
-                        <div className='bg-black p-3 rounded py-10'>
+                        <div className='bg-black p-3 rounded-full py-10'>
                         <Image 
                             src="/logos/sonic-dex_logo.webp" 
                             alt="Sonic DEX Logo" 
@@ -48,7 +48,7 @@ const Sonic = () => {
                         </div>                     
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://app.sonic.ooo/" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-primary">
+                            <a href="https://data.sonic.ooo/" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-primary">
                                 <FaGlobe size={20} />
                             </a>
                             <a href="https://twitter.com/sonic_ooo" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-primary">

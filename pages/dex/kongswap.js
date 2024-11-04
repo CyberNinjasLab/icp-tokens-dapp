@@ -49,7 +49,7 @@ const KongSwap = () => {
                         </div>                     
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://github.com/KongSwap/kong" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-primary">
+                            <a href="https://www.kongswap.io/stats" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-primary">
                                 <FaGlobe size={20} />
                             </a>
                             <a href="https://x.com/kongswap" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-primary">

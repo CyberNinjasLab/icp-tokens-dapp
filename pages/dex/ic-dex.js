@@ -49,7 +49,7 @@ const ICDex = () => {
                         </div>                     
                         {/* Social Icons */}
                         <div className="mt-4 flex justify-center space-x-6">
-                            <a href="https://iclight.house" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-primary">
+                            <a href="https://iclight.io/" target="_blank" rel="noopener noreferrer" className="text-white-900 hover:text-primary">
                                 <FaGlobe size={20} />
                             </a>
                             <a href="https://x.com/ICLighthouse" target="_blank" rel="noopener noreferrer" className="text-white-700 hover:text-primary">
