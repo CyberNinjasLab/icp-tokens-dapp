@@ -62,11 +62,11 @@ const HelixMarkets = () => {
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
                 {/* <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
-                <div className="flex-1 flex flex-col items-center">
-                        <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.helix?.tvl}</h3>	
+                <div className="flex-1 flex flex-col items-center md:max-w-max max-w-[110px]">
+                        <h3 className="text-xl font-bold"><span class="hidden md:inline">Total Value Locked</span> <span class="inline md:hidden block">TVL</span>:  {tvlAndVolumeData.helix?.tvl}</h3>	
                         <MarketCapChart></MarketCapChart>
                     </div> 
-                    <div className="flex-1 flex flex-col items-center">
+                    <div className="flex-1 flex flex-col items-center md:max-w-max max-w-[140px]">
                         <h3 className="text-xl font-bold">24H Volume: {tvlAndVolumeData.helix?.volume24h}</h3>	
                        <MarketCapChartTVL></MarketCapChartTVL>
                     </div>                   
