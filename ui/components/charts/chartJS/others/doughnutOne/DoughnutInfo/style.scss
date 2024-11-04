@@ -1,0 +1,124 @@
+@import "../../../../../../styles/variables";
+
+.doughnut-info-one {
+  width: 100%;
+
+  .pagination {
+    width: 120px;
+    margin-left: auto;
+    margin-top: 20px;
+
+    > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 31.05px;
+      padding: 0 7px;
+      border-radius: 5px;
+      color: var(--c-text-second);
+      background: var(--c-bg-third);
+      font-size: 22px;
+      font-size: 17px;
+    }
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 31.05px;
+      height: 31.05px;
+      border-radius: 5px;
+      background: var(--c-bg-third);
+      color: var(--c-text-second);
+      font-size: 22px;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 15px;
+    height: fit-content;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 3px 0;
+
+    div {
+      display: flex;
+      gap: 10px;
+      cursor: pointer;
+
+      h3 {
+        font-size: 14px;
+        min-width: 42px;
+        color: var(--c-text-second);
+      }
+
+      span {
+        min-width: 12.42px;
+        height: 12.42px;
+        border-radius: 100%;
+        margin-right: 7px;
+      }
+    }
+
+    > h3 {
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+
+  .range-slider {
+    position: relative;
+    height: 5px;
+    width: 100%;
+    border-radius: 20px;
+
+    &__shadow {
+      position: relative;
+      height: 5px;
+      width: 49%;
+      background: #8599e7;
+      filter: blur(6px);
+      border-radius: 20px;
+      transition: width 1s;
+    }
+
+    &__full {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      width: 49%;
+      background: #8599e7;
+      border-radius: 20px;
+      transition: width 1s;
+    }
+  }
+}
+
+@include _480 {
+  .doughnut-info-one {
+    &__item {
+      div {
+        width: 100%;
+
+        h3 {
+          min-width: 40px;
+        }
+      }
+
+      > h3 {
+        min-width: 130px;
+        max-width: 130px;
+      }
+    }
+  }
+}

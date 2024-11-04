@@ -1,0 +1,82 @@
+@import "../../../../../styles/variables";
+
+.area-one {
+  position: relative;
+  padding-right: 0 !important;
+  width: 100%;
+
+  &__nav {
+    position: absolute;
+    top: 30px;
+    left: 120px;
+    z-index: 10;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--c-text-second);
+    }
+
+    .arrow-icon {
+      position: relative;
+      top: 3px;
+      left: 3px;
+      transform: rotate(-90deg) scale(0.8);
+    }
+  }
+
+  .highcharts-range-selector-buttons .highcharts-label {
+    display: none !important;
+  }
+
+  .y-axis {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 94px;
+    height: 100%;
+    background: var(--c-bg-third);
+    border-radius: 10px 5px 5px 10px;
+  }
+}
+
+@include _600 {
+  .area-one {
+    padding-left: 10px !important;
+    padding-top: 50px !important;
+
+    &__nav {
+      position: absolute;
+      top: 20px;
+      left: 80px;
+      z-index: 10;
+
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-select-two button {
+        padding: 0 3px;
+      }
+    }
+  }
+}
+
+@include _480 {
+  .area-one {
+    .y-axis {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 65px;
+      height: 100%;
+      background: var(--c-bg-third);
+      border-radius: 5px 0 0 5px;
+    }
+  }
+}

@@ -14,7 +14,7 @@ const Dex = () => {
 				<div className='w-full'>
 					<h1 className='h1'>Wallets</h1>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-4">
-						<a href="https://nns.ic0.app/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/nns-dapp/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/nns_front_end_logo.webp" alt="NNS Dashboard Dapp Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">NNS Dapp</span>
@@ -23,7 +23,7 @@ const Dex = () => {
 								<p>{"The NNS front-end dapp allows anyone to interact with the Internet Computer's Network Nervous System with a user-friendly UI. Served completely end-to-end through blockchain, this dapp allows you to manage ICP, stake neurons, participate in voting, and earn governance rewards."}</p>
 							</div>
 						</a>
-						<a href="https://astrox.me/" target='_blank' className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/astrox-me/" target='_blank' className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/astroxme_logo.webp" alt="Astrox ME Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Astrox ME</span>
@@ -32,7 +32,7 @@ const Dex = () => {
 								<p>{"ME wallet securing your assets without seed phrase across any devices."}</p>
 							</div>
 						</a>
-						<a href="https://nfid.one/" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/nfid" target='_blank' className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/nfid_logo.webp" alt="NFID Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">NFID</span>
@@ -41,7 +41,7 @@ const Dex = () => {
 								<p>Embrace the new era of personal empowerment with NFID, the most advanced digital identity to keep your personal information private and digital assets secure.</p>
 							</div>
 						</a>
-						<a href="https://plugwallet.ooo/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/plug-wallet/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/plug_logo.webp" alt="Plug Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Plug Wallet</span>
@@ -50,7 +50,7 @@ const Dex = () => {
 								<p>Your Plug into the #InternetComputer Identity + Wallet in one Principal ID Hold, send, swap, deposit cycles, ICP, NFTs and log into IC apps in a click! Available on mobile IOS & Android, and as a browser extension on Chrome & Firefox.</p>
 							</div>
 						</a>
-						<a href="https://wallet.bitfinity.network/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/bitfinity/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/bitfinitywallet_logo.webp" alt="Bitfinity Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Bitfinity Wallet</span>
@@ -59,7 +59,7 @@ const Dex = () => {
 								<p>The Bitfinity Wallet is a multi-chain wallet built and open-sourced by InfinitySwap. It is a browser extension that allows you to store and transfer your BTC, ICP, SNS-1, NFT, and other tokens - as well as log into Internet Computer dapps with a single click. The InfinitySwap Wallet also supports Internet Identity, the powerful authentication framework provided by the Internet Computer.</p>
 							</div>
 						</a>
-						<a href="https://www.stoicwallet.com/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/stoic-wallet/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/stoicwallet_logo.webp" alt="Stoic Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Stoic Wallet</span>
@@ -68,7 +68,7 @@ const Dex = () => {
 								<p>Stoic Wallet by Toniq Labs allows anyone to create a digital wallet, authenticating users through a variety of methods, one of those being Internet Identity. Create accounts, keep an address book, and more.</p>
 							</div>
 						</a>
-						<a href="https://oisy.com/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+						<a href="/wallets/oisy-wallet/" target="_blank" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/oisy_logo.svg" alt="Oisy Wallet Logo" className="h-12 w-12" />
 								<span className="font-bold text-lg">Oisy Wallet</span>

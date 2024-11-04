@@ -1,0 +1,19 @@
+.main-label {
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1), 1px -1px 0 rgba(0, 0, 0, 0.1),
+    -1px 1px 0 rgba(0, 0, 0, 0.1), 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.main-label .main-label__title {
+  font-weight: bold;
+}
+
+.main-label .main-label__value {
+  font-weight: normal;
+}
+
+.main-label .main-label__changes {
+  font-weight: normal;
+}

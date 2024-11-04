@@ -1,0 +1,78 @@
+@import "../../../../../styles/variables";
+
+.pie-one.box {
+  padding: 25px 0;
+
+  h2 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+  }
+}
+
+.container-pie {
+  .chart {
+    position: relative;
+  }
+
+  .data-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -60%);
+
+    div {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+  }
+
+  .under-data {
+    display: grid;
+    grid-template: repeat(3, auto) / 50% 50%;
+    row-gap: 5px;
+    margin-top: -8px;
+    padding: 12px 15px;
+    border-radius: 5px;
+    background: var(--c-bg-third);
+    margin: 0 24px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--c-text-second);
+      cursor: pointer;
+    }
+
+    li span {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50px;
+      filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+    }
+  }
+}
+
+@include _1024 {
+  .container-pie {
+    .under-data {
+      grid-template: repeat(1, auto) / 1fr;
+    }
+  }
+}
+
+@include _768 {
+  .container-pie {
+    .under-data {
+      grid-template: repeat(3, auto) / 50% 50%;
+    }
+  }
+}

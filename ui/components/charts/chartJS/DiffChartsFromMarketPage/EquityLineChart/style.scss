@@ -1,0 +1,52 @@
+.equity-line-chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px 0;
+  border-radius: 5px;
+  border: 1px solid var(--c-border-primary);
+
+  &__chart {
+    width: 100%;
+    height: 320px;
+  }
+
+  .footer-label {
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+    padding-top: 15px;
+    flex-wrap: wrap;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    &__point {
+      min-width: 10px;
+      height: 10px;
+      margin-right: 10px;
+      border-radius: 10px;
+      background-color: #55557e;
+    }
+
+    &__label {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+}
+
+[data-theme^="dark"] .equity-line-chart {
+  .footer-label {
+    &__label {
+      color: var(--c-text-second);
+    }
+  }
+}

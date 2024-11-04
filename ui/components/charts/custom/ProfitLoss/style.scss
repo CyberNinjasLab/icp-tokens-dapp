@@ -1,0 +1,122 @@
+@import "../../../../styles/variables";
+
+.profit-loss {
+  margin-top: 30px;
+
+  &__buttons-panel {
+    margin-top: 20px;
+
+    div {
+      display: flex;
+      gap: 18px;
+
+      button {
+        color: var(--text-primary);
+        justify-content: center;
+        font-size: 15px;
+        padding: 12.5px 17px;
+        width: fit-content;
+      }
+
+      .active {
+        justify-content: center;
+        font-size: 15px;
+        padding: 12.5px 17px;
+        width: fit-content;
+      }
+    }
+  }
+
+  &__main-content {
+    margin-top: 20px;
+    padding-bottom: 15px;
+  }
+
+  &__wrapper-overflow {
+    overflow: auto;
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 1501px;
+    height: 100%;
+    padding-bottom: 15px;
+  }
+
+  &__row {
+    display: flex;
+    gap: 6px;
+    margin-top: 6.5px;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 51.051px;
+      height: 38.289px;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 51.051px;
+      height: 38.289px;
+      border-radius: 2.553px;
+      color: var(--text-primary);
+      font-size: 12.763px;
+      font-weight: 400;
+    }
+  }
+
+  &__mounts {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 57px;
+    width: 683px;
+    margin-top: 8px;
+  }
+}
+
+@include _600 {
+  .profit-loss {
+    &__buttons-panel {
+      div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        button {
+          padding: 12.5px 12px;
+        }
+        button:nth-child(1) {
+          order: 1;
+        }
+        button:nth-child(2) {
+          order: 2;
+        }
+        button:nth-child(3) {
+          order: 4;
+        }
+        button:nth-child(4) {
+          order: 5;
+        }
+
+        button:last-child {
+          order: 3;
+        }
+      }
+    }
+  }
+}
+
+@include _1024 {
+  .profit-loss {
+    &__wrapper {
+      flex-wrap: wrap;
+      max-width: 740px;
+    }
+  }
+}

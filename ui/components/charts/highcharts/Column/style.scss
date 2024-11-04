@@ -1,0 +1,36 @@
+.container-column-chart {
+  &_loading {
+    position: relative;
+    height: 170px;
+    width: 100%;
+
+    .list-1 {
+      position: absolute;
+      bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      li {
+        height: 10px;
+        width: 3px;
+        background: rgba(155, 174, 202, 0.3);
+      }
+    }
+
+    .list-2 {
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      li {
+        font-weight: 500;
+        font-size: 13px;
+        text-align: center;
+        color: var(--c-text-second);
+      }
+    }
+  }
+}

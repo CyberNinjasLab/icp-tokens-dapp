@@ -1,0 +1,84 @@
+@import "../../../../../styles/variables";
+
+.speedometer-chart {
+  .speedometer {
+    width: 300px;
+    height: 150px;
+    position: relative;
+    padding: 15px 20px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 200px 200px 0 0;
+      border: 39px solid transparent;
+      border-bottom: none;
+
+      background: linear-gradient(270deg, #9bff36 0%, #ffc736 51.56%, #ff36af 100%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    &__sell {
+      position: relative;
+      top: 47px;
+      left: -55px;
+      color: #ff36af;
+    }
+
+    &__neutral {
+      position: relative;
+      top: -64px;
+      left: 89px;
+      color: #ffc736;
+    }
+
+    &__buy {
+      position: relative;
+      top: 9px;
+      left: 286px;
+      color: #79e20f;
+    }
+  }
+
+  .pointer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 300px;
+    height: 300px;
+    transition: transform 1s;
+
+    &__wrapper {
+      position: absolute;
+      top: 31%;
+      left: 47%;
+    }
+  }
+}
+
+@include _480 {
+  .speedometer-chart {
+    .speedometer {
+      &__sell {
+        top: 40px;
+        left: -40px;
+      }
+
+      &__buy {
+        top: 4px;
+        left: 266px;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.candlestick-and-bar-loading {
+  position: relative;
+
+  div {
+    position: absolute;
+    bottom: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+
+    li {
+      width: 100%;
+      height: 1px;
+      background: var(--c-border-primary);
+    }
+  }
+}

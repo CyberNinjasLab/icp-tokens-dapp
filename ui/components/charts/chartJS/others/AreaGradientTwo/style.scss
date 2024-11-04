@@ -1,0 +1,64 @@
+.area-gradient-two {
+  padding: 10px 15px 15px 15px;
+
+  h2 {
+    color: var(--c-text-second);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+    padding-right: 10px;
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &:first-child {
+      &::before {
+        content: "";
+        position: relative;
+        left: 4px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50px;
+        background: #fff;
+        border: 2px solid var(--color-investment);
+      }
+    }
+
+    &:nth-child(2) {
+      &::before {
+        content: "";
+        position: relative;
+        left: 4px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50px;
+        background: #fff;
+        border: 2px solid #fe5461;
+      }
+    }
+  }
+
+  &__name {
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--c-text-second);
+  }
+
+  &__amount {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

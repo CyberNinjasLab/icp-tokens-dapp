@@ -1,0 +1,149 @@
+.doughnut-two {
+  h2 {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--c-text-second);
+  }
+}
+
+.doughnut-two .both-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.doughnut-two .doughnut-chart {
+  margin: 0 0 0 9px;
+  padding-top: 20px;
+
+  &__chart {
+    position: relative;
+    z-index: 100;
+    width: 100px;
+    min-height: 100px;
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  &__color {
+    position: absolute;
+    top: 40px;
+    left: 46px;
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+  }
+
+  &__amount {
+    position: absolute;
+    top: 53px;
+    left: 28px;
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--c-text-second);
+  }
+
+  &__circle {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 65px;
+    min-height: 65px;
+    border: 0.5px solid var(--c-border-primary);
+    border-radius: 100%;
+  }
+
+  &__circle-outside {
+    position: absolute;
+    top: -4.5px;
+    left: -5px;
+    width: 110px;
+    min-height: 110px;
+    border: 0.5px solid var(--c-border-primary);
+    border-radius: 100%;
+  }
+}
+
+.all-project {
+  width: 100%;
+  margin-top: 10px;
+
+  &__name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--c-text-second);
+    padding: 0 10px 0 20px;
+    margin: 11px 0 10px 0;
+  }
+
+  &__item {
+    display: flex;
+    height: 18px;
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 18px;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 4px 8px 4px 5px;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 10px;
+  }
+
+  &__all-name {
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 10px;
+    color: var(--c-text-second);
+  }
+
+  .color-item {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    background: #323054;
+
+    &:hover::before {
+      content: "";
+      display: block;
+      position: relative;
+      top: -3px;
+      left: -3px;
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      border: 1.5px solid #408cfd;
+    }
+  }
+
+  &__color {
+    margin-top: 11px;
+    display: flex;
+    gap: 11px;
+  }
+
+  &__color-item {
+    display: flex;
+    gap: 6px;
+  }
+}
+
+.wrapper-item-color {
+  position: relative;
+}

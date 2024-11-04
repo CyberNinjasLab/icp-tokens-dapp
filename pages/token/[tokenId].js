@@ -40,9 +40,9 @@ const TokenPage = () => {
         <meta property="og:title" content={`${ pageTitle } | ICP Tokens by Market Cap`} />
         <meta property="og:description" content={`Learn more about ${pageTitle}`} />          
         <meta name="robots" content="index,follow"/> 
-
         {/* If you have specific meta tags that should change with the page, include them here */}
         {/* <meta name="description" content=" {pageTitle} | ICP Tokens by Market Cap"></meta> */}
+        <meta name="yandex-verification" content="612a306d9909f280" />
       </Head>
       <Layout extraClass={'max-w-[6000px] lg:h-screen lg:fixed'} footer={false}>
         {isLoading && <div>Loading...</div>}

@@ -1,0 +1,35 @@
+.areas-spline-wrapper-loading {
+  position: relative;
+  height: 200px;
+  width: 100%;
+
+  ul {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 2px;
+    border-top: 1px solid rgba(155, 174, 202, 0.5);
+    width: 100%;
+    padding-top: 20px;
+
+    li {
+      font-weight: 500;
+      font-size: 13px;
+      text-align: center;
+      color: var(--c-text-second);
+    }
+  }
+}
+
+.areas-spline-wrapper {
+  .highcharts-range-selector-group {
+    display: none;
+  }
+
+  .highcharts-navigator-handle {
+    filter: drop-shadow(rgba(88, 102, 126, 0.12) 0px 1px 1px)
+      drop-shadow(rgba(88, 102, 126, 0.12) 0px 2px 4px);
+  }
+}
