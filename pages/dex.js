@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from '../ui/components/_base/Layout';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import useTvlAndVolume from '../ui/hooks/dex/useTvlAndVolume';
 import { GeneralContext } from '../contexts/general/General.Context';
 
@@ -40,7 +40,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">ICPSwap</span>								
 							</div>
 							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									!tvlAndVolumeData.icpswap.tvl ? "blur-sm opacity-50" : ""
 								}`}
 								>							
@@ -60,7 +60,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">ICDex</span>
 							</div>
 							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									!tvlAndVolumeData.iclight.tvl ? "blur-sm opacity-50" : ""
 								}`}
 								>	
@@ -80,7 +80,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">Sonic</span>
 							</div>
 							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									!tvlAndVolumeData.sonic.tvl ? "blur-sm opacity-50" : ""
 								}`}
 								>	
@@ -100,7 +100,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">ICPEx</span>
 							</div>
 							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									!tvlAndVolumeData.icpex.tvl ? "blur-sm opacity-50" : ""
 								}`}
 								>	
@@ -120,7 +120,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">KongSwap</span>
 							</div>
 							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									!tvlAndVolumeData.kongswap.tvl ? "blur-sm opacity-50" : ""
 								}`}
 								>	
@@ -142,7 +142,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">AppIC DAO</span>
 							</div>
 							{/* <div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									true ? "blur-sm opacity-50" : ""
 								}`}
 								>	
@@ -162,7 +162,7 @@ const Dex = () => {
 								<span className="font-bold text-lg">Helix Markets</span>
 							</div>
 							{/* <div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg bg-black/20 p-2 ${
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
 									true ? "blur-sm opacity-50" : ""
 								}`}
 								>	

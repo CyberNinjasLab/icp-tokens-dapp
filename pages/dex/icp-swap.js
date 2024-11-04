@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useTvlAndVolume from '../../ui/hooks/dex/useTvlAndVolume'
 import Image from 'next/image'; // Import Next.js Image component
 import { FaTwitter, FaTelegram, FaGlobe, FaMedium } from 'react-icons/fa'; // Import social media icons
@@ -32,7 +32,7 @@ const ICPSwap = () => {
                     {/* Content Section */}
                     <div className="flex-2 mb-4 md:mb-0">
                         <h1 className="text-4xl font-bold p-1">ICP Swap</h1>
-                                                <p className="mt-2 text-lg text-gray-200 p-5">
+                                                <p className="mt-2 text-lg dark:text-gray-200 p-2">
 						ICPSwap is a decentralized exchange (DEX) on the Internet Computer blockchain, enabling fast, scalable, and low-cost token swaps. As a first in the ICP DeFi ecosystem, it offers on-chain token swapping with seamless speed and efficiency. ICPSwap delivers a scalable infrastructure for traders and developers, pioneering decentralized finance on Internet Computer ICP by providing a user-friendly platform that supports a wide range of digital assets.
                         </p>					
                    </div>	
@@ -62,7 +62,7 @@ const ICPSwap = () => {
                     </div>	               
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
-                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 bg-black/20 rounded-lg">
+                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
                 <div className="flex-1 flex flex-col items-center">
                         <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.icpswap?.tvl}</h3>	
                         {/* <MarketCapChart></MarketCapChart> */}

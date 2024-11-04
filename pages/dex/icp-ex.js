@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useTvlAndVolume from '../../ui/hooks/dex/useTvlAndVolume'
 import Image from 'next/image'; // Import Next.js Image component
-import { FaTwitter, FaTelegram, FaGlobe, FaMedium, FaMediumM } from 'react-icons/fa'; // Import social media icons
+import { FaTwitter, FaGlobe } from 'react-icons/fa'; // Import social media icons
 import OpenChatIcon from '../../ui/components/_base/icons/OpenChatIcon';
 import { Telegram } from '@mui/icons-material';
 
@@ -33,8 +33,8 @@ const ICPEx = () => {
 			<div className="flex flex-col md:flex-row md:items-center p-5">
                     {/* Content Section */}
                     <div className="flex-2 mb-4 md:mb-0">
-                    <h1 className="text-3xl font-bold p-1">ICPex | ICP DEX</h1>
-                    <p className="mt-2 text-lg text-gray-200 p-2">
+                    <h1 className="text-3xl font-bold p-1">ICPex</h1>
+                    <p className="mt-2 text-lg dark:text-gray-200 p-2">
                       ICPEx is a decentralized exchange (DEX) designed entirely on the Internet Computer (ICP) blockchain, offering rapid, secure, and low-cost token swaps. Built for efficiency and scalability, ICPEx enables seamless trading across the ICP ecosystem, providing users with a reliable, fully on-chain experience. It empowers decentralized finance by ensuring frictionless, cost-effective transactions and enhanced security for all participants in the ICP network.
                     </p>		
                    </div>	
@@ -68,7 +68,7 @@ const ICPEx = () => {
                     </div>	               
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
-                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 bg-black/20 rounded-lg">
+                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
                 <div className="flex-1 flex flex-col items-center">
                         <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.icpex?.tvl}</h3>	
                         {/* <MarketCapChart></MarketCapChart> */}

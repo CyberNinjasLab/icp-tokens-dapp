@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useTvlAndVolume from '../../ui/hooks/dex/useTvlAndVolume'
 import Image from 'next/image'; // Import Next.js Image component
-import { FaTwitter, FaTelegram, FaGlobe, FaMedium } from 'react-icons/fa'; // Import social media icons
+import { FaTwitter, FaTelegram, FaGlobe } from 'react-icons/fa'; // Import social media icons
 import OpenChatIcon from '../../ui/components/_base/icons/OpenChatIcon';
 
 const KongSwap = () => {
@@ -32,8 +32,8 @@ const KongSwap = () => {
 			<div className="flex flex-col md:flex-row md:items-center p-5">
                     {/* Content Section */}
                     <div className="flex-2 mb-4 md:mb-0">
-                        <h1 className="text-4xl font-bold p-1">KongSwap | ICP DEX</h1>
-                        <p className="mt-2 text-lg text-gray-200 p-2">
+                        <h1 className="text-4xl font-bold p-1">KongSwap</h1>
+                        <p className="mt-2 text-lg dark:text-gray-200 p-2">
                           KongSwap is a high-speed decentralized exchange (DEX) on the Internet Computer (ICP) network, optimized for rapid on-chain transactions and efficient liquidity pools. With cross-chain support via ChainFusion and Web2-like login powered by Internet Identity, KongSwap delivers a fast, secure, and seamless trading experience. It redefines decentralized finance (DeFi) by combining speed, scalability, and interoperability within the ICP ecosystem.
 						            </p>				
                    </div>	
@@ -67,7 +67,7 @@ const KongSwap = () => {
                     </div>	               
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
-                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 bg-black/20 rounded-lg">
+                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
                 <div className="flex-1 flex flex-col items-center">
                         <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.kongswap?.tvl}</h3>	
                         {/* <MarketCapChart></MarketCapChart> */}

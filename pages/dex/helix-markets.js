@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from 'next/image'; // Import Next.js Image component
-import { FaTwitter, FaTelegram, FaGlobe, FaMedium, FaMediumM } from 'react-icons/fa'; // Import social media icons
+import { FaTwitter, FaGlobe } from 'react-icons/fa'; // Import social media icons
 import OpenChatIcon from '../../ui/components/_base/icons/OpenChatIcon';
 import { Telegram } from '@mui/icons-material';
 
@@ -27,8 +27,8 @@ const HelixMarkets = () => {
                     {/* Content Section */}
                     <div className="flex-2 mb-4 md:mb-0">
                       <h1 className="text-3xl font-bold p-1">Helix Markets</h1>
-                      <p className="mt-2 text-lg text-gray-200 p-2">
-                        Helix Markets is a decentralized exchange (DEX) on the Internet Computer (ICP) blockchain, ensuring true asset ownership and complete transparency in the crypto trading landscape. By leveraging ICP's innovative technology, Helix Markets offers a trustless environment where users retain full control of their assets. The platform sets a new standard for decentralized trading, focusing on security, transparency, and user autonomy within the ICP ecosystem.
+                      <p className="mt-2 text-lg dark:text-gray-200 p-2">
+                        Helix Markets is a decentralized exchange (DEX) on the Internet Computer (ICP) blockchain, ensuring true asset ownership and complete transparency in the crypto trading landscape. By leveraging ICP&apos;s innovative technology, Helix Markets offers a trustless environment where users retain full control of their assets. The platform sets a new standard for decentralized trading, focusing on security, transparency, and user autonomy within the ICP ecosystem.
                       </p>					
                      </div>	
                    <div className="flex-2 flex justify-center items-center flex-col p-5">
@@ -61,7 +61,7 @@ const HelixMarkets = () => {
                     </div>	               
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
-                {/* <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 bg-black/20 rounded-lg">
+                {/* <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
                 <div className="flex-1 flex flex-col items-center">
                         <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.helix?.tvl}</h3>	
                         <MarketCapChart></MarketCapChart>

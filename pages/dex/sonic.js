@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useTvlAndVolume from '../../ui/hooks/dex/useTvlAndVolume'
 import Image from 'next/image'; // Import Next.js Image component
 import { FaTwitter, FaTelegram, FaGlobe, FaMedium } from 'react-icons/fa'; // Import social media icons
@@ -31,8 +31,8 @@ const Sonic = () => {
 			<div className="flex flex-col md:flex-row md:items-center p-5">
                     {/* Content Section */}
                     <div className="flex-2 mb-4 md:mb-0">
-                        <h1 className="text-4xl font-bold p-1">Sonic | ICP DEX</h1>
-                        <p className="mt-2 text-lg text-gray-200 p-2">
+                        <h1 className="text-4xl font-bold p-1">Sonic</h1>
+                        <p className="mt-2 text-lg dark:text-gray-200 p-2">
 						              Sonic DEX harnesses the power of the Internet Computer Protocol (ICP) to offer a comprehensive multichain DeFi platform. Users can seamlessly trade, stake, and participate in governance, unlocking enhanced crypto functionalities. By integrating cross-chain capabilities, Sonic provides a dynamic environment for decentralized finance, ensuring scalability, speed, and low fees across multiple blockchain networks.
 						            </p>				
                    </div>	
@@ -64,7 +64,7 @@ const Sonic = () => {
                     </div>	               
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
-                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 bg-black/20 rounded-lg">
+                <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
                 <div className="flex-1 flex flex-col items-center">
                         <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.sonic?.tvl}</h3>	
                         {/* <MarketCapChart></MarketCapChart> */}

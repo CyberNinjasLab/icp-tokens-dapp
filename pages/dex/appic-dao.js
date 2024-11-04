@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import Layout from '../../ui/components/_base/Layout';
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from 'next/image'; // Import Next.js Image component
-import { FaTwitter, FaTelegram, FaGlobe, FaMedium, FaMediumM, FaDiscord } from 'react-icons/fa'; // Import social media icons
-import OpenChatIcon from '../../ui/components/_base/icons/OpenChatIcon';
-import { GitHub, Telegram } from '@mui/icons-material';
+import { FaTwitter, FaGlobe, FaDiscord } from 'react-icons/fa'; // Import social media icons
+import { GitHub } from '@mui/icons-material';
 
 const AppICDAO = () => {
 	return (
@@ -27,7 +26,7 @@ const AppICDAO = () => {
                     {/* Content Section */}
                     <div className="flex-2 mb-4 md:mb-0">
                       <h1 className="text-3xl font-bold p-1">AppIC DAO</h1>
-                      <p className="mt-2 text-lg text-gray-200 p-2">
+                      <p className="mt-2 text-lg dark:text-gray-200 p-2">
                         AppIC DAO is the first infrastructure layer enabling seamless token transfers and swaps between the Internet Computer (ICP) blockchain and major networks like Bitcoin, Ethereum, and Solana. By bridging these ecosystems, AppIC DAO enhances interoperability, allowing users to interact with multiple blockchain platforms effortlessly. This pioneering solution offers a scalable and secure way to perform cross-chain transactions, empowering decentralized finance across networks.
                       </p>					
                      </div>	
@@ -61,7 +60,7 @@ const AppICDAO = () => {
                     </div>	               
                  </div>	
                 <h1 className="text-3xl font-bold items-center p-1"></h1>                
-                {/* <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 bg-black/20 rounded-lg">
+                {/* <div className="flex justify-around items-center px-4 py-8 space-x-8 mt-10 dark:bg-black/20 bg-black/5 rounded-lg">
                 <div className="flex-1 flex flex-col items-center">
                         <h3 className="text-xl font-bold">Total Value Locked: {tvlAndVolumeData.helix?.tvl}</h3>	
                         <MarketCapChart></MarketCapChart>
