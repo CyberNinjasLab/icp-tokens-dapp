@@ -17,8 +17,8 @@ const useSonicDexGraphQL = (query, variables) => {
           'Cache-Control': 'no-cache',
           'Connection': 'keep-alive',
           'Content-Type': 'application/json',
-          'Origin': 'https://data.sonic.ooo',
-          'Referer': 'https://data.sonic.ooo/',
+          'Origin': 'https://v3.data.sonic.ooo',
+          'Referer': 'https://v3.data.sonic.ooo/',
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
         }
       });

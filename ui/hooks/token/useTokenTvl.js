@@ -8,20 +8,21 @@ const useTokenTvl = (canisterId) => {
   const { icpPrice } = useContext(GeneralContext);
   const [tvl, setTvl] = useState(null);
 
-  const variables = useMemo(() => {
-    const now = Math.floor(Date.now() / 1000);  // Current timestamp in seconds
-    const dayAgo = now - 86400;  // 1 day ago (86400 seconds in a day)
-    const weekAgo = now - 86400 * 7;  // 1 week ago (7 days ago)
-    
+  const sonicTokenVariables = useMemo(() => {
+    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+    const todayMidnight = new Date();
+    todayMidnight.setUTCHours(0, 0, 0, 0);
+    const dateTo = Math.floor(todayMidnight.getTime() / 1000);
+
     return {
-      tokenId: canisterId,
-      now,
-      weekAgo,
-      dayAgo,
+      tokenId: "qbizb-wiaaa-aaaaq-aabwq-cai", // Replace with dynamic tokenId if needed
+      timestamps: [now, now - 86400], // Current time and 24 hours ago
+      dateFrom: 0, // Example start from epoch, update as needed
+      dateTo,
     };
   }, [canisterId]);
 
-  const { data: sonicTvlData, loading: sonicTvlLoading, error: sonicTvlError } = useSonicDexGraphQL(TOKEN_DATA_QUERY, variables);
+  const { data: sonicTvlData, loading: sonicTvlLoading, error: sonicTvlError } = useSonicDexGraphQL(TOKEN_DATA_QUERY, sonicTokenVariables);
 
   useEffect(() => {
     const fetchTokenTvl = async () => {

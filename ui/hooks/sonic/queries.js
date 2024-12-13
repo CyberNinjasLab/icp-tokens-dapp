@@ -1,13 +1,14 @@
 import { gql } from 'graphql-request';
 
 export const TOKEN_DATA_QUERY = gql`
-  query TokenData($tokenId: ID!, $now: Int!, $weekAgo: Int!, $dayAgo: Int!) {
+  query TokenData($tokenId: ID!, $timestamps: [Int!]!, $dateFrom: Int!, $dateTo: Int!) {
     token(id: $tokenId) {
       ...TokenHeader
-      volume24Hr(timestamps: [$dayAgo, $now])
-      transactions24Hr(timestamps: [$dayAgo, $now])
+      totalSupply
       totalLiquidity
       derivedPrice
+      fee24Hr
+      volume(timestamps: $timestamps)
       pairBase {
         ...PairTable
         __typename
@@ -16,20 +17,48 @@ export const TOKEN_DATA_QUERY = gql`
         ...PairTable
         __typename
       }
-      __typename
-    }
-    tokenDayData(id: $tokenId, dateTo: $now, dateFrom: 0) {
-      dailyVolumeUSD
-      totalLiquidityUSD
-      priceUSD
-      dailyTxs
-      date
+      addLiquidity {
+        ...AddLiquidityTransactions
+        __typename
+      }
+      removeLiquidity {
+        ...RemoveLiquidityTransactions
+        __typename
+      }
+      swaps {
+        ...SwapTransactions
+        __typename
+      }
       __typename
     }
     bundle(id: 1) {
       icpPrice
       __typename
     }
+    tokenDayData(id: $tokenId, dateFrom: $dateFrom, dateTo: $dateTo) {
+      id
+      totalLiquidityUSD
+      dailyVolumeUSD
+      priceUSD
+      date
+      __typename
+    }
+  }
+
+  fragment PairHeader on Pair {
+    token0 {
+      id
+      name
+      symbol
+      __typename
+    }
+    token1 {
+      id
+      name
+      symbol
+      __typename
+    }
+    __typename
   }
 
   fragment TokenHeader on Token {
@@ -40,33 +69,67 @@ export const TOKEN_DATA_QUERY = gql`
   }
 
   fragment PairTable on Pair {
-    id
-    token0 {
-      ...TokenHeader
-      __typename
-    }
-    token1 {
-      ...TokenHeader
-      __typename
-    }
+    ...PairHeader
+    poolId
+    fee
     reserveICP
-    token0Price
-    token1Price
     reserveUSD
-    volume24Hr(timestamps: [$now])
-    pairDayData(dateTo: $now, dateFrom: $weekAgo) {
+    volume(timestamps: $timestamps)
+    pairDayData(dateFrom: $dateFrom, dateTo: $dateTo) {
+      dailyVolumeICP
       dailyVolumeUSD
-      date
-      reserveUSD
       __typename
     }
+    __typename
+  }
+
+  fragment AddLiquidityTransactions on AddLiquidity {
+    pair {
+      ...PairHeader
+      __typename
+    }
+    amount0
+    amount1
+    amountUSD
+    timestamp
+    liquidityProvider
+    __typename
+  }
+
+  fragment RemoveLiquidityTransactions on RemoveLiquidity {
+    pair {
+      ...PairHeader
+      __typename
+    }
+    amount0
+    amount1
+    amountUSD
+    timestamp
+    liquidityProvider
+    __typename
+  }
+
+  fragment SwapTransactions on Swap {
+    pair {
+      ...PairHeader
+      __typename
+    }
+    tokenInAddr
+    tokenOutAddr
+    amountUSD
+    amount0In
+    amount0Out
+    amount1In
+    amount1Out
+    caller
+    timestamp
     __typename
   }
 `;
 
 export const TOKENS_DATA_QUERY = gql`
-  query TokensData($now: Int!, $twoDaysAgo: Int!, $limit: Int = 200) {
-    tokens(limit: $limit) {
+  query TokensData($dateFrom: Int!, $dateTo: Int!, $timestamps: [Int!]!, $limit: Int, $desc: Boolean) {
+    tokens(limit: $limit, desc: $desc) {
       ...TokenTable
       __typename
     }
@@ -76,23 +139,26 @@ export const TOKENS_DATA_QUERY = gql`
     }
   }
 
-  fragment TokenTable on Token {
-    ...TokenHeader
-    totalLiquidity
-    derivedPrice
-    volume24Hr(timestamps: [$now])
-    tokenDayData(toDate: $now, fromDate: $twoDaysAgo) {
-      dailyVolumeUSD
-      priceUSD
-      __typename
-    }
-    __typename
-  }
-
   fragment TokenHeader on Token {
     id
     symbol
     name
+    __typename
+  }
+
+  fragment TokenTable on Token {
+    ...TokenHeader
+    totalLiquidity
+    derivedPrice
+    volume(timestamps: $timestamps)
+    tokenDayData(dateFrom: $dateFrom, dateTo: $dateTo) {
+      id
+      totalLiquidityUSD
+      dailyVolumeUSD
+      priceUSD
+      date
+      __typename
+    }
     __typename
   }
 `;

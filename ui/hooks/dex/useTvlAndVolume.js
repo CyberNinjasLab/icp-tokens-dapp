@@ -31,11 +31,23 @@ const useTvlAndVolume = () => {
   });
 
   const sonicVariables = useMemo(() => {
-    const now = Math.floor(Date.now() / 1000);
-    const twoDaysAgo = now - 86400 * 2;
-    const limit = 200;
+    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+    const twoDaysAgoMidnight = new Date();
+    twoDaysAgoMidnight.setUTCHours(0, 0, 0, 0);
+    twoDaysAgoMidnight.setUTCDate(twoDaysAgoMidnight.getUTCDate() - 2);
+    const dateFrom = Math.floor(twoDaysAgoMidnight.getTime() / 1000);
 
-    return { now, twoDaysAgo, limit };
+    const todayMidnight = new Date();
+    todayMidnight.setUTCHours(0, 0, 0, 0);
+    const dateTo = Math.floor(todayMidnight.getTime() / 1000);
+
+    return {
+      dateFrom,
+      dateTo,
+      timestamps: [now, now - 86400], // Current time and 24 hours ago
+      limit: 200, // Limit to 200 results
+      desc: true,
+    };
   }, []);
 
   const fetchSonicData = useCallback(async () => {
@@ -53,7 +65,7 @@ const useTvlAndVolume = () => {
           const liquidity = parseFloat(token.totalLiquidity) || 0;
           const price = parseFloat(token.derivedPrice) * icpPrice || 0;
           sonicTvl += liquidity * price;
-          sonicVolume += parseFloat(token.volume24Hr) || 0;
+          sonicVolume += parseFloat(token.volume[0]) || 0;
         });
       }
 
