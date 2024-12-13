@@ -57,7 +57,7 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
       {sonicMarket && tvl.sonic[currency] && (
         <div>
           <a
-            href={`https://v3.data.sonic.ooo/tokens/${data.canister_id}`}
+            href={`https://v3.data.sonic.ooo/#/tokens/${data.canister_id}`}
             target='_blank'
             className=' font-semibold'
             rel="noopener noreferrer"

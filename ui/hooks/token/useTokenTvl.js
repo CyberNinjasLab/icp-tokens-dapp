@@ -15,7 +15,7 @@ const useTokenTvl = (canisterId) => {
     const dateTo = Math.floor(todayMidnight.getTime() / 1000);
 
     return {
-      tokenId: "qbizb-wiaaa-aaaaq-aabwq-cai", // Replace with dynamic tokenId if needed
+      tokenId: canisterId, // Replace with dynamic tokenId if needed
       timestamps: [now, now - 86400], // Current time and 24 hours ago
       dateFrom: 0, // Example start from epoch, update as needed
       dateTo,
