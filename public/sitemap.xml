@@ -57,7 +57,7 @@
 <url>
       <loc>https://icptokens.net/portfolio</loc>
       <lastmod>2024-09-09</lastmod>
-      <changefreq>weekly</changefreq>
+      <changefreq>monthly</changefreq>
       <priority>0.5</priority>
 </url>
 <url>
@@ -69,12 +69,24 @@
 <url>
       <loc>https://icptokens.net/about-us</loc>
       <lastmod>2024-09-09</lastmod>
-      <changefreq>weekly</changefreq>
+      <changefreq>monthly</changefreq>
       <priority>0.5</priority>
 </url>
 <url>
       <loc>https://icptokens.net/changelog</loc>
       <lastmod>2024-09-09</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/token/ryjl3-tyaaa-aaaaa-aaaba-cai</loc>
+      <lastmod>2024-11-22</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.6</priority>
+</url>
+<url>
+      <loc>https://icptokens.net/token/7pail-xaaaa-aaaas-aabmq-cai</loc>
+      <lastmod>2024-11-22</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.5</priority>
 </url>
