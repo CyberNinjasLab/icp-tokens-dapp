@@ -14,7 +14,7 @@ const Footer = () => {
 									<div className="flex items-center gap-4 mb-4">
 											<Logo />
 									</div>
-									<p className="text-left mb-8 max-w-lg text-sm">ICPTokens is a tool for tracking, analyzing, and managing.</p>
+									<p className="text-left mb-8 max-w-lg text-sm">Your gateway to the ICP ecosystem.</p>
 							</div>
 
 							{/* Right Column: Footer Links */}
