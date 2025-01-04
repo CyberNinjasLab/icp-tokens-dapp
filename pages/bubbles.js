@@ -4,7 +4,7 @@ import useFetchTokens from '../ui/hooks/token/useFetchTokens';
 import { useLoading } from '../contexts/general/Loading.Provider';
 import { GeneralContext } from '../contexts/general/General.Context';
 import useDebouncedResize from '../ui/hooks/useDebouncedResize';
-import { Box, Button, FormControlLabel, Modal, Switch, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, Modal, Select, Switch, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import { useRouter } from 'next/router';
 import useWindowWidthUnder from '../ui/hooks/useWindowWidthUnder';
 import Head from 'next/head';
@@ -129,12 +129,13 @@ const BubblesComponent = () => {
 	const [reloadDataInterval, setReloadDataInterval] = useState(null);
 	const isWindowUnder800 = useWindowWidthUnder(800);
 	const isWindowUnder420 = useWindowWidthUnder(420);
+	const [sevenDaysVolumeFilter, setSevenDaysVolumeFilter] = useLocalStorage('bubbles_7days_filter', 0);
 
 	const { favoriteTokenIds, loadingFavorites } = useFavoriteTokens();
 	
-	const [watchlistOnly, setWatchlistOnly] = useState(false);
+	const [watchlistOnly, setWatchlistOnly] = useLocalStorage('bubbles_watchlist_only', false);
 
-	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 3) {
+	function addScaleFactor(tokenData, minScale = 0.4, maxScale = 3.5) {
 		return tokenData.map(token => {
 				const changeMagnitude = Math.abs(token.metrics.change[changePeriod][currency]);
 				const normalizedScale = Math.sqrt(changeMagnitude) / 7 + minScale; // Scale and shift
@@ -196,8 +197,8 @@ const BubblesComponent = () => {
 
 					// Filling factor (percentage of the container to ideally fill with bubbles)
 					const phi = 0.011;
+					const filteredTokens = filterTokens(tokensData, watchlistOnly, favoriteTokenIds, sevenDaysVolumeFilter);
 
-					const filteredTokens = filterTokens(tokensData, watchlistOnly, favoriteTokenIds);
 					let scaledTokens = addScaleFactor(filteredTokens);
 					scaledTokens = shuffleTokens(scaledTokens);
 					const totalScaleSquare = sumScalesSquared(scaledTokens);
@@ -259,7 +260,11 @@ const BubblesComponent = () => {
 						}, 500);
 					}
 			}
-	}, [loaded, tokensData, currency, radiusReducer, changePeriod, watchlistOnly, loadingFavorites, bubbleValue]);
+	}, [loaded, tokensData, currency, radiusReducer, changePeriod, watchlistOnly, loadingFavorites, bubbleValue, sevenDaysVolumeFilter]);
+
+	const handleSevenDaysFilterChange = (event) => {
+		setSevenDaysVolumeFilter(event.target.value);
+	};
 
 	return (
 		
@@ -348,7 +353,7 @@ const BubblesComponent = () => {
 
 						{/* Settings Modal */}
 						<Modal open={isSettingsModalOpen} onClose={closeSettingsModal} style={{
-							zIndex: 999999
+							zIndex: 999
 						}}>
 							<Box sx={{
 									position: 'absolute',
@@ -375,6 +380,22 @@ const BubblesComponent = () => {
 											<ToggleButton value="change">Price Change</ToggleButton>
 											<ToggleButton value="price">Current Price</ToggleButton>
 									</ToggleButtonGroup>
+
+									<h2 className='h1 mb-2 mt-4'>Filter Weekly by Volume</h2>
+									<FormControl variant="outlined" fullWidth>
+										<InputLabel id="7days-volume-filter-label" sx={{ display: 'none' }}>Weekly Volume</InputLabel>
+										<Select
+											labelId="7days-volume-filter-label"
+											id="7days-volume-filter"
+											value={sevenDaysVolumeFilter}
+											onChange={handleSevenDaysFilterChange}
+										>
+											<MenuItem value="0">Show All</MenuItem>
+											<MenuItem value="1000">$1,000+</MenuItem>
+											<MenuItem value="10000">$10,000+</MenuItem>
+											<MenuItem value="100000">$100,000+</MenuItem>
+										</Select>
+									</FormControl>
 
 									<div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
 											<Button variant="contained" onClick={closeSettingsModal}>Close Settings</Button>
@@ -418,15 +439,21 @@ function generatePointsMatrix(containerWidth, containerHeight, step = 10) {
 	return pointsMap;
 }
 
-function filterTokens(array, watchlistOnly, favoriteTokenIds) {
-	// Apply filters logic here
-	let filteredArray = array;
+function filterTokens(array, watchlistOnly, favoriteTokenIds, sevenDaysVolumeFilter) {
+  let filteredArray = array;
 
-	if (watchlistOnly) {
-		filteredArray = filteredArray.filter(token => favoriteTokenIds.includes(token.canister_id)); // Example filter condition
+  if (watchlistOnly) {
+    filteredArray = filteredArray.filter(token => favoriteTokenIds.includes(token.canister_id));
+  } else {
+		if (sevenDaysVolumeFilter !== null) {
+			const volumeThreshold = parseInt(sevenDaysVolumeFilter);
+			filteredArray = filteredArray.filter(token => 
+				token.metrics.volume.usd['7d'] >= volumeThreshold
+			);
+		}
 	}
 
-	return filteredArray;
+  return filteredArray;
 }
 
 function shuffleTokens(array) {
