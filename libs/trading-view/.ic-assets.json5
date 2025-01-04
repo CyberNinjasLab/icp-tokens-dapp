@@ -1,4 +1,40 @@
 [
+  {
+    "match": "**/*.css",
+    "headers": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  },
+  {
+    "match": "**/*.js",
+    "headers": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  },
+  {
+    "match": "**/*.png",
+    "headers": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  },
+  {
+    "match": "**/*.jpg",
+    "headers": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  },
+  {
+    "match": "**/*.jpeg",
+    "headers": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  },
+  {
+    "match": "**/*.svg",
+    "headers": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  },
    {
      "match": "**/*",
      "security_policy": "standard"
