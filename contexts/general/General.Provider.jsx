@@ -3,12 +3,28 @@ import { GeneralContext } from './General.Context';
 import useLocalStorage from '../../ui/hooks/useLocalStorage';
 import { canisterId } from '../../src/declarations/backend_core';
 import usePriceNearTimestamp from '../../ui/hooks/token/usePriceNearTimestamp';
+import ic from 'ic0';
 
 const GeneralContextProvider = ({ children }) => {
   const { fetchPricesNearTimestamps } = usePriceNearTimestamp();
   const [currency, setCurrency] = useLocalStorage('currency', 'usd'); // Default currency is USD
   const [theme, setTheme] = useState('dark');  // Default to light
   const [icpPrice, setIcpPrice] = useState(null);
+  const [icpSwapBaseStorages, setIcpSwapBaseStorages] = useLocalStorage('icpswap_base_storages', []);
+  const [isIcpswapBaseFetched, setIsIcpswapBaseFetched] = useState(false);
+
+  useEffect(() => {
+    let processIcpSwapBaseStorage = async () => {
+      setIcpSwapBaseStorages(await getIcpswapBaseStorages());
+      setIsIcpswapBaseFetched(true);
+    };
+
+    if(!isIcpswapBaseFetched) {
+      processIcpSwapBaseStorage();
+    }
+
+    console.log(icpSwapBaseStorages);
+  }, [icpSwapBaseStorages])
 
   useEffect(() => {
       // Check local storage for theme
@@ -144,6 +160,13 @@ const GeneralContextProvider = ({ children }) => {
     }
 
     return priceAndCurrency;
+  }
+
+  async function getIcpswapBaseStorages() {
+    const icpswap_service = ic("g54jq-hiaaa-aaaag-qck5q-cai")
+    const baseStorage = await icpswap_service.call('baseStorage');
+
+    return baseStorage;
   }
 
   function roundPrice(price, toLocaleString = true) {
@@ -350,6 +373,7 @@ const GeneralContextProvider = ({ children }) => {
       getTokenName,
       parseTokensByCanisterId,
       prepareChartData,
+      getIcpswapBaseStorages,
   }
 
   return (

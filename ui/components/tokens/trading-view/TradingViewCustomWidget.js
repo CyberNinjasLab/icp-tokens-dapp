@@ -4,9 +4,10 @@ import { loadScript } from '../../../../utils/scriptLoader';
 import TradingViewSaveLoadAdapter from './TradingViewSaveLoadAdapter';
 import { AuthContext } from '../../../../contexts/auth/Auth.Context';
 import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
+import DataFeed from './datafeed';
 
-const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
-  const { theme, currency } = useContext(GeneralContext);
+const TradingViewCustomWidget = ({ canister_id, tokenData, fullscreen = false }) => {
+  const { theme, currency, getIcpswapBaseStorages } = useContext(GeneralContext);
   const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
   const isWindowUnder1024 = useWindowWidthUnder(1024);
   const libraryPath = process.env.NEXT_PUBLIC_TRADING_VIEW_LIB_URL;
@@ -22,7 +23,8 @@ const TradingViewCustomWidget = ({ canister_id, fullscreen = false }) => {
         fullscreen: fullscreen,                 // Displays the chart in the fullscreen mode
         container: 'tv_chart_container',   // Reference to an attribute of the DOM element
         theme: 'dark',
-        datafeed: new Datafeeds.UDFCompatibleDatafeed("https://web2.icptokens.net/api/datafeed/" + canister_id + "/" + currency),
+        // datafeed: new Datafeeds.UDFCompatibleDatafeed("https://web2.icptokens.net/api/datafeed/" + canister_id + "/" + currency),
+        datafeed: new DataFeed(canister_id, currency, tokenData),
         autosize: true,
         auto_save_delay: 3,
         time_frames: [

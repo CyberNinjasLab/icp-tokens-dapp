@@ -29,7 +29,7 @@ const TokenPage = () => {
       {!isLoading && !error && tokenData && (
         <Suspense fallback={<div>Loading...</div>}>
           {tokenData.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? (
-            <TradingViewCustomWidget canister_id={tokenData.canister_id} fullscreen={true} />
+            <TradingViewCustomWidget canister_id={tokenData.canister_id} tokenData={tokenData} fullscreen={true} />
           ) : currency === 'usd' && (
             <TradingViewWidget symbol='ICPUSD' canister_id={tokenData.canister_id}  />
           )}

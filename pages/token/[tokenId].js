@@ -60,7 +60,7 @@ const TokenPage = () => {
                     <div className={`w-full ${isWindowUnder1024 ? (selectedTab === 'chart' ? 'block fixed z-50 bottom-[57px] left-0' : 'hidden') : ''}`}>
                       {tokenData.canister_id !== 'ryjl3-tyaaa-aaaaa-aaaba-cai' ? (
                         <div>
-                          <TradingViewCustomWidget canister_id={tokenData.canister_id} />
+                          <TradingViewCustomWidget canister_id={tokenData.canister_id} tokenData={tokenData} />
                         </div>
                       ) : (
                         <TradingViewWidget symbol='ICPUSDT' />
