@@ -151,3 +151,29 @@
     display: block !important;
   }
 }
+
+/* Trading view height cases */
+.tv-container-h {
+  height: calc(100vh - 110px);
+}
+
+@media (min-width: 1024px) { /* Assuming 'lg' corresponds to 1024px or your framework's breakpoint */
+  .tv-container-h {
+    max-height: calc(100vh - 235px);
+    height: 100vh; /* h-screen typically means 100vh */
+  }
+}
+
+@supports (height: 100dvh) {
+  .tv-container-h {
+    height: calc(100dvh - 110px);
+  }
+
+  /* Media query for large screens with dvh support */
+  @media (min-width: 1024px) {
+    .tv-container-h {
+      max-height: calc(100dvh - 235px);
+      height: 100dvh; /* dvh equivalent for h-screen */
+    }
+  }
+}
