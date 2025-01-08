@@ -12,7 +12,6 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const { theme } = useContext(GeneralContext);
 
-  const isWindowUnder1024 = useWindowWidthUnder(1024);
 
   useEffect(() => {
     // Clear the container before adding the new script
@@ -58,23 +57,6 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
     }
   };
 
-  const setDynamicHeight = () => {
-    // Use visualViewport.height if available, else fall back to innerHeight
-    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    
-    const element = document.getElementById('tv_chart_container');
-    
-    if (element) {
-      const chartOffset = isWindowUnder1024 ? 108 : 235; // Adjust offsets based on screen width
-      // Set the height considering fullscreen or the offset
-      element.style.height = fullscreen ? `${viewportHeight}px` : `${viewportHeight - chartOffset}px`;
-    }
-  };
-  
-  useEffect(() => {
-    setDynamicHeight();
-  }, [isWindowUnder1024]);
-
   useEffect(() => {
     const handleFullScreenChange = () => {
       if (!document.fullscreenElement) {
@@ -91,7 +73,7 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
   return (
     <>
       <div ref={chartWrapperRef} className='text-center bg-white dark:bg-dark-bg'>
-        <div id="tv_chart_container" className={`w-full lg:border md:rounded-md border-[#D3D3D3] dark:border-[#555]`}>
+        <div id="tv_chart_container" className={`w-full lg:border md:rounded-md border-[#D3D3D3] lg:h-scree dark:border-[#555]`}>
           <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%" }}>
             <div className="tradingview-widget-container__widget"></div>
             <div className="tradingview-widget-copyright">
