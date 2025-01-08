@@ -73,7 +73,7 @@ function TradingViewWidget({ symbol, fullscreen=false }) {
   return (
     <>
       <div ref={chartWrapperRef} className='text-center bg-white dark:bg-dark-bg'>
-        <div id="tv_chart_container" className={`w-full lg:border md:rounded-md border-[#D3D3D3] lg:h-scree dark:border-[#555]`}>
+        <div id="tv_chart_container" className={`w-full lg:border md:rounded-md border-[#D3D3D3] tv-container-h lg:h-scree dark:border-[#555]`}>
           <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%" }}>
             <div className="tradingview-widget-container__widget"></div>
             <div className="tradingview-widget-copyright">
