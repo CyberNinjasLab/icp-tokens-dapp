@@ -55,6 +55,26 @@ const Dex = () => {
 								<p>ICPSwap is a pioneering DEX on the Internet Computer blockchain, offering on-chain token swaps with high-speed, scalable, and low-cost features, marking it as a first in the Internet Computer DeFi ecosystem.</p>
 							</div>
 						</Link>
+						<Link href="/dex/kongswap" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
+							<div className="flex items-center space-x-4">
+								<img src="/logos/KongSwap.jpg" alt="KongSwap Logo" className="h-12 w-12 rounded-full" />
+								<span className="font-bold text-lg">KongSwap</span>
+							</div>
+							<div
+								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
+									!tvlAndVolumeData.kongswap.tvl ? "blur-sm opacity-50" : ""
+								}`}
+								>	
+								<span className="label">TVL:</span>
+								<span className="font-semibold"> {tvlAndVolumeData.kongswap?.tvl}</span>
+								<br />
+								<span className="label">24 Vol:</span>
+								<span className="font-semibold">{tvlAndVolumeData.kongswap?.volume24h}</span>
+							</div>
+							<div className="mt-4">
+								<p>KongSwap is a new DEX on the ICP network, delivering optimized on-chain liquidity pools, cross-chain support using ChainFusion, and a Web2-like login powered by Internet Identity, redefining DeFi&apos;s potential.</p>
+							</div>
+						</Link>
 						<Link href="/dex/ic-dex/" className="max-w-sm mx-auto p-6 shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
 								<img src="/logos/icdex_logo.webp" alt="ICDex Logo" className="h-12 w-12 rounded-full" />
@@ -95,47 +115,6 @@ const Dex = () => {
 								<p>Sonic DEX leverages the Internet Computer Protocol to provide a comprehensive multichain DeFi platform where users can trade, stake, and engage in governance for enhanced crypto functionalities.</p>
 							</div>
 						</Link>
-						<Link href="/dex/icp-ex/" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
-							<div className="flex items-center space-x-4">
-								<img src="/logos/ICPEx.jpg" alt="ICPEx Logo" className="h-12 w-12 rounded-full" />
-								<span className="font-bold text-lg">ICPEx</span>
-							</div>
-							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
-									!tvlAndVolumeData.icpex.tvl ? "blur-sm opacity-50" : ""
-								}`}
-								>	
-								<span className="label">TVL:</span>
-								<span className="font-semibold"> {tvlAndVolumeData.icpex?.tvl}</span>
-								<br />
-								<span className="label">24 Vol:</span>
-								<span className="font-semibold"> {tvlAndVolumeData.icpex?.volume24h}</span>
-							</div>
-							<div className="mt-4">
-								<p>ICPEx is a decentralized exchange fully built on-chain, utilizing the power of the Internet Computer to enable fast, secure, and cost-efficient token swaps within the ICP ecosystem.</p>
-							</div>
-						</Link>
-						<Link href="/dex/kongswap" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
-							<div className="flex items-center space-x-4">
-								<img src="/logos/KongSwap.jpg" alt="KongSwap Logo" className="h-12 w-12 rounded-full" />
-								<span className="font-bold text-lg">KongSwap</span>
-							</div>
-							<div
-								className={`info-box mt-4 transition-all duration-300 rounded-lg dark:bg-black/20 bg-black/5 p-2 ${
-									!tvlAndVolumeData.kongswap.tvl ? "blur-sm opacity-50" : ""
-								}`}
-								>	
-								<span className="label">TVL:</span>
-								<span className="font-semibold"> {tvlAndVolumeData.kongswap?.tvl}</span>
-								<br />
-								<span className="label">24 Vol:</span>
-								<span className="font-semibold">{tvlAndVolumeData.kongswap?.volume24h}</span>
-							</div>
-							<div className="mt-4">
-								<p>KongSwap is a new DEX on the ICP network, delivering optimized on-chain liquidity pools, cross-chain support using ChainFusion, and a Web2-like login powered by Internet Identity, redefining DeFi&apos;s potential.</p>
-							</div>
-						</Link>
-						
 					
 						<Link href="/dex/appic-dao/" className="max-w-sm mx-auto p-6  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
