@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './header/Header';
 import Footer from './Footer';
 import ThemeRegistry from '../../../utils/ThemeRegistry';
+import DonateBanner from './DonateBanner';
 
 const Layout = ({ children, footer=true, extraClass='' }) => {
   return (
@@ -12,6 +13,7 @@ const Layout = ({ children, footer=true, extraClass='' }) => {
             {children}
           </main>
         {footer ? <Footer /> : ""}
+        <DonateBanner />
       </ThemeRegistry>
     </div>
   );
