@@ -33,6 +33,7 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
   // Search for ICP Swap and Sonic in the tokenMarkets array
   const icpSwapMarket = findMarketByKey(tokenMarkets, 'icpswap');
   const sonicMarket = findMarketByKey(tokenMarkets, 'sonic');
+  const kongSwapMarket = findMarketByKey(tokenMarkets, 'kongswap');
 
   const tooltipContent = (
     <div className='text-sm p-1 scale-95 gap-y-1 flex flex-col'>
@@ -68,6 +69,24 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
               alt="Sonic Dex"
             />{' '}
             {showPriceCurrency(tvl.sonic[currency].toLocaleString())}{' '}
+            <Launch fontSize='small' className='scale-90 relative bottom-[2px] right-[1px]' />
+          </a>
+        </div>
+      )}
+      {kongSwapMarket && tvl.kongswap[currency] && (
+        <div>
+          <a
+            href={`https://www.kongswap.io/stats/${data.canister_id}`}
+            target='_blank'
+            className=' font-semibold'
+            rel="noopener noreferrer"
+          >
+            <img
+              src="/logos/KongSwap.jpg"
+              className='relative bottom-[1px] mr-[2px] inline-block w-4 h-4 rounded-full bg-black'
+              alt="Sonic Dex"
+            />{' '}
+            {showPriceCurrency(tvl.kongswap[currency].toLocaleString())}{' '}
             <Launch fontSize='small' className='scale-90 relative bottom-[2px] right-[1px]' />
           </a>
         </div>

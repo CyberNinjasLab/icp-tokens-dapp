@@ -32,6 +32,7 @@ function TokenMarketLinks({ token, tokenMarkets }) {
     icpswap: 'https://app.icpswap.com/swap?input=ryjl3-tyaaa-aaaaa-aaaba-cai&output=' + token.canister_id,
     sonic: "https://app.sonic.ooo/swap",
     iclight: `https://iclight.io/ICDex/${token.symbol}/ICP`,
+    kongswap: `https://www.kongswap.io/stats/${token.canister_id}`,
   };
 
   // Mapping the markets to their logos
@@ -39,6 +40,7 @@ function TokenMarketLinks({ token, tokenMarkets }) {
     icpswap: 'icpswap_logo.webp',
     sonic: "sonic-dex_logo.jpg",
     iclight: "icdex_logo.webp",
+    kongswap: "KongSwap.jpg",
   };
 
   useEffect(() => {

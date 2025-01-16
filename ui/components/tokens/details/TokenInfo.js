@@ -6,6 +6,7 @@ import { Tooltip, Typography } from '@mui/material';
 import TokenLinks from './TokenLinks';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import ICHouseLink from '../ICHouseLink';
+import ICExplorerLink from '../ICExplorerLink';
 import ContractButton from '../ContractButton';
 import ShowMoreText from '../../_base/ShowMoreText';
 import useTokenTvl from '../../../hooks/token/useTokenTvl';
@@ -60,7 +61,7 @@ export default function TokenInfo({ data }) {
               {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
               <Typography>
                 {tvl ? (
-                  showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency]).toLocaleString())  
+                  showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency] + tvl.kongswap[currency]).toLocaleString())  
                 ) : (
                   <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
                 )}
@@ -139,8 +140,8 @@ export default function TokenInfo({ data }) {
               Explorer
               {/* <HelpOutlineIcon sx={questionMarkStyle} fontSize="small" />{' '} */}
             </Typography>
-            <Typography>
-              <ICHouseLink canisterId={data.canister_id} />
+            <Typography className='flex space-x-3'>
+              <ICExplorerLink canisterId={data.canister_id} /><ICHouseLink canisterId={data.canister_id} />
             </Typography>
           </div>
         </ListItem>

@@ -14,11 +14,11 @@ const Donations = () => {
 								Your help matters ❤️
 								</span>
                 <div className='mt-8 '>
-                    <div className='border-gray-500 bg-gray-900/60 border shadow-xl rounded-xl inline-block px-8 py-6 lg:px-10 lg:py-8 w-full sm:w-auto sm:min-w-[440px]'>
+                    <div className='dark:border-gray-500 border-gray-200 dark:bg-gray-900/60 border shadow-xl rounded-xl inline-block px-8 py-6 lg:px-10 lg:py-8 w-full sm:w-auto sm:min-w-[440px]'>
                         <ToggleButtonGroup
                             value={toggleValue}
                             exclusive
-                            onChange={(event, currentSelection) => setToggleValue(toggleValue)}
+                            onChange={() => setToggleValue(toggleValue)}
                             color="primary"
                             sx={{
                                 gap: '10px',
