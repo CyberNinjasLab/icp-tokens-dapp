@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
 
 function WatchlistLink() {
   const router = useRouter();
@@ -10,6 +11,8 @@ function WatchlistLink() {
   const handleClick = () => {
     router.push('/watchlist');
   };
+
+  const isWindowUnder1200 = useWindowWidthUnder(1200);
 
   return (
     <Tooltip title="Token Watchlist">
@@ -29,7 +32,7 @@ function WatchlistLink() {
           fontSize: '14px'
         }}
       >
-        <VisibilityIcon fontSize="inherit" className='mr-1' /> Watchlist
+        <VisibilityIcon fontSize="inherit" className='mr-1' /> <span className={`hidden sm:block ${isWindowUnder1200 ? 'lg:hidden xl:block' : '' }`}>Watchlist</span>
       </IconButton>
     </Tooltip>
   );

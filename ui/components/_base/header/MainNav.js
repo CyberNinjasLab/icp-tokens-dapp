@@ -13,12 +13,15 @@ import LightMode from '@mui/icons-material/LightMode';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import Link from 'next/link';
 import Search from './Search';
+import useWindowWidthUnder from '../../../hooks/useWindowWidthUnder';
 
 const MainNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme } = useContext(GeneralContext);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  const isWindowUnder1200 = useWindowWidthUnder(1200);
 
   const path = useRouter().route;
 
@@ -66,6 +69,13 @@ const MainNav = () => {
       desktopOnly: true,
     },
     {
+      id: 'launchpads',
+      href: '/launchpads',
+      label: 'Launchpads',
+      isDropdown: false,
+      desktopOnly: true,
+    },
+    {
       id: 'pages',
       label: 'Pages',
       icon: <InsertDriveFile fontSize="large" />,
@@ -87,6 +97,11 @@ const MainNav = () => {
           id: 'wallets',
           href: '/wallets',
           label: 'Wallets',
+        },
+        {
+          id: 'launchpads',
+          href: '/launchpads',
+          label: 'Launchpads',
         },
       ],
     },
@@ -133,8 +148,8 @@ const MainNav = () => {
         <div className='flex items-center'>
           <div className='inline-block'>
             <div>
-              <span className='sm:mr-4'><Search /></span>
-              <span className='mr-4 hidden sm:inline-block'><WatchlistLink /></span>
+              <span className={`sm:mr-4 ${isWindowUnder1200 ? 'lg:mr-0 xl:mr-4' : '' }`}><Search /></span>
+              <span className={`mr-4 ${isWindowUnder1200 ? 'lg:mr-0 xl:mr-4' : '' } hidden sm:inline-block`}><WatchlistLink /></span>
               <span className='hidden sm:inline-block'><PortfolioLink /></span>
             </div>
           </div>
