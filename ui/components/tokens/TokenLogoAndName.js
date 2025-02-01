@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import useWindowWidthUnder from '../../hooks/useWindowWidthUnder';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const TokenLogoAndName = ({ data, showFullContent, logoSizeClass='w-6 h-6' }) => {
   const { getTokenName }  = useContext(GeneralContext)
@@ -34,9 +35,11 @@ const TokenLogoAndName = ({ data, showFullContent, logoSizeClass='w-6 h-6' }) =>
   return (
     <Typography component="span" className="inline-flex h-full w-full items-center">
       {data.logo && (
-        <img
+        <LazyLoadImage
           alt={`${data.name} Logo`}
+          // height={image.height}
           src={`${process.env.NEXT_PUBLIC_WEB2_API_URL}/storage/${data.logo}`}
+          // width={image.width} 
           className={`block ${logoSizeClass} mr-2 brightness-110 rounded-full`}
         />
       )}
