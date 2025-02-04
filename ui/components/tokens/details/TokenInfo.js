@@ -61,9 +61,13 @@ export default function TokenInfo({ data }) {
               {/* Conditionally render TVL value or a loading placeholder with a pulse animation */}
               <Typography>
                 {tvl ? (
-                  showPriceCurrency((tvl.sonic[currency] + tvl.icp_swap[currency] + tvl.kongswap[currency]).toLocaleString())  
+                  showPriceCurrency(
+                    ((tvl.sonic?.[currency] || 0) + 
+                     (tvl.icp_swap?.[currency] || 0) + 
+                     (tvl.kongswap?.[currency] || 0)).toLocaleString()
+                  )  
                 ) : (
-                  <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div> // Placeholder with pulse effect
+                  <div className="w-20 h-5 bg-gray-200/40 dark:bg-gray-200/10 rounded animate-pulse"></div>
                 )}
               </Typography>
             </div>

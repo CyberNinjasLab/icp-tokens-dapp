@@ -37,7 +37,7 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
 
   const tooltipContent = (
     <div className='text-sm p-1 scale-95 gap-y-1 flex flex-col'>
-      {icpSwapMarket && tvl.icp_swap[currency] && (
+      {icpSwapMarket && tvl?.icp_swap && tvl.icp_swap[currency] && (
         <div>
           <a
             href={`https://info.icpswap.com/swap/token/details/${data.canister_id}`}
@@ -55,7 +55,7 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
           </a>
         </div>
       )}
-      {sonicMarket && tvl.sonic[currency] && (
+      {sonicMarket && tvl?.sonic && tvl.sonic[currency] && (
         <div>
           <a
             href={`https://v3.data.sonic.ooo/#/tokens/${data.canister_id}`}
@@ -73,7 +73,7 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
           </a>
         </div>
       )}
-      {kongSwapMarket && tvl.kongswap[currency] && (
+      {kongSwapMarket && tvl?.kongswap && tvl.kongswap[currency] && (
         <div>
           <a
             href={`https://www.kongswap.io/stats/${data.canister_id}`}

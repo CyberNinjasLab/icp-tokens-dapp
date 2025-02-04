@@ -30,74 +30,101 @@ const useTokenTvl = (canisterId) => {
     const fetchTVL = async () => {
       try {
         if (!sonicTvlLoading && icpPrice) {
-          let sumSonicUsd = 0;
-          let sumSonicIcp = 0;
+          let sonicData = null;
+          let kongswapData = null;
+          let icpSwapData = null;
 
-          if (sonicTvlData) {
-            for (const sonicPool of sonicTvlData.token.pairBase.length ? sonicTvlData.token.pairBase : sonicTvlData.token.pairQuote) {
-              if (sonicPool.reserveICP && sonicPool.reserveUSD) {
-                if(sonicPool.token0.symbol != sonicPool.token1.symbol) {
-                  sumSonicUsd += parseFloat(sonicPool.reserveUSD);
-                  sumSonicIcp += parseFloat(sonicPool.reserveICP);
+          // Fetch Sonic TVL
+          try {
+            let sumSonicUsd = 0;
+            let sumSonicIcp = 0;
+
+            if (sonicTvlData) {
+              for (const sonicPool of sonicTvlData.token.pairBase.length ? sonicTvlData.token.pairBase : sonicTvlData.token.pairQuote) {
+                if (sonicPool.reserveICP && sonicPool.reserveUSD) {
+                  if(sonicPool.token0.symbol != sonicPool.token1.symbol) {
+                    sumSonicUsd += parseFloat(sonicPool.reserveUSD);
+                    sumSonicIcp += parseFloat(sonicPool.reserveICP);
+                  }
                 }
               }
+              sonicData = {
+                usd: parseInt(sumSonicUsd),
+                icp: parseInt(sumSonicIcp),
+              };
             }
+          } catch (error) {
+            console.error('Error fetching Sonic TVL:', error);
+            throw error;
           }
 
           // Fetch Kongswap TVL
-          const response = await axios.get('https://api.kongswap.io/api/tokens', {
-            params: {
-              page: 1,
-              limit: 100
-            }
-          });
+          try {
+            const response = await axios.get('https://api.kongswap.io/api/tokens', {
+              params: {
+                page: 1,
+                limit: 1000
+              }
+            });
 
-          const token = response.data.tokens.find(token => token.canister_id === canisterId);
-          const kongswapTvlValue = token && token.metrics && token.metrics.tvl ? parseFloat(token.metrics.tvl) : 0;
+            console.log(response);
 
-          const canisterIcpswap1 = ic('gp26j-lyaaa-aaaag-qck6q-cai');
-          const canisterIcpswap2 = ic('ggzvv-5qaaa-aaaag-qck7a-cai');
+            const token = response.data.items.find(token => token.canister_id === canisterId);
+            const kongswapTvlValue = token && token.metrics && token.metrics.tvl ? parseFloat(token.metrics.tvl) : 0;
+            
+            kongswapData = {
+              usd: parseInt(kongswapTvlValue),
+              icp: parseInt(kongswapTvlValue / icpPrice),
+            };
+            setKongswapTvl(kongswapTvlValue);
+          } catch (error) {
+            console.error('Error fetching Kongswap TVL:', error);
+            throw error;
+          }
 
-          const icpSwapAllPoolsTvl = await canisterIcpswap1.call('getAllPoolTvl');
-          const icpSwapAllPools = await canisterIcpswap2.call('getAllPools');
+          // Fetch ICPSwap TVL
+          try {
+            const canisterIcpswap1 = ic('gp26j-lyaaa-aaaag-qck6q-cai');
+            const canisterIcpswap2 = ic('ggzvv-5qaaa-aaaag-qck7a-cai');
 
-          let sumIcpSwap = 0;
+            const icpSwapAllPoolsTvl = await canisterIcpswap1.call('getAllPoolTvl');
+            const icpSwapAllPools = await canisterIcpswap2.call('getAllPools');
 
-          for (const poolData of icpSwapAllPools) {
-            if (poolData.token0Id == canisterId || poolData.token1Id == canisterId) {
-              for (const poolTvl of icpSwapAllPoolsTvl) {
-                if (poolTvl[0] == poolData.pool) {
-                  if(poolData.token0Symbol != poolData.token1Symbol) {
-                    sumIcpSwap += poolTvl[1];
+            let sumIcpSwap = 0;
+
+            for (const poolData of icpSwapAllPools) {
+              if (poolData.token0Id == canisterId || poolData.token1Id == canisterId) {
+                for (const poolTvl of icpSwapAllPoolsTvl) {
+                  if (poolTvl[0] == poolData.pool) {
+                    if(poolData.token0Symbol != poolData.token1Symbol) {
+                      sumIcpSwap += poolTvl[1];
+                    }
+                    break;
                   }
-                  break;
                 }
               }
             }
-          }
 
-          const tvlUsdValue = parseInt(sumIcpSwap);
-
-          const tvlObj = {
-            icp_swap: {
+            const tvlUsdValue = parseInt(sumIcpSwap);
+            icpSwapData = {
               usd: tvlUsdValue,
               icp: parseInt(tvlUsdValue / icpPrice),
-            },
-            sonic: {
-              usd: parseInt(sumSonicUsd),
-              icp: parseInt(sumSonicIcp),
-            },
-            kongswap: {
-              usd: parseInt(kongswapTvlValue),
-              icp: parseInt(kongswapTvlValue / icpPrice),
-            }
+            };
+          } catch (error) {
+            console.error('Error fetching ICPSwap TVL:', error);
+            throw error;
+          }
+
+          const tvlObj = {
+            icp_swap: icpSwapData,
+            sonic: sonicData,
+            kongswap: kongswapData
           };
 
           setTvl(tvlObj);
-          setKongswapTvl(kongswapTvlValue); // Separate state for Kongswap TVL if needed elsewhere
         }
       } catch (error) {
-        console.error('Error fetching TVL:', error);
+        console.error('Error in main TVL fetch:', error);
         setTimeout(fetchTVL, 30000); // Retry after 30s
       }
     };
