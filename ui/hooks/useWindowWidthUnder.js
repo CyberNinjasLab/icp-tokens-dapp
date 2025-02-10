@@ -1,42 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 // Custom hook that accepts a width threshold and returns if window is under that width
 function useWindowWidthUnder(threshold) {
-  // Check if window is defined
   const isBrowser = typeof window !== 'undefined';
-
+  const observerRef = useRef(null);
+  
   const [isWindowUnderThreshold, setIsWindowUnderThreshold] = useState(
     isBrowser ? window.innerWidth < threshold : false
   );
 
+  const handleResize = useCallback(() => {
+    setIsWindowUnderThreshold(window.innerWidth < threshold);
+  }, [threshold]);
+
   useEffect(() => {
-    if (isBrowser) {
-      const handleResize = () => {
-        setIsWindowUnderThreshold(window.innerWidth < threshold);
-      };
+    if (!isBrowser) return;
 
-      // Initial check in case the initial window size is under the threshold
-      handleResize();
-
-      // Set up the resize event listener
-      window.addEventListener('resize', handleResize);
-
-      // Set up MutationObserver to monitor changes to the body element
-      const observer = new MutationObserver(() => {
-        // Trigger resize logic when body changes
-        handleResize();
-      });
-
-      // Observe changes in the body element
-      observer.observe(document.body, { attributes: true, childList: true, subtree: true });
-
-      // Cleanup function to remove event listener and observer when component unmounts
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        observer.disconnect(); // Disconnect the observer
-      };
+    // Create observer only once
+    if (!observerRef.current) {
+      observerRef.current = new MutationObserver(handleResize);
     }
-  }, [threshold, isBrowser]); // Depend on the threshold and isBrowser to re-run the effect if they change
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    // Observe body changes
+    observerRef.current.observe(document.body, {
+      attributes: true,
+      childList: true,
+      subtree: true
+    });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [isBrowser, handleResize]); // Only re-run if these dependencies change
 
   return isWindowUnderThreshold;
 }

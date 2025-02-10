@@ -4,7 +4,7 @@ import React, { useEffect, useContext, useState, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import 'ag-grid-community/styles/ag-grid.css'; // Core CSS
 import 'ag-grid-community/styles/ag-theme-quartz.css'; // Theme
-import { Alert, Paper, Skeleton } from '@mui/material';
+import { Alert, Paper, Skeleton, Button, Stack } from '@mui/material';
 import { GeneralContext } from '../../../../contexts/general/General.Context';
 import { isMobile } from 'react-device-detect';
 import SupplyDetailsTooltip from '../SupplyDetailsTooltip';
@@ -14,6 +14,8 @@ import getTokenTableColDefs from './tokenTableColDefs';
 import TokensTableColumnsFilter from './TokensTableColumnsFilter';
 import FavoriteToggle from './TokensTableFavoritesFilter';
 import { useFavoriteTokens } from '../../../../contexts/general/FavoriteTokensProvider';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 function TokensTable(props) {
   const {
@@ -31,6 +33,10 @@ function TokensTable(props) {
   const [showFavorites, setShowFavorites] = useState(showFavoritesOnly ? 'favorites' : 'all');
   
   const router = useRouter();
+  const { page: pageParam } = router.query;
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 100;
+
   const colDefs = getTokenTableColDefs({ formatPrice, isMobile, showPriceCurrency, currency });
   const rowHeight = 60;
   const defaultColDef = useMemo(() => {
@@ -69,6 +75,31 @@ function TokensTable(props) {
       return data;
     }
   }, [showFavorites, data, favoriteTokenIds]);
+
+  // Set initial page from URL parameter
+  useEffect(() => {
+    const pageNumber = parseInt(pageParam) || 1;
+    setCurrentPage(pageNumber);
+  }, [pageParam]);
+
+  // Handle page changes
+  const handlePageChange = (newPage) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: newPage },
+    });
+  };
+
+  const paginatedData = useMemo(() => {
+    if (!filteredData) return [];
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredData, currentPage]);
+
+  const totalPages = useMemo(() => {
+    return filteredData ? Math.ceil(filteredData.length / ITEMS_PER_PAGE) : 0;
+  }, [filteredData]);
+
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
@@ -94,7 +125,7 @@ function TokensTable(props) {
             margin: '1rem 0px'
           }}>
             <AgGridReact
-              rowData={filteredData}
+              rowData={paginatedData}
               columnDefs={colDefs}
               rowHeight={rowHeight}
               domLayout="autoHeight"
@@ -106,6 +137,33 @@ function TokensTable(props) {
               rowClass="cursor-pointer"
             />
           </Paper>
+          
+          {/* Pagination Controls */}
+          <Stack 
+            direction="row" 
+            spacing={2} 
+            justifyContent="center" 
+            alignItems="center" 
+            sx={{ mt: 2, mb: 2 }}
+          >
+            <Button
+              variant="contained"
+              startIcon={<NavigateBeforeIcon />}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage <= 1}
+            >
+              Previous
+            </Button>
+            <span className='text-black dark:text-white'>Page {currentPage} of {totalPages}</span>
+            <Button
+              variant="contained"
+              endIcon={<NavigateNextIcon />}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage >= totalPages}
+            >
+              Next
+            </Button>
+          </Stack>
         </Paper>
       )}
     </>
