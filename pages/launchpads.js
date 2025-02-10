@@ -12,11 +12,19 @@ const Launchpads = () => {
       </Head>
 			<Layout>
 				<div className='w-full'>
-					<h1 className='h1 text-center'>Internet Computer Launchpads</h1>
+					<h1 className='h1 text-center flex items-center justify-center gap-3'>
+						<img 
+							src="/icp-logo.svg" 
+							alt="ICP" 
+							className="w-8 h-8"
+							aria-hidden="true"
+						/>
+						<span>Internet Computer Launchpads</span>
+					</h1>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 mt-4 max-w-[950px] mx-auto">
 						<Link href="https://nns.ic0.app/launchpad" target='blank' className="max-w-sm mx-auto p-6 w-full  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/nns_front_end_logo.webp" alt="ICPSwap Logo" className="h-12 w-12 rounded-full" />
+								<img src="/logos/nns_front_end_logo.webp" alt="ICP Network Nervous System Logo" className="h-12 w-12 rounded-full" />
 								<h2 className="font-bold text-lg">NNS Launchpad</h2>								
 							</div>
 							<div className="mt-4">
@@ -26,7 +34,7 @@ const Launchpads = () => {
 						</Link>
 						<Link href="https://launch.bob.fun/" target='blank' className="max-w-sm mx-auto p-6 w-full  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/bob-launchpad.png" alt="ICPSwap Logo" className="h-12 w-12 rounded-full" />
+								<img src="/logos/bob-launchpad.png" alt="Launch Bob Fun Logo" className="h-12 w-12 rounded-full" />
 								<h2 className="font-bold text-lg">BOB Launch</h2>								
 							</div>
 							<div className="mt-4">
@@ -36,7 +44,7 @@ const Launchpads = () => {
 						</Link>
             <Link href="https://icto.app/Launchpad" target='blank' className="max-w-sm mx-auto p-6 w-full  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/ICTO.png" alt="ICPSwap Logo" className="h-12 w-12 rounded-full" />
+								<img src="/logos/ICTO.png" alt="ICTO Logo" className="h-12 w-12 rounded-full" />
 								<h2 className="font-bold text-lg">ICTO Launchpad</h2>								
 							</div>
 							<div className="mt-4">
@@ -46,7 +54,7 @@ const Launchpads = () => {
 						</Link>		
             <Link href="https://pacapump.io/" target='blank' className="max-w-sm mx-auto p-6 w-full  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/paca-launchpad.png" alt="ICPSwap Logo" className="h-12 w-12 rounded-full" />
+								<img src="/logos/paca-launchpad.png" alt="Paca Launchpad Logo" className="h-12 w-12 rounded-full" />
 								<h2 className="font-bold text-lg">PacaPump</h2>								
 							</div>
 							<div className="mt-4">
@@ -56,7 +64,7 @@ const Launchpads = () => {
 						</Link>		
             <Link href="https://fomowell.com/" target='blank' className="max-w-sm mx-auto p-6 w-full  shadow-lg dark:bg-gray-500/20 rounded-lg">
 							<div className="flex items-center space-x-4">
-								<img src="/logos/fomowell.png" alt="ICPSwap Logo" className="h-12 w-12 rounded-full" />
+								<img src="/logos/fomowell.png" alt="FomoWell Launchpad Logo" className="h-12 w-12 rounded-full" />
 								<h2 className="font-bold text-lg">FomoWell</h2>								
 							</div>
 							<div className="mt-4">
@@ -64,9 +72,16 @@ const Launchpads = () => {
 								<p>Issue low-cost meme coins with AI integration and on-chain content management via ICP.</p>
 							</div>
 						</Link>			
-						<div>
-							<img src="/illustrations/astrounaut.png" className='w-auto max-w-[200px] mx-auto hidden sm:block' />
-						</div>			
+						<Link href="https://odin.fun" target='blank' className="max-w-sm mx-auto p-6 w-full shadow-lg dark:bg-gray-500/20 rounded-lg">
+							<div className="flex items-center space-x-4">
+								<img src="/logos/odin-fun.jpg" alt="Odin Fun Logo" className="h-12 w-12 rounded-full" />
+								<h2 className="font-bold text-lg">Odin Fun</h2>								
+							</div>
+							<div className="mt-4">
+                <h3 class="font-semibold mb-1">Trade Tokens on Bitcoin Instantly</h3>
+								<p>The platform utilizing ICP&apos;s ckBTC technology for low-cost transactions and instant finality, bridging BTC with modern DeFi capabilities.</p>
+							</div>
+						</Link>			
 					</div>
 				</div>
 			</Layout>
