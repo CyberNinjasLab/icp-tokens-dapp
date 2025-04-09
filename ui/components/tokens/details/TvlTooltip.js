@@ -40,7 +40,7 @@ function TvlTooltip({ tvl, currency, data, tokenMarkets }) {
       {icpSwapMarket && tvl?.icp_swap && tvl.icp_swap[currency] && (
         <div>
           <a
-            href={`https://info.icpswap.com/swap/token/details/${data.canister_id}`}
+            href={`https://app.icpswap.com/info-swap/token/details/${data.canister_id}`}
             target='_blank'
             className='font-semibold'
             rel="noopener noreferrer"
