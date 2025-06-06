@@ -95,19 +95,26 @@ const useTvlAndVolume = () => {
 
   const fetchKongSwapData = useCallback(async () => {
     try {
-      const kongSwapData = await ic('2ipq2-uqaaa-aaaar-qailq-cai').call('pools', []);
-      
+      const response = await axios.get('https://api.kongswap.io/api/pools/totals', {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
       let kongSwapTvl = 0;
       let kongSwapVolume = 0;
 
-      if (kongSwapData.Ok) {
-        kongSwapTvl = parseInt(kongSwapData.Ok.total_tvl, 10) / Math.pow(10, 6) || 0;
-        kongSwapVolume = parseInt(kongSwapData.Ok.total_24h_volume, 10) / Math.pow(10, 6) || 0;
+      if (response.data) {
+        kongSwapTvl = parseFloat(response.data.total_tvl) || 0;
+        kongSwapVolume = parseFloat(response.data.total_volume_24h) || 0;
       }
 
       setTvlAndVolumeData((prevData) => ({
         ...prevData,
-        kongswap: { tvl: formatValue(kongSwapTvl), volume24h: formatValue(kongSwapVolume) },
+        kongswap: { 
+          tvl: formatValue(kongSwapTvl), 
+          volume24h: formatValue(kongSwapVolume) 
+        },
       }));
     } catch (error) {
       console.error('Error fetching Kong Swap data:', error);

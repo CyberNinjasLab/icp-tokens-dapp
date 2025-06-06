@@ -35,7 +35,7 @@ function TokensTable(props) {
   const router = useRouter();
   const { page: pageParam } = router.query;
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 100;
+  const ITEMS_PER_PAGE = 300;
 
   const colDefs = getTokenTableColDefs({ formatPrice, isMobile, showPriceCurrency, currency });
   const rowHeight = 60;
