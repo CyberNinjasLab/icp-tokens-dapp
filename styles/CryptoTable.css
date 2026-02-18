@@ -1,0 +1,236 @@
+/* Dark/Light mode compatible container */
+.crypto-table-container {
+    width: 100%;
+    overflow-x: auto; /* allow horizontal scroll if needed */
+    border-radius: 8px;
+    @apply border border-gray-300 dark:border-gray-600;
+    position: relative;
+  }
+  
+  /* Reset defaults */
+  .crypto-table-container table {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    @apply text-gray-900 dark:text-gray-100;
+    
+    /* border-collapse: separate !important; */
+    border-spacing: 0;
+  }
+  .crypto-table-container th,
+  .crypto-table-container td {
+    padding: 0.85rem 0.55rem;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .crypto-table-container tbody td {
+    padding-top: 0.08rem;
+    padding-bottom: 0.08rem;
+  }
+  
+  /* Header row styling */
+  .crypto-table-container thead tr, .crypto-table-container tbody tr {
+    @apply border-b border-gray-200 dark:border-gray-800;
+  }
+  .crypto-table-container tbody tr:last-child {
+    border-bottom: none;
+  }
+  .crypto-table-container th {
+    font-size: 0.875rem;
+    font-weight: 500;
+    position: relative; /* for sort arrows/indicator */
+    user-select: none;
+    
+  }
+
+  .crypto-table-container th.sortable {
+    cursor: pointer;
+  }
+
+  .crypto-table-container .th-content {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.25rem;
+  }
+
+  .crypto-table-container .name-cell .th-content {
+    justify-content: start;
+  }
+  
+  /* Body row hover */
+  .crypto-table-container tbody tr:hover {
+    
+  }
+  
+  /* Even/Odd row striping (optional) */
+  .crypto-table-container tbody tr:nth-child(even) {
+    
+  }
+  .crypto-table-container tbody tr:nth-child(odd) {
+    
+  }
+  
+  /* Cells */
+  .crypto-table-container td {
+    font-size: 0.875rem;
+  }
+  
+  /* Sticky first column */
+  .crypto-table-container .th-sticky,
+  .crypto-table-container .td-sticky {
+    /* position: sticky; */
+    /* left: 0; */
+    /* z-index: 2; */
+    @apply bg-white dark:bg-[#0f0f26];
+  }
+
+  .crypto-table-container .rank-cell, .crypto-table-container .name-cell, .crypto-table-container .favorites-cell {
+    padding-left: 0.33rem !important;
+    padding-right: 0.3rem !important;
+  }
+
+  .crypto-table-container .last7Days {
+    padding-left: 0 !important;
+    padding-right: .8rem !important;
+  }
+
+  .crypto-table-container tbody .last7Days {
+    position: relative;
+    width: 180px !important;
+    padding-right: 0 !important;
+  }
+
+  .crypto-table-container .last7Days {
+
+  }
+
+  .crypto-table-container .rank-cell {
+    text-align: center;
+  }
+
+  .crypto-table-container .name-cell {
+    padding-left: 0;
+    padding-right: 0.5rem;
+    overflow-x: hidden;
+    text-align: left !important;
+  }
+
+  .crypto-table-container .price-cell {
+    padding-left: .6rem;
+  }
+  
+  /* Ensure that the "rank + name" column looks correct */
+  .crypto-table-container .name-cell-wrap {
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+  }
+  .crypto-table-container .rank {
+    width: 1.5rem;
+    font-weight: 600;
+    @apply text-yellow-500 dark:text-yellow-400; /* gold star/rank color */
+  }
+  .crypto-table-container .coin-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .crypto-table-container .name-symbol {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .crypto-table-container .coin-name {
+    font-weight: 500;
+    @apply text-gray-900 dark:text-white;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 150px;
+  }
+  .crypto-table-container .coin-symbol {
+    font-size: 0.75rem;
+    /* @apply text-gray-500 dark:text-gray-400; */
+  }
+  
+  /* Percentage styling */
+  .crypto-table-container .percentage {
+    font-weight: 500;
+  }
+  .crypto-table-container .percentage.positive {
+    @apply text-green-600 dark:text-green-400;
+  }
+  .crypto-table-container .percentage.negative {
+    @apply text-red-600 dark:text-red-400;
+  }
+  
+  /* Optional: change scrollbars to match theme */
+  .crypto-table-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  .crypto-table-container::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600;
+    border-radius: 4px;
+  }
+  .crypto-table-container::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+  
+  /* Mobile responsiveness - under 1024px */
+  @media (max-width: 1024px) {
+    .crypto-table-container .name-cell-wrap {
+      max-width: 120px;
+    }
+    .crypto-table-container .name-cell {
+      box-shadow: -4px 0 4px -4px gray inset;
+    }
+
+    .crypto-table-container .rank-cell {
+      padding-left: .25rem !important;
+      padding-right: .25rem !important;
+    }
+    .crypto-table-container .favorites-cell {
+      padding-left: .5rem !important;
+      padding-right: .2rem !important;
+    }
+  }
+
+  /* Mobile responsiveness - under 768px */
+  @media (max-width: 768px) {
+    /* Hide rank column completely on mobile */
+    .crypto-table-container .rank-cell {
+      display: none !important;
+    }
+    
+    /* Adjust name cell for mobile - only show symbol */
+    .crypto-table-container .name-cell-wrap {
+      max-width: 100px;
+    }
+    
+    /* Symbol styling for mobile */
+    .crypto-table-container .coin-symbol {
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+      line-height: 1.2;
+    }
+    
+    /* Reduce padding on mobile */
+    .crypto-table-container th,
+    .crypto-table-container td {
+      padding: 0.5rem 0.3rem;
+    }
+    
+    .crypto-table-container .favorites-cell {
+      padding-left: .3rem !important;
+      padding-right: .15rem !important;
+    }
+
+    .crypto-table-container .name-cell {
+      padding-left: 0;
+      padding-right: 0.3rem;
+    }
+  }
+  

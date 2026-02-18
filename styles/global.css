@@ -4,6 +4,7 @@
 
 /* Import custom scrollbar styles */
 @import './scroll.css';
+@import './CryptoTable.css';
 
 @layer components {
   .ag-header-cell.text-right .ag-header-cell-label {

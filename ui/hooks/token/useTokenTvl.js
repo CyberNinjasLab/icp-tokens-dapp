@@ -2,7 +2,6 @@ import { useEffect, useState, useContext, useMemo } from 'react';
 import { GeneralContext } from '../../../contexts/general/General.Context';
 import useSonicDexGraphQL from '../sonic/useSonicDexGraphQL';
 import { TOKEN_DATA_QUERY } from '../sonic/queries';
-import ic from 'ic0';
 import axios from 'axios';
 
 const useTokenTvl = (canisterId) => {
@@ -84,22 +83,16 @@ const useTokenTvl = (canisterId) => {
 
           // Fetch ICPSwap TVL
           try {
-            const canisterIcpswap1 = ic('gp26j-lyaaa-aaaag-qck6q-cai');
-            const canisterIcpswap2 = ic('ggzvv-5qaaa-aaaag-qck7a-cai');
-
-            const icpSwapAllPoolsTvl = await canisterIcpswap1.call('getAllPoolTvl');
-            const icpSwapAllPools = await canisterIcpswap2.call('getAllPools');
-
+            const response = await axios.get(`https://api.icpswap.com/info/token/${canisterId}/pool`);
+            
             let sumIcpSwap = 0;
 
-            for (const poolData of icpSwapAllPools) {
-              if (poolData.token0Id == canisterId || poolData.token1Id == canisterId) {
-                for (const poolTvl of icpSwapAllPoolsTvl) {
-                  if (poolTvl[0] == poolData.pool) {
-                    if(poolData.token0Symbol != poolData.token1Symbol) {
-                      sumIcpSwap += poolTvl[1];
-                    }
-                    break;
+            if (response.data && response.data.code === 200 && response.data.data) {
+              for (const pool of response.data.data) {
+                if (pool.tvlUSD) {
+                  // Check if it's not a self-pair (same token on both sides)
+                  if (pool.token0Symbol !== pool.token1Symbol) {
+                    sumIcpSwap += parseFloat(pool.tvlUSD);
                   }
                 }
               }

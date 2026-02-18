@@ -28,6 +28,7 @@ const Changelog = () => {
       <Head>
         <title>Changelog | ICP Tokens by Market Cap</title>
         <meta name="description" content="Stay updated with the latest improvements and new features on ICP Tokens. Check out our changelog for continuous platform enhancements and updates."></meta>
+        <link rel="canonical" href="https://icptokens.net/changelog" />
       </Head>
       <Layout>
         <div className="markdown-content changelog-wrap max-w-xl mx-auto lg:mt-6 min-h-screen">

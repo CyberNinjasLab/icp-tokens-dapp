@@ -10,27 +10,13 @@ import { useEffect } from 'react';
 export default function App({ Component, pageProps }) {
   useEffect(() => {
     ReactGA.initialize('G-VW500QY288');
-
-    if (typeof window !== 'undefined') {
-      const host = window.location.hostname;
-
-      // Check if the current URL has a 'www' prefix and redirect to the non-www version.
-      // Temporary hotfix: Redirect users to the non-www version.
-      // This should ideally be handled via a backend canister solution or DNS configuration.
-      if (host.startsWith('www.')) {
-        const newHost = host.slice(4); // Remove the 'www.' prefix
-        const newUrl = `https://${newHost}${window.location.pathname}${window.location.search}`;
-
-        // Perform the 302 redirect
-        window.location.replace(newUrl);
-      }
-    }
   }, []);
 
   return (
     <>
       <Head>        
       <title>ICP Tokens by Market Cap</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
         <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects"></meta>
      
         {/* <!-- Control the behavior of search engine crawling and indexing --> */}

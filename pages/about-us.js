@@ -11,6 +11,7 @@ const HowItWorks = () => {
         <meta name="description" content="ICPTokens is a platform that offers tools and resources for investors in the ICP ecosystem." />
         <meta name="twitter:title" content="About Us | ICP Tokens by Market Cap"/>
         <meta name="twitter:description" content="ICPTokens is a platform that offers tools and resources for investors in the ICP ecosystem."/>
+        <link rel="canonical" href="https://icptokens.net/about-us" />
       </Head>
       <Layout>
         <div className='max-w-xl mx-auto lg:mt-6'>

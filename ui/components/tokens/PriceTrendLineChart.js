@@ -37,17 +37,30 @@ const getScalingFactor = (minValue) => {
 };
 
 const PriceTrendLineChart = ({ priceData, lineColor }) => {
+  // Debug logging
+  console.log('PriceTrendLineChart received:', { priceData, lineColor });
+  
+  // Validate priceData
+  if (!priceData || !Array.isArray(priceData) || priceData.length === 0) {
+    console.log('Invalid or empty priceData');
+    return <div>No chart data</div>;
+  }
+
   // Get the min and max values for the YAxis domain
   const { min, max } = getMinMax(priceData, 'price');
+  console.log('Min/Max values:', { min, max });
 
   // Determine the scaling factor based on the minimum value
   const scalingFactor = getScalingFactor(min);
+  console.log('Scaling factor:', scalingFactor);
 
   // Scale the price data
-  const scaledPriceData = priceData ? priceData.map(item => ({
+  const scaledPriceData = priceData.map(item => ({
     ...item,
     price: item.price * scalingFactor,
-  })) : [];
+  }));
+  
+  console.log('Scaled price data:', scaledPriceData);
 
   return (
     <div className='h-[100%] relative'>

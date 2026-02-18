@@ -3,7 +3,7 @@ import { AuthContext } from '../../../contexts/auth/Auth.Context';
 import { useLoading } from '../../../contexts/general/Loading.Provider';
 
 const useTokenFavorites = () => {
-  const { backendCoreActor, isAuthenticated } = useContext(AuthContext);
+  const { backendCoreActor, isAuthenticated, isAuthReady } = useContext(AuthContext);
   const [favoriteTokenIds, setFavoriteTokenIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setLoadingState } = useLoading();
@@ -23,13 +23,16 @@ const useTokenFavorites = () => {
   }
 
   useEffect(() => {
+    // Only proceed if auth is ready to prevent unnecessary loading states
+    if (!isAuthReady) return;
+    
     if (isAuthenticated) {
       fetchTokenFavorites();
     } else {
       // Set favoriteTokenIds to an empty array if isAuthenticated is false
       setFavoriteTokenIds([]);
     }
-  }, [backendCoreActor, isAuthenticated]);
+  }, [backendCoreActor, isAuthenticated, isAuthReady]);
 
   const ensureValidIds = (tokenIds) => tokenIds.map(id => {
     if (typeof id !== 'string' || id.trim() === '') {

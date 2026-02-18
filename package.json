@@ -53,6 +53,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.4",
     "@mui/x-date-pickers": "^7.2.0",
+    "@tanstack/react-table": "^8.21.3",
     "ag-charts-react": "^9.0.1",
     "ag-grid-community": "^31.3.4",
     "ag-grid-react": "^31.3.4",

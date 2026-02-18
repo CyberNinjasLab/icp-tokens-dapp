@@ -8,10 +8,11 @@ import ThemeRegistry from "../../utils/ThemeRegistry";
 const AuthContextProvider = ({ children }) => {
   const [authClient, setAuthClient] = useState(undefined);
   const [user, setUser] = useState(undefined);
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [identity, setIdentity] = useState(null);
   const [backendCoreActor, setBackendCoreActor] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isAuthReady, setIsAuthReady] = useState(false);
   const sessionDurationInDays = 30;
 
   const initAuth = async () => {
@@ -25,6 +26,7 @@ const AuthContextProvider = ({ children }) => {
     const isAuthenticated = await client.isAuthenticated();
     
     setIsAuthenticated(isAuthenticated);
+    setIsAuthReady(true);
     
     if (isAuthenticated) {
       await initializeUserSession(client);
@@ -84,6 +86,7 @@ const AuthContextProvider = ({ children }) => {
 
   const contextValue = {
     isAuthenticated,
+    isAuthReady,
     identity,
     user,
     authClient,

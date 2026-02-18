@@ -274,6 +274,7 @@ const BubblesComponent = () => {
 					<meta name="description" content="Visualize ICP token market movements with the Bubbles tool. Track percentage changes and discover connections between tokens in the Internet Computer ecosystem." />
 					<meta name="twitter:title" content="Bubble Screener | ICP Tokens by Market Cap"/>
         	<meta name="twitter:description" content="Visualize ICP token market movements with the Bubbles tool. Track percentage changes and discover connections between tokens in the Internet Computer ecosystem."/>
+			<link rel="canonical" href="https://icptokens.net/bubbles" />
 				</Head>
 				<Layout footer={false}>
 						<div className='w-full'>
