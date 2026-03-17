@@ -6,10 +6,7 @@
       },
       "source": ["out"],
       "type": "assets",
-      "dependencies": [
-        "backend_core",
-        "internet-identity"
-      ]
+      "dependencies": ["internet-identity"]
     },
     "trading_view_lib": {
       "type": "assets",
@@ -25,6 +22,10 @@
       "dependencies": []
     }
   },
-  "dfx": "0.23.0",
-  "version": 1
+  "version": 1,
+  "defaults": {
+    "build": {
+      "packtool": "mops sources"
+    }
+  }
 }

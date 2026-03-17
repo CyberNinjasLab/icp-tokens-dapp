@@ -11,7 +11,7 @@ import Time "mo:base/Time";
 import Nat "mo:base/Nat";
 import Text "mo:base/Text";
 
-actor Core {
+persistent actor Core {
   stable var usersRepository : [(Principal, Types.User)] = [];
   stable var portfoliosRepository : [(Principal, [Types.Portfolio])] = [];
   stable var watchlistRepository : [(Principal, [Types.WatchlistId])] = [];
@@ -19,10 +19,10 @@ actor Core {
 
   stable var nextTransactionId = 1;
 
-  let users : Types.UsersList = HashMap.fromIter<Principal, Types.User>(usersRepository.vals(), 10, Principal.equal, Principal.hash);
-  let portfolios : Types.PortfoliosList = HashMap.fromIter<Principal, [Types.Portfolio]>(portfoliosRepository.vals(), 10, Principal.equal, Principal.hash);
-  let watchlist : Types.Watchlist = HashMap.fromIter<Principal, [Types.WatchlistId]>(watchlistRepository.vals(), 10, Principal.equal, Principal.hash);
-  let tradingViewSavings : Types.TradingViewSavings = HashMap.HashMap<Principal, Types.KeyValueText>(10, Principal.equal, Principal.hash);
+  transient let users : Types.UsersList = HashMap.fromIter<Principal, Types.User>(usersRepository.vals(), 10, Principal.equal, Principal.hash);
+  transient let portfolios : Types.PortfoliosList = HashMap.fromIter<Principal, [Types.Portfolio]>(portfoliosRepository.vals(), 10, Principal.equal, Principal.hash);
+  transient let watchlist : Types.Watchlist = HashMap.fromIter<Principal, [Types.WatchlistId]>(watchlistRepository.vals(), 10, Principal.equal, Principal.hash);
+  transient let tradingViewSavings : Types.TradingViewSavings = HashMap.HashMap<Principal, Types.KeyValueText>(10, Principal.equal, Principal.hash);
 
   // User core logic
   public query func getAllUsers() : async [Types.User] {

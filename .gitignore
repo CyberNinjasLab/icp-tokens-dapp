@@ -22,3 +22,5 @@ src/declarations/*
 .next/
 
 /public/js/trading-view
+
+.mops

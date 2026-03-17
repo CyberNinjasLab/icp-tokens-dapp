@@ -4,18 +4,22 @@ import GeneralContextProvider from '../contexts/general/General.Provider';
 import AuthContextProvider from '../contexts/auth/Auth.Provider';
 import { LoadingProvider } from '../contexts/general/Loading.Provider';
 import LoadingOverlay from '../ui/components/_base/LoadingOverlay';
+import HoldPage from '../ui/components/_base/HoldPage';
 import ReactGA from "react-ga4";
 import { useEffect } from 'react';
 
 export default function App({ Component, pageProps }) {
+  const isHold = process.env.NEXT_PUBLIC_SITE_HOLD === 'true';
+
   useEffect(() => {
+    if (isHold) return;
     ReactGA.initialize('G-VW500QY288');
-  }, []);
+  }, [isHold]);
 
   return (
     <>
       <Head>        
-      <title>ICP Tokens by Market Cap</title> 
+      <title>{isHold ? 'ICP Tokens is currently on hold.' : 'ICP Tokens by Market Cap'}</title> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
         <meta name="description" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects"></meta>
      
@@ -53,14 +57,18 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:image" content="https://icptokens.net/og-image.png"/>
         <meta name="twitter:image:alt" content="Explore ICP Tokens for real-time market data, portfolio management, and token analysis within the Internet Computer ecosystem. Stay updated with top ICP projects"/>
       </Head>
-      <LoadingProvider>
-        <LoadingOverlay />
-        <GeneralContextProvider>
-          <AuthContextProvider>
-            <Component {...pageProps} />
-          </AuthContextProvider>
-        </GeneralContextProvider>
-      </LoadingProvider>
+      {isHold ? (
+        <HoldPage />
+      ) : (
+        <LoadingProvider>
+          <LoadingOverlay />
+          <GeneralContextProvider>
+            <AuthContextProvider>
+              <Component {...pageProps} />
+            </AuthContextProvider>
+          </GeneralContextProvider>
+        </LoadingProvider>
+      )}
     </>
   );
 }
