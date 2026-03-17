@@ -15,11 +15,6 @@
     "internet-identity": {
       "type": "pull",
       "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"
-    },
-    "backend_core": {
-      "main": "src/backend/core.mo",
-      "type": "motoko",
-      "dependencies": []
     }
   },
   "version": 1,
